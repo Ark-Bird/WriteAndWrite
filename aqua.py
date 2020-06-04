@@ -242,10 +242,8 @@ class WillBeAuthor:
         if len(tmpstr) > 10:
             messagebox.showinfo('over', '10文字以上にルビは非対応の可能性があります')
         tmpstr = "|" + tmpstr + "《》"
-        # page.insert(b, '|')
-        # page.insert(i,"《 》")
+
         page.delete('sel.first', 'sel.last')
-        # c = page.index(tk.INSERT)
         page.insert('insert', tmpstr)
         page.mark_set('insert', 'insert-1c')
 
