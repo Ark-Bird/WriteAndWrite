@@ -1,0 +1,11 @@
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/workspace.xml
+aqua.spec
+build
+/build/
+/build/*
+
+/build/aqua/
+
+/build/aqua/*
