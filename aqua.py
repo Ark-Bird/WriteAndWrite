@@ -94,7 +94,7 @@ class WillBeAuthor:
         vt = " a \t b\r\n\tc\t\n"
         vt = ''.join(s.split())
         vanillal = len(vt)
-        textc =  str(self.len) + '文字|' + str(vanillal) +':文字(空白抜き)'
+        textc = str(self.len) + '文字|' + str(vanillal) + ':文字(空白抜き)'
         textc = "I want Be... :" + textc
         if self.auto_indent:
             textc += "*AI"
@@ -286,7 +286,7 @@ class WillBeAuthor:
 
 
 if __name__ == '__main__':
-    textcount = 0;
+    textcount = 0
     dummy = []
     author = WillBeAuthor()
     wba = author
@@ -324,7 +324,7 @@ if __name__ == '__main__':
     menubar.add_cascade(label="Auto_Indent", menu=auto_indent)
     #タイトル
     root.config(menu=menubar)
-    root.title('BE a Author')
+    root.title('I want Be...')
     root.configure(background="gray")
     #スクロールバー
     yScrollbar = tk.Scrollbar(root)
