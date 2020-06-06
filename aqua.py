@@ -282,6 +282,11 @@ class WillBeAuthor:
     def ime_check(self):
         self.hit_return = True
 
+def res_path(rel):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, rel)
+    return os.path.join(os.path.abspath("."), rel)
+
 
 if __name__ == '__main__':
     textcount = 0
@@ -292,7 +297,7 @@ if __name__ == '__main__':
     mainstory = 'file'
     root = tk.Tk()
     root.geometry("640x640")
-    icon = '.\\res\\wbe.ico'
+    icon = res_path('wbe.ico')
     root.iconbitmap(default=icon)
     root.minsize(32, 32)
     menubar = tk.Menu(root)
@@ -322,7 +327,7 @@ if __name__ == '__main__':
     menubar.add_cascade(label="Auto_Indent", menu=auto_indent)
     #タイトル
     root.config(menu=menubar)
-    root.title('I want Be...')
+    root.title('I Want Be...')
     root.configure(background="gray")
     #スクロールバー
     yScrollbar = tk.Scrollbar(root)

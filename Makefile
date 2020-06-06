@@ -1,3 +1,4 @@
 all:*.py
 	del /Q dist
-	pyinstaller aqua.py --onefile --noconsole --icon=author.ico
+	pyinstaller aqua.spec aqua.py --onefile --noconsole --icon=author.ico
+	del /Q build\aqua\*
