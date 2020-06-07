@@ -157,9 +157,8 @@ class WillBeAuthor:
         clear text field
         テキストをクリアして新しいファイルにする
         """
-        global protname
         self.ftext = page.get('0.0', 'end')
-        if self.ftext != "\n":
+        if self.ftext != "\n" or self.is_save:
             if messagebox.askyesno("保存しますか?", "ファイルが変更されています、保存しますか?"):
                 self.saveas("file")
             if not messagebox.askyesno("破棄しますか？", "文書を破棄しますか？"):
