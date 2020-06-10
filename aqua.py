@@ -22,9 +22,6 @@ import pyperclip
 import atexit
 import sys
 
-pf = platform.system()
-chars = 0
-
 
 class WillBeAuthor:
     """mod string class"""
