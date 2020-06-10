@@ -52,10 +52,9 @@ class WillBeAuthor:
 
     def logger(self, event):
         """
-        ログをスタックに積む
         テキストの変更を検知してフラグを立てる
         """
-        log = ''
+
         if event.state == "Control":
             return
         tmp = page.get('0.0', 'end')
