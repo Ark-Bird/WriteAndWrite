@@ -75,16 +75,6 @@ class WillBeAuthor:
         self.is_save = False
         self.is_changed = True
 
-    # def undo(self):
-    #     """ログをポップして書き戻す"""
-    #     page.delete('0.0', 'end')
-    #     try:
-    #         tmp = self.doing.pop()
-    #         page.insert('insert', tmp)
-    #     except:
-    #         tmp = page.get('0.0', 'end')
-    #         tmp = tmp.rstrip("\n")
-    #         page.insert('insert', tmp)
 
     def counter(self):
         """count letter"""
