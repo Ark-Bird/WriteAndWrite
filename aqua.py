@@ -55,18 +55,6 @@ class WillBeAuthor:
         テキストの変更を検知してフラグを立てる
         """
 
-        # if event.state == "Control":
-        #     return
-        # tmp = page.get('0.0', 'end')
-        # log = tmp
-        #
-        # log = log.rstrip('\n')
-        # if len(log) == 0:
-        #     tmp = ''
-        # if log != '\n':
-        #     self.doing.append(log)
-        # else:
-        #     pass
         self.counter()
         self.is_save = False
         self.is_changed = True
