@@ -72,7 +72,6 @@ class WillBeAuthor:
         textc = "I want Be... :" + textc
         if self.auto_indent:
             textc += "*AI"
-        #count.set(str(vanillal))
 
         root.title(textc)
         return textc
