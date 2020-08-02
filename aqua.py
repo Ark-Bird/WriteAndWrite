@@ -61,7 +61,7 @@ class WillBeAuthor:
 
 
     def counter(self):
-        """count letter"""
+        """counting letter"""
         s = page.get('0.0', 'end')
         self.len = len(s)
         # messagebox.showinfo('文字数(改行、スペース込み)', self.leng)
