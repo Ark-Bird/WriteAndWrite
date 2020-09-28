@@ -163,7 +163,9 @@ class WillBeAuthor:
         self.t_change()
 
     def txtcpy(self):
-        """copy text"""
+        """
+        copy text
+        """
         try:
             if page.get(tk.SEL_FIRST) != tk.SEL_LAST:
                 self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
@@ -172,7 +174,9 @@ class WillBeAuthor:
             pass
 
     def txtpst(self):
-        """paste text"""
+        """
+        paste text
+        """
         try:
             self.pstxt = pyperclip.paste()
             print(self.pstxt)
@@ -181,7 +185,9 @@ class WillBeAuthor:
             pass
 
     def txtcut(self):
-        """cut text"""
+        """
+        cut text
+        """
         self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
         pyperclip.copy(self.cliptext)
         page.delete(tk.SEL_FIRST, tk.SEL_LAST)
