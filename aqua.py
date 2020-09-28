@@ -24,7 +24,9 @@ import sys
 
 
 class WillBeAuthor:
-    """mod string class"""
+    """
+    mod string class
+    """
     clip = {}
     pclip = {}
     doing = []
@@ -61,7 +63,9 @@ class WillBeAuthor:
 
 
     def counter(self):
-        """counting letter"""
+        """
+        counting letter
+        """
         s = page.get('0.0', 'end')
         self.len = len(s)
         # messagebox.showinfo('文字数(改行、スペース込み)', self.leng)
