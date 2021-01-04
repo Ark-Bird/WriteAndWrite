@@ -23,6 +23,10 @@ import atexit
 import sys
 
 
+class not_open_path_exception(Exception):
+    pass
+
+
 class WillBeAuthor:
     """
     mod string class
@@ -108,6 +112,7 @@ class WillBeAuthor:
             return
         if types == 'file':
             self.ftext = page.get('0.0', 'end')
+            self.ftext = self.ftext[0:-1]
         if self.file[-4:] != ".txt":
             self.file += ".txt"
         with open(self.file, mode='w', encoding='utf-8') as f:
@@ -160,9 +165,11 @@ class WillBeAuthor:
                 return
         fTyp = [("", "*")]
         try:
+            if not os.path.exists("path.bin"):
+                raise not_open_path_exception
             with open("path.bin", mode='r', encoding="utf-8") as f:
                 iDir = f.readline()
-        except:
+        except not_open_path_exception:
             iDir = os.path.abspath(os.path.dirname(__file__))
         self.file = tk.filedialog.askopenfilename(initialdir=iDir)
         if self.file == '':
