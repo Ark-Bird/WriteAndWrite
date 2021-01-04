@@ -112,7 +112,8 @@ class WillBeAuthor:
             self.file += ".txt"
         with open(self.file, mode='w', encoding='utf-8') as f:
             f.write(self.ftext)
-
+        with open("./path.bin", mode='w', encoding='utf-8') as f:
+            f.write(self.file)
             # if types == 'file':
             #     self.file = self.file
         self.is_changed = False
@@ -158,7 +159,11 @@ class WillBeAuthor:
             if not messagebox.askyesno("注意", "ファイルが変更されています、破棄しますか？"):
                 return
         fTyp = [("", "*")]
-        iDir = os.path.abspath(os.path.dirname(__file__))
+        try:
+            with open("path.bin", mode='r', encoding="utf-8") as f:
+                iDir = f.readline()
+        except:
+            iDir = os.path.abspath(os.path.dirname(__file__))
         self.file = tk.filedialog.askopenfilename(initialdir=iDir)
         if self.file == '':
             return

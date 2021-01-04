@@ -16,7 +16,7 @@ pyinstaller aqua.spec aqua.py --onefile --noconsole --icon=author.ico
 aqua.pyに書いてあります、それ一つで全ての機能をまかなっています  
   
 Notice!  
-----
+｀----
 pyperclipに依存しているのでスクリプト単体で実行する場合はpip等で別途インストールしてください。  
 当ソフトは現在64bitのWindows10環境でのみサポートしています  
 ※非推奨ではありますがこのバイナリをアンチウイルスソフトのホワイトリストに登録すると多少軽くなります  

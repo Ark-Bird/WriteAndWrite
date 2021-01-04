@@ -2,10 +2,11 @@
 .idea/**/tasks.xml
 .idea/workspace.xml
 aqua.spec
+path.bin
 build
 /build/
 /build/*
-
+path.bin
 /build/aqua/
 
 /build/aqua/*
