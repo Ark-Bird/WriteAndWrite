@@ -1,9 +1,16 @@
 手っ取り早く使いたい人↓  
 ====
-distディレクトリにあるaqua.exeをダウンロードしてください  
-一式全部入っています  
-
-
+makeコマンドを実行してください  
+makeコマンドはGNUの皆さんが作ってくれた物を使用します  
+検索すればヒットするのでそれを使用してください  
+Makeをインストールしたくない人は以下  
+pip install pyperclip  
+pip install pyinstaller  
+pyinstaller aqua.spec aqua.py --onefile --noconsole --icon=author.ico  
+このコマンドでバイナリが生成されます  
+ただしバイナリはやや重いのでpythonインタプリタで直接実行することを推奨します  
+  
+  
 細かい実装を知りたい人  
 ----
 aqua.pyに書いてあります、それ一つで全ての機能をまかなっています  
