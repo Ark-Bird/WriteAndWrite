@@ -72,7 +72,8 @@ class WillBeAuthor:
         vt = " a \t b\r\n\tc\t\n"
         vt = ''.join(s.split())
         vanillal = len(vt)
-        textc = str(self.len) + '文字|' + str(vanillal) + ':文字(空白抜き)'
+        #textc = str(self.len) + '文字|' + str(vanillal) + ':文字(空白抜き)'
+        textc = str(vanillal) + ':文字'
         textc = "I want Be... :" + textc
         if self.auto_indent:
             textc += "*AI"
@@ -349,7 +350,7 @@ if __name__ == '__main__':
     page.bind('<KeyPress-Return>', lambda self: wba.ime_check())
     page.bind('<KeyRelease-Return>', lambda self: wba.insert_space() if wba.hit_return and wba.auto_indent else wba.ignore())
     # アンドゥ用にログ積み、ついでに文字カウント
-    page.bind('<Any-KeyPress>', wba.logger)
+    page.bind('<Any-KeyRelease>', wba.logger)
     # page.bind('<Control-z>', lambda self: wba.undo())
     # 文字数カウンタ
     # count = tk.StringVar()
