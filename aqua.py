@@ -36,7 +36,6 @@ class WillBeAuthor:
     doing = []
     path = ''
     ftext = ''
-    docount = 0
     is_save = True
 
     def __init__(self):
