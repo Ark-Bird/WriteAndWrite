@@ -32,7 +32,7 @@ class WillBeAuthor:
     mod string class
     """
     clip = {}
-    pclip = {}
+    #pclip = {}
     doing = []
     path = ''
     ftext = ''
