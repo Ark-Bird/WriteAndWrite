@@ -77,6 +77,8 @@ class WillBeAuthor:
         vanillal = len(vt)
         #textc = str(self.len) + '文字|' + str(vanillal) + ':文字(空白抜き)'
         textc = str(vanillal) + ':文字'
+        if not self.is_save:
+            textc += "*"
         textc = "I want Be... :" + textc
         if self.auto_indent:
             textc += "*AI"
@@ -122,6 +124,7 @@ class WillBeAuthor:
             #     self.file = self.file
         self.is_changed = False
         self.is_save = True
+        self.counter()
 
     def exit_as_save(self):
         if not self.is_save:
