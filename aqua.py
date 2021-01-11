@@ -78,7 +78,7 @@ class WillBeAuthor:
         #textc = str(self.len) + '文字|' + str(vanillal) + ':文字(空白抜き)'
         textc = str(vanillal) + ':文字'
         if not self.is_save:
-            textc += "*"
+            textc += "*未保存*"
         textc = "I want Be... :" + textc
         if self.auto_indent:
             textc += "*AI"
