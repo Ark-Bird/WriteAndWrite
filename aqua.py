@@ -295,7 +295,7 @@ if __name__ == '__main__':
     mainstory = 'file'
     root = tk.Tk()
     root.geometry("640x640")
-    icon = res_path('wbe.ico')
+    icon = res_path('./res/wbe.ico')
     root.iconbitmap(default=icon)
     root.minsize(32, 32)
     menubar = tk.Menu(root)
