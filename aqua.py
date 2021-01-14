@@ -354,7 +354,9 @@ if __name__ == '__main__':
     page.bind('<Control-c>', lambda self: wba.txtcpy())
     page.bind('<Control-v>', lambda self: wba.txtpst())
     page.bind('<Control-x>', lambda self: wba.txtcut())
+    #三点リーダー二つ組挿入
     page.bind('<Control-t>', lambda self: wba.threepoint())
+    #ダッシュの挿入
     page.bind('<Control-d>', lambda self: wba.threedash())
     # page.bind('<Control-n>', lambda self: mos.counter())
     # ルビを振る
