@@ -365,7 +365,7 @@ if __name__ == '__main__':
     page.bind('<Control-q>', lambda self: wba.toggle_auto_indent())
     page.bind('<KeyPress-Return>', lambda self: wba.ime_check())
     page.bind('<KeyRelease-Return>', lambda self: wba.insert_space() if wba.hit_return and wba.auto_indent else wba.ignore())
-    # アンドゥ用にログ積み、ついでに文字カウント
+    # 文字カウント
     page.bind('<Any-KeyRelease>', wba.logger)
     # page.bind('<Control-z>', lambda self: wba.undo())
     # 文字数カウンタ
