@@ -17,9 +17,7 @@ import os
 import tkinter as tk
 from tkinter import filedialog, ttk
 from tkinter import messagebox
-import platform
 import pyperclip
-import atexit
 import sys
 
 
