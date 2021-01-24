@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 """
 import os
 import tkinter as tk
-from tkinter import filedialog, ttk
+from tkinter import filedialog
 from tkinter import messagebox
 import pyperclip
 import sys
@@ -74,7 +74,7 @@ class WillBeAuthor:
         vt = ''.join(s.split())
         vanillal = len(vt)
         #textc = str(self.len) + '文字|' + str(vanillal) + ':文字(空白抜き)'
-        textc = str(vanillal) + ':文字'
+        textc = str(vanillal) + ':  文字'
         if not self.is_save:
             textc += "*未保存*"
         textc = "I want Be... :" + textc
