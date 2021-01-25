@@ -21,7 +21,7 @@ import pyperclip
 import sys
 
 
-class not_open_path_exception(Exception):
+class Not_Open_Path_Exception(Exception):
     pass
 
 
@@ -166,10 +166,10 @@ class WillBeAuthor:
         fTyp = [("", "*")]
         try:
             if not os.path.exists("path.bin"):
-                raise not_open_path_exception
+                raise Not_Open_Path_Exception
             with open("path.bin", mode='r', encoding="utf-8") as f:
                 iDir = f.readline()
-        except not_open_path_exception:
+        except Not_Open_Path_Exception:
             iDir = os.path.abspath(os.path.dirname(__file__))
         self.file = tk.filedialog.askopenfilename(initialdir=iDir)
         if self.file == '':
