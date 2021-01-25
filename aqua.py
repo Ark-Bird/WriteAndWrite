@@ -189,6 +189,7 @@ class WillBeAuthor:
                 self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
                 pyperclip.copy(self.cliptext)
         except Exception:
+            #問題の無い例外は握りつぶす
             pass
 
     def txtpst(self):
