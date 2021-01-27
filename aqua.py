@@ -200,6 +200,7 @@ class WillBeAuthor:
             self.pstxt = pyperclip.paste()
             print(self.pstxt)
             page.insert('insert', self.pstxt)
+        #選択範囲がない場合例外が投げられる
         except Exception:
             pass
 
