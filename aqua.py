@@ -19,6 +19,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 import pyperclip
 import sys
+import platform
 
 
 class Not_Open_Path_Exception(Exception):
@@ -293,6 +294,7 @@ def res_path(rel):
 
 if __name__ == '__main__':
     textcount = 0
+    pf = platform.system()
     dummy = []
     author = WillBeAuthor()
     wba = author
@@ -300,8 +302,11 @@ if __name__ == '__main__':
     mainstory = 'file'
     root = tk.Tk()
     root.geometry("640x640")
-    icon = res_path('./res/wbe.ico')
-    root.iconbitmap(default=icon)
+    if pf == 'Windows':
+        icon = res_path('./res/wbe.ico')
+        root.iconbitmap(icon)
+    else:
+        root.wm_iconbitmap('@./res/wbe.xbm')
     root.minsize(32, 32)
     menubar = tk.Menu(root)
     filemenu = tk.Menu(menubar, tearoff=0)
