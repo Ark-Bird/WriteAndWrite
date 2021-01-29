@@ -208,9 +208,14 @@ class WillBeAuthor:
         """
         cut text
         """
-        self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
-        pyperclip.copy(self.cliptext)
-        page.delete(tk.SEL_FIRST, tk.SEL_LAST)
+        try:
+            self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
+            pyperclip.copy(self.cliptext)
+            page.delete(tk.SEL_FIRST, tk.SEL_LAST)
+        except:
+            #選択範囲がない場合例がを投げられるので握りつぶす
+            pass
+
 
     def start_cmode(self):
         """
