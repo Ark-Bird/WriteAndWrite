@@ -189,7 +189,7 @@ class WillBeAuthor:
             if page.get(tk.SEL_FIRST) != tk.SEL_LAST:
                 self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
                 pyperclip.copy(self.cliptext)
-        except Exception:
+        except tk.TclError:
             #問題の無い例外は握りつぶす
             pass
 
@@ -202,7 +202,7 @@ class WillBeAuthor:
             print(self.pstxt)
             page.insert('insert', self.pstxt)
         #選択範囲がない場合例外が投げられる
-        except Exception:
+        except tk.TclError:
             pass
 
     def txtcut(self):
@@ -213,7 +213,7 @@ class WillBeAuthor:
             self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
             pyperclip.copy(self.cliptext)
             page.delete(tk.SEL_FIRST, tk.SEL_LAST)
-        except Exception:
+        except tk.TclError:
             #選択範囲がない場合例を投げられるので握りつぶす
             pass
 
