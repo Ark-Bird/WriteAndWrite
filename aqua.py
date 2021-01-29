@@ -212,8 +212,8 @@ class WillBeAuthor:
             self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
             pyperclip.copy(self.cliptext)
             page.delete(tk.SEL_FIRST, tk.SEL_LAST)
-        except:
-            #選択範囲がない場合例がを投げられるので握りつぶす
+        except Exception:
+            #選択範囲がない場合例を投げられるので握りつぶす
             pass
 
 
