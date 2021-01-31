@@ -192,6 +192,10 @@ class WillBeAuthor:
         except tk.TclError:
             #問題の無い例外は握りつぶす
             pass
+        except Exception:
+            #ハンドリングできない例外が出た場合終了
+            sys.exit()
+
 
     def txtpst(self):
         """
@@ -204,6 +208,9 @@ class WillBeAuthor:
         #選択範囲がない場合例外が投げられる
         except tk.TclError:
             pass
+        except Exception:
+            #ハンドリングできない例外が出た場合終了
+            sys.exit()
 
     def txtcut(self):
         """
