@@ -186,9 +186,9 @@ class WillBeAuthor:
         copy text
         """
         try:
-            if page.get(tk.SEL_FIRST) != tk.SEL_LAST:
-                self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
-                pyperclip.copy(self.cliptext)
+            self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
+            pyperclip.copy(self.cliptext)
+            print(self.cliptext)
         except tk.TclError:
             #問題の無い例外は握りつぶす
             pass
@@ -203,8 +203,8 @@ class WillBeAuthor:
         """
         try:
             self.pstxt = pyperclip.paste()
-            print(self.pstxt)
-            page.insert('insert', self.pstxt)
+            #print(self.pstxt)
+            #page.insert('insert', self.pstxt)
         #選択範囲がない場合例外が投げられる
         except tk.TclError:
             pass
@@ -219,6 +219,7 @@ class WillBeAuthor:
         try:
             self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
             pyperclip.copy(self.cliptext)
+            print(self.cliptext)
             page.delete(tk.SEL_FIRST, tk.SEL_LAST)
         except tk.TclError:
             #選択範囲がない場合例を投げられるので握りつぶす
