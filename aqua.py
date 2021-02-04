@@ -186,6 +186,7 @@ class WillBeAuthor:
         copy text
         """
         try:
+            #選択範囲をクリップボードにコピー
             self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
             pyperclip.copy(self.cliptext)
             print(self.cliptext)
