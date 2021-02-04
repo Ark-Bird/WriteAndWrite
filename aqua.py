@@ -202,6 +202,7 @@ class WillBeAuthor:
         paste text
         """
         try:
+            #pyperclip.pasteを使うと文字化けする
             #self.pstxt = pyperclip.paste()
             self.pstxt = self.cliptext
             print(self.pstxt)
