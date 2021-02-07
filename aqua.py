@@ -47,6 +47,7 @@ class WillBeAuthor:
         self.cliptext = ""
         self.pstxt = ""
         self.auto_indent = False
+        self.half_space = False
         self.hit_return = False
         self.is_save = True
         self.is_exit = False
@@ -285,13 +286,23 @@ class WillBeAuthor:
         self.auto_indent = not self.auto_indent
         self.counter()
 
+    def toggle_half_or_full(self):
+        '''オートインデントの半角全角切り替え'''
+        if self.half_space:
+            self.half_space = False
+        else:
+            self.half_space = True
+
     def insert_space(self):
         """
         オートインデント
         """
         if self.hit_return:
             index = tk.INSERT
-            page.insert(index, '　')
+            if self.half_space:
+                page.insert(index, ' ')
+            else:
+                page.insert(index, '　')
             self.hit_return = False
 
     def ime_check(self):
@@ -383,6 +394,8 @@ if __name__ == '__main__':
     # ルビを振る
     page.bind('<Control-r>', lambda self: wba.ruby())
     # オートインデント
+    #　半角全角切り替え
+    page.bind('<Control-w>', lambda self: wba.toggle_half_or_full())
     page.bind('<Control-q>', lambda self: wba.toggle_auto_indent())
     page.bind('<KeyPress-Return>', lambda self: wba.ime_check())
     page.bind('<KeyRelease-Return>', lambda self: wba.insert_space() if wba.hit_return and wba.auto_indent else wba.ignore())
