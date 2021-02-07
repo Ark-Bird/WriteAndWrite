@@ -81,7 +81,10 @@ class WillBeAuthor:
             textc += "*未保存*"
         textc = "I want Be... :" + textc
         if self.auto_indent:
-            textc += "*AI"
+            if self.half_space:
+                textc += "*AI半角"
+            else:
+                textc += "*AI全角"
 
         root.title(textc)
         return textc
