@@ -72,7 +72,7 @@ class WillBeAuthor:
         s = page.get('0.0', 'end')
         self.len = len(s)
         # messagebox.showinfo('文字数(改行、スペース込み)', self.leng)
-        vt = " a \t b\r\n\tc\t\n"
+        #vt = " a \t b\r\n\tc\t\n"
         vt = ''.join(s.split())
         vanillal = len(vt)
         #textc = str(self.len) + '文字|' + str(vanillal) + ':文字(空白抜き)'
