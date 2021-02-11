@@ -75,7 +75,6 @@ class WillBeAuthor:
         #vt = " a \t b\r\n\tc\t\n"
         vt = ''.join(s.split())
         vanillal = len(vt)
-        #textc = str(self.len) + '文字|' + str(vanillal) + ':文字(空白抜き)'
         textc = str(vanillal) + ':  文字'
         if not self.is_save:
             textc += "*未保存*:"
