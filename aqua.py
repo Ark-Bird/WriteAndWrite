@@ -310,6 +310,7 @@ class WillBeAuthor:
     def ime_check(self):
         self.hit_return = True
 
+
 def res_path(rel):
     if hasattr(sys, '_MEIPASS'):
         return os.path.join(sys._MEIPASS, rel)
