@@ -403,12 +403,6 @@ if __name__ == '__main__':
     page.bind('<KeyRelease-Return>', lambda self: wba.insert_space() if wba.hit_return and wba.auto_indent else wba.ignore())
     # 文字カウント
     page.bind('<Any-KeyPress>', wba.logger)
-    # page.bind('<Control-z>', lambda self: wba.undo())
-    # 文字数カウンタ
-    # count = tk.StringVar()
-    #
-    # status = tk.Label(page, textvariable=count, borderwidth=2, relief="groove")
-    # status.pack(side=tk.BOTTOM, fill=tk.X)
 
     root.protocol("WM_DELETE_WINDOW", wba.exit_as_save)
 
