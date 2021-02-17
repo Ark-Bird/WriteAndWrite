@@ -53,7 +53,9 @@ class WillBeAuthor:
         self.is_exit = False
 
     def ignore(self):
-        '''何もしない'''
+        """
+        何もしない
+        """
         pass
 
     def logger(self, event):
