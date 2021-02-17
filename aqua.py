@@ -58,6 +58,7 @@ class WillBeAuthor:
     def logger(self, event):
         """
         テキストの変更を検知してフラグを立てる
+        Ctrlとの組み合わせに対応
         """
 
         self.counter()
