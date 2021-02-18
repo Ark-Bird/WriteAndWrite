@@ -293,7 +293,9 @@ class WillBeAuthor:
         self.counter()
 
     def toggle_half_or_full(self):
-        '''オートインデントの半角全角切り替え'''
+        """
+        オートインデントの半角全角切り替え
+        """
         if self.half_space:
             self.half_space = False
         else:
