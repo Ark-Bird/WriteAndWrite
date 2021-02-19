@@ -372,6 +372,7 @@ if __name__ == '__main__':
     filemenu.add_command(label='Open', command=lambda: wba.fpopen('file'))
     filemenu.add_command(label='Save', command=lambda: wba.save_file('file'))
     filemenu.add_command(label='Save As', command=lambda: wba.saveas('file'))
+    filemenu.add_command(label='Auto Save', command=lambda: wba.toggle_as_flag())
     menubar.add_cascade(label='File', menu=filemenu)
 
     editmenu = tk.Menu(menubar, tearoff=0)
