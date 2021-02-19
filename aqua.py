@@ -93,6 +93,10 @@ class WillBeAuthor:
                 textc += "*AI半角"
             else:
                 textc += "*AI全角"
+        if self.ASFLAG:
+            textc += ":auto_save_enable:"
+        else:
+            textc += ":auto_save_disable:"
 
         root.title(textc)
         return textc
