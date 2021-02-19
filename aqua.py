@@ -103,7 +103,8 @@ class WillBeAuthor:
 
     def autosave(self):
         if self.file == '':
-            self.file = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")], initialdir=os.getcwd())
+            #self.file = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")], initialdir=os.getcwd())
+            pass
         if self.ASFLAG:
             self.save_file('file')
             self.autosaveflag()
@@ -146,6 +147,7 @@ class WillBeAuthor:
         # else:
         #     self.file = self.path
         if self.file == '':
+            self.ASFLAG = False
             return
         if types == 'file':
             self.ftext = page.get('0.0', 'end')
