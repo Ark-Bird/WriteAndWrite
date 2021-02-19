@@ -4,6 +4,9 @@
 Created on Fri Feb 17 20:47:33 2017
 @author: hiro
 """
+import threading
+from time import time
+
 """
 Copyright 2020 hiro
 
@@ -20,6 +23,7 @@ from tkinter import messagebox
 import pyperclip
 import sys
 import platform
+import time
 
 
 class Not_Open_Path_Exception(Exception):
@@ -51,6 +55,7 @@ class WillBeAuthor:
         self.hit_return = False
         self.is_save = True
         self.is_exit = False
+        self.ASFLAG = False
 
     def ignore(self):
         """
@@ -92,6 +97,27 @@ class WillBeAuthor:
         root.title(textc)
         return textc
 
+    def autosave(self):
+        if self.file == '':
+            self.file = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")], initialdir=os.getcwd())
+        if self.ASFLAG:
+            self.save_file('file')
+            self.autosaveflag()
+
+    def autosaveflag(self):
+        if self.ASFLAG:
+            root.after(1000, self.autosave)
+        else:
+            pass
+        return
+
+    def toggle_as_flag(self):
+        if self.ASFLAG:
+            self.ASFLAG = False
+        else:
+            self.ASFLAG = True
+            self.autosaveflag()
+
     def saveas(self, types):
         """
         clear file name
@@ -110,7 +136,7 @@ class WillBeAuthor:
         if types == '':
             return
         fTyp = [("", "*")]
-        iDir = os.path.abspath(os.path.dirname(__file__))
+        #iDir = os.path.abspath(os.path.dirname(__file__))
         if self.file == '':
             self.file = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")], initialdir=os.getcwd())
         # else:
@@ -323,6 +349,7 @@ def res_path(rel):
     return os.path.join(os.path.abspath("."), rel)
 
 
+
 if __name__ == '__main__':
     textcount = 0
     pf = platform.system()
@@ -405,6 +432,8 @@ if __name__ == '__main__':
     #　半角全角切り替え
     page.bind('<Control-w>', lambda self: wba.toggle_half_or_full())
     page.bind('<Control-q>', lambda self: wba.toggle_auto_indent())
+    #オートセーブ
+    page.bind('<Control-e>', lambda self: wba.toggle_as_flag())
     page.bind('<KeyPress-Return>', lambda self: wba.ime_check())
     page.bind('<KeyRelease-Return>', lambda self: wba.insert_space() if wba.hit_return and wba.auto_indent else wba.ignore())
     # 文字カウント
