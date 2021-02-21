@@ -163,7 +163,9 @@ class WillBeAuthor:
         if types == 'file':
             self.ftext = page.get('0.0', 'end')
             self.ftext = self.ftext[0:-1]
-        if self.file[-4:] != ".txt":
+        if not self.file:
+            return
+        elif self.file[-4:] != ".txt":
             self.file += ".txt"
         with open(self.file, mode='w', encoding='utf-8') as f:
             f.write(self.ftext)
