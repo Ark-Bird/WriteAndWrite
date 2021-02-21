@@ -102,14 +102,21 @@ class WillBeAuthor:
         return textc
 
     def autosave(self):
+        """
+        オートセーブ
+        :return:
+        """
         if self.file == '':
-            #self.file = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")], initialdir=os.getcwd())
             pass
         if self.ASFLAG:
             self.save_file('file')
             self.autosaveflag()
 
     def autosaveflag(self):
+        """
+        オートセーブを再帰呼び出し
+        :return:
+        """
         if self.ASFLAG:
             root.after(1000, self.autosave)
         else:
@@ -117,6 +124,10 @@ class WillBeAuthor:
         return
 
     def toggle_as_flag(self):
+        """
+        オートセーブフラグのトグル
+        :return:
+        """
         if self.ASFLAG:
             self.ASFLAG = False
         else:
