@@ -23,10 +23,9 @@ from tkinter import messagebox
 import pyperclip
 import sys
 import platform
-import time
 
 
-class Not_Open_Path_Exception(Exception):
+class NotOpenPathException(Exception):
     pass
 
 
@@ -220,10 +219,10 @@ class WillBeAuthor:
         fTyp = [("", "*")]
         try:
             if not os.path.exists("path.bin"):
-                raise Not_Open_Path_Exception
+                raise NotOpenPathException
             with open("path.bin", mode='r', encoding="utf-8") as f:
                 iDir = f.readline()
-        except Not_Open_Path_Exception:
+        except NotOpenPathException:
             iDir = os.path.abspath(os.path.dirname(__file__))
         self.file = tk.filedialog.askopenfilename(initialdir=iDir)
         if self.file == '':
@@ -367,7 +366,6 @@ def res_path(rel):
     if hasattr(sys, '_MEIPASS'):
         return os.path.join(sys._MEIPASS, rel)
     return os.path.join(os.path.abspath("."), rel)
-
 
 
 if __name__ == '__main__':
