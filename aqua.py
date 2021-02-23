@@ -274,7 +274,6 @@ class WillBeAuthor:
         try:
             self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
             pyperclip.copy(self.cliptext)
-            #print(self.cliptext)
             page.delete(tk.SEL_FIRST, tk.SEL_LAST)
         except tk.TclError:
             #選択範囲がない場合例を投げられるので握りつぶす
