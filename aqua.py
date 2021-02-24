@@ -258,7 +258,6 @@ class WillBeAuthor:
             #pyperclip.pasteを使うと文字化けする
             #self.pstxt = pyperclip.paste()
             self.pstxt = self.cliptext
-            #print(self.pstxt)
             page.insert('insert', self.pstxt)
         #選択範囲がない場合例外が投げられる
         except tk.TclError:
