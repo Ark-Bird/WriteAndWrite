@@ -241,7 +241,6 @@ class WillBeAuthor:
             #選択範囲をクリップボードにコピー
             self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
             pyperclip.copy(self.cliptext)
-            #print(self.cliptext)
         except tk.TclError:
             #問題の無い例外は握りつぶす
             pass
