@@ -178,6 +178,11 @@ class WillBeAuthor:
         self.counter()
 
     def exit_as_save(self):
+        """
+        終了時の保存処理
+        保存されていなければ確認ダイアログを表示
+        :return:
+        """
         if not self.is_save:
             save_exit = messagebox.askyesno("ファイルが変更されています", "ファイルを保存しますか？")
             if save_exit:
@@ -356,6 +361,11 @@ class WillBeAuthor:
             self.hit_return = False
 
     def ime_check(self):
+        """
+        IMEのリターンか、改行かの判断
+        改行ならばインスタンス変数のhit_returnを立てる
+        :return:
+        """
         self.hit_return = True
 
 
