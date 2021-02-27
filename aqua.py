@@ -148,12 +148,20 @@ class WillBeAuthor:
         SAVE file with dialog
         ファイルの保存処理
         """
+        #前回の保存場所を参照
+        try:
+            if not os.path.exists("path.bin"):
+                raise NotOpenPathException
+            with open("path.bin", mode='r', encoding="utf-8") as f:
+                iDir = os.path.abspath(os.path.dirname(f.readline()))
+        except NotOpenPathException:
+            iDir = os.path.abspath(os.path.dirname(__file__))
         if types == '':
             return
         fTyp = [("", "*")]
         #iDir = os.path.abspath(os.path.dirname(__file__))
         if self.file == '':
-            self.file = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")], initialdir=os.getcwd())
+            self.file = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")], initialdir=iDir)
         # else:
         #     self.file = self.path
         if self.file == '':
@@ -165,7 +173,7 @@ class WillBeAuthor:
         if types == 'file':
             self.ftext = page.get('0.0', 'end')
             self.ftext = self.ftext[0:-1]
-        elif self.file[-4:] != ".txt":
+        if self.file[-4:] != ".txt":
             self.file += ".txt"
         with open(self.file, mode='w', encoding='utf-8') as f:
             f.write(self.ftext)
