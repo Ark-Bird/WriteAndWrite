@@ -103,7 +103,6 @@ class WillBeAuthor:
     def autosave(self):
         """
         オートセーブ
-        :return:
         """
         if self.file == '':
             pass
