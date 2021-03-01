@@ -188,7 +188,7 @@ class WillBeAuthor:
         """
         終了時の保存処理
         保存されていなければ確認ダイアログを表示
-        :return:
+        :return:終了時ウインドウの破棄、キャンセル時、空のリターン
         """
         if not self.is_save:
             save_exit = messagebox.askyesno("ファイルが変更されています", "ファイルを保存しますか？")
