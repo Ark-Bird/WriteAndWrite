@@ -205,6 +205,8 @@ class WillBeAuthor:
         """
         clear text field
         テキストをクリアして新しいファイルにする
+        変更フラグを降ろす
+        保存フラグを立てる
         """
         self.ftext = page.get('0.0', 'end')
         if self.ftext != "\n" or self.is_save:
