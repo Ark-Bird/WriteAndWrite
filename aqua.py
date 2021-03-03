@@ -226,6 +226,7 @@ class WillBeAuthor:
         FILE OPEN dialog
         ファイルを開く
         変更されていたらチェック
+        存在しないディレクとをを指定していたらスクリプトのディレクトリを開く
         """
         if page.get('0.0', 'end') != '\n' and self.is_changed:
             if not messagebox.askyesno("注意", "ファイルが変更されています、破棄しますか？"):
