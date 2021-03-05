@@ -63,6 +63,8 @@ class WillBeAuthor:
     def ignore(self):
         """
         何もしない
+        例外を握りつぶす時等に使用
+        passではなく明示的に握りつぶす
         """
         pass
 
