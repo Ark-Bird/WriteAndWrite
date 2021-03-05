@@ -72,8 +72,8 @@ class WillBeAuthor:
         """
         テキストの変更を検知してフラグを立てる
         Ctrlとの組み合わせに対応
+        基本的に何かのキーが押された時に呼ばれる
         """
-
         self.counter()
         self.is_save = False
         self.is_changed = True
