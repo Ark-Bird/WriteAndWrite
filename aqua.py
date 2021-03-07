@@ -119,6 +119,7 @@ class WillBeAuthor:
     def autosaveflag(self):
         """
         オートセーブフラグが有効ならオートセーブを毎秒呼び出し
+        フラグが立っていない場合無視
         :return:
         """
         if self.ASFLAG:
