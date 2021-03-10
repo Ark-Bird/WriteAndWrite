@@ -81,7 +81,7 @@ class WillBeAuthor:
 
     def counter(self):
         """
-        counting letter
+        文字カウント
         """
         s = page.get('0.0', 'end')
         self.len = len(s)
