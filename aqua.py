@@ -131,7 +131,7 @@ class WillBeAuthor:
     def toggle_as_flag(self):
         """
         オートセーブフラグのトグル
-        :return:
+        :return:無し
         """
         if self.ASFLAG:
             self.ASFLAG = False
