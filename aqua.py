@@ -82,6 +82,7 @@ class WillBeAuthor:
     def counter(self):
         """
         文字カウント
+        loggerから呼ばれる
         """
         s = page.get('0.0', 'end')
         self.len = len(s)
