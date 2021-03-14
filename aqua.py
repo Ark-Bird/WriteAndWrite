@@ -83,6 +83,7 @@ class WillBeAuthor:
         """
         文字カウント
         loggerから呼ばれる
+        カウントした文字はタイトルバーに表示
         """
         s = page.get('0.0', 'end')
         self.len = len(s)
