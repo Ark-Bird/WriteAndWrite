@@ -146,6 +146,7 @@ class WillBeAuthor:
         """
         clear file name
         名前をつけて保存
+        返り値なし
         """
         if types == 'file':
             self.file = ''
