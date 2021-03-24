@@ -159,6 +159,7 @@ class WillBeAuthor:
         ファイルの保存処理
         path.binを開いて前回のファイル保存先を開く
         存在しなければNotOpenPathException例外を投げる
+        失敗時Falseをリターン
         """
         #前回の保存場所を参照
         try:
