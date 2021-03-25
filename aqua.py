@@ -171,7 +171,6 @@ class WillBeAuthor:
             iDir = os.path.abspath(os.path.dirname(__file__))
         if types == '':
             return
-        fTyp = [("", "*")]
         if self.file == '':
             self.file = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")], initialdir=iDir)
         # else:
