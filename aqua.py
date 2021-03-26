@@ -173,8 +173,6 @@ class WillBeAuthor:
             return
         if self.file == '':
             self.file = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")], initialdir=iDir)
-        # else:
-        #     self.file = self.path
         if self.file == '':
             self.ASFLAG = False
             return
