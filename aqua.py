@@ -371,6 +371,7 @@ class WillBeAuthor:
     def insert_space(self):
         """
         オートインデント
+        self.half_spaceがTrueのとき半角スペース、Falseの時全角スペースのインデントを挿入
         """
         if self.hit_return:
             index = tk.INSERT
