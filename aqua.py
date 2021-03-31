@@ -277,6 +277,7 @@ class WillBeAuthor:
     def txtpst(self):
         """
         paste text
+        範囲を選択していなかった場合の例外は握りつぶす
         """
         try:
             #pyperclip.pasteを使うと文字化けする
