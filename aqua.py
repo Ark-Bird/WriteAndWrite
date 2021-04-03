@@ -261,6 +261,7 @@ class WillBeAuthor:
     def txtcpy(self):
         """
         copy text
+        テキストの範囲が選択されていなかった場合例外を投げ、握りつぶす
         """
         try:
             #選択範囲をクリップボードにコピー
