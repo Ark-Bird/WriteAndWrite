@@ -295,6 +295,7 @@ class WillBeAuthor:
     def txtcut(self):
         """
         cut text
+        返り値無し
         """
         try:
             self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
