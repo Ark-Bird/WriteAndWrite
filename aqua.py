@@ -279,6 +279,7 @@ class WillBeAuthor:
         """
         paste text
         範囲を選択していなかった場合の例外は握りつぶす
+        返り値無し
         """
         try:
             #pyperclip.pasteを使うと文字化けする
