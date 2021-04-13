@@ -311,6 +311,7 @@ class WillBeAuthor:
         """
         START AUTHOR MODE
         集中モード開始（フルスクリーンになる）
+        返り値無し
         """
         root.attributes("-fullscreen", True)
         return
