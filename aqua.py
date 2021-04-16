@@ -320,6 +320,7 @@ class WillBeAuthor:
         """
         END AUTHOR MODE
         集中モード終了（フルスクリーンは解除されるがウィンドウからフォーカスが外れない場合があるので注意
+        返り値無し
         """
         root.attributes("-fullscreen", False)
         root.geometry("640x640")
