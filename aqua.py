@@ -330,6 +330,7 @@ class WillBeAuthor:
         """
         テキストを選択してルビを振る
         選択範囲が十文字より多ければ警告を表示
+        返り値無し
         """
         b = tk.SEL_FIRST
         i = tk.SEL_FIRST
@@ -341,6 +342,7 @@ class WillBeAuthor:
         page.delete('sel.first', 'sel.last')
         page.insert('insert', tmpstr)
         page.mark_set('insert', 'insert-1c')
+        return
 
     def threepoint(self):
         """
