@@ -367,7 +367,8 @@ class WillBeAuthor:
         """
         オートインデント機能のオン・オフ
         返り値は無し
-        挿入されるインデントは全角スペース
+        挿入されるインデントは全角・半角はtoggle_half_or_full関数でトグルする
+        デフォルトは全角スペース
         """
         self.auto_indent = not self.auto_indent
         self.counter()
