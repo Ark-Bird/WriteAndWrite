@@ -348,6 +348,7 @@ class WillBeAuthor:
     def threepoint(self):
         """
         三点リーダの挿入
+        全角で二つ一組で挿入
         """
         page.insert('insert', "……")
         pass
@@ -355,6 +356,7 @@ class WillBeAuthor:
     def threedash(self):
         """
         ダッシュの挿入
+        全角で二つ一組で挿入
         """
         page.insert('insert', "――")
 
