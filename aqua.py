@@ -366,6 +366,8 @@ class WillBeAuthor:
     def toggle_auto_indent(self):
         """
         オートインデント機能のオン・オフ
+        返り値は無し
+        挿入されるインデントは全角スペース
         """
         self.auto_indent = not self.auto_indent
         self.counter()
