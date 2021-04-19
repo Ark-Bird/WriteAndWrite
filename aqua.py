@@ -399,7 +399,7 @@ class WillBeAuthor:
         """
         IMEのリターンか、改行かの判断
         改行ならばインスタンス変数のhit_returnを立てる
-        :return:
+        返り値無し
         """
         self.hit_return = True
 
