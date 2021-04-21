@@ -59,6 +59,7 @@ class WillBeAuthor:
         self.is_save = True
         self.is_exit = False
         self.ASFLAG = False
+        self.dark_mode = False
 
     def ignore(self):
         """
@@ -125,9 +126,11 @@ class WillBeAuthor:
         :return:無し
         """
         if self.ASFLAG:
-            root.after(1000, self.autosave)
+            self.autosave()
+            root.after(1000, self.autosaveflag)
         else:
-            pass
+            root.after(1000, self.autosaveflag)
+        self.change_theme()
         return
 
     def toggle_as_flag(self):
@@ -403,6 +406,19 @@ class WillBeAuthor:
         """
         self.hit_return = True
 
+    def toggle_dark_mode(self):
+        if self.dark_mode:
+            self.dark_mode = False
+        else:
+            self.dark_mode = True
+
+    def change_theme(self):
+        if self.dark_mode:
+            page.configure(bg='black', fg='white')
+        else:
+            page.configure(bg='ghost white', fg='black')
+        print(self.dark_mode)
+
 
 def res_path(rel):
     if hasattr(sys, '_MEIPASS'):
@@ -448,6 +464,10 @@ if __name__ == '__main__':
     c_mode.add_command(label="START", command=lambda: wba.start_cmode())
     c_mode.add_command(label="END", command=lambda: wba.end_cmode())
     menubar.add_cascade(label='C-MODE', menu=c_mode)
+    #ColorMode Change
+    color_mode = tk.Menu(menubar, tearoff=0)
+    color_mode.add_command(label="Color Change!", command=lambda :wba.toggle_dark_mode())
+    menubar.add_cascade(label="Color Change!", menu=color_mode)
     #オートインデント/オン・オフ
     auto_indent = tk.Menu(menubar, tearoff=0)
     auto_indent.add_command(label="Toggle(Ctrl-Q)", command=lambda: wba.toggle_auto_indent())
@@ -467,7 +487,6 @@ if __name__ == '__main__':
     page = tk.Text(root, undo=True, wrap=tk.NONE)
     # カラーコンフィグ
     page.configure(bg='ghost white', fg='black')
-
     # page.grid(column=0, row=0, sticky=tk.E + tk.N + tk.S + tk.W)
 
     # xScrollbar.grid(row=1, column=0, sticky=tk.EW)
@@ -503,4 +522,5 @@ if __name__ == '__main__':
 
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
+    root.after(1000, wba.autosaveflag)
     root.mainloop()
