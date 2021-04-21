@@ -4,8 +4,6 @@
 Created on Fri Feb 17 20:47:33 2017
 @author: hiro
 """
-import threading
-from time import time
 
 """
 Copyright 2020 hiro
