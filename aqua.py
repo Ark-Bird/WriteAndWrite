@@ -417,7 +417,6 @@ class WillBeAuthor:
             page.configure(bg='black', fg='white')
         else:
             page.configure(bg='ghost white', fg='black')
-        print(self.dark_mode)
 
 
 def res_path(rel):
