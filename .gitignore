@@ -8,5 +8,5 @@ build
 /build/*
 path.bin
 /build/aqua/
-
+color.bin
 /build/aqua/*

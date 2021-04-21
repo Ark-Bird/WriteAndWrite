@@ -60,6 +60,14 @@ class WillBeAuthor:
         self.is_exit = False
         self.ASFLAG = False
         self.dark_mode = False
+        self.col = ""
+        try:
+            with open('color.bin', mode='r', encoding='utf-8') as f:
+                self.col = f.read()
+        except FileNotFoundError:
+            pass
+        if self.col == "dark":
+            self.dark_mode = True
 
     def ignore(self):
         """
@@ -414,8 +422,12 @@ class WillBeAuthor:
 
     def change_theme(self):
         if self.dark_mode:
-            page.configure(bg='black', fg='white')
+            with open('color.bin', mode='w', encoding='utf-8') as f:
+                f.write("dark")
+            page.configure(bg='gray16', fg='azure')
         else:
+            with open('color.bin', mode='w', encoding='utf-8') as f:
+                f.write("normal")
             page.configure(bg='ghost white', fg='black')
 
 
