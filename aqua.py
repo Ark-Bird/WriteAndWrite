@@ -344,14 +344,17 @@ class WillBeAuthor:
         """
         b = tk.SEL_FIRST
         i = tk.SEL_FIRST
-        tmpstr = page.get('sel.first', 'sel.last')
-        if len(tmpstr) > 10:
-            messagebox.showinfo('over', '10文字以上にルビは非対応の可能性があります')
-        tmpstr = "|" + tmpstr + "《》"
+        try:
+            tmpstr = page.get('sel.first', 'sel.last')
+            if len(tmpstr) > 10:
+                messagebox.showinfo('over', '10文字以上にルビは非対応の可能性があります')
+            tmpstr = "|" + tmpstr + "《》"
 
-        page.delete('sel.first', 'sel.last')
-        page.insert('insert', tmpstr)
-        page.mark_set('insert', 'insert-1c')
+            page.delete('sel.first', 'sel.last')
+            page.insert('insert', tmpstr)
+            page.mark_set('insert', 'insert-1c')
+        except tk.TclError:
+            pass
         return
 
     def threepoint(self):
