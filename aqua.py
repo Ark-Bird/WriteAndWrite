@@ -426,6 +426,10 @@ class WillBeAuthor:
             self.dark_mode = True
 
     def change_theme(self):
+        """
+        テーマの変更
+        :return:
+        """
         if self.dark_mode:
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("dark")
