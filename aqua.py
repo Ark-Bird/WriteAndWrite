@@ -428,6 +428,8 @@ class WillBeAuthor:
     def change_theme(self):
         """
         テーマの変更
+        モード名をcolor.binに書き込む
+        該当ファイルはプレーンテキストでありマニュアルでの編集が可能
         :return:
         """
         if self.dark_mode:
