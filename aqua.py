@@ -443,6 +443,12 @@ class WillBeAuthor:
 
 
 def res_path(rel):
+    """
+    Windowsの場合、アイコンへのパスを返す
+    他のOSの場合は呼ばれることはない
+    :param rel:
+    :return:
+    """
     if hasattr(sys, '_MEIPASS'):
         return os.path.join(sys._MEIPASS, rel)
     return os.path.join(os.path.abspath("."), rel)
