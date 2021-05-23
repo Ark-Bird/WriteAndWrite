@@ -456,6 +456,7 @@ def res_path(rel):
 
 if __name__ == '__main__':
     textcount = 0
+    #Windowsもしくはそれ以外を判別
     pf = platform.system()
     dummy = []
     author = WillBeAuthor()
