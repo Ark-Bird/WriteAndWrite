@@ -461,7 +461,6 @@ if __name__ == '__main__':
     dummy = []
     author = WillBeAuthor()
     wba = author
-    prt = 'prot'
     mainstory = 'file'
     root = tk.Tk()
     root.geometry("640x640")
