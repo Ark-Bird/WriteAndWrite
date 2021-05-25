@@ -458,6 +458,7 @@ if __name__ == '__main__':
     textcount = 0
     #Windowsもしくはそれ以外を判別
     pf = platform.system()
+    #明示的に使わない変数としてdummyを使う
     dummy = []
     author = WillBeAuthor()
     wba = author
