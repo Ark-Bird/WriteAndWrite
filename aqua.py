@@ -495,7 +495,7 @@ if __name__ == '__main__':
     menubar.add_cascade(label='C-MODE', menu=c_mode)
     #ColorMode Change
     color_mode = tk.Menu(menubar, tearoff=0)
-    color_mode.add_command(label="Color Change!", command=lambda :wba.toggle_dark_mode())
+    color_mode.add_command(label="Color Change!", command=lambda: wba.toggle_dark_mode())
     menubar.add_cascade(label="Color Change!", menu=color_mode)
     #オートインデント/オン・オフ
     auto_indent = tk.Menu(menubar, tearoff=0)
