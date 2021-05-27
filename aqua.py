@@ -473,6 +473,7 @@ if __name__ == '__main__':
     root.minsize(32, 32)
     menubar = tk.Menu(root)
     filemenu = tk.Menu(menubar, tearoff=0)
+    #ファイルメニュー、渡している'file'引数はダミー
     filemenu.add_command(label='New', command=lambda: wba.new_blank_file('file'))
     filemenu.add_command(label='Open', command=lambda: wba.fpopen('file'))
     filemenu.add_command(label='Save', command=lambda: wba.save_file('file'))
