@@ -513,7 +513,6 @@ if __name__ == '__main__':
     xScrollbar = tk.Scrollbar(root, orient=tk.HORIZONTAL)
     xScrollbar.pack(side=tk.BOTTOM, fill='x')
     psbar = tk.Scrollbar(root)
-    # psbar.pack(side=tk.LEFT, fill="y")
     # テキストエリア作成
     page = tk.Text(root, undo=True, wrap=tk.NONE)
     # カラーコンフィグ
