@@ -481,6 +481,7 @@ if __name__ == '__main__':
     filemenu.add_command(label='Auto Save', command=lambda: wba.toggle_as_flag())
     menubar.add_cascade(label='File', menu=filemenu)
 
+    #編集メニュー、カット、コピー、ペーストをラムダ式で呼び出し
     editmenu = tk.Menu(menubar, tearoff=0)
     editmenu.add_command(label='Copy', command=lambda: wba.txtcpy())
     editmenu.add_command(label='Cut', command=lambda: wba.txtcut())
