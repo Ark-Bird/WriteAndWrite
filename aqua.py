@@ -517,7 +517,6 @@ if __name__ == '__main__':
     page = tk.Text(root, undo=True, wrap=tk.NONE)
     # カラーコンフィグ
     page.configure(bg='ghost white', fg='black')
-    # page.grid(column=0, row=0, sticky=tk.E + tk.N + tk.S + tk.W)
 
     # xScrollbar.grid(row=1, column=0, sticky=tk.EW)
     # スクロールバー追加
