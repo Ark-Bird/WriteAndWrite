@@ -518,7 +518,6 @@ if __name__ == '__main__':
     # カラーコンフィグ
     page.configure(bg='ghost white', fg='black')
 
-    # xScrollbar.grid(row=1, column=0, sticky=tk.EW)
     # スクロールバー追加
     page.config(
         xscrollcommand=xScrollbar.set,
