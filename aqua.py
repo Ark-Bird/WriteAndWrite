@@ -550,5 +550,6 @@ if __name__ == '__main__':
 
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
+    #オートセーブその他の再帰呼び出し
     root.after(1000, wba.autosaveflag)
     root.mainloop()
