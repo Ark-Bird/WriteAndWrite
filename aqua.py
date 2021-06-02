@@ -541,6 +541,7 @@ if __name__ == '__main__':
     page.bind('<Control-q>', lambda self: wba.toggle_auto_indent())
     #オートセーブ
     page.bind('<Control-e>', lambda self: wba.toggle_as_flag())
+    #エンターが押された場合、IMEの変換で押したものか改行をしたのかを判断してオートインデントを行う
     page.bind('<KeyPress-Return>', lambda self: wba.ime_check())
     page.bind('<KeyRelease-Return>', lambda self: wba.insert_space() if wba.hit_return and wba.auto_indent else wba.ignore())
     # 文字カウント
