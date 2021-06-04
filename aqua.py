@@ -288,6 +288,7 @@ class WillBeAuthor:
         """
         paste text
         範囲を選択していなかった場合の例外は握りつぶす
+        tk.TclError以外のエラーが出ると落ちる
         返り値無し
         """
         try:
@@ -373,6 +374,10 @@ class WillBeAuthor:
         page.insert('insert', "――")
 
     def t_change(self):
+        """
+        テキストの変更フラグを立てる
+        :return:
+        """
         self.is_changed = True
 
     def toggle_auto_indent(self):
