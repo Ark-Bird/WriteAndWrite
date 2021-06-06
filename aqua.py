@@ -376,7 +376,7 @@ class WillBeAuthor:
     def t_change(self):
         """
         テキストの変更フラグを立てる
-        :return:
+        :return:無し
         """
         self.is_changed = True
 
