@@ -435,6 +435,7 @@ class WillBeAuthor:
         テーマの変更
         モード名をcolor.binに書き込む
         該当ファイルはプレーンテキストでありマニュアルでの編集が可能
+        color.binの内容がdarkだとダークモード、存在しない、もしくはそれ以外の場合通常モード
         :return:
         """
         if self.dark_mode:
