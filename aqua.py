@@ -59,6 +59,7 @@ class WillBeAuthor:
         self.ASFLAG = False
         self.dark_mode = False
         self.col = ""
+        self.nowcolor = "normal"
         try:
             with open('color.bin', mode='r', encoding='utf-8') as f:
                 self.col = f.read()
@@ -436,8 +437,12 @@ class WillBeAuthor:
         モード名をcolor.binに書き込む
         該当ファイルはプレーンテキストでありマニュアルでの編集が可能
         color.binの内容がdarkだとダークモード、存在しない、もしくはそれ以外の場合通常モード
+        ストレージへの負荷軽減のためモード変更のない場合ファイルへ書き込まずリターン
         :return:
         """
+        if not self.is_changed():
+            return
+
         if self.dark_mode:
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("dark")
@@ -446,6 +451,23 @@ class WillBeAuthor:
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("normal")
             page.configure(bg='ghost white', fg='black')
+
+    def is_changed(self):
+        """
+        color.binを読み込み現在のモードと同じならFalseを返す
+        変更されている場合はTrueを返す
+        :return:
+        """
+        with open('color.bin', mode='r', encoding='utf-8') as f:
+            mode = f.read()
+            if self.dark_mode and mode != "dark":
+                if mode == "dark":
+                    return False
+            else:
+                if mode == "normal":
+                    return False
+        return True
+
 
 
 def res_path(rel):
