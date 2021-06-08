@@ -440,7 +440,7 @@ class WillBeAuthor:
         ストレージへの負荷軽減のためモード変更のない場合ファイルへ書き込まずリターン
         :return:
         """
-        if not self.is_changed():
+        if not self.is_modify():
             return
 
         if self.dark_mode:
@@ -452,7 +452,7 @@ class WillBeAuthor:
                 f.write("normal")
             page.configure(bg='ghost white', fg='black')
 
-    def is_changed(self):
+    def is_modify(self):
         """
         color.binを読み込み現在のモードと同じならFalseを返す
         変更されている場合はTrueを返す
