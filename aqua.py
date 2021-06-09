@@ -457,14 +457,21 @@ class WillBeAuthor:
         color.binを読み込み現在のモードと同じならFalseを返す
         変更されている場合はTrueを返す
         """
-        with open('color.bin', mode='r', encoding='utf-8') as f:
-            mode = f.read()
-            if self.dark_mode and mode != "dark":
-                if mode == "dark":
-                    return False
-            else:
-                if mode == "normal":
-                    return False
+        try:
+            with open('color.bin', mode='r', encoding='utf-8') as f:
+                mode = f.read()
+                if self.dark_mode and mode != "dark":
+                    if mode == "dark":
+                        return False
+                else:
+                    if mode == "normal":
+                        return False
+        except FileNotFoundError:
+            with open('color.bin', mode='w', encoding='utf-8') as f:
+                f.write("normal")
+            return True
+        except Exception:
+            sys.exit()
         return True
 
 
