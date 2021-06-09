@@ -456,7 +456,6 @@ class WillBeAuthor:
         """
         color.binを読み込み現在のモードと同じならFalseを返す
         変更されている場合はTrueを返す
-        :return:
         """
         with open('color.bin', mode='r', encoding='utf-8') as f:
             mode = f.read()
