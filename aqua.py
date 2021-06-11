@@ -456,6 +456,7 @@ class WillBeAuthor:
         """
         color.binを読み込み現在のモードと同じならFalseを返す
         変更されている場合はTrueを返す
+        ファイルが見つからなかった場合はnormalで開く、それ以外の例外なら終了
         """
         try:
             with open('color.bin', mode='r', encoding='utf-8') as f:
