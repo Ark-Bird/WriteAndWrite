@@ -467,6 +467,7 @@ class WillBeAuthor:
                 else:
                     if mode == "normal":
                         return False
+        #ファイルが何らかの理由で存在しない場合normalを書き込んで作成
         except FileNotFoundError:
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("normal")
