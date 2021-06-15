@@ -438,7 +438,6 @@ class WillBeAuthor:
         該当ファイルはプレーンテキストでありマニュアルでの編集が可能
         color.binの内容がdarkだとダークモード、存在しない、もしくはそれ以外の場合通常モード
         ストレージへの負荷軽減のためモード変更のない場合ファイルへ書き込まずリターン
-        :return:
         """
         if not self.is_modify():
             return
