@@ -31,6 +31,12 @@ class NotOpenPathException(Exception):
     pass
 
 
+class UnrecoveredError(Exception):
+    """
+    復旧不能なエラーの発生時に投げる
+    """
+    pass
+
 class WillBeAuthor:
     """
     mod string class
@@ -280,7 +286,7 @@ class WillBeAuthor:
         except tk.TclError:
             #問題の無い例外は握りつぶす
             pass
-        except Exception:
+        except UnrecoveredError:
             #ハンドリングできない例外が出た場合終了
             sys.exit()
 
@@ -300,7 +306,7 @@ class WillBeAuthor:
         #選択範囲がない場合例外が投げられる
         except tk.TclError:
             pass
-        except Exception:
+        except UnrecoveredError:
             #ハンドリングできない例外が出た場合終了
             sys.exit()
 
@@ -471,7 +477,7 @@ class WillBeAuthor:
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("normal")
             return True
-        except Exception:
+        except UnrecoveredError:
             sys.exit()
         return True
 
