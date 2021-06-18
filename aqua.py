@@ -493,6 +493,7 @@ if __name__ == '__main__':
     pf = platform.system()
     #明示的に使わない変数としてdummyを使う
     dummy = []
+    #リファクタリングしていないのでインスタンスのアドレス渡しをしている
     author = WillBeAuthor()
     wba = author
     mainstory = 'file'
