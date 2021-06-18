@@ -66,6 +66,7 @@ class WillBeAuthor:
         self.dark_mode = False
         self.col = ""
         self.nowcolor = "normal"
+        self.textc = ""
         try:
             with open('color.bin', mode='r', encoding='utf-8') as f:
                 self.col = f.read()
@@ -105,23 +106,23 @@ class WillBeAuthor:
         #vt = " a \t b\r\n\tc\t\n"
         vt = ''.join(s.split())
         vanillal = len(vt)
-        textc = str(vanillal) + ':  文字'
+        self.textc = str(vanillal) + ':  文字'
 
         if not self.is_save:
-            textc += "*未保存*:"
-        textc = "I want Be... :" + textc
+            self.textc += "*未保存*:"
+        self.textc = "I want Be... :" + self.textc
         if self.auto_indent:
             if self.half_space:
-                textc += "*AI半角"
+                self.textc += "*AI半角"
             else:
-                textc += "*AI全角"
+                self.textc += "*AI全角"
         if self.ASFLAG:
-            textc += ":auto_save_enable:"
+            self.textc += ":auto_save_enable:"
         else:
-            textc += ":auto_save_disable:"
+            self.textc += ":auto_save_disable:"
 
-        root.title(textc)
-        return textc
+        root.title(self.textc)
+        return self.textc
 
     def autosave(self):
         """
