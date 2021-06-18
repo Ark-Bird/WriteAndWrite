@@ -106,6 +106,7 @@ class WillBeAuthor:
         vt = ''.join(s.split())
         vanillal = len(vt)
         textc = str(vanillal) + ':  文字'
+
         if not self.is_save:
             textc += "*未保存*:"
         textc = "I want Be... :" + textc
