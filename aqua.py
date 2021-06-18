@@ -493,9 +493,7 @@ if __name__ == '__main__':
     pf = platform.system()
     #明示的に使わない変数としてdummyを使う
     dummy = []
-    #リファクタリングしていないのでインスタンスのアドレス渡しをしている
     author = WillBeAuthor()
-    wba = author
     mainstory = 'file'
     root = tk.Tk()
     root.geometry("640x640")
@@ -508,34 +506,34 @@ if __name__ == '__main__':
     menubar = tk.Menu(root)
     filemenu = tk.Menu(menubar, tearoff=0)
     #ファイルメニュー、渡している'file'引数はダミー
-    filemenu.add_command(label='New', command=lambda: wba.new_blank_file('file'))
-    filemenu.add_command(label='Open', command=lambda: wba.fpopen('file'))
-    filemenu.add_command(label='Save', command=lambda: wba.save_file('file'))
-    filemenu.add_command(label='Save As', command=lambda: wba.saveas('file'))
-    filemenu.add_command(label='Auto Save', command=lambda: wba.toggle_as_flag())
+    filemenu.add_command(label='New', command=lambda: author.new_blank_file('file'))
+    filemenu.add_command(label='Open', command=lambda: author.fpopen('file'))
+    filemenu.add_command(label='Save', command=lambda: author.save_file('file'))
+    filemenu.add_command(label='Save As', command=lambda: author.saveas('file'))
+    filemenu.add_command(label='Auto Save', command=lambda: author.toggle_as_flag())
     menubar.add_cascade(label='File', menu=filemenu)
 
     #編集メニュー、カット、コピー、ペーストをラムダ式で呼び出し
     editmenu = tk.Menu(menubar, tearoff=0)
-    editmenu.add_command(label='Copy', command=lambda: wba.txtcpy())
-    editmenu.add_command(label='Cut', command=lambda: wba.txtcut())
-    editmenu.add_command(label='Paste', command=lambda: wba.txtpst())
+    editmenu.add_command(label='Copy', command=lambda: author.txtcpy())
+    editmenu.add_command(label='Cut', command=lambda: author.txtcut())
+    editmenu.add_command(label='Paste', command=lambda: author.txtpst())
     menubar.add_cascade(label='Edit', menu=editmenu)
     pclipmenu = tk.Menu(menubar, tearoff=0)
 
     # メニューバー作成
     #集中モード
     c_mode = tk.Menu(menubar, tearoff=0)
-    c_mode.add_command(label="START", command=lambda: wba.start_cmode())
-    c_mode.add_command(label="END", command=lambda: wba.end_cmode())
+    c_mode.add_command(label="START", command=lambda: author.start_cmode())
+    c_mode.add_command(label="END", command=lambda: author.end_cmode())
     menubar.add_cascade(label='C-MODE', menu=c_mode)
     #ColorMode Change
     color_mode = tk.Menu(menubar, tearoff=0)
-    color_mode.add_command(label="Color Change!", command=lambda: wba.toggle_dark_mode())
+    color_mode.add_command(label="Color Change!", command=lambda: author.toggle_dark_mode())
     menubar.add_cascade(label="Color Change!", menu=color_mode)
     #オートインデント/オン・オフ
     auto_indent = tk.Menu(menubar, tearoff=0)
-    auto_indent.add_command(label="Toggle(Ctrl-Q)", command=lambda: wba.toggle_auto_indent())
+    auto_indent.add_command(label="Toggle(Ctrl-Q)", command=lambda: author.toggle_auto_indent())
     menubar.add_cascade(label="Auto_Indent", menu=auto_indent)
     #タイトル
     root.config(menu=menubar)
@@ -558,33 +556,33 @@ if __name__ == '__main__':
         yscrollcommand=yScrollbar.set)
     page.pack(fill='both', side=tk.LEFT, expand=True)
     # ファイルを保存
-    page.bind('<Control-s>', lambda self: wba.save_file('file'))
+    page.bind('<Control-s>', lambda self: author.save_file('file'))
     #コピペ＆カット
-    page.bind('<Control-c>', lambda self: wba.txtcpy())
-    page.bind('<Control-v>', lambda self: wba.txtpst())
-    page.bind('<Control-x>', lambda self: wba.txtcut())
+    page.bind('<Control-c>', lambda self: author.txtcpy())
+    page.bind('<Control-v>', lambda self: author.txtpst())
+    page.bind('<Control-x>', lambda self: author.txtcut())
     #三点リーダー二つ組挿入
-    page.bind('<Control-t>', lambda self: wba.threepoint())
+    page.bind('<Control-t>', lambda self: author.threepoint())
     #ダッシュの挿入
-    page.bind('<Control-d>', lambda self: wba.threedash())
+    page.bind('<Control-d>', lambda self: author.threedash())
     # ルビを振る
-    page.bind('<Control-r>', lambda self: wba.ruby())
+    page.bind('<Control-r>', lambda self: author.ruby())
     # オートインデント
     #　半角全角切り替え
-    page.bind('<Control-w>', lambda self: wba.toggle_half_or_full())
-    page.bind('<Control-q>', lambda self: wba.toggle_auto_indent())
+    page.bind('<Control-w>', lambda self: author.toggle_half_or_full())
+    page.bind('<Control-q>', lambda self: author.toggle_auto_indent())
     #オートセーブ
-    page.bind('<Control-e>', lambda self: wba.toggle_as_flag())
+    page.bind('<Control-e>', lambda self: author.toggle_as_flag())
     #エンターが押された場合、IMEの変換で押したものか改行をしたのかを判断してオートインデントを行う
-    page.bind('<KeyPress-Return>', lambda self: wba.ime_check())
-    page.bind('<KeyRelease-Return>', lambda self: wba.insert_space() if wba.hit_return and wba.auto_indent else wba.ignore())
+    page.bind('<KeyPress-Return>', lambda self: author.ime_check())
+    page.bind('<KeyRelease-Return>', lambda self: author.insert_space() if author.hit_return and author.auto_indent else author.ignore())
     # 文字カウント
-    page.bind('<Any-KeyPress>', wba.logger)
+    page.bind('<Any-KeyPress>', author.logger)
 
-    root.protocol("WM_DELETE_WINDOW", wba.exit_as_save)
+    root.protocol("WM_DELETE_WINDOW", author.exit_as_save)
 
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
     #オートセーブその他の再帰呼び出し
-    root.after(1000, wba.autosaveflag)
+    root.after(1000, author.autosaveflag)
     root.mainloop()
