@@ -288,9 +288,8 @@ class WillBeAuthor:
         except tk.TclError:
             #問題の無い例外は握りつぶす
             pass
-        except UnrecoveredError:
-            #ハンドリングできない例外が出た場合終了
-            sys.exit()
+        except Exception:
+            raise UnrecoveredError
 
 
     def txtpst(self):
@@ -308,9 +307,8 @@ class WillBeAuthor:
         #選択範囲がない場合例外が投げられる
         except tk.TclError:
             pass
-        except UnrecoveredError:
-            #ハンドリングできない例外が出た場合終了
-            sys.exit()
+        except Exception:
+            raise UnrecoveredError
 
     def txtcut(self):
         """
@@ -365,6 +363,8 @@ class WillBeAuthor:
             page.mark_set('insert', 'insert-1c')
         except tk.TclError:
             pass
+        except Exception:
+            raise UnrecoveredError
         return
 
     def threepoint(self):
@@ -479,8 +479,8 @@ class WillBeAuthor:
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("normal")
             return True
-        except UnrecoveredError:
-            sys.exit()
+        except Exception:
+            raise UnrecoveredError
         return True
 
 
