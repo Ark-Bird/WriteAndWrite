@@ -505,6 +505,7 @@ if __name__ == '__main__':
     mainstory = 'file'
     root = tk.Tk()
     root.geometry("640x640")
+    #動いているOSの判別
     if pf == 'Windows':
         icon = res_path('./res/wbe.ico')
         root.iconbitmap(icon)
