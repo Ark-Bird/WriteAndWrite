@@ -579,6 +579,7 @@ if __name__ == '__main__':
     # オートインデント
     #　半角全角切り替え
     page.bind('<Control-w>', lambda self: author.toggle_half_or_full())
+    #オートインデントのオン・オフ
     page.bind('<Control-q>', lambda self: author.toggle_auto_indent())
     #オートセーブ
     page.bind('<Control-e>', lambda self: author.toggle_as_flag())
