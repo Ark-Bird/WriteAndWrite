@@ -432,7 +432,6 @@ class WillBeAuthor:
     def toggle_dark_mode(self):
         """
         ダークモードと通常モードのトグル
-        :return:
         """
         if self.dark_mode:
             self.dark_mode = False
