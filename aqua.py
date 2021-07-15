@@ -321,6 +321,9 @@ class WillBeAuthor:
         except tk.TclError:
             #選択範囲がない場合例を投げられるので握りつぶす
             pass
+        except Exception:
+            print("致命的なエラー")
+            raise UnrecoveredError
 
 
     def start_cmode(self):
