@@ -315,6 +315,8 @@ class WillBeAuthor:
         返り値無し
         """
         try:
+            #ローカル変数とクリップボードにコピー
+            #アプリ内で完結するならpyperclipは不要
             self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
             pyperclip.copy(self.cliptext)
             page.delete(tk.SEL_FIRST, tk.SEL_LAST)
