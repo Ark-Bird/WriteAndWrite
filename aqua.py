@@ -288,6 +288,7 @@ class WillBeAuthor:
             #問題の無い例外は握りつぶす
             pass
         except Exception:
+            #どうしようもない例外でエラーをレイズ
             raise UnrecoveredError
 
 
