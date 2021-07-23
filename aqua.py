@@ -360,6 +360,7 @@ class WillBeAuthor:
         i = tk.SEL_FIRST
         try:
             tmpstr = page.get('sel.first', 'sel.last')
+            #投稿サイトが10文字以上のルビに対応の場合、以下二行をコメントアウトしてください
             if len(tmpstr) > 10:
                 messagebox.showinfo('over', '10文字以上にルビは非対応の可能性があります')
             tmpstr = "|" + tmpstr + "《》"
