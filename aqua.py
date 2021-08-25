@@ -259,7 +259,7 @@ class WillBeAuthor:
             if not messagebox.askyesno("注意", "ファイルが変更されています、破棄しますか？"):
                 return
         fTyp = [("", "*")]
-        #paht.binは全開保存したディレクトリが書き込まれている
+        #paht.binは前回保存したディレクトリが書き込まれている
         try:
             if not os.path.exists("path.bin"):
                 raise NotOpenPathException
