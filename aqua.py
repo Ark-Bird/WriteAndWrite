@@ -182,7 +182,7 @@ class WillBeAuthor:
         存在しなければNotOpenPathException例外を投げる
         失敗時Falseをリターン
         """
-        #前回の保存場所を参照
+        # 前回の保存場所を参照
         try:
             if not os.path.exists("path.bin"):
                 raise NotOpenPathException
@@ -263,7 +263,7 @@ class WillBeAuthor:
             if not messagebox.askyesno("注意", "ファイルが変更されています、破棄しますか？"):
                 return
         fTyp = [("", "*")]
-        #paht.binは前回保存したディレクトリが書き込まれている
+        # paht.binは前回保存したディレクトリが書き込まれている
         try:
             if not os.path.exists("path.bin"):
                 raise NotOpenPathException
@@ -286,14 +286,14 @@ class WillBeAuthor:
         テキストの範囲が選択されていなかった場合例外を投げ、握りつぶす
         """
         try:
-            #選択範囲をクリップボードにコピー
+            # 選択範囲をクリップボードにコピー
             self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
             pyperclip.copy(self.cliptext)
         except tk.TclError:
-            #問題の無い例外は握りつぶす
+            # 問題の無い例外は握りつぶす
             pass
         except Exception:
-            #どうしようもない例外でエラーをレイズ
+            # どうしようもない例外でエラーをレイズ
             raise UnrecoveredError
 
 
@@ -305,11 +305,11 @@ class WillBeAuthor:
         返り値無し
         """
         try:
-            #pyperclip.pasteを使うと文字化けする
+            # pyperclip.pasteを使うと文字化けする
             #self.pstxt = pyperclip.paste()
             self.pstxt = self.cliptext
             #page.insert('insert', self.pstxt)
-        #選択範囲がない場合例外が投げられる
+        # 選択範囲がない場合例外が投げられる
         except tk.TclError:
             pass
         except Exception:
@@ -321,13 +321,13 @@ class WillBeAuthor:
         返り値無し
         """
         try:
-            #ローカル変数とクリップボードにコピー
-            #アプリ内で完結するならpyperclipは不要
+            # ローカル変数とクリップボードにコピー
+            # アプリ内で完結するならpyperclipは不要
             self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
             pyperclip.copy(self.cliptext)
             page.delete(tk.SEL_FIRST, tk.SEL_LAST)
         except tk.TclError:
-            #選択範囲がない場合例を投げられるので握りつぶす
+            # 選択範囲がない場合例を投げられるので握りつぶす
             pass
         except Exception:
             print("致命的なエラー")
@@ -365,7 +365,7 @@ class WillBeAuthor:
         i = tk.SEL_FIRST
         try:
             tmpstr = page.get('sel.first', 'sel.last')
-            #投稿サイトが10文字以上のルビに対応の場合、以下二行をコメントアウトしてください
+            # 投稿サイトが10文字以上のルビに対応の場合、以下二行をコメントアウトしてください
             if len(tmpstr) > 10:
                 messagebox.showinfo('over', '10文字以上にルビは非対応の可能性があります')
             tmpstr = "|" + tmpstr + "《》"
@@ -478,7 +478,7 @@ class WillBeAuthor:
         color.binの内容がdarkだとダークモード、存在しない、もしくはそれ以外の場合通常モード
         ストレージへの負荷軽減のためモード変更のない場合ファイルへ書き込まずリターン
         """
-        #テーマが変更されていなければ即リターン
+        # テーマが変更されていなければ即リターン
         if not self.is_modify():
             return
 
@@ -506,7 +506,7 @@ class WillBeAuthor:
                 else:
                     if mode == "normal":
                         return False
-        #ファイルが何らかの理由で存在しない場合normalを書き込んで作成
+        # ファイルが何らかの理由で存在しない場合normalを書き込んで作成
         except FileNotFoundError:
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("normal")
@@ -529,15 +529,15 @@ def res_path(rel):
 
 if __name__ == '__main__':
     textcount = 0
-    #Windowsもしくはそれ以外を判別
+    # Windowsもしくはそれ以外を判別
     pf = platform.system()
-    #明示的に使わない変数としてdummyを使う
+    # 明示的に使わない変数としてdummyを使う
     dummy = []
     author = WillBeAuthor()
     mainstory = 'file'
     root = tk.Tk()
     root.geometry("640x640")
-    #動いているOSの判別
+    # 動いているOSの判別
     if pf == 'Windows':
         icon = res_path('./res/wbe.ico')
         root.iconbitmap(icon)
@@ -546,7 +546,7 @@ if __name__ == '__main__':
     root.minsize(32, 32)
     menubar = tk.Menu(root)
     filemenu = tk.Menu(menubar, tearoff=0)
-    #ファイルメニュー、渡している'file'引数はダミー
+    # ファイルメニュー、渡している'file'引数はダミー
     filemenu.add_command(label='New', command=lambda: author.new_blank_file('file'))
     filemenu.add_command(label='Open', command=lambda: author.fpopen('file'))
     filemenu.add_command(label='Save', command=lambda: author.save_file('file'))
@@ -554,7 +554,7 @@ if __name__ == '__main__':
     filemenu.add_command(label='Auto Save', command=lambda: author.toggle_as_flag())
     menubar.add_cascade(label='File', menu=filemenu)
 
-    #編集メニュー、カット、コピー、ペーストをラムダ式で呼び出し
+    # 編集メニュー、カット、コピー、ペーストをラムダ式で呼び出し
     editmenu = tk.Menu(menubar, tearoff=0)
     editmenu.add_command(label='Copy', command=lambda: author.txtcpy())
     editmenu.add_command(label='Cut', command=lambda: author.txtcut())
@@ -563,24 +563,24 @@ if __name__ == '__main__':
     pclipmenu = tk.Menu(menubar, tearoff=0)
 
     # メニューバー作成
-    #集中モード
+    # 集中モード
     c_mode = tk.Menu(menubar, tearoff=0)
     c_mode.add_command(label="START", command=lambda: author.start_cmode())
     c_mode.add_command(label="END", command=lambda: author.end_cmode())
     menubar.add_cascade(label='C-MODE', menu=c_mode)
-    #ColorMode Change
+    # ColorMode Change
     color_mode = tk.Menu(menubar, tearoff=0)
     color_mode.add_command(label="Color Change!", command=lambda: author.toggle_dark_mode())
     menubar.add_cascade(label="Color Change!", menu=color_mode)
-    #オートインデント/オン・オフ
+    # オートインデント/オン・オフ
     auto_indent = tk.Menu(menubar, tearoff=0)
     auto_indent.add_command(label="Toggle(Ctrl-Q)", command=lambda: author.toggle_auto_indent())
     menubar.add_cascade(label="Auto_Indent", menu=auto_indent)
-    #タイトル
+    # タイトル
     root.config(menu=menubar)
     root.title('I Want Be...')
     root.configure(background="gray")
-    #スクロールバー
+    # スクロールバー
     yScrollbar = tk.Scrollbar(root)
     yScrollbar.pack(side=tk.RIGHT, fill="y")
     xScrollbar = tk.Scrollbar(root, orient=tk.HORIZONTAL)
@@ -598,26 +598,26 @@ if __name__ == '__main__':
     page.pack(fill='both', side=tk.LEFT, expand=True)
     # ファイルを保存
     page.bind('<Control-s>', lambda self: author.save_file('file'))
-    #コピペ＆カット
+    # コピペ＆カット
     page.bind('<Control-c>', lambda self: author.txtcpy())
     page.bind('<Control-v>', lambda self: author.txtpst())
     page.bind('<Control-x>', lambda self: author.txtcut())
-    #三点リーダー二つ組挿入
+    # 三点リーダー二つ組挿入
     page.bind('<Control-t>', lambda self: author.threepoint())
-    #ダッシュの挿入
+    # ダッシュの挿入
     page.bind('<Control-d>', lambda self: author.threedash())
     # ルビを振る
     page.bind('<Control-r>', lambda self: author.ruby())
-    #傍点をつける
+    # 傍点をつける
     page.bind('<Control-b>', lambda self: author.dot_mark())
     # オートインデント
-    #　半角全角切り替え
+    # 半角全角切り替え
     page.bind('<Control-w>', lambda self: author.toggle_half_or_full())
-    #オートインデントのオン・オフ
+    # オートインデントのオン・オフ
     page.bind('<Control-q>', lambda self: author.toggle_auto_indent())
-    #オートセーブ
+    # オートセーブ
     page.bind('<Control-e>', lambda self: author.toggle_as_flag())
-    #エンターが押された場合、IMEの変換で押したものか改行をしたのかを判断してオートインデントを行う
+    # エンターが押された場合、IMEの変換で押したものか改行をしたのかを判断してオートインデントを行う
     page.bind('<KeyPress-Return>', lambda self: author.ime_check())
     page.bind('<KeyRelease-Return>', lambda self: author.insert_space() if author.hit_return and author.auto_indent else author.ignore())
     # 文字カウント
@@ -627,6 +627,6 @@ if __name__ == '__main__':
 
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
-    #オートセーブその他の再帰呼び出し
+    # オートセーブその他の再帰呼び出し
     root.after(1000, author.autosaveflag)
     root.mainloop()
