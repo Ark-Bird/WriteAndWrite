@@ -37,6 +37,7 @@ class UnrecoveredError(Exception):
     """
     pass
 
+
 class WillBeAuthor:
     """
     mod string class
@@ -96,7 +97,6 @@ class WillBeAuthor:
         self.is_save = False
         self.is_changed = True
 
-
     def counter(self):
         """
         文字カウント
@@ -106,7 +106,7 @@ class WillBeAuthor:
         s = page.get('0.0', 'end')
         self.len = len(s)
         # messagebox.showinfo('文字数(改行、スペース込み)', self.leng)
-        #vt = " a \t b\r\n\tc\t\n"
+        # vt = " a \t b\r\n\tc\t\n"
         vt = ''.join(s.split())
         vanillal = len(vt)
         self.textc = str(vanillal) + ':  文字'
@@ -296,7 +296,6 @@ class WillBeAuthor:
             # どうしようもない例外でエラーをレイズ
             raise UnrecoveredError
 
-
     def txtpst(self):
         """
         paste text
@@ -306,9 +305,9 @@ class WillBeAuthor:
         """
         try:
             # pyperclip.pasteを使うと文字化けする
-            #self.pstxt = pyperclip.paste()
+            # self.pstxt = pyperclip.paste()
             self.pstxt = self.cliptext
-            #page.insert('insert', self.pstxt)
+            # page.insert('insert', self.pstxt)
         # 選択範囲がない場合例外が投げられる
         except tk.TclError:
             # 問題の無いエラー
@@ -334,7 +333,6 @@ class WillBeAuthor:
         except Exception:
             print("致命的なエラー")
             raise UnrecoveredError
-
 
     def start_cmode(self):
         """
@@ -393,7 +391,6 @@ class WillBeAuthor:
         except Exception:
             raise UnrecoveredError
         return
-
 
     def threepoint(self):
         """
@@ -518,7 +515,6 @@ class WillBeAuthor:
         return True
 
 
-
 def res_path(rel):
     """
     Windowsの場合、アイコンへのパスを返す
@@ -621,7 +617,8 @@ if __name__ == '__main__':
     page.bind('<Control-e>', lambda self: author.toggle_as_flag())
     # エンターが押された場合、IMEの変換で押したものか改行をしたのかを判断してオートインデントを行う
     page.bind('<KeyPress-Return>', lambda self: author.ime_check())
-    page.bind('<KeyRelease-Return>', lambda self: author.insert_space() if author.hit_return and author.auto_indent else author.ignore())
+    page.bind('<KeyRelease-Return>',
+              lambda self: author.insert_space() if author.hit_return and author.auto_indent else author.ignore())
     # 文字カウント
     page.bind('<Any-KeyPress>', author.logger)
 
