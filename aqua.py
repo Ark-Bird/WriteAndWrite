@@ -66,6 +66,10 @@ class WillBeAuthor:
         self.col = ""
         self.nowcolor = "normal"
         self.textc = ""
+        if self.hit_return:
+            self.blank_line = True
+        else:
+            self.blank_line = False
         try:
             with open('color.bin', mode='r', encoding='utf-8') as f:
                 self.col = f.read()
@@ -119,7 +123,7 @@ class WillBeAuthor:
             self.textc += ":auto_save_enable:"
         else:
             self.textc += ":auto_save_disable:"
-
+        self.blank_line = False
         root.title(self.textc)
         return self.textc
 
@@ -423,10 +427,16 @@ class WillBeAuthor:
         """
         if self.hit_return:
             index = tk.INSERT
-            if self.half_space:
-                page.insert(index, ' ')
-            else:
-                page.insert(index, '　')
+            if self.blank_line:
+                d = page.get('insert -2c')
+                if d == " " or d == "　":
+                    page.delete('insert -2c')
+                    print("del")
+                    print("d:" + d + ":")
+                if self.half_space:
+                    page.insert(index, ' ')
+                else:
+                    page.insert(index, '　')
             self.hit_return = False
 
     def ime_check(self):
@@ -435,6 +445,7 @@ class WillBeAuthor:
         改行ならばインスタンス変数のhit_returnを立てる
         返り値無し
         """
+        self.blank_line = True
         self.hit_return = True
 
     def toggle_dark_mode(self):
