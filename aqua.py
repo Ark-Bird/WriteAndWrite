@@ -549,16 +549,16 @@ if __name__ == '__main__':
     # ファイルメニュー、渡している'file'引数はダミー
     filemenu.add_command(label='New', command=lambda: author.new_blank_file('file'))
     filemenu.add_command(label='Open', command=lambda: author.fpopen('file'))
-    filemenu.add_command(label='Save', command=lambda: author.save_file('file'))
+    filemenu.add_command(label='Save (Ctrl-s)', command=lambda: author.save_file('file'))
     filemenu.add_command(label='Save As', command=lambda: author.saveas('file'))
-    filemenu.add_command(label='Auto Save', command=lambda: author.toggle_as_flag())
+    filemenu.add_command(label='Auto Save (Ctrl-e)', command=lambda: author.toggle_as_flag())
     menubar.add_cascade(label='File', menu=filemenu)
 
     # 編集メニュー、カット、コピー、ペーストをラムダ式で呼び出し
     editmenu = tk.Menu(menubar, tearoff=0)
-    editmenu.add_command(label='Copy', command=lambda: author.txtcpy())
-    editmenu.add_command(label='Cut', command=lambda: author.txtcut())
-    editmenu.add_command(label='Paste', command=lambda: author.txtpst())
+    editmenu.add_command(label='Copy (Ctrl-c)', command=lambda: author.txtcpy())
+    editmenu.add_command(label='Cut (Ctrl-x)', command=lambda: author.txtcut())
+    editmenu.add_command(label='Paste (Ctrl-v)', command=lambda: author.txtpst())
     menubar.add_cascade(label='Edit', menu=editmenu)
     pclipmenu = tk.Menu(menubar, tearoff=0)
 
@@ -574,7 +574,7 @@ if __name__ == '__main__':
     menubar.add_cascade(label="Color Change!", menu=color_mode)
     # オートインデント/オン・オフ
     auto_indent = tk.Menu(menubar, tearoff=0)
-    auto_indent.add_command(label="Toggle(Ctrl-Q)", command=lambda: author.toggle_auto_indent())
+    auto_indent.add_command(label="Toggle (Ctrl-q)", command=lambda: author.toggle_auto_indent())
     menubar.add_cascade(label="Auto_Indent", menu=auto_indent)
     # タイトル
     root.config(menu=menubar)
