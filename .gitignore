@@ -10,3 +10,7 @@ path.bin
 /build/aqua/
 color.bin
 /build/aqua/*
+/venv/
+/venv/*
+/Scripts/
+/Scripts/*
