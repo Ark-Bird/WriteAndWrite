@@ -379,6 +379,21 @@ class WillBeAuthor:
             raise UnrecoveredError
         return
 
+    def dot_mark(self):
+        try:
+            m = page.get('insert', 'insert +1c')
+            print("m=:" + m + ":")
+            if m == "\n" or m == "":
+                messagebox.showinfo('Nothing', "傍点を打つテキストがありません")
+                return
+            m = "|" + m + "《・》"
+            page.delete('insert')
+            page.insert('insert', m)
+        except Exception:
+            raise UnrecoveredError
+        return
+
+
     def threepoint(self):
         """
         三点リーダの挿入
@@ -596,6 +611,8 @@ if __name__ == '__main__':
     page.bind('<Control-d>', lambda self: author.threedash())
     # ルビを振る
     page.bind('<Control-r>', lambda self: author.ruby())
+    #傍点をつける
+    page.bind('<Control-b>', lambda self: author.dot_mark())
     # オートインデント
     #　半角全角切り替え
     page.bind('<Control-w>', lambda self: author.toggle_half_or_full())
