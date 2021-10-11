@@ -311,8 +311,10 @@ class WillBeAuthor:
             #page.insert('insert', self.pstxt)
         # 選択範囲がない場合例外が投げられる
         except tk.TclError:
+            # 問題の無いエラー
             pass
         except Exception:
+            # 致命的なエラー
             raise UnrecoveredError
 
     def txtcut(self):
