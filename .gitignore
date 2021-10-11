@@ -14,3 +14,5 @@ color.bin
 /venv/*
 /Scripts/
 /Scripts/*
+venv
+/venv/
