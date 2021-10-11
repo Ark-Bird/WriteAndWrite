@@ -428,8 +428,9 @@ class WillBeAuthor:
         if self.hit_return:
             index = tk.INSERT
             if self.blank_line:
+                prev = page.get('insert -3c')
                 d = page.get('insert -2c')
-                if d == " " or d == "　":
+                if (d == " " or d == "　") and prev == "\n":
                     page.delete('insert -2c')
                     print("del")
                     print("d:" + d + ":")
