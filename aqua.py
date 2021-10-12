@@ -382,8 +382,8 @@ class WillBeAuthor:
     def dot_mark(self):
         try:
             m = page.get('insert', 'insert +1c')
-            if m == "\n" or m == "":
-                messagebox.showinfo('Nothing', "傍点を打つテキストがありません")
+            if m == "\n":
+                page.mark_set('insert', 'insert+1c')
                 return
             m = "|" + m + "《・》"
             page.delete('insert')
