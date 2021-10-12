@@ -485,11 +485,11 @@ class WillBeAuthor:
         if self.dark_mode:
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("dark")
-            page.configure(bg='gray16', fg='azure')
+            page.configure(bg='gray16', fg='azure', insertbackground='white')
         else:
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("normal")
-            page.configure(bg='ghost white', fg='black')
+            page.configure(bg='ghost white', fg='black', insertbackground='black')
 
     def is_modify(self):
         """
