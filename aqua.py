@@ -537,7 +537,8 @@ if __name__ == '__main__':
     root.geometry("640x640")
     # 動いているOSの判別
     if pf == 'Windows':
-        icon = res_path('./res/wbe.ico')
+        # icon = res_path('./res/wbe.ico')
+        icon = "./res/wbe.ico"
         root.iconbitmap(icon)
     else:
         root.wm_iconbitmap('@./res/wbe.xbm')
