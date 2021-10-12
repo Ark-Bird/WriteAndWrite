@@ -437,6 +437,7 @@ class WillBeAuthor:
         """
         オートインデント
         self.half_spaceがTrueのとき半角スペース、Falseの時全角スペースのインデントを挿入
+        カーソルを移動して前の文字を調べ、空行と判断すればインデントを削除する
         """
         if self.hit_return:
             index = tk.INSERT
