@@ -1,6 +1,3 @@
-import tkinter as tk
-
-
 class NotOpenPathException(Exception):
     """
     ファイルを開くのに失敗した時の例外
@@ -16,6 +13,13 @@ class UnrecoveredError(Exception):
     pass
 
 def dot_mark(page):
+    """
+    傍点をつける
+    :param page:
+    pageは傍点をつけるテキストエリアで引数
+    おそらく例外は出ないはずなので例外を投げられたら握りつぶす
+    :return:
+    """
     try:
         m = page.get('insert', 'insert +1c')
         if m == "\n":
