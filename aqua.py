@@ -15,27 +15,13 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 import os
+import platform
+import sys
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
+import independent_method
 import pyperclip
-import sys
-import platform
-
-
-class NotOpenPathException(Exception):
-    """
-    ファイルを開くのに失敗した時の例外
-    基本的に握りつぶしてデフォルトを適用して続行する目的
-    """
-    pass
-
-
-class UnrecoveredError(Exception):
-    """
-    復旧不能なエラーの発生時に投げる
-    """
-    pass
 
 
 class WillBeAuthor:
@@ -185,10 +171,10 @@ class WillBeAuthor:
         # 前回の保存場所を参照
         try:
             if not os.path.exists("path.bin"):
-                raise NotOpenPathException
+                raise independent_method.NotOpenPathException
             with open("path.bin", mode='r', encoding="utf-8") as f:
                 iDir = os.path.abspath(os.path.dirname(f.readline()))
-        except NotOpenPathException:
+        except independent_method.NotOpenPathException:
             iDir = os.path.abspath(os.path.dirname(__file__))
         if types == '':
             return
@@ -266,10 +252,10 @@ class WillBeAuthor:
         # paht.binは前回保存したディレクトリが書き込まれている
         try:
             if not os.path.exists("path.bin"):
-                raise NotOpenPathException
+                raise independent_method.NotOpenPathException
             with open("path.bin", mode='r', encoding="utf-8") as f:
                 iDir = f.readline()
-        except NotOpenPathException:
+        except independent_method.NotOpenPathException:
             iDir = os.path.abspath(os.path.dirname(__file__))
         self.file = tk.filedialog.askopenfilename(initialdir=iDir)
         if self.file == '':
@@ -294,7 +280,7 @@ class WillBeAuthor:
             pass
         except Exception:
             # どうしようもない例外でエラーをレイズ
-            raise UnrecoveredError
+            raise independent_method.UnrecoveredError
 
     def txtpst(self):
         """
@@ -314,7 +300,7 @@ class WillBeAuthor:
             pass
         except Exception:
             # 致命的なエラー
-            raise UnrecoveredError
+            raise independent_method.UnrecoveredError
 
     def txtcut(self):
         """
@@ -332,26 +318,7 @@ class WillBeAuthor:
             pass
         except Exception:
             print("致命的なエラー")
-            raise UnrecoveredError
-
-    def start_cmode(self):
-        """
-        START AUTHOR MODE
-        集中モード開始（フルスクリーンになる）
-        返り値無し
-        """
-        root.attributes("-fullscreen", True)
-        return
-
-    def end_cmode(self):
-        """
-        END AUTHOR MODE
-        集中モード終了（フルスクリーンは解除されるがウィンドウからフォーカスが外れない場合があるので注意
-        返り値無し
-        """
-        root.attributes("-fullscreen", False)
-        root.geometry("640x640")
-        return
+            raise independent_method.UnrecoveredError
 
     def ruby(self):
         """
@@ -376,36 +343,8 @@ class WillBeAuthor:
         except tk.TclError:
             pass
         except Exception:
-            raise UnrecoveredError
+            raise independent_method.UnrecoveredError
         return
-
-    def dot_mark(self):
-        try:
-            m = page.get('insert', 'insert +1c')
-            if m == "\n":
-                page.mark_set('insert', 'insert+1c')
-                return
-            m = "|" + m + "《・》"
-            page.delete('insert')
-            page.insert('insert', m)
-        except Exception:
-            raise UnrecoveredError
-        return
-
-    def threepoint(self):
-        """
-        三点リーダの挿入
-        全角で二つ一組で挿入
-        """
-        page.insert('insert', "……")
-        pass
-
-    def threedash(self):
-        """
-        ダッシュの挿入
-        全角で二つ一組で挿入
-        """
-        page.insert('insert', "――")
 
     def t_change(self):
         """
@@ -512,7 +451,7 @@ class WillBeAuthor:
                 f.write("normal")
             return True
         except Exception:
-            raise UnrecoveredError
+            raise independent_method.UnrecoveredError
         return True
 
 
@@ -565,8 +504,8 @@ if __name__ == '__main__':
     # メニューバー作成
     # 集中モード
     c_mode = tk.Menu(menubar, tearoff=0)
-    c_mode.add_command(label="START", command=lambda: author.start_cmode())
-    c_mode.add_command(label="END", command=lambda: author.end_cmode())
+    c_mode.add_command(label="START", command=lambda: independent_method.start_cmode(root))
+    c_mode.add_command(label="END", command=lambda: independent_method.end_cmode(root))
     menubar.add_cascade(label='C-MODE', menu=c_mode)
     # ColorMode Change
     color_mode = tk.Menu(menubar, tearoff=0)
@@ -603,13 +542,13 @@ if __name__ == '__main__':
     page.bind('<Control-v>', lambda self: author.txtpst())
     page.bind('<Control-x>', lambda self: author.txtcut())
     # 三点リーダー二つ組挿入
-    page.bind('<Control-t>', lambda self: author.threepoint())
+    page.bind('<Control-t>', lambda self: independent_method.threepoint(page))
     # ダッシュの挿入
-    page.bind('<Control-d>', lambda self: author.threedash())
+    page.bind('<Control-d>', lambda self: independent_method.threedash(page))
     # ルビを振る
     page.bind('<Control-r>', lambda self: author.ruby())
     # 傍点をつける
-    page.bind('<Control-b>', lambda self: author.dot_mark())
+    page.bind('<Control-b>', lambda self: independent_method.dot_mark(page))
     # オートインデント
     # 半角全角切り替え
     page.bind('<Control-w>', lambda self: author.toggle_half_or_full())
