@@ -491,6 +491,7 @@ if __name__ == '__main__':
     filemenu.add_command(label='Save (Ctrl-s)', command=lambda: author.save_file('file'))
     filemenu.add_command(label='Save As', command=lambda: author.saveas('file'))
     filemenu.add_command(label='Auto Save (Ctrl-e)', command=lambda: author.toggle_as_flag())
+    filemenu.add_command(label='EXIT', command=lambda: author.exit_as_save())
     menubar.add_cascade(label='File', menu=filemenu)
 
     # 編集メニュー、カット、コピー、ペーストをラムダ式で呼び出し
