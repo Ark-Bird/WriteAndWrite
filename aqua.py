@@ -477,6 +477,7 @@ if __name__ == '__main__':
     root = tk.Tk()
     root.geometry("640x640")
     # 動いているOSの判別
+    # このif節をコメントアウトしてからバイナリ化すればアイコンファイルをコピーせずに実行可能,その場合アイコンはPythonのデフォルトになります
     if pf == 'Windows':
         # icon = res_path('./res/wbe.ico')
         icon = "./res/wbe.ico"
