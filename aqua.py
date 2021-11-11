@@ -4,6 +4,7 @@
 Created on Fri Feb 17 20:47:33 2017
 @author: hiro
 """
+import tkinter
 
 """
 Copyright 2020 hiro
@@ -478,12 +479,16 @@ if __name__ == '__main__':
     root.geometry("640x640")
     # 動いているOSの判別
     # このif節をコメントアウトしてからバイナリ化すればアイコンファイルをコピーせずに実行可能,その場合アイコンはPythonのデフォルトになります
-    if pf == 'Windows':
-        # icon = res_path('./res/wbe.ico')
-        icon = "./res/wbe.ico"
-        root.iconbitmap(icon)
-    else:
-        root.wm_iconbitmap('@./res/wbe.xbm')
+    # アイコンファイルが見つからない場合はデフォルトアイコンで起動
+    try:
+        if pf == 'Windows':
+            # icon = res_path('./res/wbe.ico')
+            icon = "./res/wbe.ico"
+            root.iconbitmap(icon)
+        else:
+            root.wm_iconbitmap('@./res/wbe.xbm')
+    except tkinter.TclError:
+        pass
     root.minsize(32, 32)
     menubar = tk.Menu(root)
     filemenu = tk.Menu(menubar, tearoff=0)
