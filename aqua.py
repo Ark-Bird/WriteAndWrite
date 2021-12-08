@@ -54,6 +54,8 @@ class WillBeAuthor:
         self.col = ""
         self.nowcolor = "normal"
         self.textc = ""
+        self.theme = "normal"
+        self.theme_f = False
         if self.hit_return:
             self.blank_line = True
         else:
@@ -61,6 +63,7 @@ class WillBeAuthor:
         try:
             with open('color.bin', mode='r', encoding='utf-8') as f:
                 self.col = f.read()
+                self.theme = f.read()
         except FileNotFoundError:
             pass
         if self.col == "dark":
@@ -135,7 +138,7 @@ class WillBeAuthor:
             root.after(1000, self.autosaveflag)
         else:
             root.after(1000, self.autosaveflag)
-        self.change_theme()
+        self.change_theme(False)
         return
 
     def toggle_as_flag(self):
@@ -401,16 +404,7 @@ class WillBeAuthor:
         self.blank_line = True
         self.hit_return = True
 
-    def toggle_dark_mode(self):
-        """
-        ダークモードと通常モードのトグル
-        """
-        if self.dark_mode:
-            self.dark_mode = False
-        else:
-            self.dark_mode = True
-
-    def change_theme(self):
+    def change_theme(self, theme_f):
         """
         テーマの変更
         モード名をcolor.binに書き込む
@@ -419,33 +413,53 @@ class WillBeAuthor:
         ストレージへの負荷軽減のためモード変更のない場合ファイルへ書き込まずリターン
         """
         # テーマが変更されていなければ即リターン
-        if not self.is_modify():
+        self.theme_f = theme_f
+        # if not self.is_modify(self.theme_f):
+        #     print("call!")
+        #     print(self.theme_f)
+        #     return
+        if not self.theme_f:
             return
-
-        if self.dark_mode:
+        with open('color.bin', mode='r', encoding='utf-8') as f:
+            self.theme = f.read()
+        if self.theme_f:
+            if self.theme == "normal":
+                self.theme = "paper"
+            elif self.theme == "paper":
+                self.theme = "dark"
+            elif self.theme == "dark":
+                self.theme = "normal"
+            else:
+                self.theme = "normal"
+        print(self.theme)
+        if self.theme == "dark":
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("dark")
             page.configure(bg='gray16', fg='azure', insertbackground='white')
-        else:
+        elif self.theme == "paper":
+            with open('color.bin', mode='w', encoding='utf-8') as f:
+                f.write("paper")
+            page.configure(bg='azure', fg='blueviolet', insertbackground='white')
+        elif self.theme == "normal":
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("normal")
             page.configure(bg='ghost white', fg='black', insertbackground='black')
+        self.theme_f = False
 
     def is_modify(self):
         """
         color.binを読み込み現在のモードと同じならFalseを返す
-        変更されている場合はTrueを返す
+        変更されていない場合はTrueを返す
         ファイルが見つからなかった場合はnormalで開く、それ以外の例外なら終了
         """
         try:
             with open('color.bin', mode='r', encoding='utf-8') as f:
                 mode = f.read()
-                if self.dark_mode and mode != "dark":
-                    if mode == "dark":
-                        return False
-                else:
-                    if mode == "normal":
-                        return False
+            if mode == self.theme:
+                return True
+            else:
+                return False
+
         # ファイルが何らかの理由で存在しない場合normalを書き込んで作成
         except FileNotFoundError:
             with open('color.bin', mode='w', encoding='utf-8') as f:
@@ -517,7 +531,7 @@ if __name__ == '__main__':
     menubar.add_cascade(label='集中モード', menu=c_mode)
     # ColorMode Change
     color_mode = tk.Menu(menubar, tearoff=0)
-    color_mode.add_command(label="切り替え", command=lambda: author.toggle_dark_mode())
+    color_mode.add_command(label="切り替え", command=lambda: author.change_theme(True))
     menubar.add_cascade(label="テーマ切り替え", menu=color_mode)
     # オートインデント/オン・オフ
     auto_indent = tk.Menu(menubar, tearoff=0)
@@ -537,7 +551,18 @@ if __name__ == '__main__':
     page = tk.Text(root, undo=True, wrap=tk.NONE)
     # カラーコンフィグ
     page.configure(bg='ghost white', fg='black')
-
+    try:
+        with open('color.bin', mode='r', encoding='utf-8') as f:
+            initcol = f.read()
+        if initcol == "dark":
+            page.configure(bg='gray16', fg='azure', insertbackground='white')
+        elif initcol == "paper":
+            page.configure(bg='azure', fg='blueviolet', insertbackground='white')
+        elif initcol == "normal":
+            page.configure(bg='ghost white', fg='black', insertbackground='black')
+    except Exception:
+        print("Error!")
+        page.configure(bg='ghost white', fg='black', insertbackground='black')
     # スクロールバー追加
     page.config(
         xscrollcommand=xScrollbar.set,
