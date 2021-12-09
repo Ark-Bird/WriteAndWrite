@@ -295,9 +295,9 @@ class WillBeAuthor:
         """
         try:
             # pyperclip.pasteを使うと文字化けする
-            # self.pstxt = pyperclip.paste()
-            self.pstxt = self.cliptext
-            # page.insert('insert', self.pstxt)
+            self.pstxt = pyperclip.paste()
+            # self.pstxt = self.cliptext
+            page.insert('insert', self.pstxt)
         # 選択範囲がない場合例外が投げられる
         except tk.TclError:
             # 問題の無いエラー
@@ -435,7 +435,7 @@ class WillBeAuthor:
         elif self.theme == "paper":
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("paper")
-            page.configure(bg='azure', fg='blueviolet', insertbackground='white')
+            page.configure(bg='azure', fg='blueviolet', insertbackground='blueviolet')
         elif self.theme == "normal":
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("normal")
@@ -557,7 +557,7 @@ if __name__ == '__main__':
         if initcol == "dark":
             page.configure(bg='gray16', fg='azure', insertbackground='white')
         elif initcol == "paper":
-            page.configure(bg='azure', fg='blueviolet', insertbackground='white')
+            page.configure(bg='azure', fg='blueviolet', insertbackground='blueviolet')
         elif initcol == "normal":
             page.configure(bg='ghost white', fg='black', insertbackground='black')
     except Exception:
