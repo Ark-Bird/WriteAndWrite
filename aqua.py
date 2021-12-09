@@ -415,10 +415,6 @@ class WillBeAuthor:
         self.theme = theme
         # テーマが変更されていなければ即リターン
         self.theme_f = theme_f
-        # if not self.is_modify(self.theme_f):
-        #     print("call!")
-        #     print(self.theme_f)
-        #     return
         if not self.theme_f:
             return
         with open('color.bin', mode='r', encoding='utf-8') as f:
