@@ -138,7 +138,7 @@ class WillBeAuthor:
             root.after(1000, self.autosaveflag)
         else:
             root.after(1000, self.autosaveflag)
-        self.change_theme(False)
+        self.change_theme(False, self.theme)
         return
 
     def toggle_as_flag(self):
@@ -404,7 +404,7 @@ class WillBeAuthor:
         self.blank_line = True
         self.hit_return = True
 
-    def change_theme(self, theme_f):
+    def change_theme(self, theme_f, theme):
         """
         テーマの変更
         モード名をcolor.binに書き込む
@@ -412,6 +412,7 @@ class WillBeAuthor:
         color.binの内容がdarkだとダークモード、存在しない、もしくはそれ以外の場合通常モード
         ストレージへの負荷軽減のためモード変更のない場合ファイルへ書き込まずリターン
         """
+        self.theme = theme
         # テーマが変更されていなければ即リターン
         self.theme_f = theme_f
         # if not self.is_modify(self.theme_f):
@@ -424,14 +425,13 @@ class WillBeAuthor:
             self.theme = f.read()
         if self.theme_f:
             if self.theme == "normal":
-                self.theme = "paper"
+                self.theme = theme
             elif self.theme == "paper":
-                self.theme = "dark"
+                self.theme = theme
             elif self.theme == "dark":
-                self.theme = "normal"
+                self.theme = theme
             else:
                 self.theme = "normal"
-        print(self.theme)
         if self.theme == "dark":
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("dark")
@@ -530,9 +530,13 @@ if __name__ == '__main__':
     c_mode.add_command(label="終了", command=lambda: independent_method.end_cmode(root))
     menubar.add_cascade(label='集中モード', menu=c_mode)
     # ColorMode Change
-    color_mode = tk.Menu(menubar, tearoff=0)
-    color_mode.add_command(label="切り替え", command=lambda: author.change_theme(True))
-    menubar.add_cascade(label="テーマ切り替え", menu=color_mode)
+    color_mode = tk.Menu(menubar, tearoff=False)
+    color_select = tk.Menu(color_mode, tearoff=False)
+    color_select.add_command(label="normal", command=lambda: author.change_theme(True, "normal"))
+    color_select.add_command(label="dark", command=lambda: author.change_theme(True, "dark"))
+    color_select.add_command(label="paper", command=lambda: author.change_theme(True, "paper"))
+    color_mode.add_cascade(label="テーマ切り替え", menu=color_select)
+    menubar.add_cascade(label="テーマ", menu=color_mode)
     # オートインデント/オン・オフ
     auto_indent = tk.Menu(menubar, tearoff=0)
     auto_indent.add_command(label="オン/オフ (Ctrl-q)", command=lambda: author.toggle_auto_indent())
