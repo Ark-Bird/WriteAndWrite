@@ -572,7 +572,7 @@ if __name__ == '__main__':
     page.bind('<Control-s>', lambda self: author.save_file('file'))
     # コピペ＆カット
     page.bind('<Control-c>', lambda self: author.txtcpy())
-    page.bind('<Control-v>', lambda self: author.txtpst())
+    # page.bind('<Control-v>', lambda self: author.txtpst())
     page.bind('<Control-x>', lambda self: author.txtcut())
     # 三点リーダー二つ組挿入
     page.bind('<Control-t>', lambda self: independent_method.threepoint(page))
