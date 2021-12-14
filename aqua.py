@@ -5,7 +5,7 @@ Created on Fri Feb 17 20:47:33 2017
 @author: hiro
 """
 import tkinter
-
+import tkinter.font as tkfont
 """
 Copyright 2020 hiro
 
@@ -550,7 +550,8 @@ if __name__ == '__main__':
     # テキストエリア作成
     page = tk.Text(root, undo=True, wrap=tk.NONE)
     # カラーコンフィグ
-    page.configure(bg='ghost white', fg='black')
+    defont = tkfont.Font(family="Terminal", size=18)
+    page.configure(bg='ghost white', fg='black', font=defont)
     try:
         with open('color.bin', mode='r', encoding='utf-8') as f:
             initcol = f.read()
