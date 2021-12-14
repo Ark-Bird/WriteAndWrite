@@ -25,7 +25,7 @@ pyinstaller aqua.py --onefile --noconsole --icon=author.ico --exclude-module _bo
   
 細かい実装を知りたい人  
 ----
-aqua.pyに書いてあります、それ一つで全ての機能をまかなっています  
+aqua.pyとindependent_method.pyがソース本体です、ビルドにはmakeを使用しています。  
   
 Notice!  
 ----
