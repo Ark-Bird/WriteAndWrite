@@ -131,6 +131,7 @@ class WillBeAuthor:
         """
         オートセーブフラグが有効ならオートセーブを毎秒呼び出し
         フラグが立っていない場合無視
+        テーマの変更が無い場合Falseを送って変更しない
         :return:無し
         """
         if self.ASFLAG:
