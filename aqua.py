@@ -409,9 +409,11 @@ class WillBeAuthor:
     def change_theme(self, theme_f, theme):
         """
         テーマの変更
+        theme_fはテーマが変更されているかのフラグ、Falseの時即時リターン
+        themeは変更するテーマ
         モード名をcolor.binに書き込む
+        color.binに存在しないテーマ名が書き込まれていた場合標準テーマに変更
         該当ファイルはプレーンテキストでありマニュアルでの編集が可能
-        color.binの内容がdarkだとダークモード、存在しない、もしくはそれ以外の場合通常モード
         ストレージへの負荷軽減のためモード変更のない場合ファイルへ書き込まずリターン
         """
         self.theme = theme
