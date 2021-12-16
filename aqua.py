@@ -27,7 +27,7 @@ import pyperclip
 
 class WillBeAuthor:
     """
-    mod string class
+    The God class
     """
     clip = {}
     doing = []
