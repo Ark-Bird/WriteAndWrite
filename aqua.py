@@ -311,6 +311,7 @@ class WillBeAuthor:
         """
         cut text
         返り値無し
+        TclError以外の例外が投げられると落ちる
         """
         try:
             # ローカル変数とクリップボードにコピー
