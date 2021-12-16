@@ -550,7 +550,7 @@ if __name__ == '__main__':
     # テキストエリア作成
     page = tk.Text(root, undo=True, wrap=tk.NONE)
     # カラーコンフィグ
-    defont = tkfont.Font(family="Terminal", size=18)
+    defont = tkfont.Font(family="Yu Gothic", size=18)
     page.configure(bg='ghost white', fg='black', font=defont)
     try:
         with open('color.bin', mode='r', encoding='utf-8') as f:
