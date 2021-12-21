@@ -421,17 +421,21 @@ class WillBeAuthor:
         self.theme_f = theme_f
         if not self.theme_f:
             return
-        with open('color.bin', mode='r', encoding='utf-8') as f:
-            self.theme = f.read()
-        if self.theme_f:
-            if self.theme == "normal":
-                self.theme = theme
-            elif self.theme == "paper":
-                self.theme = theme
-            elif self.theme == "dark":
-                self.theme = theme
-            else:
-                self.theme = "normal"
+        try:
+            with open('color.bin', mode='r', encoding='utf-8') as f:
+                self.theme = f.read()
+            if self.theme_f:
+                if self.theme == "normal":
+                    self.theme = theme
+                elif self.theme == "paper":
+                    self.theme = theme
+                elif self.theme == "dark":
+                    self.theme = theme
+                else:
+                    self.theme = "normal"
+        except FileNotFoundError:
+            with open('color.bin', mode='w', encoding='utf-8') as f:
+                self.theme = f.write('normal')
         if self.theme == "dark":
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("dark")
