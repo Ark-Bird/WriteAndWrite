@@ -265,8 +265,12 @@ class WillBeAuthor:
         self.file = tk.filedialog.askopenfilename(initialdir=iDir)
         if self.file == '':
             return
-        with open(self.file, encoding="utf-8_sig") as f:
-            readed = f.read()
+        try:
+            with open(self.file, encoding="utf-8_sig") as f:
+                readed = f.read()
+        except UnicodeDecodeError:
+            messagebox.showerror("文字コードエラー", "ファイルがUTF-8ではありません")
+            return
         page.delete('0.0', 'end')
         page.insert('0.0', readed)
         self.t_change()
