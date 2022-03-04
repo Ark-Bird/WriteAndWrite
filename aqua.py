@@ -619,6 +619,14 @@ if __name__ == '__main__':
 
     root.protocol("WM_DELETE_WINDOW", author.exit_as_save)
 
+    # color.binの読み込み
+    try:
+        with open("color.bin", "r") as tp:
+            theme = tp.read()
+    # 例外は握りつぶす
+    except Exception:
+        pass
+    author.change_theme(True, theme)
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
     # オートセーブその他の再帰呼び出し
