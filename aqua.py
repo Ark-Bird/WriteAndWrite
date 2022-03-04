@@ -435,6 +435,8 @@ class WillBeAuthor:
                     self.theme = theme
                 elif self.theme == "dark":
                     self.theme = theme
+                elif self.theme == "terminal":
+                    self.theme = theme
                 else:
                     self.theme = "normal"
         except FileNotFoundError:
@@ -448,6 +450,10 @@ class WillBeAuthor:
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("paper")
             page.configure(bg='azure', fg='blueviolet', insertbackground='blueviolet')
+        elif self.theme == "terminal":
+            with open('color.bin', mode='w', encoding='utf-8') as f:
+                f.write("terminal")
+            page.configure(bg='black', fg='springgreen3', insertbackground='green')
         elif self.theme == "normal":
             with open('color.bin', mode='w', encoding='utf-8') as f:
                 f.write("normal")
@@ -543,6 +549,7 @@ if __name__ == '__main__':
     color_select.add_command(label="normal", command=lambda: author.change_theme(True, "normal"))
     color_select.add_command(label="dark", command=lambda: author.change_theme(True, "dark"))
     color_select.add_command(label="paper", command=lambda: author.change_theme(True, "paper"))
+    color_select.add_command(label="terminal", command=lambda: author.change_theme(True, "terminal"))
     color_mode.add_cascade(label="テーマ切り替え", menu=color_select)
     menubar.add_cascade(label="テーマ", menu=color_mode)
     # オートインデント/オン・オフ
@@ -568,16 +575,16 @@ if __name__ == '__main__':
     try:
         with open('color.bin', mode='r', encoding='utf-8') as f:
             initcol = f.read()
-        if initcol == "dark":
-            page.configure(bg='gray16', fg='azure', insertbackground='white')
-        elif initcol == "paper":
-            page.configure(bg='azure', fg='blueviolet', insertbackground='blueviolet')
-        elif initcol == "normal":
-            page.configure(bg='ghost white', fg='black', insertbackground='black')
-    except Exception:
+            if initcol == "dark":
+                page.configure(bg='gray16', fg='azure', insertbackground='white')
+            elif initcol == "paper":
+                page.configure(bg='azure', fg='blueviolet', insertbackground='blueviolet')
+            elif initcol == "normal":
+                page.configure(bg='ghost white', fg='black', insertbackground='black')
+    except FileNotFoundError:
         print("Error!")
         page.configure(bg='ghost white', fg='black', insertbackground='black')
-    # スクロールバー追加
+    # # スクロールバー追加
     page.config(
         xscrollcommand=xScrollbar.set,
         yscrollcommand=yScrollbar.set)
