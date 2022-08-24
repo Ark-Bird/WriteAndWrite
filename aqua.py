@@ -38,6 +38,22 @@ class WillBeAuthor:
     def __init__(self):
         """
         変数初期化
+        len:文字数
+        file:ファイル名
+        cliptext:クリップボードのテキスト
+        pstxt:ペースとするテキスト
+        auto_indent:オートインデントのフラグ
+        half_space:オートインデントの全角/半角切り替え
+        hit_return:IMEの文字決定と改行の区別フラグ
+        is_save:セーブ済みフラグ
+        is_exit:終了可能フラグ
+        ASFLAG:オートセーブフラグ
+        dark_mode:テーマがダークモードか
+        col:現在のテーマ
+        nowcolor:保存されたテーマ
+        txtc:クリップボードのクリア
+        theme:現在のテーマ
+        theme_f:テーマが変更フラグ
         """
         self.len = 0
         self.file = ""
