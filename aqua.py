@@ -630,7 +630,7 @@ if __name__ == '__main__':
     # エンターが押された場合、IMEの変換で押したものか改行をしたのかを判断してオートインデントを行う
     page.bind('<KeyPress-Return>', lambda self: author.ime_check())
     page.bind('<KeyRelease-Return>',
-              lambda self: author.insert_space() if author.hit_return and author.auto_indent else author.ignore())
+              lambda self: author.insert_space() if author.hit_return and author.auto_indent else ignore())
     # 文字カウント
     page.bind('<Any-KeyPress>', author.logger)
 
