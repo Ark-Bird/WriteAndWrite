@@ -65,17 +65,9 @@ class WillBeAuthor:
                 self.col = f.read()
                 self.theme = f.read()
         except FileNotFoundError:
-            pass
+            ignore()
         if self.col == "dark":
             self.dark_mode = True
-
-    def ignore(self):
-        """
-        何もしない
-        例外を握りつぶす時等に使用
-        passではなく明示的に握りつぶす
-        """
-        pass
 
     def logger(self, event):
         """
@@ -122,7 +114,7 @@ class WillBeAuthor:
         オートセーブ
         """
         if self.file == '':
-            pass
+            ignore()
         if self.ASFLAG:
             self.save_file('file')
             self.autosaveflag()
@@ -286,7 +278,7 @@ class WillBeAuthor:
             pyperclip.copy(self.cliptext)
         except tk.TclError:
             # 問題の無い例外は握りつぶす
-            pass
+            ignore()
         except Exception:
             # どうしようもない例外でエラーをレイズ
             raise independent_method.UnrecoveredError
@@ -305,8 +297,8 @@ class WillBeAuthor:
             page.insert('insert', self.pstxt)
         # 選択範囲がない場合例外が投げられる
         except tk.TclError:
-            # 問題の無いエラー
-            pass
+            # 問題の無いエラー（握りつぶす）
+            ignore()
         except Exception:
             # 致命的なエラー
             raise independent_method.UnrecoveredError
@@ -325,7 +317,7 @@ class WillBeAuthor:
             page.delete(tk.SEL_FIRST, tk.SEL_LAST)
         except tk.TclError:
             # 選択範囲がない場合例を投げられるので握りつぶす
-            pass
+            ignore()
         except Exception:
             print("致命的なエラー")
             raise independent_method.UnrecoveredError
@@ -351,7 +343,7 @@ class WillBeAuthor:
             page.insert('insert', tmpstr)
             page.mark_set('insert', 'insert-1c')
         except tk.TclError:
-            pass
+            ignore()
         except Exception:
             raise independent_method.UnrecoveredError
         return
@@ -494,6 +486,13 @@ def res_path(rel):
         return os.path.join(sys._MEIPASS, rel)
     return os.path.join(os.path.abspath("."), rel)
 
+def ignore():
+    """
+    何もしない
+    例外を握りつぶす時等に使用
+    passではなく明示的に握りつぶす
+    """
+    pass
 
 if __name__ == '__main__':
     textcount = 0
