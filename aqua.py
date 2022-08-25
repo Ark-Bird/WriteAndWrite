@@ -54,6 +54,7 @@ class WillBeAuthor:
         txtc:クリップボードのクリア
         theme:現在のテーマ
         theme_f:テーマが変更フラグ
+        blank_line:空行かどうかのフラグ
         """
         self.len = 0
         self.file = ""
