@@ -587,7 +587,7 @@ if __name__ == '__main__':
     page = tk.Text(root, undo=True, wrap=tk.NONE)
     # カラーコンフィグ
     # フォントは游ゴシックを想定
-    defont = tkfont.Font(family="Yu Gothic", size=18)
+    defont = tkfont.Font(family="Yu Gothic", size=14)
     page.configure(bg='ghost white', fg='black', font=defont)
     try:
         with open('color.bin', mode='r', encoding='utf-8') as f:
