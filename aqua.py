@@ -54,6 +54,7 @@ class WillBeAuthor:
         txtc:クリップボードのクリア
         theme:現在のテーマ
         theme_f:テーマが変更フラグ
+        blank_line:空行かどうかのフラグ
         """
         self.len = 0
         self.file = ""
@@ -102,6 +103,8 @@ class WillBeAuthor:
         文字カウント
         loggerから呼ばれる
         カウントした文字はタイトルバーに表示
+        オートインデント有効の場合タイトルバーに表示
+        自動セーブの有効無効をタイトルバーに表示
         """
         s = page.get('0.0', 'end')
         self.len = len(s)
