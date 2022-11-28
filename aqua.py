@@ -507,6 +507,7 @@ def res_path(rel):
         return os.path.join(sys._MEIPASS, rel)
     return os.path.join(os.path.abspath("."), rel)
 
+
 def ignore():
     """
     何もしない
@@ -514,6 +515,7 @@ def ignore():
     passではなく明示的に握りつぶす
     """
     pass
+
 
 if __name__ == '__main__':
     textcount = 0
