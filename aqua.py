@@ -169,7 +169,7 @@ class WillBeAuthor:
                 return
             txt = self.undo_stack.pop()
         page.insert('0.0', txt)
-        page.insert(cur, "")
+        page.mark_set('insert', str(cur) + "-1c")
 
     def autosave(self):
         """
