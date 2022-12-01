@@ -134,10 +134,28 @@ class WillBeAuthor:
 
     def push_undo_stack(self):
         tmp = page.get('0.0', 'end-1c')
-        self.undo_stack.append(tmp)
+        if not self.undo_stack:
+            self.undo_stack.append("")
+            self.undo_stack.append(tmp)
+        try:
+            before = self.undo_stack.pop()
+            #if self.undo_stack.pop() != before1:
+            #self.undo_stack.append(before)
+            if self.undo_stack[-1] == before:
+                self.undo_stack.append(before)
+                print(self.undo_stack)
 
+        except IndexError:
+            print("EMPTY!")
+            return
+        self.undo_stack.append(before)
+        self.undo_stack.append(tmp)
+        if before == tmp:
+            self.undo_stack.pop()
+        print(self.undo_stack)
     def pop_undo_stack(self):
         cur = page.index('insert')
+        print(cur)
         same = page.get('0.0', 'end-1c')
         page.delete('0.0', 'end-1c')
         try:
@@ -147,9 +165,11 @@ class WillBeAuthor:
             return
         print(txt)
         if txt == same:
+            if not self.undo_stack:
+                return
             txt = self.undo_stack.pop()
         page.insert('0.0', txt)
-
+        page.insert(cur, "")
 
     def autosave(self):
         """
