@@ -73,6 +73,7 @@ class WillBeAuthor:
         self.textc = ""
         self.theme = "normal"
         self.theme_f = False
+        self.undo_stack = []
         if self.hit_return:
             self.blank_line = True
         else:
@@ -95,6 +96,7 @@ class WillBeAuthor:
         基本的に何かのキーが押された時に呼ばれる
         """
         self.counter()
+        self.push_undo_stack()
         self.is_save = False
         self.is_changed = True
 
@@ -129,6 +131,23 @@ class WillBeAuthor:
         self.blank_line = False
         root.title(self.textc)
         return self.textc
+
+    def push_undo_stack(self):
+        tmp = page.get('0.0', 'end-1c')
+        self.undo_stack.append(tmp)
+
+    def pop_undo_stack(self):
+        same = page.get('0.0', 'end-1c')
+        page.delete('0.0', 'end-1c')
+        try:
+            txt = self.undo_stack.pop()
+        except IndexError:
+            page.delete('0.0', 'end-1c')
+            return
+        print(txt)
+        if txt == same:
+            txt = self.undo_stack.pop()
+        page.insert('0.0', txt)
 
     def autosave(self):
         """
@@ -556,9 +575,9 @@ if __name__ == '__main__':
     editmenu.add_command(label='コピー (Ctrl-c)', command=lambda: author.txtcpy())
     editmenu.add_command(label='カット (Ctrl-x)', command=lambda: author.txtcut())
     editmenu.add_command(label='貼り付け (Ctrl-v)', command=lambda: author.txtpst())
+    editmenu.add_command(label='アンドゥ (Ctrl-z)', command=lambda: author.pop_undo_stack())
     menubar.add_cascade(label='編集', menu=editmenu)
     pclipmenu = tk.Menu(menubar, tearoff=0)
-
     # メニューバー作成
     # 集中モード
     c_mode = tk.Menu(menubar, tearoff=0)
@@ -589,7 +608,7 @@ if __name__ == '__main__':
     xScrollbar.pack(side=tk.BOTTOM, fill='x')
     psbar = tk.Scrollbar(root)
     # テキストエリア作成
-    page = tk.Text(root, undo=True, wrap=tk.NONE)
+    page = tk.Text(root, undo=False, wrap=tk.NONE)
     # カラーコンフィグ
     # フォントは游ゴシックを想定
     defont = tkfont.Font(family="Yu Gothic", size=14)
@@ -617,6 +636,8 @@ if __name__ == '__main__':
     page.bind('<Control-c>', lambda self: author.txtcpy())
     # page.bind('<Control-v>', lambda self: author.txtpst())
     page.bind('<Control-x>', lambda self: author.txtcut())
+    # アンドゥ
+    page.bind('<Control-z>', lambda self: author.pop_undo_stack())
     # 三点リーダー二つ組挿入
     page.bind('<Control-t>', lambda self: independent_method.threepoint(page))
     # ダッシュの挿入
