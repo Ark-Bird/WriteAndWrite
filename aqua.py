@@ -137,6 +137,7 @@ class WillBeAuthor:
         self.undo_stack.append(tmp)
 
     def pop_undo_stack(self):
+        cur = page.index('insert')
         same = page.get('0.0', 'end-1c')
         page.delete('0.0', 'end-1c')
         try:
@@ -148,6 +149,7 @@ class WillBeAuthor:
         if txt == same:
             txt = self.undo_stack.pop()
         page.insert('0.0', txt)
+
 
     def autosave(self):
         """
