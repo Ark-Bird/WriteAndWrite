@@ -143,7 +143,6 @@ class WillBeAuthor:
             #self.undo_stack.append(before)
             if self.undo_stack[-1] == before:
                 self.undo_stack.append(before)
-                print(self.undo_stack)
 
         except IndexError:
             print("EMPTY!")
@@ -152,10 +151,8 @@ class WillBeAuthor:
         self.undo_stack.append(tmp)
         if before == tmp:
             self.undo_stack.pop()
-        print(self.undo_stack)
     def pop_undo_stack(self):
         cur = page.index('insert')
-        print(cur)
         same = page.get('0.0', 'end-1c')
         page.delete('0.0', 'end-1c')
         try:
@@ -163,7 +160,6 @@ class WillBeAuthor:
         except IndexError:
             page.delete('0.0', 'end-1c')
             return
-        print(txt)
         if txt == same:
             if not self.undo_stack:
                 return
