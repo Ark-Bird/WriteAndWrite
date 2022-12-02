@@ -12,6 +12,7 @@ class UnrecoveredError(Exception):
     """
     pass
 
+
 def dot_mark(page):
     """
     傍点をつける
