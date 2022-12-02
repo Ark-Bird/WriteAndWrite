@@ -29,7 +29,6 @@ class WillBeAuthor:
     """
     The God class
     """
-    clip = {}
     doing = []
     path = ''
     ftext = ''
