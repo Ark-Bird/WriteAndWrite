@@ -3,6 +3,7 @@ class NotOpenPathException(Exception):
     ファイルを開くのに失敗した時の例外
     基本的に握りつぶしてデフォルトを適用して続行する目的
     """
+
     pass
 
 
@@ -10,6 +11,7 @@ class UnrecoveredError(Exception):
     """
     復旧不能なエラーの発生時に投げる
     """
+
     pass
 
 
@@ -22,13 +24,13 @@ def dot_mark(page):
     :return:
     """
     try:
-        m = page.get('insert', 'insert +1c')
+        m = page.get("insert", "insert +1c")
         if m == "\n":
-            page.mark_set('insert', 'insert+1c')
+            page.mark_set("insert", "insert+1c")
             return
         m = "|" + m + "《・》"
-        page.delete('insert')
-        page.insert('insert', m)
+        page.delete("insert")
+        page.insert("insert", m)
     except Exception:
         raise UnrecoveredError
     return
@@ -39,7 +41,7 @@ def threepoint(page):
     三点リーダの挿入
     全角で二つ一組で挿入
     """
-    page.insert('insert', "……")
+    page.insert("insert", "……")
     pass
 
 
@@ -48,7 +50,7 @@ def threedash(page):
     ダッシュの挿入
     全角で二つ一組で挿入
     """
-    page.insert('insert', "――")
+    page.insert("insert", "――")
 
 
 def start_cmode(root):
