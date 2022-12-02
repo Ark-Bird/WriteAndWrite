@@ -540,6 +540,7 @@ class WillBeAuthor:
             return True
         except Exception:
             raise independent_method.UnrecoveredError
+        # ここには到達しないはず
         return True
 
 
