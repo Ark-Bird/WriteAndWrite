@@ -29,7 +29,6 @@ class WillBeAuthor:
     """
     The God class
     """
-    doing = []
     path = ''
     ftext = ''
     is_save = True
