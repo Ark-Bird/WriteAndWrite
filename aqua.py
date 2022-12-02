@@ -6,6 +6,7 @@ Created on Fri Feb 17 20:47:33 2017
 """
 import tkinter
 import tkinter.font as tkfont
+
 """
 Copyright 2020 hiro
 
@@ -29,8 +30,9 @@ class WillBeAuthor:
     """
     The God class
     """
-    path = ''
-    ftext = ''
+
+    path = ""
+    ftext = ""
     is_save = True
 
     def __init__(self):
@@ -77,7 +79,7 @@ class WillBeAuthor:
         else:
             self.blank_line = False
         try:
-            with open('color.bin', mode='r', encoding='utf-8') as f:
+            with open("color.bin", mode="r", encoding="utf-8") as f:
                 self.col = f.read()
                 self.theme = f.read()
         except FileNotFoundError:
@@ -106,13 +108,13 @@ class WillBeAuthor:
         オートインデント有効の場合タイトルバーに表示
         自動セーブの有効無効をタイトルバーに表示
         """
-        s = page.get('0.0', 'end')
+        s = page.get("0.0", "end")
         self.len = len(s)
         # messagebox.showinfo('文字数(改行、スペース込み)', self.leng)
         # vt = " a \t b\r\n\tc\t\n"
-        vt = ''.join(s.split())
+        vt = "".join(s.split())
         vanillal = len(vt)
-        self.textc = str(vanillal) + ':  文字'
+        self.textc = str(vanillal) + ":  文字"
 
         if not self.is_save:
             self.textc += "*未保存*:"
@@ -135,14 +137,14 @@ class WillBeAuthor:
         キータイプされるとテキストの状態をスタックに積む
         変更されていなければ積まない
         """
-        tmp = page.get('0.0', 'end-1c')
+        tmp = page.get("0.0", "end-1c")
         if not self.undo_stack:
             self.undo_stack.append("")
             self.undo_stack.append(tmp)
         try:
             before = self.undo_stack.pop()
-            #if self.undo_stack.pop() != before1:
-            #self.undo_stack.append(before)
+            # if self.undo_stack.pop() != before1:
+            # self.undo_stack.append(before)
             if self.undo_stack[-1] == before:
                 self.undo_stack.append(before)
 
@@ -159,29 +161,29 @@ class WillBeAuthor:
         カーソル位置を保存してテキストを削除
         undo_stackからポップしてテキストを書き込みカーソル位置を元に戻す
         """
-        cur = page.index('insert')
-        same = page.get('0.0', 'end-1c')
-        page.delete('0.0', 'end-1c')
+        cur = page.index("insert")
+        same = page.get("0.0", "end-1c")
+        page.delete("0.0", "end-1c")
         try:
             txt = self.undo_stack.pop()
         except IndexError:
-            page.delete('0.0', 'end-1c')
+            page.delete("0.0", "end-1c")
             return
         if txt == same:
             if not self.undo_stack:
                 return
             txt = self.undo_stack.pop()
-        page.insert('0.0', txt)
-        page.mark_set('insert', str(cur))
+        page.insert("0.0", txt)
+        page.mark_set("insert", str(cur))
 
     def autosave(self):
         """
         オートセーブ
         """
-        if self.file == '':
+        if self.file == "":
             ignore()
         if self.ASFLAG:
-            self.save_file('file')
+            self.save_file("file")
             self.autosaveflag()
 
     def autosaveflag(self):
@@ -217,8 +219,8 @@ class WillBeAuthor:
         名前をつけて保存
         返り値なし
         """
-        if types == 'file':
-            self.file = ''
+        if types == "file":
+            self.file = ""
         self.save_file(types)
         self.is_save = True
 
@@ -234,28 +236,28 @@ class WillBeAuthor:
         try:
             if not os.path.exists("path.bin"):
                 raise independent_method.NotOpenPathException
-            with open("path.bin", mode='r', encoding="utf-8") as f:
+            with open("path.bin", mode="r", encoding="utf-8") as f:
                 iDir = os.path.abspath(os.path.dirname(f.readline()))
         except independent_method.NotOpenPathException:
             iDir = os.path.abspath(os.path.dirname(__file__))
-        if types == '':
+        if types == "":
             return
-        if self.file == '':
+        if self.file == "":
             self.file = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")], initialdir=iDir)
-        if self.file == '':
+        if self.file == "":
             self.ASFLAG = False
             return
         if not self.file:
-            self.file = ''
+            self.file = ""
             return
-        if types == 'file':
-            self.ftext = page.get('0.0', 'end')
+        if types == "file":
+            self.ftext = page.get("0.0", "end")
             self.ftext = self.ftext[0:-1]
         if self.file[-4:] != ".txt":
             self.file += ".txt"
-        with open(self.file, mode='w', encoding='utf-8') as f:
+        with open(self.file, mode="w", encoding="utf-8") as f:
             f.write(self.ftext)
-        with open("./path.bin", mode='w', encoding='utf-8') as f:
+        with open("./path.bin", mode="w", encoding="utf-8") as f:
             f.write(self.file)
             # if types == 'file':
             #     self.file = self.file
@@ -287,15 +289,15 @@ class WillBeAuthor:
         変更フラグを降ろす
         保存フラグを立てる
         """
-        self.ftext = page.get('0.0', 'end')
+        self.ftext = page.get("0.0", "end")
         if self.ftext != "\n" or self.is_save:
             if messagebox.askyesno("保存しますか?", "ファイルが変更されています、保存しますか?"):
                 self.saveas("file")
             if not messagebox.askyesno("破棄しますか？", "文書を破棄しますか？"):
                 return
-        if types == 'file':
-            page.delete('0.0', 'end')
-            self.file = ''
+        if types == "file":
+            page.delete("0.0", "end")
+            self.file = ""
         self.is_changed = False
         self.file = ""
         self.is_save = True
@@ -307,7 +309,7 @@ class WillBeAuthor:
         変更されていたらチェック
         存在しないディレクトリをを指定していたらスクリプトのディレクトリを開く
         """
-        if page.get('0.0', 'end') != '\n' and self.is_changed:
+        if page.get("0.0", "end") != "\n" and self.is_changed:
             if not messagebox.askyesno("注意", "ファイルが変更されています、破棄しますか？"):
                 return
         fTyp = [("", "*")]
@@ -315,12 +317,12 @@ class WillBeAuthor:
         try:
             if not os.path.exists("path.bin"):
                 raise independent_method.NotOpenPathException
-            with open("path.bin", mode='r', encoding="utf-8") as f:
+            with open("path.bin", mode="r", encoding="utf-8") as f:
                 iDir = f.readline()
         except independent_method.NotOpenPathException:
             iDir = os.path.abspath(os.path.dirname(__file__))
         self.file = tk.filedialog.askopenfilename(initialdir=iDir)
-        if self.file == '':
+        if self.file == "":
             return
         try:
             with open(self.file, encoding="utf-8_sig") as f:
@@ -328,8 +330,8 @@ class WillBeAuthor:
         except UnicodeDecodeError:
             messagebox.showerror("文字コードエラー", "ファイルがUTF-8ではありません")
             return
-        page.delete('0.0', 'end')
-        page.insert('0.0', readed)
+        page.delete("0.0", "end")
+        page.insert("0.0", readed)
         self.t_change()
 
     def txtcpy(self):
@@ -359,7 +361,7 @@ class WillBeAuthor:
             # pyperclip.pasteを使うと文字化けする
             self.pstxt = pyperclip.paste()
             # self.pstxt = self.cliptext
-            page.insert('insert', self.pstxt)
+            page.insert("insert", self.pstxt)
         # 選択範囲がない場合例外が投げられる
         except tk.TclError:
             # 問題の無いエラー（握りつぶす）
@@ -398,15 +400,15 @@ class WillBeAuthor:
         b = tk.SEL_FIRST
         i = tk.SEL_FIRST
         try:
-            tmpstr = page.get('sel.first', 'sel.last')
+            tmpstr = page.get("sel.first", "sel.last")
             # 投稿サイトが10文字以上のルビに対応の場合、以下二行をコメントアウトしてください
             if len(tmpstr) > 10:
-                messagebox.showinfo('over', '10文字以上にルビは非対応の可能性があります')
+                messagebox.showinfo("over", "10文字以上にルビは非対応の可能性があります")
             tmpstr = "|" + tmpstr + "《》"
 
-            page.delete('sel.first', 'sel.last')
-            page.insert('insert', tmpstr)
-            page.mark_set('insert', 'insert-1c')
+            page.delete("sel.first", "sel.last")
+            page.insert("insert", tmpstr)
+            page.mark_set("insert", "insert-1c")
         except tk.TclError:
             ignore()
         except Exception:
@@ -448,14 +450,14 @@ class WillBeAuthor:
         if self.hit_return:
             index = tk.INSERT
             if self.blank_line:
-                prev = page.get('insert -3c')
-                d = page.get('insert -2c')
+                prev = page.get("insert -3c")
+                d = page.get("insert -2c")
                 if (d == " " or d == "　") and prev == "\n":
-                    page.delete('insert -2c')
+                    page.delete("insert -2c")
                 if self.half_space:
-                    page.insert(index, ' ')
+                    page.insert(index, " ")
                 else:
-                    page.insert(index, '　')
+                    page.insert(index, "　")
             self.hit_return = False
 
     def ime_check(self):
@@ -483,7 +485,7 @@ class WillBeAuthor:
         if not self.theme_f:
             return
         try:
-            with open('color.bin', mode='r', encoding='utf-8') as f:
+            with open("color.bin", mode="r", encoding="utf-8") as f:
                 self.theme = f.read()
             if self.theme_f:
                 if self.theme == "normal":
@@ -497,24 +499,24 @@ class WillBeAuthor:
                 else:
                     self.theme = "normal"
         except FileNotFoundError:
-            with open('color.bin', mode='w', encoding='utf-8') as f:
-                self.theme = f.write('normal')
+            with open("color.bin", mode="w", encoding="utf-8") as f:
+                self.theme = f.write("normal")
         if self.theme == "dark":
-            with open('color.bin', mode='w', encoding='utf-8') as f:
+            with open("color.bin", mode="w", encoding="utf-8") as f:
                 f.write("dark")
-            page.configure(bg='gray16', fg='azure', insertbackground='white')
+            page.configure(bg="gray16", fg="azure", insertbackground="white")
         elif self.theme == "paper":
-            with open('color.bin', mode='w', encoding='utf-8') as f:
+            with open("color.bin", mode="w", encoding="utf-8") as f:
                 f.write("paper")
-            page.configure(bg='azure', fg='blueviolet', insertbackground='blueviolet')
+            page.configure(bg="azure", fg="blueviolet", insertbackground="blueviolet")
         elif self.theme == "terminal":
-            with open('color.bin', mode='w', encoding='utf-8') as f:
+            with open("color.bin", mode="w", encoding="utf-8") as f:
                 f.write("terminal")
-            page.configure(bg='black', fg='springgreen3', insertbackground='green')
+            page.configure(bg="black", fg="springgreen3", insertbackground="green")
         elif self.theme == "normal":
-            with open('color.bin', mode='w', encoding='utf-8') as f:
+            with open("color.bin", mode="w", encoding="utf-8") as f:
                 f.write("normal")
-            page.configure(bg='ghost white', fg='black', insertbackground='black')
+            page.configure(bg="ghost white", fg="black", insertbackground="black")
         self.theme_f = False
 
     def is_modify(self):
@@ -524,7 +526,7 @@ class WillBeAuthor:
         ファイルが見つからなかった場合はnormalで開く、それ以外の例外なら終了
         """
         try:
-            with open('color.bin', mode='r', encoding='utf-8') as f:
+            with open("color.bin", mode="r", encoding="utf-8") as f:
                 mode = f.read()
             if mode == self.theme:
                 return True
@@ -533,7 +535,7 @@ class WillBeAuthor:
 
         # ファイルが何らかの理由で存在しない場合normalを書き込んで作成
         except FileNotFoundError:
-            with open('color.bin', mode='w', encoding='utf-8') as f:
+            with open("color.bin", mode="w", encoding="utf-8") as f:
                 f.write("normal")
             return True
         except Exception:
@@ -548,7 +550,7 @@ def res_path(rel):
     他のOSの場合は呼ばれることはない
     exe化時にバイナリのフォルダにresフォルダを作成すること
     """
-    if hasattr(sys, '_MEIPASS'):
+    if hasattr(sys, "_MEIPASS"):
         return os.path.join(sys._MEIPASS, rel)
     return os.path.join(os.path.abspath("."), rel)
 
@@ -562,54 +564,54 @@ def ignore():
     pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     textcount = 0
     # Windowsもしくはそれ以外を判別
     pf = platform.system()
     # 明示的に使わない変数としてdummyを使う
     dummy = []
     author = WillBeAuthor()
-    mainstory = 'file'
+    mainstory = "file"
     root = tk.Tk()
     root.geometry("640x640")
     # 動いているOSの判別
     # このif節をコメントアウトしてからバイナリ化すればアイコンファイルをコピーせずに実行可能,その場合アイコンはPythonのデフォルトになります
     # アイコンファイルが見つからない場合はデフォルトアイコンで起動
     try:
-        if pf == 'Windows':
+        if pf == "Windows":
             # icon = res_path('./res/wbe.ico')
             icon = "./res/wbe.ico"
             root.iconbitmap(icon)
         else:
-            root.wm_iconbitmap('@./res/wbe.xbm')
+            root.wm_iconbitmap("@./res/wbe.xbm")
     except tkinter.TclError:
         pass
     root.minsize(32, 32)
     menubar = tk.Menu(root)
     filemenu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー、渡している'file'引数はダミー
-    filemenu.add_command(label='新規ファイル', command=lambda: author.new_blank_file('file'))
-    filemenu.add_command(label='開く', command=lambda: author.fpopen('file'))
-    filemenu.add_command(label='保存 (Ctrl-s)', command=lambda: author.save_file('file'))
-    filemenu.add_command(label='名前をつけて保存', command=lambda: author.saveas('file'))
-    filemenu.add_command(label='オートセーブ (Ctrl-e)', command=lambda: author.toggle_as_flag())
-    filemenu.add_command(label='終了', command=lambda: author.exit_as_save())
-    menubar.add_cascade(label='ファイル', menu=filemenu)
+    filemenu.add_command(label="新規ファイル", command=lambda: author.new_blank_file("file"))
+    filemenu.add_command(label="開く", command=lambda: author.fpopen("file"))
+    filemenu.add_command(label="保存 (Ctrl-s)", command=lambda: author.save_file("file"))
+    filemenu.add_command(label="名前をつけて保存", command=lambda: author.saveas("file"))
+    filemenu.add_command(label="オートセーブ (Ctrl-e)", command=lambda: author.toggle_as_flag())
+    filemenu.add_command(label="終了", command=lambda: author.exit_as_save())
+    menubar.add_cascade(label="ファイル", menu=filemenu)
 
     # 編集メニュー、カット、コピー、ペーストをラムダ式で呼び出し
     editmenu = tk.Menu(menubar, tearoff=0)
-    editmenu.add_command(label='コピー (Ctrl-c)', command=lambda: author.txtcpy())
-    editmenu.add_command(label='カット (Ctrl-x)', command=lambda: author.txtcut())
-    editmenu.add_command(label='貼り付け (Ctrl-v)', command=lambda: author.txtpst())
-    editmenu.add_command(label='アンドゥ (Ctrl-z)', command=lambda: author.pop_undo_stack())
-    menubar.add_cascade(label='編集', menu=editmenu)
+    editmenu.add_command(label="コピー (Ctrl-c)", command=lambda: author.txtcpy())
+    editmenu.add_command(label="カット (Ctrl-x)", command=lambda: author.txtcut())
+    editmenu.add_command(label="貼り付け (Ctrl-v)", command=lambda: author.txtpst())
+    editmenu.add_command(label="アンドゥ (Ctrl-z)", command=lambda: author.pop_undo_stack())
+    menubar.add_cascade(label="編集", menu=editmenu)
     pclipmenu = tk.Menu(menubar, tearoff=0)
     # メニューバー作成
     # 集中モード
     c_mode = tk.Menu(menubar, tearoff=0)
     c_mode.add_command(label="スタート", command=lambda: independent_method.start_cmode(root))
     c_mode.add_command(label="終了", command=lambda: independent_method.end_cmode(root))
-    menubar.add_cascade(label='集中モード', menu=c_mode)
+    menubar.add_cascade(label="集中モード", menu=c_mode)
     # ColorMode Change
     color_mode = tk.Menu(menubar, tearoff=False)
     color_select = tk.Menu(color_mode, tearoff=False)
@@ -625,66 +627,66 @@ if __name__ == '__main__':
     menubar.add_cascade(label="オートインデント", menu=auto_indent)
     # タイトル
     root.config(menu=menubar)
-    root.title('I Want Be...')
+    root.title("I Want Be...")
     root.configure(background="gray")
     # スクロールバー
     yScrollbar = tk.Scrollbar(root)
     yScrollbar.pack(side=tk.RIGHT, fill="y")
     xScrollbar = tk.Scrollbar(root, orient=tk.HORIZONTAL)
-    xScrollbar.pack(side=tk.BOTTOM, fill='x')
+    xScrollbar.pack(side=tk.BOTTOM, fill="x")
     psbar = tk.Scrollbar(root)
     # テキストエリア作成
     page = tk.Text(root, undo=False, wrap=tk.NONE)
     # カラーコンフィグ
     # フォントは游ゴシックを想定
     defont = tkfont.Font(family="Yu Gothic", size=14)
-    page.configure(bg='ghost white', fg='black', font=defont)
+    page.configure(bg="ghost white", fg="black", font=defont)
     try:
-        with open('color.bin', mode='r', encoding='utf-8') as f:
+        with open("color.bin", mode="r", encoding="utf-8") as f:
             initcol = f.read()
             if initcol == "dark":
-                page.configure(bg='gray16', fg='azure', insertbackground='white')
+                page.configure(bg="gray16", fg="azure", insertbackground="white")
             elif initcol == "paper":
-                page.configure(bg='azure', fg='blueviolet', insertbackground='blueviolet')
+                page.configure(bg="azure", fg="blueviolet", insertbackground="blueviolet")
             elif initcol == "normal":
-                page.configure(bg='ghost white', fg='black', insertbackground='black')
+                page.configure(bg="ghost white", fg="black", insertbackground="black")
     except FileNotFoundError:
         print("Error!")
-        page.configure(bg='ghost white', fg='black', insertbackground='black')
+        page.configure(bg="ghost white", fg="black", insertbackground="black")
     # # スクロールバー追加
-    page.config(
-        xscrollcommand=xScrollbar.set,
-        yscrollcommand=yScrollbar.set)
-    page.pack(fill='both', side=tk.LEFT, expand=True)
+    page.config(xscrollcommand=xScrollbar.set, yscrollcommand=yScrollbar.set)
+    page.pack(fill="both", side=tk.LEFT, expand=True)
     # ファイルを保存
-    page.bind('<Control-s>', lambda self: author.save_file('file'))
+    page.bind("<Control-s>", lambda self: author.save_file("file"))
     # コピペ＆カット
-    page.bind('<Control-c>', lambda self: author.txtcpy())
+    page.bind("<Control-c>", lambda self: author.txtcpy())
     # page.bind('<Control-v>', lambda self: author.txtpst())
-    page.bind('<Control-x>', lambda self: author.txtcut())
+    page.bind("<Control-x>", lambda self: author.txtcut())
     # アンドゥ
-    page.bind('<Control-z>', lambda self: author.pop_undo_stack())
+    page.bind("<Control-z>", lambda self: author.pop_undo_stack())
     # 三点リーダー二つ組挿入
-    page.bind('<Control-t>', lambda self: independent_method.threepoint(page))
+    page.bind("<Control-t>", lambda self: independent_method.threepoint(page))
     # ダッシュの挿入
-    page.bind('<Control-d>', lambda self: independent_method.threedash(page))
+    page.bind("<Control-d>", lambda self: independent_method.threedash(page))
     # ルビを振る
-    page.bind('<Control-r>', lambda self: author.ruby())
+    page.bind("<Control-r>", lambda self: author.ruby())
     # 傍点をつける
-    page.bind('<Control-b>', lambda self: independent_method.dot_mark(page))
+    page.bind("<Control-b>", lambda self: independent_method.dot_mark(page))
     # オートインデント
     # 半角全角切り替え
-    page.bind('<Control-w>', lambda self: author.toggle_half_or_full())
+    page.bind("<Control-w>", lambda self: author.toggle_half_or_full())
     # オートインデントのオン・オフ
-    page.bind('<Control-q>', lambda self: author.toggle_auto_indent())
+    page.bind("<Control-q>", lambda self: author.toggle_auto_indent())
     # オートセーブ
-    page.bind('<Control-e>', lambda self: author.toggle_as_flag())
+    page.bind("<Control-e>", lambda self: author.toggle_as_flag())
     # エンターが押された場合、IMEの変換で押したものか改行をしたのかを判断してオートインデントを行う
-    page.bind('<KeyPress-Return>', lambda self: author.ime_check())
-    page.bind('<KeyRelease-Return>',
-              lambda self: author.insert_space() if author.hit_return and author.auto_indent else ignore())
+    page.bind("<KeyPress-Return>", lambda self: author.ime_check())
+    page.bind(
+        "<KeyRelease-Return>",
+        lambda self: author.insert_space() if author.hit_return and author.auto_indent else ignore(),
+    )
     # 文字カウント
-    page.bind('<Any-KeyPress>', author.logger)
+    page.bind("<Any-KeyPress>", author.logger)
 
     root.protocol("WM_DELETE_WINDOW", author.exit_as_save)
 
