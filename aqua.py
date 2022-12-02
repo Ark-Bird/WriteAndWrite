@@ -151,6 +151,7 @@ class WillBeAuthor:
         self.undo_stack.append(tmp)
         if before == tmp:
             self.undo_stack.pop()
+
     def pop_undo_stack(self):
         cur = page.index('insert')
         same = page.get('0.0', 'end-1c')
@@ -165,7 +166,7 @@ class WillBeAuthor:
                 return
             txt = self.undo_stack.pop()
         page.insert('0.0', txt)
-        page.mark_set('insert', str(cur) + "-1c")
+        page.mark_set('insert', str(cur))
 
     def autosave(self):
         """
