@@ -157,6 +157,10 @@ class WillBeAuthor:
             self.undo_stack.pop()
 
     def pop_undo_stack(self):
+        """
+        カーソル位置を保存してテキストを削除
+        undo_stackからポップしてテキストを書き込みカーソル位置を元に戻す
+        """
         cur = page.index('insert')
         same = page.get('0.0', 'end-1c')
         page.delete('0.0', 'end-1c')
