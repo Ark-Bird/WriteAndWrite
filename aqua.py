@@ -133,6 +133,10 @@ class WillBeAuthor:
         return self.textc
 
     def push_undo_stack(self):
+        """
+        キータイプされるとテキストの状態をスタックに積む
+        変更されていなければ積まない
+        """
         tmp = page.get('0.0', 'end-1c')
         if not self.undo_stack:
             self.undo_stack.append("")
