@@ -334,7 +334,7 @@ class WillBeAuthor:
         page.insert("0.0", readed)
         self.t_change()
 
-    def txtcpy(self):
+    def text_copy(self):
         """
         copy text
         テキストの範囲が選択されていなかった場合例外を投げ、握りつぶす
@@ -350,7 +350,7 @@ class WillBeAuthor:
             # どうしようもない例外でエラーをレイズ
             raise independent_method.UnrecoveredError
 
-    def txtpst(self):
+    def text_paste(self):
         """
         paste text
         範囲を選択していなかった場合の例外は握りつぶす
@@ -370,7 +370,7 @@ class WillBeAuthor:
             # 致命的なエラー
             raise independent_method.UnrecoveredError
 
-    def txtcut(self):
+    def text_cut(self):
         """
         cut text
         返り値無し
@@ -600,9 +600,9 @@ if __name__ == "__main__":
 
     # 編集メニュー、カット、コピー、ペーストをラムダ式で呼び出し
     editmenu = tk.Menu(menubar, tearoff=0)
-    editmenu.add_command(label="コピー (Ctrl-c)", command=lambda: author.txtcpy())
-    editmenu.add_command(label="カット (Ctrl-x)", command=lambda: author.txtcut())
-    editmenu.add_command(label="貼り付け (Ctrl-v)", command=lambda: author.txtpst())
+    editmenu.add_command(label="コピー (Ctrl-c)", command=lambda: author.text_copy())
+    editmenu.add_command(label="カット (Ctrl-x)", command=lambda: author.text_cut())
+    editmenu.add_command(label="貼り付け (Ctrl-v)", command=lambda: author.text_paste())
     editmenu.add_command(label="アンドゥ (Ctrl-z)", command=lambda: author.pop_undo_stack())
     menubar.add_cascade(label="編集", menu=editmenu)
     pclipmenu = tk.Menu(menubar, tearoff=0)
@@ -659,9 +659,9 @@ if __name__ == "__main__":
     # ファイルを保存
     page.bind("<Control-s>", lambda self: author.save_file("file"))
     # コピペ＆カット
-    page.bind("<Control-c>", lambda self: author.txtcpy())
+    page.bind("<Control-c>", lambda self: author.text_copy())
     # page.bind('<Control-v>', lambda self: author.txtpst())
-    page.bind("<Control-x>", lambda self: author.txtcut())
+    page.bind("<Control-x>", lambda self: author.text_cut())
     # アンドゥ
     page.bind("<Control-z>", lambda self: author.pop_undo_stack())
     # 三点リーダー二つ組挿入
