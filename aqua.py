@@ -609,8 +609,8 @@ if __name__ == "__main__":
     # メニューバー作成
     # 集中モード
     c_mode = tk.Menu(menubar, tearoff=0)
-    c_mode.add_command(label="スタート", command=lambda: independent_method.start_cmode(root))
-    c_mode.add_command(label="終了", command=lambda: independent_method.end_cmode(root))
+    c_mode.add_command(label="スタート", command=lambda: independent_method.start_c_mode(root))
+    c_mode.add_command(label="終了", command=lambda: independent_method.end_c_mode(root))
     menubar.add_cascade(label="集中モード", menu=c_mode)
     # ColorMode Change
     color_mode = tk.Menu(menubar, tearoff=False)
@@ -665,9 +665,9 @@ if __name__ == "__main__":
     # アンドゥ
     page.bind("<Control-z>", lambda self: author.pop_undo_stack())
     # 三点リーダー二つ組挿入
-    page.bind("<Control-t>", lambda self: independent_method.threepoint(page))
+    page.bind("<Control-t>", lambda self: independent_method.three_point(page))
     # ダッシュの挿入
-    page.bind("<Control-d>", lambda self: independent_method.threedash(page))
+    page.bind("<Control-d>", lambda self: independent_method.double_dash(page))
     # ルビを振る
     page.bind("<Control-r>", lambda self: author.ruby())
     # 傍点をつける
