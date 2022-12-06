@@ -348,7 +348,7 @@ class WillBeAuthor:
             ignore()
         except Exception:
             # どうしようもない例外でエラーをレイズ
-            raise independent_method.UnrecoveredError
+            raise independent_method.FatalError
 
     def text_paste(self):
         """
@@ -368,7 +368,7 @@ class WillBeAuthor:
             ignore()
         except Exception:
             # 致命的なエラー
-            raise independent_method.UnrecoveredError
+            raise independent_method.FatalError
 
     def text_cut(self):
         """
@@ -387,7 +387,7 @@ class WillBeAuthor:
             ignore()
         except Exception:
             print("致命的なエラー")
-            raise independent_method.UnrecoveredError
+            raise independent_method.FatalError
 
     def ruby(self):
         """
@@ -400,19 +400,19 @@ class WillBeAuthor:
         b = tk.SEL_FIRST
         i = tk.SEL_FIRST
         try:
-            tmpstr = page.get("sel.first", "sel.last")
+            temp_str = page.get("sel.first", "sel.last")
             # 投稿サイトが10文字以上のルビに対応の場合、以下二行をコメントアウトしてください
-            if len(tmpstr) > 10:
+            if len(temp_str) > 10:
                 messagebox.showinfo("over", "10文字以上にルビは非対応の可能性があります")
-            tmpstr = "|" + tmpstr + "《》"
+            temp_str = "|" + temp_str + "《》"
 
             page.delete("sel.first", "sel.last")
-            page.insert("insert", tmpstr)
+            page.insert("insert", temp_str)
             page.mark_set("insert", "insert-1c")
         except tk.TclError:
             ignore()
         except Exception:
-            raise independent_method.UnrecoveredError
+            raise independent_method.FatalError
         return
 
     def t_change(self):
@@ -539,7 +539,7 @@ class WillBeAuthor:
                 f.write("normal")
             return True
         except Exception:
-            raise independent_method.UnrecoveredError
+            raise independent_method.FatalError
         # ここには到達しないはず
         return True
 

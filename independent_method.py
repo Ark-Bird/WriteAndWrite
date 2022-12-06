@@ -7,7 +7,7 @@ class NotOpenPathException(Exception):
     pass
 
 
-class UnrecoveredError(Exception):
+class FatalError(Exception):
     """
     復旧不能なエラーの発生時に投げる
     """
@@ -32,7 +32,7 @@ def dot_mark(page):
         page.delete("insert")
         page.insert("insert", m)
     except Exception:
-        raise UnrecoveredError
+        raise FatalError
     return
 
 
