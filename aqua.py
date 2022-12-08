@@ -714,9 +714,12 @@ if __name__ == "__main__":
     try:
         with open("color.bin", "r") as tp:
             theme = tp.read()
-    # 例外は握りつぶす
-    except Exception:
+    # ファイルが見つからない例外は握りつぶす
+    except FileNotFoundError:
         pass
+    # 潰せない例外の場合終了
+    except Exception:
+        sys.exit()
     author.change_theme(True, theme)
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
