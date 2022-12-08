@@ -243,7 +243,9 @@ class WillBeAuthor:
         if types == "":
             return
         if self.file == "":
-            self.file = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")], initialdir=iDir)
+            self.file = tk.filedialog.asksaveasfilename(
+                filetypes=[("txt files", "*.txt")], initialdir=iDir
+            )
         if self.file == "":
             self.ASFLAG = False
             return
@@ -594,7 +596,9 @@ if __name__ == "__main__":
     filemenu.add_command(label="開く", command=lambda: author.fpopen("file"))
     filemenu.add_command(label="保存 (Ctrl-s)", command=lambda: author.save_file("file"))
     filemenu.add_command(label="名前をつけて保存", command=lambda: author.saveas("file"))
-    filemenu.add_command(label="オートセーブ (Ctrl-e)", command=lambda: author.toggle_as_flag())
+    filemenu.add_command(
+        label="オートセーブ (Ctrl-e)", command=lambda: author.toggle_as_flag()
+    )
     filemenu.add_command(label="終了", command=lambda: author.exit_as_save())
     menubar.add_cascade(label="ファイル", menu=filemenu)
 
@@ -609,21 +613,33 @@ if __name__ == "__main__":
     # メニューバー作成
     # 集中モード
     c_mode = tk.Menu(menubar, tearoff=0)
-    c_mode.add_command(label="スタート", command=lambda: independent_method.start_c_mode(root))
+    c_mode.add_command(
+        label="スタート", command=lambda: independent_method.start_c_mode(root)
+    )
     c_mode.add_command(label="終了", command=lambda: independent_method.end_c_mode(root))
     menubar.add_cascade(label="集中モード", menu=c_mode)
     # ColorMode Change
     color_mode = tk.Menu(menubar, tearoff=False)
     color_select = tk.Menu(color_mode, tearoff=False)
-    color_select.add_command(label="normal", command=lambda: author.change_theme(True, "normal"))
-    color_select.add_command(label="dark", command=lambda: author.change_theme(True, "dark"))
-    color_select.add_command(label="paper", command=lambda: author.change_theme(True, "paper"))
-    color_select.add_command(label="terminal", command=lambda: author.change_theme(True, "terminal"))
+    color_select.add_command(
+        label="normal", command=lambda: author.change_theme(True, "normal")
+    )
+    color_select.add_command(
+        label="dark", command=lambda: author.change_theme(True, "dark")
+    )
+    color_select.add_command(
+        label="paper", command=lambda: author.change_theme(True, "paper")
+    )
+    color_select.add_command(
+        label="terminal", command=lambda: author.change_theme(True, "terminal")
+    )
     color_mode.add_cascade(label="テーマ切り替え", menu=color_select)
     menubar.add_cascade(label="テーマ", menu=color_mode)
     # オートインデント/オン・オフ
     auto_indent = tk.Menu(menubar, tearoff=0)
-    auto_indent.add_command(label="オン/オフ (Ctrl-q)", command=lambda: author.toggle_auto_indent())
+    auto_indent.add_command(
+        label="オン/オフ (Ctrl-q)", command=lambda: author.toggle_auto_indent()
+    )
     menubar.add_cascade(label="オートインデント", menu=auto_indent)
     # タイトル
     root.config(menu=menubar)
@@ -647,7 +663,9 @@ if __name__ == "__main__":
             if initcol == "dark":
                 page.configure(bg="gray16", fg="azure", insertbackground="white")
             elif initcol == "paper":
-                page.configure(bg="azure", fg="blueviolet", insertbackground="blueviolet")
+                page.configure(
+                    bg="azure", fg="blueviolet", insertbackground="blueviolet"
+                )
             elif initcol == "normal":
                 page.configure(bg="ghost white", fg="black", insertbackground="black")
     except FileNotFoundError:
@@ -683,7 +701,9 @@ if __name__ == "__main__":
     page.bind("<KeyPress-Return>", lambda self: author.ime_check())
     page.bind(
         "<KeyRelease-Return>",
-        lambda self: author.insert_space() if author.hit_return and author.auto_indent else ignore(),
+        lambda self: author.insert_space()
+        if author.hit_return and author.auto_indent
+        else ignore(),
     )
     # 文字カウント
     page.bind("<Any-KeyPress>", author.logger)
