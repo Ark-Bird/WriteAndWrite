@@ -423,6 +423,7 @@ class WillBeAuthor:
         :return:無し
         """
         self.is_changed = True
+        return
 
     def toggle_auto_indent(self):
         """
