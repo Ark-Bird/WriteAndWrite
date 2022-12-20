@@ -15,7 +15,7 @@ class FatalError(Exception):
     pass
 
 
-def dot_mark(page):
+def dot_mark(page) -> None:
     """
     傍点をつける
     :param page:
@@ -36,7 +36,7 @@ def dot_mark(page):
     return
 
 
-def three_point(page):
+def three_point(page) -> None:
     """
     三点リーダの挿入
     全角で二つ一組で挿入
@@ -45,7 +45,7 @@ def three_point(page):
     pass
 
 
-def double_dash(page):
+def double_dash(page) -> None:
     """
     ダッシュの挿入
     全角で二つ一組で挿入
@@ -53,7 +53,7 @@ def double_dash(page):
     page.insert("insert", "――")
 
 
-def start_c_mode(root):
+def start_c_mode(root) -> None:
     """
     START AUTHOR MODE
     集中モード開始（フルスクリーンになる）
@@ -63,7 +63,7 @@ def start_c_mode(root):
     return
 
 
-def end_c_mode(root):
+def end_c_mode(root) -> None:
     """
     END AUTHOR MODE
     集中モード終了（フルスクリーンは解除されるがウィンドウからフォーカスが外れない場合があるので注意
