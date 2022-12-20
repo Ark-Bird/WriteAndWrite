@@ -184,9 +184,9 @@ class WillBeAuthor:
             ignore()
         if self.ASFLAG:
             self.save_file("file")
-            self.autosaveflag()
+            self.is_auto_save_enable()
 
-    def autosaveflag(self):
+    def is_auto_save_enable(self):
         """
         オートセーブフラグが有効ならオートセーブを毎秒呼び出し
         フラグが立っていない場合無視
@@ -195,9 +195,9 @@ class WillBeAuthor:
         """
         if self.ASFLAG:
             self.autosave()
-            root.after(1000, self.autosaveflag)
+            root.after(1000, self.is_auto_save_enable)
         else:
-            root.after(1000, self.autosaveflag)
+            root.after(1000, self.is_auto_save_enable)
         self.change_theme(False, self.theme)
         return
 
@@ -211,9 +211,9 @@ class WillBeAuthor:
             self.ASFLAG = False
         else:
             self.ASFLAG = True
-            self.autosaveflag()
+            self.is_auto_save_enable()
 
-    def saveas(self, types):
+    def saveas(self, types: str) -> None:
         """
         clear file name
         名前をつけて保存
@@ -224,7 +224,7 @@ class WillBeAuthor:
         self.save_file(types)
         self.is_save = True
 
-    def save_file(self, types):
+    def save_file(self, types: str):
         """
         SAVE file with dialog
         ファイルの保存処理
@@ -267,7 +267,7 @@ class WillBeAuthor:
         self.is_save = True
         self.counter()
 
-    def exit_as_save(self):
+    def exit_as_save(self) -> None:
         """
         終了時の保存処理
         保存されていなければ確認ダイアログを表示
@@ -284,7 +284,7 @@ class WillBeAuthor:
         else:
             return
 
-    def new_blank_file(self, types):
+    def new_blank_file(self, types: str) -> None:
         """
         clear text field
         テキストをクリアして新しいファイルにする
@@ -303,8 +303,9 @@ class WillBeAuthor:
         self.is_changed = False
         self.file = ""
         self.is_save = True
+        return
 
-    def fpopen(self, types):
+    def fpopen(self, types: str) -> None:
         """
         FILE OPEN dialog
         ファイルを開く
@@ -335,8 +336,9 @@ class WillBeAuthor:
         page.delete("0.0", "end")
         page.insert("0.0", readed)
         self.t_change()
+        return
 
-    def text_copy(self):
+    def text_copy(self) -> None:
         """
         copy text
         テキストの範囲が選択されていなかった場合例外を投げ、握りつぶす
@@ -351,8 +353,9 @@ class WillBeAuthor:
         except Exception:
             # どうしようもない例外でエラーをレイズ
             raise independent_method.FatalError
+        return
 
-    def text_paste(self):
+    def text_paste(self) -> None:
         """
         paste text
         範囲を選択していなかった場合の例外は握りつぶす
@@ -371,8 +374,9 @@ class WillBeAuthor:
         except Exception:
             # 致命的なエラー
             raise independent_method.FatalError
+        return
 
-    def text_cut(self):
+    def text_cut(self) -> None:
         """
         cut text
         返り値無し
@@ -390,8 +394,9 @@ class WillBeAuthor:
         except Exception:
             print("致命的なエラー")
             raise independent_method.FatalError
+        return
 
-    def ruby(self):
+    def ruby(self) -> None:
         """
         テキストを選択してルビを振る
         選択範囲が十文字より多ければ警告を表示、十文字の基準は一般的なWEB小説投稿サイトの最長文字数、
@@ -417,7 +422,7 @@ class WillBeAuthor:
             raise independent_method.FatalError
         return
 
-    def t_change(self):
+    def t_change(self) -> None:
         """
         テキストの変更フラグを立てる
         :return:無し
@@ -425,7 +430,7 @@ class WillBeAuthor:
         self.is_changed = True
         return
 
-    def toggle_auto_indent(self):
+    def toggle_auto_indent(self) -> None:
         """
         オートインデント機能のオン・オフ
         返り値は無し
@@ -434,8 +439,9 @@ class WillBeAuthor:
         """
         self.auto_indent = not self.auto_indent
         self.counter()
+        return
 
-    def toggle_half_or_full(self):
+    def toggle_half_or_full(self) -> None:
         """
         オートインデントの半角全角切り替え
         """
@@ -443,8 +449,9 @@ class WillBeAuthor:
             self.half_space = False
         else:
             self.half_space = True
+        return
 
-    def insert_space(self):
+    def insert_space(self) -> None:
         """
         オートインデント
         self.half_spaceがTrueのとき半角スペース、Falseの時全角スペースのインデントを挿入
@@ -462,8 +469,9 @@ class WillBeAuthor:
                 else:
                     page.insert(index, "　")
             self.hit_return = False
+        return
 
-    def ime_check(self):
+    def ime_check(self) -> None:
         """
         IMEのリターンか、改行かの判断
         改行ならばインスタンス変数のhit_returnを立てる
@@ -472,7 +480,7 @@ class WillBeAuthor:
         self.blank_line = True
         self.hit_return = True
 
-    def change_theme(self, theme_f, theme):
+    def change_theme(self, theme_f, theme) -> None:
         """
         テーマの変更
         theme_fはテーマが変更されているかのフラグ、Falseの時即時リターン
@@ -521,8 +529,9 @@ class WillBeAuthor:
                 f.write("normal")
             page.configure(bg="ghost white", fg="black", insertbackground="black")
         self.theme_f = False
+        return
 
-    def is_modify(self):
+    def is_modify(self) -> bool:
         """
         color.binを読み込み現在のモードと同じならFalseを返す
         変更されていない場合はTrueを返す
@@ -547,7 +556,7 @@ class WillBeAuthor:
         return True
 
 
-def res_path(rel):
+def res_path(rel: str) -> str:
     """
     Windowsの場合、アイコンへのパスを返す
     他のOSの場合は呼ばれることはない
@@ -558,13 +567,14 @@ def res_path(rel):
     return os.path.join(os.path.abspath("."), rel)
 
 
-def ignore():
+def ignore() -> None:
     """
     何もしない
     例外を握りつぶす時等に使用
     passではなく明示的に握りつぶす
     """
     pass
+    return
 
 
 if __name__ == "__main__":
@@ -725,5 +735,5 @@ if __name__ == "__main__":
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
     # オートセーブその他の再帰呼び出し
-    root.after(1000, author.autosaveflag)
+    root.after(1000, author.is_auto_save_enable)
     root.mainloop()
