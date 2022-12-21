@@ -56,23 +56,23 @@ class WillBeAuthor:
         theme_f:テーマが変更フラグ
         blank_line:空行かどうかのフラグ
         """
-        self.len = 0
-        self.file = ""
-        self.is_changed = False
-        self.cliptext = ""
-        self.pstxt = ""
-        self.auto_indent = False
-        self.half_space = False
-        self.hit_return = False
-        self.is_save = True
-        self.is_exit = False
-        self.ASFLAG = False
-        self.dark_mode = False
-        self.col = ""
-        self.nowcolor = "normal"
-        self.textc = ""
-        self.theme = "normal"
-        self.theme_f = False
+        self.len: int = 0
+        self.file: str = ""
+        self.is_changed: bool = False
+        self.cliptext: str = ""
+        self.pstxt: str = ""
+        self.auto_indent: bool = False
+        self.half_space: bool = False
+        self.hit_return: bool = False
+        self.is_save: bool = True
+        self.is_exit: bool = False
+        self.ASFLAG: bool = False
+        self.dark_mode: bool = False
+        self.col: str = ""
+        self.nowcolor:str = "normal"
+        self.textc: str = ""
+        self.theme: str = "normal"
+        self.theme_f: bool = False
         self.undo_stack = []
         if self.hit_return:
             self.blank_line = True
