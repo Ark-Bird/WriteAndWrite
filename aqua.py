@@ -87,7 +87,7 @@ class WillBeAuthor:
         if self.col == "dark":
             self.dark_mode = True
 
-    def logger(self, event):
+    def logger(self, event) -> None:
         """
         テキストの変更を検知して変更フラグを立てる
         終了時にセーブするか訊ねるようにする
