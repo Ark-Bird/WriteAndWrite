@@ -584,8 +584,7 @@ if __name__ == "__main__":
     pf: str = platform.system()
     # 明示的に使わない変数としてdummyを使う
     dummy = []
-    author = WillBeAuthor()
-    mainstory = "file"
+    author: WillBeAuthor = WillBeAuthor()
     root = tk.Tk()
     root.geometry("640x640")
     # 動いているOSの判別
