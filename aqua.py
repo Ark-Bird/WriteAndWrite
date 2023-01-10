@@ -620,7 +620,7 @@ if __name__ == "__main__":
     editmenu.add_command(label="貼り付け (Ctrl-v)", command=lambda: author.text_paste())
     editmenu.add_command(label="アンドゥ (Ctrl-z)", command=lambda: author.pop_undo_stack())
     menubar.add_cascade(label="編集", menu=editmenu)
-    pclipmenu = tk.Menu(menubar, tearoff=0)
+
     # メニューバー作成
     # 集中モード
     c_mode = tk.Menu(menubar, tearoff=0)
