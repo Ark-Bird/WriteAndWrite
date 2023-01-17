@@ -4,6 +4,7 @@
 Created on Fri Feb 17 20:47:33 2017
 @author: hiro
 """
+import pickle
 import tkinter
 import tkinter.font as tkfont
 
@@ -556,6 +557,20 @@ class WillBeAuthor:
         # ここには到達しないはず
         return True
 
+    def pkl(self):
+        all_text = page.get("0.0", "end")
+        pkl = tk.filedialog.asksaveasfilename()
+        pkl = pkl + ".pkl"
+        with open(pkl, "wb") as f:
+            pickle.dump(all_text, f)
+
+    def dpkl(self):
+        pkl = tk.filedialog.askopenfilename()
+        with open(pkl, "rb") as f:
+            dser = pickle.load(f)
+        page.delete("0.0", "end")
+        page.insert("insert", dser[:-1])
+
 
 def res_path(rel: str) -> str:
     """
@@ -607,6 +622,8 @@ if __name__ == "__main__":
     filemenu.add_command(label="開く", command=lambda: author.fpopen("file"))
     filemenu.add_command(label="保存 (Ctrl-s)", command=lambda: author.save_file("file"))
     filemenu.add_command(label="名前をつけて保存", command=lambda: author.saveas("file"))
+    filemenu.add_command(label="シリアライズして保存", command=lambda: author.pkl())
+    filemenu.add_command(label="デシリアライズして開く", command=lambda: author.dpkl())
     filemenu.add_command(
         label="オートセーブ (Ctrl-e)", command=lambda: author.toggle_as_flag()
     )
