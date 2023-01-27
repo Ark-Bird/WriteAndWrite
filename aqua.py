@@ -554,7 +554,7 @@ class WillBeAuthor:
         except Exception:
             raise independent_method.FatalError
         # ここには到達しないはず
-        return True
+        raise independent_method.FatalError
 
 
 def res_path(rel: str) -> str:
