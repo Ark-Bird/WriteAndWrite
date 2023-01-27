@@ -4,6 +4,7 @@
 Created on Fri Feb 17 20:47:33 2017
 @author: hiro
 """
+import pickle
 import tkinter
 import tkinter.font as tkfont
 
@@ -556,6 +557,20 @@ class WillBeAuthor:
         # ここには到達しないはず
         raise independent_method.FatalError
 
+    def pkl(self):
+        all_text = page.get("0.0", "end")
+        pkl = tk.filedialog.asksaveasfilename()
+        pkl = pkl + ".pkl"
+        with open(pkl, "wb") as f:
+            pickle.dump(all_text, f)
+
+    def dpkl(self):
+        pkl = tk.filedialog.askopenfilename()
+        with open(pkl, "rb") as f:
+            dser = pickle.load(f)
+        page.delete("0.0", "end")
+        page.insert("insert", dser[:-1])
+
 
 def res_path(rel: str) -> str:
     """
@@ -581,11 +596,10 @@ def ignore() -> None:
 if __name__ == "__main__":
     textcount: int = 0
     # Windowsもしくはそれ以外を判別
-    pf = platform.system()
+    pf: str = platform.system()
     # 明示的に使わない変数としてdummyを使う
     dummy = []
-    author = WillBeAuthor()
-    mainstory = "file"
+    author: WillBeAuthor = WillBeAuthor()
     root = tk.Tk()
     root.geometry("640x640")
     # 動いているOSの判別
@@ -608,6 +622,8 @@ if __name__ == "__main__":
     filemenu.add_command(label="開く", command=lambda: author.fpopen("file"))
     filemenu.add_command(label="保存 (Ctrl-s)", command=lambda: author.save_file("file"))
     filemenu.add_command(label="名前をつけて保存", command=lambda: author.saveas("file"))
+    filemenu.add_command(label="シリアライズして保存", command=lambda: author.pkl())
+    filemenu.add_command(label="デシリアライズして開く", command=lambda: author.dpkl())
     filemenu.add_command(
         label="オートセーブ (Ctrl-e)", command=lambda: author.toggle_as_flag()
     )
@@ -621,7 +637,7 @@ if __name__ == "__main__":
     editmenu.add_command(label="貼り付け (Ctrl-v)", command=lambda: author.text_paste())
     editmenu.add_command(label="アンドゥ (Ctrl-z)", command=lambda: author.pop_undo_stack())
     menubar.add_cascade(label="編集", menu=editmenu)
-    pclipmenu = tk.Menu(menubar, tearoff=0)
+
     # メニューバー作成
     # 集中モード
     c_mode = tk.Menu(menubar, tearoff=0)
