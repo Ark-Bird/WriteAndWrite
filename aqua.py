@@ -492,9 +492,14 @@ class WillBeAuthor:
         該当ファイルはプレーンテキストでありマニュアルでの編集が可能
         ストレージへの負荷軽減のためモード変更のない場合ファイルへ書き込まずリターン
         """
-        self.theme = theme
-        # テーマが変更されていなければ即リターン
-        self.theme_f = theme_f
+        try:
+            self.theme = theme
+            # テーマが変更されていなければ即リターン
+            self.theme_f = theme_f
+        except FileNotFoundError:
+            with open("color.bin", mode="w", encoding="utf-8") as f:
+                self.theme = f.write("normal")
+                return
         if not self.theme_f:
             return
         try:
@@ -742,9 +747,9 @@ if __name__ == "__main__":
     try:
         with open("color.bin", "r") as tp:
             theme = tp.read()
-    # ファイルが見つからない例外は握りつぶす
+    # ファイルが見つからない場合通常テーマで開く
     except FileNotFoundError:
-        pass
+        theme = "normal"
     # 潰せない例外の場合終了
     except Exception:
         sys.exit()
