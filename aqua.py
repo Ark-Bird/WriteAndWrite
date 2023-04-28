@@ -185,8 +185,9 @@ class WillBeAuthor:
         if self.file == "":
             ignore()
         if self.ASFLAG:
+            self.is_save = True
             self.save_file("file")
-            self.is_auto_save_enable()
+            root.after(1000, self.autosave)
 
     def is_auto_save_enable(self):
         """
@@ -197,9 +198,8 @@ class WillBeAuthor:
         """
         if self.ASFLAG:
             self.autosave()
-            root.after(1000, self.is_auto_save_enable)
         else:
-            root.after(1000, self.is_auto_save_enable)
+            pass
         self.change_theme(False, self.theme)
         return
 
