@@ -678,18 +678,43 @@ if __name__ == "__main__":
     root.config(menu=menubar)
     root.title("I Want Be...")
     root.configure(background="gray")
-    # スクロールバー
-    yScrollbar = tk.Scrollbar(root)
-    yScrollbar.pack(side=tk.RIGHT, fill="y")
-    xScrollbar = tk.Scrollbar(root, orient=tk.HORIZONTAL)
-    xScrollbar.pack(side=tk.BOTTOM, fill="x")
-    psbar = tk.Scrollbar(root)
     # テキストエリア作成
-    page = tk.Text(root, undo=False, wrap=tk.NONE)
-    # カラーコンフィグ
     # フォントは游ゴシックを想定
+    #ysc = tk.Text(page)
+    page = tk.Text(root, undo=False, wrap=tkinter.NONE)
+    page.configure(bg="ghost white", fg="black")
     defont = tkfont.Font(family="Yu Gothic", size=14)
-    page.configure(bg="ghost white", fg="black", font=defont)
+    # スクロールバー
+
+    xscrollbar = tkinter.Scrollbar(root, orient=tkinter.HORIZONTAL, command=page.xview)
+    yscrollbar = tkinter.Scrollbar(root,orient=tkinter.VERTICAL, command=page.yview)
+    xscrollbar.pack(side=tkinter.BOTTOM)
+    yscrollbar.pack(side=tkinter.RIGHT)
+    page.pack(fill="both", expand=True)
+    yscrollbar.pack(side=tk.RIGHT, fill="y", )
+    xscrollbar.pack(side=tk.BOTTOM, fill="x")
+    # xsc = tk.Text(root)
+    #psbar = tk.Scrollbar(root)?
+    page["yscrollcommand"] = yscrollbar.set
+    page["xscrollcommand"] = xscrollbar.set
+    # ybar = tkinter.Scrollbar(
+    #     page,
+    #     orient=tkinter.VERTICAL,
+    # )
+    # xbar = tkinter.Scrollbar(
+    #     page, orient=tkinter.HORIZONTAL,
+    # )
+
+    #xbar.grid(row=1, column=1, sticky-tkinter.W + tkinter E,);
+    # xsrollbar.pack()
+    # yscrollbar.pack()
+    #scrbar.pack()
+
+
+
+    # カラーコンフィグ
+
+
     try:
         with open("color.bin", mode="r", encoding="utf-8") as f:
             initcol = f.read()
@@ -705,8 +730,8 @@ if __name__ == "__main__":
         print("Error!")
         page.configure(bg="ghost white", fg="black", insertbackground="black")
     # # スクロールバー追加
-    page.config(xscrollcommand=xScrollbar.set, yscrollcommand=yScrollbar.set)
-    page.pack(fill="both", side=tk.LEFT, expand=True)
+    # page.config(xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
+    # page.pack(fill="both", side=tk.LEFT, expand=True)
     # ファイルを保存
     page.bind("<Control-s>", lambda self: author.save_file("file"))
     # コピペ＆カット
