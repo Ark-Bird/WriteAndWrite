@@ -110,10 +110,14 @@ class WillBeAuthor:
         オートインデント有効の場合タイトルバーに表示
         自動セーブの有効無効をタイトルバーに表示
         """
-        s = page.get("0.0", "end")
+        s: str = page.get("0.0", "end")
         self.len = len(s)
         # messagebox.showinfo('文字数(改行、スペース込み)', self.leng)
         # vt = " a \t b\r\n\tc\t\n"
+        s = s.replace(' ', '')
+        s = s.replace('　', '')
+        s = s.replace('\n', '')
+        s = s.replace('\r', '')
         vt = "".join(s.split())
         vanillal = len(vt)
         self.textc = str(vanillal) + ":  文字"
