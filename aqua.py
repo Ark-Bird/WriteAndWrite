@@ -778,7 +778,7 @@ if __name__ == "__main__":
             theme = tp.read()
     # ファイルが見つからない場合通常テーマで開く
     except FileNotFoundError:
-        theme = "normal"
+        theme: str = "normal"
     # 潰せない例外の場合終了
     except Exception:
         sys.exit()
