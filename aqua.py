@@ -721,14 +721,14 @@ if __name__ == "__main__":
 
     try:
         with open("color.bin", mode="r", encoding="utf-8") as f:
-            initcol = f.read()
-            if initcol == "dark":
+            inittialize_color: str = f.read()
+            if inittialize_color == "dark":
                 page.configure(bg="gray16", fg="azure", insertbackground="white")
-            elif initcol == "paper":
+            elif inittialize_color == "paper":
                 page.configure(
                     bg="azure", fg="blueviolet", insertbackground="blueviolet"
                 )
-            elif initcol == "normal":
+            elif inittialize_color == "normal":
                 page.configure(bg="ghost white", fg="black", insertbackground="black")
     except FileNotFoundError:
         print("Error!")
