@@ -550,7 +550,7 @@ class WillBeAuthor:
         """
         try:
             with open("color.bin", mode="r", encoding="utf-8") as f:
-                mode = f.read()
+                mode: str = f.read()
             if mode == self.theme:
                 return True
             else:
