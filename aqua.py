@@ -701,19 +701,6 @@ if __name__ == "__main__":
     #psbar = tk.Scrollbar(root)?
     page["yscrollcommand"] = yscrollbar.set
     page["xscrollcommand"] = xscrollbar.set
-    # ybar = tkinter.Scrollbar(
-    #     page,
-    #     orient=tkinter.VERTICAL,
-    # )
-    # xbar = tkinter.Scrollbar(
-    #     page, orient=tkinter.HORIZONTAL,
-    # )
-
-    #xbar.grid(row=1, column=1, sticky-tkinter.W + tkinter E,);
-    # xsrollbar.pack()
-    # yscrollbar.pack()
-    #scrbar.pack()
-
 
 
     # カラーコンフィグ
