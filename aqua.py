@@ -589,7 +589,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         page.delete("0.0", "end")
         page.insert("insert", dser[:-1])
 
-    def show_LICENSE(self):
+    def show_license(self) -> None:
         tk.messagebox.showinfo("LICENSE", self.MIT_LICENSE)
         pass
 
@@ -691,9 +691,10 @@ if __name__ == "__main__":
         label="オン/オフ (Ctrl-q)", command=lambda: author.toggle_auto_indent()
     )
     menubar.add_cascade(label="オートインデント", menu=auto_indent)
+    #ヘルプメニューの表示
     Help_Menu = tk.Menu(menubar, tearoff=0)
     Help_Menu.add_command(
-        label="LICENSE", command=lambda: author.show_LICENSE()
+        label="LICENSE", command=lambda: author.show_license()
     )
     menubar.add_cascade(label="HELP", menu=Help_Menu)
     # タイトル
