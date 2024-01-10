@@ -87,6 +87,15 @@ class WillBeAuthor:
             ignore()
         if self.col == "dark":
             self.dark_mode = True
+        self.MIT_LICENSE = """
+Copyright 2020 hiro
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+"""
 
     def logger(self, event) -> None:
         """
@@ -580,6 +589,10 @@ class WillBeAuthor:
         page.delete("0.0", "end")
         page.insert("insert", dser[:-1])
 
+    def show_LICENSE(self):
+        tk.messagebox.showinfo("LICENSE", self.MIT_LICENSE)
+        pass
+
 
 def res_path(rel: str) -> str:
     """
@@ -678,6 +691,11 @@ if __name__ == "__main__":
         label="オン/オフ (Ctrl-q)", command=lambda: author.toggle_auto_indent()
     )
     menubar.add_cascade(label="オートインデント", menu=auto_indent)
+    Help_Menu = tk.Menu(menubar, tearoff=0)
+    Help_Menu.add_command(
+        label="LICENSE", command=lambda: author.show_LICENSE()
+    )
+    menubar.add_cascade(label="HELP", menu=Help_Menu)
     # タイトル
     root.config(menu=menubar)
     root.title("I Want Be...")
