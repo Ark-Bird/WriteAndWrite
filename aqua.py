@@ -615,6 +615,26 @@ def ignore() -> None:
     return
 
 
+def theme_init()-> None:
+    """
+    カラーコンフィグ
+    """
+    try:
+        with open("color.bin", mode="r", encoding="utf-8") as f:
+            initialize_color: str = f.read()
+            if initialize_color == "dark":
+                page.configure(bg="gray16", fg="azure", insertbackground="white")
+            elif initialize_color == "paper":
+                page.configure(
+                    bg="azure", fg="blueviolet", insertbackground="blueviolet"
+                )
+            elif initialize_color == "normal":
+                page.configure(bg="ghost white", fg="black", insertbackground="black")
+    except FileNotFoundError:
+        print("Error!")
+        page.configure(bg="ghost white", fg="black", insertbackground="black")
+
+
 if __name__ == "__main__":
     textcount: int = 0
     # Windowsもしくはそれ以外を判別
@@ -721,27 +741,6 @@ if __name__ == "__main__":
     page["yscrollcommand"] = yscrollbar.set
     page["xscrollcommand"] = xscrollbar.set
 
-
-    # カラーコンフィグ
-
-
-    try:
-        with open("color.bin", mode="r", encoding="utf-8") as f:
-            initialize_color: str = f.read()
-            if initialize_color == "dark":
-                page.configure(bg="gray16", fg="azure", insertbackground="white")
-            elif initialize_color == "paper":
-                page.configure(
-                    bg="azure", fg="blueviolet", insertbackground="blueviolet"
-                )
-            elif initialize_color == "normal":
-                page.configure(bg="ghost white", fg="black", insertbackground="black")
-    except FileNotFoundError:
-        print("Error!")
-        page.configure(bg="ghost white", fg="black", insertbackground="black")
-    # # スクロールバー追加
-    # page.config(xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
-    # page.pack(fill="both", side=tk.LEFT, expand=True)
     # ファイルを保存
     page.bind("<Control-s>", lambda self: author.save_file("file"))
     # コピペ＆カット
