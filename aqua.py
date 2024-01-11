@@ -628,7 +628,7 @@ def theme_init()-> None:
                 page.configure(
                     bg="azure", fg="blueviolet", insertbackground="blueviolet"
                 )
-            elif initialize_color == "normal":
+            else:
                 page.configure(bg="ghost white", fg="black", insertbackground="black")
     except FileNotFoundError:
         print("Error!")
@@ -740,6 +740,9 @@ if __name__ == "__main__":
     #psbar = tk.Scrollbar(root)?
     page["yscrollcommand"] = yscrollbar.set
     page["xscrollcommand"] = xscrollbar.set
+
+    #テーマ初期化
+    theme_init()
 
     # ファイルを保存
     page.bind("<Control-s>", lambda self: author.save_file("file"))
