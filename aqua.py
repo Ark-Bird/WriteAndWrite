@@ -636,6 +636,10 @@ def theme_init()-> None:
         print("Error!")
         page.configure(bg="ghost white", fg="black", insertbackground="black")
 
+def view_version()->None:
+    VERSION: str = "0.1.1"
+    tk.messagebox.showinfo("バージョン情報:", VERSION)
+
 
 if __name__ == "__main__":
     textcount: int = 0
@@ -718,7 +722,10 @@ if __name__ == "__main__":
     Help_Menu.add_command(
         label="LICENSE", command=lambda: author.show_license()
     )
+    # バージョン情報
+    Help_Menu.add_command(label="VERSION", command=lambda: view_version())
     menubar.add_cascade(label="HELP", menu=Help_Menu)
+
     # タイトル
     root.config(menu=menubar)
     root.title("I Want Be...")
