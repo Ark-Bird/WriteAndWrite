@@ -628,6 +628,8 @@ def theme_init()-> None:
                 page.configure(
                     bg="azure", fg="blueviolet", insertbackground="blueviolet"
                 )
+            elif initialize_color == "terminal":
+                page.configure(bg="black", fg="springgreen3", insertbackground="green")
             else:
                 page.configure(bg="ghost white", fg="black", insertbackground="black")
     except FileNotFoundError:
