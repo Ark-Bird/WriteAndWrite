@@ -495,18 +495,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.blank_line = True
         self.hit_return = True
 
-    def change_theme(self, theme_f, theme) -> None:
+    def change_theme(self, theme_f, new_theme) -> None:
         """
         テーマの変更
         theme_fはテーマが変更されているかのフラグ、Falseの時即時リターン
-        themeは変更するテーマ
+        new_themeは変更するテーマ
         モード名をcolor.binに書き込む
         color.binに存在しないテーマ名が書き込まれていた場合標準テーマに変更
         該当ファイルはプレーンテキストでありマニュアルでの編集が可能
         ストレージへの負荷軽減のためモード変更のない場合ファイルへ書き込まずリターン
         """
         try:
-            self.theme = theme
+            self.theme = new_theme
             # テーマが変更されていなければ即リターン
             self.theme_f = theme_f
         except FileNotFoundError:
@@ -520,13 +520,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 self.theme = f.read()
             if self.theme_f:
                 if self.theme == "normal":
-                    self.theme = theme
+                    self.theme = new_theme
                 elif self.theme == "paper":
-                    self.theme = theme
+                    self.theme = new_theme
                 elif self.theme == "dark":
-                    self.theme = theme
+                    self.theme = new_theme
                 elif self.theme == "terminal":
-                    self.theme = theme
+                    self.theme = new_theme
                 else:
                     self.theme = "normal"
         except FileNotFoundError:
@@ -575,14 +575,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         # ここには到達しないはず
         raise independent_method.FatalError
 
-    def pkl(self):
+    def pkl(self) -> None:
         all_text = page.get("0.0", "end")
         pkl = tk.filedialog.asksaveasfilename()
         pkl = pkl + ".pkl"
         with open(pkl, "wb") as f:
             pickle.dump(all_text, f)
 
-    def dpkl(self):
+    def dpkl(self) -> None:
         pkl = tk.filedialog.askopenfilename()
         with open(pkl, "rb") as f:
             dser = pickle.load(f)
