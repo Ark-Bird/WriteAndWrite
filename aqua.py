@@ -57,7 +57,6 @@ class WillBeAuthor:
         theme_f:テーマが変更フラグ
         blank_line:空行かどうかのフラグ
         """
-        self.len: int = 0
         self.file: str = ""
         self.is_changed: bool = False
         self.clipped_text: str = ""
@@ -117,7 +116,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         自動セーブの有効無効をタイトルバーに表示
         """
         s: str = page.get("0.0", "end")
-        self.len = len(s)
         # messagebox.showinfo('文字数(改行、スペース込み)', self.leng)
         # vt = " a \t b\r\n\tc\t\n"
         s = s.replace(' ', '')
