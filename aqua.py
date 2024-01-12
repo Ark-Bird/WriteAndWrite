@@ -70,7 +70,6 @@ class WillBeAuthor:
         self.is_autosave_flag: bool = False
         self.dark_mode: bool = False
         self.col: str = ""
-        self.nowcolor:str = "normal"
         self.title_var_string: str = ""
         self.theme: str = "normal"
         self.theme_f: bool = False
