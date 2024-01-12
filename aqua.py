@@ -60,18 +60,18 @@ class WillBeAuthor:
         self.len: int = 0
         self.file: str = ""
         self.is_changed: bool = False
-        self.cliptext: str = ""
-        self.pstxt: str = ""
+        self.clipped_text: str = ""
+        self.pasting_text: str = ""
         self.auto_indent: bool = False
         self.half_space: bool = False
         self.hit_return: bool = False
         self.is_save: bool = True
         self.is_exit: bool = False
-        self.ASFLAG: bool = False
+        self.is_autosave_flag: bool = False
         self.dark_mode: bool = False
         self.col: str = ""
         self.nowcolor:str = "normal"
-        self.textc: str = ""
+        self.title_var_string: str = ""
         self.theme: str = "normal"
         self.theme_f: bool = False
         if self.hit_return:
@@ -127,23 +127,23 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         s = s.replace('\r', '')
         vt = "".join(s.split())
         vanillal = len(vt)
-        self.textc = str(vanillal) + ":  文字"
+        self.title_var_string = str(vanillal) + ":  文字"
 
         if not self.is_save:
-            self.textc += "*未保存*:"
-        self.textc = "I want Be... :" + self.textc
+            self.title_var_string += "*未保存*:"
+        self.title_var_string = "I want Be... :" + self.title_var_string
         if self.auto_indent:
             if self.half_space:
-                self.textc += "*AI半角"
+                self.title_var_string += "*AI半角"
             else:
-                self.textc += "*AI全角"
-        if self.ASFLAG:
-            self.textc += ":auto_save_enable:"
+                self.title_var_string += "*AI全角"
+        if self.is_autosave_flag:
+            self.title_var_string += ":auto_save_enable:"
         else:
-            self.textc += ":auto_save_disable:"
+            self.title_var_string += ":auto_save_disable:"
         self.blank_line = False
-        root.title(self.textc)
-        return self.textc
+        root.title(self.title_var_string)
+        return self.title_var_string
 
     def autosave(self) -> None:
         """
@@ -151,7 +151,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         """
         if self.file == "":
             ignore()
-        if self.ASFLAG:
+        if self.is_autosave_flag:
             self.is_save = True
             self.save_file("file")
             root.after(1000, self.autosave)
@@ -164,7 +164,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         テーマの変更が無い場合Falseを送って変更しない
         :return:無し
         """
-        if self.ASFLAG:
+        if self.is_autosave_flag:
             self.autosave()
         else:
             pass
@@ -177,10 +177,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.ASFLAG:オートセーブのフラグ
         :return:無し
         """
-        if self.ASFLAG:
-            self.ASFLAG = False
+        if self.is_autosave_flag:
+            self.is_autosave_flag = False
         else:
-            self.ASFLAG = True
+            self.is_autosave_flag = True
             self.is_auto_save_enable()
         return
 
@@ -219,7 +219,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 filetypes=[("txt files", "*.txt")], initialdir=iDir
             )
         if self.file == "":
-            self.ASFLAG = False
+            self.is_autosave_flag = False
             return
         if not self.file:
             self.file = ""
@@ -318,8 +318,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         """
         try:
             # 選択範囲をクリップボードにコピー
-            self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
-            pyperclip.copy(self.cliptext)
+            self.clipped_text = page.get(tk.SEL_FIRST, tk.SEL_LAST)
+            pyperclip.copy(self.clipped_text)
         except tk.TclError:
             # 問題の無い例外は握りつぶす
             ignore()
@@ -337,9 +337,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         """
         try:
             # pyperclip.pasteを使うと文字化けする
-            self.pstxt = pyperclip.paste()
+            self.pasting_text = pyperclip.paste()
             # self.pstxt = self.cliptext
-            page.insert("insert", self.pstxt)
+            page.insert("insert", self.pasting_text)
         # 選択範囲がない場合例外が投げられる
         except tk.TclError:
             # 問題の無いエラー（握りつぶす）
@@ -358,8 +358,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         try:
             # ローカル変数とクリップボードにコピー
             # アプリ内で完結するならpyperclipは不要
-            self.cliptext = page.get(tk.SEL_FIRST, tk.SEL_LAST)
-            pyperclip.copy(self.cliptext)
+            self.clipped_text = page.get(tk.SEL_FIRST, tk.SEL_LAST)
+            pyperclip.copy(self.clipped_text)
             page.delete(tk.SEL_FIRST, tk.SEL_LAST)
         except tk.TclError:
             # 選択範囲がない場合例を投げられるので握りつぶす
