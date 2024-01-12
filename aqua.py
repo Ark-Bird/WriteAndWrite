@@ -107,11 +107,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         テキストの変更時、アンドゥ用のスタックに現在のテキストを積む
         """
         self.counter()
-        self.push_undo_stack()
         self.is_save = False
         self.is_changed = True
 
-    def counter(self):
+    def counter(self) -> str:
         """
         文字カウント
         loggerから呼ばれる
@@ -147,51 +146,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         root.title(self.textc)
         return self.textc
 
-    def push_undo_stack(self):
-        """
-        キータイプされるとテキストの状態をスタックに積む
-        変更されていなければ積まない
-        """
-        tmp = page.get("0.0", "end-1c")
-        if not self.undo_stack:
-            self.undo_stack.append("")
-            self.undo_stack.append(tmp)
-        try:
-            before = self.undo_stack.pop()
-            # if self.undo_stack.pop() != before1:
-            # self.undo_stack.append(before)
-            if self.undo_stack[-1] == before:
-                self.undo_stack.append(before)
-
-        except IndexError:
-            print("EMPTY!")
-            return
-        self.undo_stack.append(before)
-        self.undo_stack.append(tmp)
-        if before == tmp:
-            self.undo_stack.pop()
-
-    def pop_undo_stack(self):
-        """
-        カーソル位置を保存してテキストを削除
-        undo_stackからポップしてテキストを書き込みカーソル位置を元に戻す
-        """
-        cur = page.index("insert")
-        same = page.get("0.0", "end-1c")
-        page.delete("0.0", "end-1c")
-        try:
-            txt = self.undo_stack.pop()
-        except IndexError:
-            page.delete("0.0", "end-1c")
-            return
-        if txt == same:
-            if not self.undo_stack:
-                return
-            txt = self.undo_stack.pop()
-        page.insert("0.0", txt)
-        page.mark_set("insert", str(cur))
-
-    def autosave(self):
+    def autosave(self) -> None:
         """
         オートセーブ
         """
@@ -201,8 +156,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             self.is_save = True
             self.save_file("file")
             root.after(1000, self.autosave)
+        return
 
-    def is_auto_save_enable(self):
+    def is_auto_save_enable(self) -> None:
         """
         オートセーブフラグが有効ならオートセーブを毎秒呼び出し
         フラグが立っていない場合無視
@@ -216,7 +172,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.change_theme(False, self.theme)
         return
 
-    def toggle_as_flag(self):
+    def toggle_as_flag(self) -> None:
         """
         オートセーブフラグのトグル
         self.ASFLAG:オートセーブのフラグ
@@ -227,6 +183,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         else:
             self.ASFLAG = True
             self.is_auto_save_enable()
+        return
 
     def saveas(self, types: str) -> None:
         """
@@ -238,6 +195,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             self.file = ""
         self.save_file(types)
         self.is_save = True
+        return
 
     def save_file(self, types: str):
         """
@@ -281,6 +239,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.is_changed = False
         self.is_save = True
         self.counter()
+        return
 
     def exit_as_save(self) -> None:
         """
@@ -494,6 +453,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         """
         self.blank_line = True
         self.hit_return = True
+        return
 
     def change_theme(self, theme_f, new_theme) -> None:
         """
@@ -556,6 +516,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         color.binを読み込み現在のモードと同じならFalseを返す
         変更されていない場合はTrueを返す
         ファイルが見つからなかった場合はnormalで開く、それ以外の例外なら終了
+        returnは起こらず、その場合例外を投げる
         """
         try:
             with open("color.bin", mode="r", encoding="utf-8") as f:
@@ -581,6 +542,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         pkl = pkl + ".pkl"
         with open(pkl, "wb") as f:
             pickle.dump(all_text, f)
+        return
 
     def dpkl(self) -> None:
         pkl = tk.filedialog.askopenfilename()
@@ -588,10 +550,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             dser = pickle.load(f)
         page.delete("0.0", "end")
         page.insert("insert", dser[:-1])
+        return
 
     def show_license(self) -> None:
         tk.messagebox.showinfo("LICENSE", self.MIT_LICENSE)
-        pass
+        return
 
 
 def res_path(rel: str) -> str:
@@ -683,7 +646,6 @@ if __name__ == "__main__":
     editmenu.add_command(label="コピー (Ctrl-c)", command=lambda: author.text_copy())
     editmenu.add_command(label="カット (Ctrl-x)", command=lambda: author.text_cut())
     editmenu.add_command(label="貼り付け (Ctrl-v)", command=lambda: author.text_paste())
-    editmenu.add_command(label="アンドゥ (Ctrl-z)", command=lambda: author.pop_undo_stack())
     menubar.add_cascade(label="編集", menu=editmenu)
 
     # メニューバー作成
@@ -759,8 +721,6 @@ if __name__ == "__main__":
     page.bind("<Control-c>", lambda self: author.text_copy())
     # page.bind('<Control-v>', lambda self: author.txtpst())
     page.bind("<Control-x>", lambda self: author.text_cut())
-    # アンドゥ
-    page.bind("<Control-z>", lambda self: author.pop_undo_stack())
     # 三点リーダー二つ組挿入
     page.bind("<Control-t>", lambda self: independent_method.three_point(page))
     # ダッシュの挿入
