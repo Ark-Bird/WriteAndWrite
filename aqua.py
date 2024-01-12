@@ -74,7 +74,6 @@ class WillBeAuthor:
         self.textc: str = ""
         self.theme: str = "normal"
         self.theme_f: bool = False
-        self.undo_stack = []
         if self.hit_return:
             self.blank_line = True
         else:
