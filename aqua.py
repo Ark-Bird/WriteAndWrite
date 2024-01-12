@@ -598,10 +598,12 @@ def theme_init()-> None:
     except FileNotFoundError:
         print("Error!")
         page.configure(bg="ghost white", fg="black", insertbackground="black")
+    return
 
 def view_version()->None:
-    VERSION: str = "0.1.1"
+    VERSION: str = "0.1.2"
     tk.messagebox.showinfo("バージョン情報:", VERSION)
+    return
 
 
 if __name__ == "__main__":
