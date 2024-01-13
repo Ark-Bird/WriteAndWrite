@@ -597,8 +597,7 @@ def theme_init()-> None:
     return
 
 def view_version()->None:
-    VERSION = version.get_const()
-    tk.messagebox.showinfo("バージョン情報:", VERSION)
+    tk.messagebox.showinfo("バージョン情報:", version.get_const())
     return
 
 
