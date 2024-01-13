@@ -603,7 +603,7 @@ def view_version()->None:
 
 
 if __name__ == "__main__":
-    version: str = const.Const("0.1.2")
+    version: const = const.Const("0.1.3_β")
     textcount: int = 0
     # Windowsもしくはそれ以外を判別
     pf: str = platform.system()
