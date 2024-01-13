@@ -7,7 +7,7 @@ Created on Fri Feb 17 20:47:33 2017
 import pickle
 import tkinter
 import tkinter.font as tkfont
-
+import const
 """
 Copyright 2020 hiro
 
@@ -597,12 +597,13 @@ def theme_init()-> None:
     return
 
 def view_version()->None:
-    VERSION: str = "0.1.2"
+    VERSION = version.get_const()
     tk.messagebox.showinfo("バージョン情報:", VERSION)
     return
 
 
 if __name__ == "__main__":
+    version: str = const.Const("0.1.2")
     textcount: int = 0
     # Windowsもしくはそれ以外を判別
     pf: str = platform.system()
@@ -749,8 +750,8 @@ if __name__ == "__main__":
 
     # color.binの読み込み
     try:
-        with open("color.bin", "r") as tp:
-            theme = tp.read()
+        with open("color.bin", "r") as theme_file:
+            theme = theme_file.read()
     # ファイルが見つからない場合通常テーマで開く
     except FileNotFoundError:
         theme: str = "normal"
