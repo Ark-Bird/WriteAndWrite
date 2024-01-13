@@ -603,12 +603,10 @@ def view_version()->None:
 
 
 if __name__ == "__main__":
-    version: const = const.Const("0.1.3_β")
+    version: const = const.Const("0.1.4_β")
     textcount: int = 0
     # Windowsもしくはそれ以外を判別
     pf: str = platform.system()
-    # 明示的に使わない変数としてdummyを使う
-    dummy = []
     author: WillBeAuthor = WillBeAuthor()
     root = tk.Tk()
     root.geometry("640x640")
