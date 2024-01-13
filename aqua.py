@@ -604,7 +604,6 @@ def view_version()->None:
 
 if __name__ == "__main__":
     version: const = const.Const("0.1.4_β")
-    textcount: int = 0
     # Windowsもしくはそれ以外を判別
     pf: str = platform.system()
     author: WillBeAuthor = WillBeAuthor()
