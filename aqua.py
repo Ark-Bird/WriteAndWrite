@@ -532,7 +532,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         # ここには到達しないはず
         raise independent_method.FatalError
 
-    def pkl(self) -> None:
+    def umeboshi(self) -> None:
         all_text = page.get("0.0", "end")
         pkl = tk.filedialog.asksaveasfilename()
         pkl = pkl + ".pkl"
@@ -540,7 +540,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             pickle.dump(all_text, f)
         return
 
-    def dpkl(self) -> None:
+    def sunuki(self) -> None:
         pkl = tk.filedialog.askopenfilename()
         with open(pkl, "rb") as f:
             deserialized_text = pickle.load(f)
@@ -628,8 +628,8 @@ if __name__ == "__main__":
     filemenu.add_command(label="開く", command=lambda: author.fpopen("file"))
     filemenu.add_command(label="保存 (Ctrl-s)", command=lambda: author.save_file("file"))
     filemenu.add_command(label="名前をつけて保存", command=lambda: author.saveas("file"))
-    filemenu.add_command(label="シリアライズして保存", command=lambda: author.pkl())
-    filemenu.add_command(label="デシリアライズして開く", command=lambda: author.dpkl())
+    filemenu.add_command(label="シリアライズして保存", command=lambda: author.umeboshi())
+    filemenu.add_command(label="デシリアライズして開く", command=lambda: author.sunuki())
     filemenu.add_command(
         label="オートセーブ (Ctrl-e)", command=lambda: author.toggle_as_flag()
     )
