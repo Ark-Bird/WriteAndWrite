@@ -543,9 +543,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     def dpkl(self) -> None:
         pkl = tk.filedialog.askopenfilename()
         with open(pkl, "rb") as f:
-            dser = pickle.load(f)
+            deserialized_text = pickle.load(f)
         page.delete("0.0", "end")
-        page.insert("insert", dser[:-1])
+        page.insert("insert", deserialized_text[:-1])
         return
 
     def show_license(self) -> None:
