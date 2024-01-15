@@ -15,3 +15,5 @@ color.bin
 /Scripts/*
 venv
 /venv/
+aqua.zip
+/dist/aqua.exe

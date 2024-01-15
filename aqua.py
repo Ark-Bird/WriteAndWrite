@@ -489,22 +489,23 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             with open("color.bin", mode="w", encoding="utf-8") as f:
                 self.theme = f.write("normal")
         if self.theme == "dark":
-            with open("color.bin", mode="w", encoding="utf-8") as f:
-                f.write("dark")
+            self.write_theme("dark")
             page.configure(bg="gray16", fg="azure", insertbackground="white")
         elif self.theme == "paper":
-            with open("color.bin", mode="w", encoding="utf-8") as f:
-                f.write("paper")
+            self.write_theme("paper")
             page.configure(bg="azure", fg="blueviolet", insertbackground="blueviolet")
         elif self.theme == "terminal":
-            with open("color.bin", mode="w", encoding="utf-8") as f:
-                f.write("terminal")
+            self.write_theme("terminal")
             page.configure(bg="black", fg="springgreen3", insertbackground="green")
         elif self.theme == "normal":
-            with open("color.bin", mode="w", encoding="utf-8") as f:
-                f.write("normal")
+            self.write_theme("normal")
             page.configure(bg="ghost white", fg="black", insertbackground="black")
         self.theme_f = False
+        return
+
+    def write_theme(self, change_theme) -> None:
+        with open("color.bin", mode="w", encoding="utf-8") as f:
+            f.write(change_theme)
         return
 
     def is_modify(self) -> bool:
