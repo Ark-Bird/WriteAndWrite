@@ -275,7 +275,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.is_save = True
         return
 
-    def fpopen(self, types: str) -> None:
+    def open_text_file(self, types: str) -> None:
         """
         FILE OPEN dialog
         ファイルを開く
@@ -625,7 +625,7 @@ if __name__ == "__main__":
     filemenu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー、渡している'file'引数はダミー
     filemenu.add_command(label="新規ファイル", command=lambda: author.new_blank_file("file"))
-    filemenu.add_command(label="開く", command=lambda: author.fpopen("file"))
+    filemenu.add_command(label="開く", command=lambda: author.open_text_file("file"))
     filemenu.add_command(label="保存 (Ctrl-s)", command=lambda: author.save_file("file"))
     filemenu.add_command(label="名前をつけて保存", command=lambda: author.saveas("file"))
     filemenu.add_command(label="シリアライズして保存", command=lambda: author.umeboshi())
