@@ -181,7 +181,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             self.is_auto_save_enable()
         return
 
-    def saveas(self, types: str) -> None:
+    def save_as(self, types: str) -> None:
         """
         clear file name
         名前をつけて保存
@@ -246,7 +246,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         if not self.is_save:
             save_exit = messagebox.askyesno("ファイルが変更されています", "ファイルを保存しますか？")
             if save_exit:
-                self.saveas("file")
+                self.save_as("file")
             if messagebox.askyesno("終了しますか？", "終了しますか？"):
                 self.is_exit = True
         if self.is_exit or self.is_save:
@@ -264,7 +264,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.ftext = page.get("0.0", "end")
         if self.ftext != "\n" or self.is_save:
             if messagebox.askyesno("保存しますか?", "ファイルが変更されています、保存しますか?"):
-                self.saveas("file")
+                self.save_as("file")
             if not messagebox.askyesno("破棄しますか？", "文書を破棄しますか？"):
                 return
         if types == "file":
@@ -628,7 +628,7 @@ if __name__ == "__main__":
     filemenu.add_command(label="新規ファイル", command=lambda: author.new_blank_file("file"))
     filemenu.add_command(label="開く", command=lambda: author.open_text_file("file"))
     filemenu.add_command(label="保存 (Ctrl-s)", command=lambda: author.save_file("file"))
-    filemenu.add_command(label="名前をつけて保存", command=lambda: author.saveas("file"))
+    filemenu.add_command(label="名前をつけて保存", command=lambda: author.save_as("file"))
     filemenu.add_command(label="シリアライズして保存", command=lambda: author.umeboshi())
     filemenu.add_command(label="デシリアライズして開く", command=lambda: author.sunuki())
     filemenu.add_command(
