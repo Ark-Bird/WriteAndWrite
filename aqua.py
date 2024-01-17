@@ -25,7 +25,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 import independent_method
 import pyperclip
-
+import vinegar
 
 class WillBeAuthor:
     """
@@ -533,21 +533,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         # ここには到達しないはず
         raise independent_method.FatalError
 
-    def umeboshi(self) -> None:
-        all_text = page.get("0.0", "end")
-        pkl = tk.filedialog.asksaveasfilename()
-        pkl = pkl + ".pkl"
-        with open(pkl, "wb") as f:
-            pickle.dump(all_text, f)
-        return
 
-    def sunuki(self) -> None:
-        pkl = tk.filedialog.askopenfilename()
-        with open(pkl, "rb") as f:
-            deserialized_text = pickle.load(f)
-        page.delete("0.0", "end")
-        page.insert("insert", deserialized_text[:-1])
-        return
 
     def show_license(self) -> None:
         tk.messagebox.showinfo("LICENSE", self.MIT_LICENSE)
@@ -609,6 +595,8 @@ if __name__ == "__main__":
     author: WillBeAuthor = WillBeAuthor()
     root = tk.Tk()
     root.geometry("640x640")
+    page = tk.Text(root, undo=False, wrap=tkinter.NONE)
+    pkvin = vinegar.Vinegar(page)
     # 動いているOSの判別
     # このif節をコメントアウトしてからバイナリ化すればアイコンファイルをコピーせずに実行可能,その場合アイコンはPythonのデフォルトになります
     # アイコンファイルが見つからない場合はデフォルトアイコンで起動
@@ -629,8 +617,8 @@ if __name__ == "__main__":
     filemenu.add_command(label="開く", command=lambda: author.open_text_file("file"))
     filemenu.add_command(label="保存 (Ctrl-s)", command=lambda: author.save_file("file"))
     filemenu.add_command(label="名前をつけて保存", command=lambda: author.save_as("file"))
-    filemenu.add_command(label="シリアライズして保存", command=lambda: author.umeboshi())
-    filemenu.add_command(label="デシリアライズして開く", command=lambda: author.sunuki())
+    filemenu.add_command(label="シリアライズして保存", command=lambda: pkvin.umeboshi())
+    filemenu.add_command(label="デシリアライズして開く", command=lambda: pkvin.sunuki())
     filemenu.add_command(
         label="オートセーブ (Ctrl-e)", command=lambda: author.toggle_as_flag()
     )
@@ -691,7 +679,8 @@ if __name__ == "__main__":
     # テキストエリア作成
     # フォントは游ゴシックを想定
     #ysc = tk.Text(page)
-    page = tk.Text(root, undo=False, wrap=tkinter.NONE)
+    # page = tk.Text(root, undo=False, wrap=tkinter.NONE)
+    # pkvin = vinegar.Vinegar(page)
     page.configure(bg="ghost white", fg="black")
     defont = tkfont.Font(family="Yu Gothic", size=14)
     # スクロールバー
