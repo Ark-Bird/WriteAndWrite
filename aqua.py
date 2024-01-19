@@ -262,7 +262,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         保存フラグを立てる
         """
         self.ftext = page.get("0.0", "end")
-        if self.ftext != "\n" or self.is_save:
+        if not self.is_save:
             if messagebox.askyesno("保存しますか?", "ファイルが変更されています、保存しますか?"):
                 self.save_as("file")
             if not messagebox.askyesno("破棄しますか？", "文書を破棄しますか？"):
@@ -589,7 +589,7 @@ def view_version()->None:
 
 
 if __name__ == "__main__":
-    version: const = const.Const("0.1.5_β")
+    version: const = const.Const("0.1.6_β")
     # Windowsもしくはそれ以外を判別
     pf: str = platform.system()
     author: WillBeAuthor = WillBeAuthor()
