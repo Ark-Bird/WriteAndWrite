@@ -742,7 +742,8 @@ if __name__ == "__main__":
     except FileNotFoundError:
         theme: str = "normal"
     # 潰せない例外の場合終了
-    except Exception:
+    except Exception as e:
+        tk.messagebox.showinfo("ERROR!", "致命的なエラーが発生しました:" + str(e))
         sys.exit()
     author.change_theme(True, theme)
     root.columnconfigure(0, weight=1)
