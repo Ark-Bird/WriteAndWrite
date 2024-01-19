@@ -9,6 +9,11 @@ all:*.py
 	del /Q build\aqua\*
 	python archive.py
 	git checkout develop
+stable:
+	git checkout stable
+	git merge develop
+	git push
+	git checkout develop
 deploy:
 	git checkout master
 	git merge stable
