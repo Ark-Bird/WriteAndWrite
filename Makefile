@@ -6,6 +6,7 @@ all:*.py
 	echo D | xcopy /Y /Q res dist\res /s
 	del /Q build\aqua\*
 	python archive.py
+	git push
 stable:
 	git checkout stable
 	git merge develop
