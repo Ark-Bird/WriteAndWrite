@@ -568,16 +568,16 @@ def theme_init()-> None:
     try:
         with open("color.bin", mode="r", encoding="utf-8") as f:
             initialize_color: str = f.read()
-            if initialize_color == "dark":
-                page.configure(bg="gray16", fg="azure", insertbackground="white")
-            elif initialize_color == "paper":
-                page.configure(
-                    bg="azure", fg="blueviolet", insertbackground="blueviolet"
-                )
-            elif initialize_color == "terminal":
-                page.configure(bg="black", fg="springgreen3", insertbackground="green")
-            else:
-                page.configure(bg="ghost white", fg="black", insertbackground="black")
+        if initialize_color == "dark":
+            page.configure(bg="gray16", fg="azure", insertbackground="white")
+        elif initialize_color == "paper":
+            page.configure(
+                bg="azure", fg="blueviolet", insertbackground="blueviolet"
+            )
+        elif initialize_color == "terminal":
+            page.configure(bg="black", fg="springgreen3", insertbackground="green")
+        else:
+            page.configure(bg="ghost white", fg="black", insertbackground="black")
     except FileNotFoundError:
         print("Error!")
         page.configure(bg="ghost white", fg="black", insertbackground="black")
