@@ -1,4 +1,6 @@
 all:*.py
+	git checkout stable
+	git merge develop
 	del /Q dist
 	pip install pyperclip
 	pip install pyinstaller
@@ -6,3 +8,9 @@ all:*.py
 	echo D | xcopy /Y /Q res dist\res /s
 	del /Q build\aqua\*
 	python archive.py
+	git checkout develop
+deploy:
+	git checkout master
+	git merge stable
+	git push
+	git checkout develop
