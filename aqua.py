@@ -27,6 +27,7 @@ from typing import assert_never
 import independent_method
 import vinegar
 
+
 class WillBeAuthor:
     """
     The God class
@@ -73,6 +74,7 @@ class WillBeAuthor:
         self.theme: str = "normal"
         self.theme_f: bool = False
         self.copied_text = ""
+        self.page = None
         if self.hit_return:
             self.blank_line = True
         else:
@@ -95,6 +97,10 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
+    def setroot(self, root):
+        self.root = root
+    def setpage(self, page):
+        self.page = page
     def logger(self, event) -> None:
         """
         テキストの変更を検知して変更フラグを立てる
@@ -116,7 +122,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         オートインデント有効の場合タイトルバーに表示
         自動セーブの有効無効をタイトルバーに表示
         """
-        s: str = page.get("0.0", "end")
+        s: str = self.page.get("0.0", "end")
         # messagebox.showinfo('文字数(改行、スペース込み)', self.leng)
         # vt = " a \t b\r\n\tc\t\n"
         s = s.replace(' ', '')
@@ -140,7 +146,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         else:
             self.title_var_string += ":auto_save_disable:"
         self.blank_line = False
-        root.title(self.title_var_string)
+        self.root.title(self.title_var_string)
         return self.title_var_string
 
     def autosave(self) -> None:
@@ -152,7 +158,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         if self.is_autosave_flag:
             self.is_save = True
             self.save_file("file")
-            root.after(1000, self.autosave)
+            self.root.after(1000, self.autosave)
         return
 
     def is_auto_save_enable(self) -> None:
@@ -223,7 +229,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             self.file = ""
             return
         if types == "file":
-            self.ftext = page.get("0.0", "end")
+            self.ftext = self.page.get("0.0", "end")
             self.ftext = self.ftext[0:-1]
         if self.file[-4:] != ".txt":
             self.file += ".txt"
@@ -251,7 +257,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             if messagebox.askyesno("終了しますか？", "終了しますか？"):
                 self.is_exit = True
         if self.is_exit or self.is_save:
-            root.destroy()
+            self.root.destroy()
         else:
             return
 
@@ -262,14 +268,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         変更フラグを降ろす
         保存フラグを立てる
         """
-        self.ftext = page.get("0.0", "end")
+        self.ftext = self.page.get("0.0", "end")
         if not self.is_save:
             if messagebox.askyesno("保存しますか?", "ファイルが変更されています、保存しますか?"):
                 self.save_as("file")
             if not messagebox.askyesno("破棄しますか？", "文書を破棄しますか？"):
                 return
         if types == "file":
-            page.delete("0.0", "end")
+            self.page.delete("0.0", "end")
             self.file = ""
         self.is_changed = False
         self.file = ""
@@ -283,7 +289,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         変更されていたらチェック
         存在しないディレクトリをを指定していたらスクリプトのディレクトリを開く
         """
-        if page.get("0.0", "end") != "\n" and self.is_changed:
+        if self.page.get("0.0", "end") != "\n" and self.is_changed:
             if not messagebox.askyesno("注意", "ファイルが変更されています、破棄しますか？"):
                 return
         fTyp = [("", "*")]
@@ -304,8 +310,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         except UnicodeDecodeError:
             messagebox.showerror("文字コードエラー", "ファイルがUTF-8ではありません")
             return
-        page.delete("0.0", "end")
-        page.insert("0.0", readed)
+        self.page.delete("0.0", "end")
+        self.page.insert("0.0", readed)
         self.t_change()
         return
 
@@ -316,7 +322,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         """
         try:
             # 選択範囲をクリップボードにコピー
-            self.clipped_text = page.get(tk.SEL_FIRST, tk.SEL_LAST)
+            self.clipped_text = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
             self.copied_text = self.clipped_text
         except tk.TclError:
             # 問題の無い例外は握りつぶす
@@ -335,7 +341,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         """
         try:
             # self.pstxt = self.cliptext
-            page.insert("insert", self.copied_text)
+            self.page.insert("insert", self.copied_text)
         # 選択範囲がない場合例外が投げられる
         except tk.TclError:
             # 問題の無いエラー（握りつぶす）
@@ -353,8 +359,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         """
         try:
             # ローカル変数とクリップボードにコピー
-            self.clipped_text = page.get(tk.SEL_FIRST, tk.SEL_LAST)
-            page.delete(tk.SEL_FIRST, tk.SEL_LAST)
+            self.clipped_text = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
+            self.page.delete(tk.SEL_FIRST, tk.SEL_LAST)
         except tk.TclError:
             # 選択範囲がない場合例を投げられるので握りつぶす
             ignore()
@@ -374,15 +380,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         b = tk.SEL_FIRST
         i = tk.SEL_FIRST
         try:
-            temp_str = page.get("sel.first", "sel.last")
+            temp_str = self.page.get("sel.first", "sel.last")
             # 投稿サイトが10文字以上のルビに対応の場合、以下二行をコメントアウトしてください
             if len(temp_str) > 10:
                 messagebox.showinfo("over", "10文字以上にルビは非対応の可能性があります")
             temp_str = "|" + temp_str + "《》"
 
-            page.delete("sel.first", "sel.last")
-            page.insert("insert", temp_str)
-            page.mark_set("insert", "insert-1c")
+            self.page.delete("sel.first", "sel.last")
+            self.page.insert("insert", temp_str)
+            self.page.mark_set("insert", "insert-1c")
         except tk.TclError:
             ignore()
         except Exception:
@@ -427,14 +433,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         if self.hit_return:
             index = tk.INSERT
             if self.blank_line:
-                prev = page.get("insert -3c")
-                d = page.get("insert -2c")
+                prev = self.page.get("insert -3c")
+                d = self.page.get("insert -2c")
                 if (d == " " or d == "　") and prev == "\n":
-                    page.delete("insert -2c")
+                    self.page.delete("insert -2c")
                 if self.half_space:
-                    page.insert(index, " ")
+                    self.page.insert(index, " ")
                 else:
-                    page.insert(index, "　")
+                    self.page.insert(index, "　")
             self.hit_return = False
         return
 
@@ -487,16 +493,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 self.theme = f.write("normal")
         if self.theme == "dark":
             self.write_theme("dark")
-            page.configure(bg="gray16", fg="azure", insertbackground="white")
+            self.page.configure(bg="gray16", fg="azure", insertbackground="white")
         elif self.theme == "paper":
             self.write_theme("paper")
-            page.configure(bg="azure", fg="blueviolet", insertbackground="blueviolet")
+            self.page.configure(bg="azure", fg="blueviolet", insertbackground="blueviolet")
         elif self.theme == "terminal":
             self.write_theme("terminal")
-            page.configure(bg="black", fg="springgreen3", insertbackground="green")
+            self.page.configure(bg="black", fg="springgreen3", insertbackground="green")
         elif self.theme == "normal":
             self.write_theme("normal")
-            page.configure(bg="ghost white", fg="black", insertbackground="black")
+            self.page.configure(bg="ghost white", fg="black", insertbackground="black")
         self.theme_f = False
         return
 
@@ -558,7 +564,7 @@ def ignore() -> None:
     return
 
 
-def theme_init()-> None:
+def theme_init(page)-> None:
     """
     カラーコンフィグ
     """
@@ -585,14 +591,15 @@ def view_version()->None:
     return
 
 
-if __name__ == "__main__":
-    version: const = const.Const("0.2.6_β")
+def main():
     # Windowsもしくはそれ以外を判別
     pf: str = platform.system()
     author: WillBeAuthor = WillBeAuthor()
     root = tk.Tk()
+    author.setroot(root)
     root.geometry("640x640")
     page = tk.Text(root, undo=True, wrap=tkinter.NONE)
+    author.setpage(page)
     pkvin = vinegar.Vinegar(page)
     # 動いているOSの判別
     # このif節をコメントアウトしてからバイナリ化すればアイコンファイルをコピーせずに実行可能,その場合アイコンはPythonのデフォルトになります
@@ -695,7 +702,7 @@ if __name__ == "__main__":
     page["xscrollcommand"] = xscrollbar.set
 
     #テーマ初期化
-    theme_init()
+    theme_init(page)
 
     # ファイルを保存
     page.bind("<Control-s>", lambda self: author.save_file("file"))
@@ -748,3 +755,8 @@ if __name__ == "__main__":
     # オートセーブその他の再帰呼び出し
     root.after(1000, author.is_auto_save_enable)
     root.mainloop()
+
+if __name__ == "__main__":
+    version: const = const.Const("0.2.6_β")
+    main()
+
