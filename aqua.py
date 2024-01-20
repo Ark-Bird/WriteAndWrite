@@ -353,9 +353,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         """
         try:
             # ローカル変数とクリップボードにコピー
-            # アプリ内で完結するならpyperclipは不要
             self.clipped_text = page.get(tk.SEL_FIRST, tk.SEL_LAST)
-            pyperclip.copy(self.clipped_text)
             page.delete(tk.SEL_FIRST, tk.SEL_LAST)
         except tk.TclError:
             # 選択範囲がない場合例を投げられるので握りつぶす
@@ -530,7 +528,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         except Exception:
             raise independent_method.FatalError
         # ここには到達しないはず
-        assert_never("unreachable")
+        assert_never(unreachable)
 
 
 
@@ -594,7 +592,7 @@ if __name__ == "__main__":
     author: WillBeAuthor = WillBeAuthor()
     root = tk.Tk()
     root.geometry("640x640")
-    page = tk.Text(root, undo=False, wrap=tkinter.NONE)
+    page = tk.Text(root, undo=True, wrap=tkinter.NONE)
     pkvin = vinegar.Vinegar(page)
     # 動いているOSの判別
     # このif節をコメントアウトしてからバイナリ化すればアイコンファイルをコピーせずに実行可能,その場合アイコンはPythonのデフォルトになります
@@ -741,7 +739,7 @@ if __name__ == "__main__":
     except FileNotFoundError:
         theme: str = "normal"
     # 潰せない例外の場合終了
-    except Exception:
+    except Exception as e:
         tk.messagebox.showinfo("ERROR!", "致命的なエラーが発生しました:" + str(e))
         raise independent_method.FatalError
     author.change_theme(True, theme)
