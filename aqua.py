@@ -4,19 +4,9 @@
 Created on Fri Feb 17 20:47:33 2017
 @author: hiro
 """
-import pickle
 import tkinter
 import tkinter.font as tkfont
 import const
-"""
-Copyright 2020 hiro
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-"""
 import os
 import platform
 import sys
@@ -26,6 +16,15 @@ from tkinter import messagebox
 from typing import assert_never
 import independent_method
 import vinegar
+"""
+Copyright 2020 hiro
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+"""
 
 
 class WillBeAuthor:
@@ -75,6 +74,7 @@ class WillBeAuthor:
         self.theme_f: bool = False
         self.copied_text = ""
         self.page = None
+        self.root = None
         if self.hit_return:
             self.blank_line = True
         else:
@@ -99,8 +99,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
     def setroot(self, root):
         self.root = root
+
     def setpage(self, page):
         self.page = page
+
     def logger(self, event) -> None:
         """
         テキストの変更を検知して変更フラグを立てる
@@ -113,6 +115,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.counter()
         self.is_save = False
         self.is_changed = True
+        return
 
     def counter(self) -> str:
         """
@@ -213,14 +216,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             if not os.path.exists("path.bin"):
                 raise independent_method.NotOpenPathException
             with open("path.bin", mode="r", encoding="utf-8") as f:
-                iDir = os.path.abspath(os.path.dirname(f.readline()))
+                prev_save_directory = os.path.abspath(os.path.dirname(f.readline()))
         except independent_method.NotOpenPathException:
-            iDir = os.path.abspath(os.path.dirname(__file__))
+            prev_save_directory = os.path.abspath(os.path.dirname(__file__))
         if types == "":
             return
         if self.file == "":
             self.file = tk.filedialog.asksaveasfilename(
-                filetypes=[("txt files", "*.txt")], initialdir=iDir
+                filetypes=[("txt files", "*.txt")], initialdir=prev_save_directory
             )
         if self.file == "":
             self.is_autosave_flag = False
@@ -282,7 +285,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.is_save = True
         return
 
-    def open_text_file(self, types: str) -> None:
+    def open_text_file(self) -> None:
         """
         FILE OPEN dialog
         ファイルを開く
@@ -292,16 +295,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         if self.page.get("0.0", "end") != "\n" and self.is_changed:
             if not messagebox.askyesno("注意", "ファイルが変更されています、破棄しますか？"):
                 return
-        fTyp = [("", "*")]
+        # file_type = [("", "*")]
         # paht.binは前回保存したディレクトリが書き込まれている
         try:
             if not os.path.exists("path.bin"):
                 raise independent_method.NotOpenPathException
             with open("path.bin", mode="r", encoding="utf-8") as f:
-                iDir = f.readline()
+                directory_before_saved = f.readline()
         except independent_method.NotOpenPathException:
-            iDir = os.path.abspath(os.path.dirname(__file__))
-        self.file = tk.filedialog.askopenfilename(initialdir=iDir)
+            directory_before_saved = os.path.abspath(os.path.dirname(__file__))
+        self.file = tk.filedialog.askopenfilename(initialdir=directory_before_saved)
         if self.file == "":
             return
         try:
@@ -377,8 +380,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         ルビの書式は小説家になろう及びカクヨム、及びその互換書式に対応しています
         返り値無し
         """
-        b = tk.SEL_FIRST
-        i = tk.SEL_FIRST
         try:
             temp_str = self.page.get("sel.first", "sel.last")
             # 投稿サイトが10文字以上のルビに対応の場合、以下二行をコメントアウトしてください
@@ -536,8 +537,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         # ここには到達しないはず
         assert_never(unreachable)
 
-
-
     def show_license(self) -> None:
         tk.messagebox.showinfo("LICENSE", self.MIT_LICENSE)
         return
@@ -564,7 +563,7 @@ def ignore() -> None:
     return
 
 
-def theme_init(page)-> None:
+def theme_init(page) -> None:
     """
     カラーコンフィグ
     """
@@ -586,7 +585,8 @@ def theme_init(page)-> None:
         page.configure(bg="ghost white", fg="black", insertbackground="black")
     return
 
-def view_version()->None:
+
+def view_version() -> None:
     tk.messagebox.showinfo("バージョン情報:", version.get_const())
     return
 
@@ -618,7 +618,7 @@ def main():
     filemenu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー、渡している'file'引数はダミー
     filemenu.add_command(label="新規ファイル", command=lambda: author.new_blank_file("file"))
-    filemenu.add_command(label="開く", command=lambda: author.open_text_file("file"))
+    filemenu.add_command(label="開く", command=lambda: author.open_text_file())
     filemenu.add_command(label="保存 (Ctrl-s)", command=lambda: author.save_file("file"))
     filemenu.add_command(label="名前をつけて保存", command=lambda: author.save_as("file"))
     filemenu.add_command(label="シリアライズして保存", command=lambda: pkvin.umeboshi())
@@ -667,14 +667,14 @@ def main():
         label="オン/オフ (Ctrl-q)", command=lambda: author.toggle_auto_indent()
     )
     menubar.add_cascade(label="オートインデント", menu=auto_indent)
-    #ヘルプメニューの表示
-    Help_Menu = tk.Menu(menubar, tearoff=0)
-    Help_Menu.add_command(
+    # ヘルプメニューの表示
+    help_menu = tk.Menu(menubar, tearoff=0)
+    help_menu.add_command(
         label="LICENSE", command=lambda: author.show_license()
     )
     # バージョン情報
-    Help_Menu.add_command(label="VERSION", command=lambda: view_version())
-    menubar.add_cascade(label="HELP", menu=Help_Menu)
+    help_menu.add_command(label="VERSION", command=lambda: view_version())
+    menubar.add_cascade(label="HELP", menu=help_menu)
 
     # タイトル
     root.config(menu=menubar)
@@ -682,7 +682,7 @@ def main():
     root.configure(background="gray")
     # テキストエリア作成
     # フォントは游ゴシックを想定
-    #ysc = tk.Text(page)
+    # ysc = tk.Text(page)
     # page = tk.Text(root, undo=False, wrap=tkinter.NONE)
     # pkvin = vinegar.Vinegar(page)
     page.configure(bg="ghost white", fg="black")
@@ -690,18 +690,18 @@ def main():
     # スクロールバー
 
     xscrollbar = tkinter.Scrollbar(root, orient=tkinter.HORIZONTAL, command=page.xview)
-    yscrollbar = tkinter.Scrollbar(root,orient=tkinter.VERTICAL, command=page.yview)
+    yscrollbar = tkinter.Scrollbar(root, orient=tkinter.VERTICAL, command=page.yview)
     xscrollbar.pack(side=tkinter.BOTTOM)
     yscrollbar.pack(side=tkinter.RIGHT)
     page.pack(fill="both", expand=True)
     yscrollbar.pack(side=tk.RIGHT, fill="y", )
     xscrollbar.pack(side=tk.BOTTOM, fill="x")
     # xsc = tk.Text(root)
-    #psbar = tk.Scrollbar(root)?
+    # psbar = tk.Scrollbar(root)?
     page["yscrollcommand"] = yscrollbar.set
     page["xscrollcommand"] = xscrollbar.set
 
-    #テーマ初期化
+    # テーマ初期化
     theme_init(page)
 
     # ファイルを保存
@@ -756,7 +756,7 @@ def main():
     root.after(1000, author.is_auto_save_enable)
     root.mainloop()
 
+
 if __name__ == "__main__":
     version: const = const.Const("0.3.6_β")
     main()
-
