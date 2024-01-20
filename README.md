@@ -20,7 +20,6 @@ makeコマンドを実行してください
 makeコマンドはGNUの皆さんが作ってくれた物を使用します  
 検索すればヒットするのでそれを使用してください  
 Makeをインストールしたくない人は以下  
-pip install pyperclip  
 pip install pyinstaller  
 pyinstaller aqua.py --onefile --noconsole --icon=author.ico --exclude-module _bootlocale  
 ただしバイナリはやや重いのでpythonインタプリタで直接実行することを推奨します  
