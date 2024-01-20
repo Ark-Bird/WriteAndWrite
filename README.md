@@ -32,8 +32,7 @@ aqua.pyとindependent_method.pyがソース本体です、ビルドにはmakeを
   
 Notice!  
 ----
-pyperclipに依存しているのでスクリプト単体で実行する場合はpip等で別途インストールしてください。  
-当ソフトは現在64bitのWindows10環境でのみサポートしています  
+当ソフトは現在64bitのWindows11環境でのみサポートしています  
 ※非推奨ではありますがこのバイナリをアンチウイルスソフトのホワイトリストに登録すると多少軽くなります  
 
 
@@ -43,10 +42,3 @@ LICENSE
 当ソフトはMITライセンスで配布されます
 ----  
 
-
-  
-  
------------------------------------
-Al Sweigart al@inventwithpython.com  
-BSD License  
-↑pyperclipのライセンス表記

@@ -23,8 +23,8 @@ import sys
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
+from typing import assert_never
 import independent_method
-import pyperclip
 import vinegar
 
 class WillBeAuthor:
@@ -72,6 +72,7 @@ class WillBeAuthor:
         self.title_var_string: str = ""
         self.theme: str = "normal"
         self.theme_f: bool = False
+        self.copied_text = ""
         if self.hit_return:
             self.blank_line = True
         else:
@@ -316,7 +317,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         try:
             # 選択範囲をクリップボードにコピー
             self.clipped_text = page.get(tk.SEL_FIRST, tk.SEL_LAST)
-            pyperclip.copy(self.clipped_text)
+            self.copied_text = self.clipped_text
         except tk.TclError:
             # 問題の無い例外は握りつぶす
             ignore()
@@ -333,10 +334,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         返り値無し
         """
         try:
-            # pyperclip.pasteを使うと文字化けする
-            self.pasting_text = pyperclip.paste()
             # self.pstxt = self.cliptext
-            page.insert("insert", self.pasting_text)
+            page.insert("insert", self.copied_text)
         # 選択範囲がない場合例外が投げられる
         except tk.TclError:
             # 問題の無いエラー（握りつぶす）
@@ -531,7 +530,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         except Exception:
             raise independent_method.FatalError
         # ここには到達しないはず
-        raise independent_method.FatalError
+        assert_never("unreachable")
 
 
 
@@ -589,7 +588,7 @@ def view_version()->None:
 
 
 if __name__ == "__main__":
-    version: const = const.Const("0.1.6_β")
+    version: const = const.Const("0.2.6_β")
     # Windowsもしくはそれ以外を判別
     pf: str = platform.system()
     author: WillBeAuthor = WillBeAuthor()
@@ -629,7 +628,7 @@ if __name__ == "__main__":
     editmenu = tk.Menu(menubar, tearoff=0)
     editmenu.add_command(label="コピー (Ctrl-c)", command=lambda: author.text_copy())
     editmenu.add_command(label="カット (Ctrl-x)", command=lambda: author.text_cut())
-    editmenu.add_command(label="貼り付け (Ctrl-v)", command=lambda: author.text_paste())
+    # editmenu.add_command(label="貼り付け (Ctrl-v)", command=lambda: author.text_paste())
     menubar.add_cascade(label="編集", menu=editmenu)
 
     # メニューバー作成
@@ -704,7 +703,7 @@ if __name__ == "__main__":
     page.bind("<Control-s>", lambda self: author.save_file("file"))
     # コピペ＆カット
     page.bind("<Control-c>", lambda self: author.text_copy())
-    # page.bind('<Control-v>', lambda self: author.txtpst())
+    # page.bind('<Control-v>', lambda self: author.text_paste())
     page.bind("<Control-x>", lambda self: author.text_cut())
     # 三点リーダー二つ組挿入
     page.bind("<Control-t>", lambda self: independent_method.three_point(page))
@@ -742,9 +741,9 @@ if __name__ == "__main__":
     except FileNotFoundError:
         theme: str = "normal"
     # 潰せない例外の場合終了
-    except Exception as e:
+    except Exception:
         tk.messagebox.showinfo("ERROR!", "致命的なエラーが発生しました:" + str(e))
-        sys.exit()
+        raise independent_method.FatalError
     author.change_theme(True, theme)
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
