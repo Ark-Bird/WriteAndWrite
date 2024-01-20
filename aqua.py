@@ -757,6 +757,6 @@ def main():
     root.mainloop()
 
 if __name__ == "__main__":
-    version: const = const.Const("0.2.6_β")
+    version: const = const.Const("0.3.6_β")
     main()
 
