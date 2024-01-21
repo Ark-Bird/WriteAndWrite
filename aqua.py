@@ -75,6 +75,7 @@ class WillBeAuthor:
         self.copied_text = ""
         self.page = None
         self.root = None
+        self.file = ""
         if self.hit_return:
             self.blank_line = True
         else:
@@ -160,7 +161,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             ignore()
         if self.is_autosave_flag:
             self.is_save = True
-            self.save_file("file")
+            self.save_file()
             self.root.after(1000, self.autosave)
         return
 
@@ -178,7 +179,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.change_theme(False, self.theme)
         return
 
-    def toggle_as_flag(self) -> None:
+    def toggle_as_flag(self, event=None) -> None:
         """
         オートセーブフラグのトグル
         self.ASFLAG:オートセーブのフラグ
@@ -191,19 +192,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             self.is_auto_save_enable()
         return
 
-    def save_as(self, types: str) -> None:
+    def save_as(self) -> None:
         """
         clear file name
         名前をつけて保存
         返り値なし
         """
-        if types == "file":
-            self.file = ""
-        self.save_file(types)
+        self.file = ""
+        self.save_file()
         self.is_save = True
         return
 
-    def save_file(self, types: str):
+    def save_file(self, event=None) -> None:
         """
         SAVE file with dialog
         ファイルの保存処理
@@ -219,8 +219,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 prev_save_directory = os.path.abspath(os.path.dirname(f.readline()))
         except independent_method.NotOpenPathException:
             prev_save_directory = os.path.abspath(os.path.dirname(__file__))
-        if types == "":
-            return
+
         if self.file == "":
             self.file = tk.filedialog.asksaveasfilename(
                 filetypes=[("txt files", "*.txt")], initialdir=prev_save_directory
@@ -231,7 +230,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         if not self.file:
             self.file = ""
             return
-        if types == "file":
+        if True:
             self.ftext = self.page.get("0.0", "end")
             self.ftext = self.ftext[0:-1]
         if self.file[-4:] != ".txt":
@@ -256,7 +255,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         if not self.is_save:
             save_exit = messagebox.askyesno("ファイルが変更されています", "ファイルを保存しますか？")
             if save_exit:
-                self.save_as("file")
+                self.save_as()
             if messagebox.askyesno("終了しますか？", "終了しますか？"):
                 self.is_exit = True
         if self.is_exit or self.is_save:
@@ -264,7 +263,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         else:
             return
 
-    def new_blank_file(self, types: str) -> None:
+    def new_blank_file(self) -> None:
         """
         clear text field
         テキストをクリアして新しいファイルにする
@@ -274,12 +273,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.ftext = self.page.get("0.0", "end")
         if not self.is_save:
             if messagebox.askyesno("保存しますか?", "ファイルが変更されています、保存しますか?"):
-                self.save_as("file")
+                self.save_as()
             if not messagebox.askyesno("破棄しますか？", "文書を破棄しますか？"):
                 return
-        if types == "file":
-            self.page.delete("0.0", "end")
-            self.file = ""
+        self.page.delete("0.0", "end")
+        self.file = ""
         self.is_changed = False
         self.file = ""
         self.is_save = True
@@ -318,7 +316,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.t_change()
         return
 
-    def text_copy(self) -> None:
+    def text_copy(self, event=None) -> None:
         """
         copy text
         テキストの範囲が選択されていなかった場合例外を投げ、握りつぶす
@@ -335,7 +333,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             raise independent_method.FatalError
         return
 
-    def text_paste(self) -> None:
+    def text_paste(self, event=None) -> None:
         """
         paste text
         範囲を選択していなかった場合の例外は握りつぶす
@@ -354,7 +352,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             raise independent_method.FatalError
         return
 
-    def text_cut(self) -> None:
+    def text_cut(self, event=None) -> None:
         """
         cut text
         返り値無し
@@ -363,6 +361,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         try:
             # ローカル変数とクリップボードにコピー
             self.clipped_text = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
+            self.copied_text = self.clipped_text
             self.page.delete(tk.SEL_FIRST, tk.SEL_LAST)
         except tk.TclError:
             # 選択範囲がない場合例を投げられるので握りつぶす
@@ -372,7 +371,42 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             raise independent_method.FatalError
         return
 
-    def ruby(self) -> None:
+    def dot_mark(self, event=None) -> None:
+        """
+        傍点をつける
+        :param page:
+        pageは傍点をつけるテキストエリアで引数
+        おそらく例外は出ないはずなので例外を投げられたら握りつぶす
+        :return:
+        """
+        try:
+            m = self.page.get("insert", "insert +1c")
+            if m == "\n":
+                self.page.mark_set("insert", "insert+1c")
+                return
+            m = "|" + m + "《・》"
+            self.page.delete("insert")
+            self.page.insert("insert", m)
+        except Exception:
+            raise independent_method.FatalError
+        return
+
+    def three_point(self, event=None) -> None:
+        """
+        三点リーダの挿入
+        全角で二つ一組で挿入
+        """
+        self.page.insert("insert", "……")
+        pass
+
+    def double_dash(self, event=None) -> None:
+        """
+        ダッシュの挿入
+        全角で二つ一組で挿入
+        """
+        self.page.insert("insert", "――")
+
+    def ruby(self, event=None) -> None:
         """
         テキストを選択してルビを振る
         選択範囲が十文字より多ければ警告を表示、十文字の基準は一般的なWEB小説投稿サイトの最長文字数、
@@ -404,7 +438,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.is_changed = True
         return
 
-    def toggle_auto_indent(self) -> None:
+    def toggle_auto_indent(self, event=None) -> None:
         """
         オートインデント機能のオン・オフ
         返り値は無し
@@ -415,7 +449,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.counter()
         return
 
-    def toggle_half_or_full(self) -> None:
+    def toggle_half_or_full(self, event=None) -> None:
         """
         オートインデントの半角全角切り替え
         """
@@ -445,7 +479,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             self.hit_return = False
         return
 
-    def ime_check(self) -> None:
+    def ime_check(self, event=None) -> None:
         """
         IMEのリターンか、改行かの判断
         改行ならばインスタンス変数のhit_returnを立てる
@@ -536,6 +570,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         tk.messagebox.showinfo("LICENSE", self.MIT_LICENSE)
         return
 
+    def set_page(self, page):
+        self.page = page
+
 
 def res_path(rel: str) -> str:
     """
@@ -594,6 +631,7 @@ def main():
     author.setroot(root)
     root.geometry("640x640")
     page = tk.Text(root, undo=True, wrap=tkinter.NONE)
+    author.set_page(page)
     author.setpage(page)
     pkvin = vinegar.Vinegar(page)
     # 動いているOSの判別
@@ -612,24 +650,24 @@ def main():
     menubar = tk.Menu(root)
     filemenu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー、渡している'file'引数はダミー
-    filemenu.add_command(label="新規ファイル", command=lambda: author.new_blank_file("file"))
-    filemenu.add_command(label="開く", command=lambda: author.open_text_file())
-    filemenu.add_command(label="保存 (Ctrl-s)", command=lambda: author.save_file("file"))
-    filemenu.add_command(label="名前をつけて保存", command=lambda: author.save_as("file"))
-    filemenu.add_command(label="シリアライズして保存", command=lambda: pkvin.umeboshi())
-    filemenu.add_command(label="デシリアライズして開く", command=lambda: pkvin.sunuki())
+    filemenu.add_command(label="新規ファイル", command=author.new_blank_file)
+    filemenu.add_command(label="開く", command=author.open_text_file)
+    filemenu.add_command(label="保存 (Ctrl-s)", command=author.save_file)
+    filemenu.add_command(label="名前をつけて保存", command=author.save_as)
+    filemenu.add_command(label="シリアライズして保存", command=pkvin.umeboshi)
+    filemenu.add_command(label="デシリアライズして開く", command=pkvin.sunuki)
     filemenu.add_command(
-        label="オートセーブ (Ctrl-e)", command=lambda: author.toggle_as_flag()
+        label="オートセーブ (Ctrl-e)", command=author.toggle_as_flag
     )
-    filemenu.add_command(label="終了", command=lambda: author.exit_as_save())
+    filemenu.add_command(label="終了", command=author.exit_as_save)
     menubar.add_cascade(label="ファイル", menu=filemenu)
 
     # 編集メニュー、カット、コピー、ペーストをラムダ式で呼び出し
-    editmenu = tk.Menu(menubar, tearoff=0)
-    editmenu.add_command(label="コピー (Ctrl-c)", command=lambda: author.text_copy())
-    editmenu.add_command(label="カット (Ctrl-x)", command=lambda: author.text_cut())
-    # editmenu.add_command(label="貼り付け (Ctrl-v)", command=lambda: author.text_paste())
-    menubar.add_cascade(label="編集", menu=editmenu)
+    # editmenu = tk.Menu(menubar, tearoff=0)
+    # editmenu.add_command(label="コピー (Ctrl-c)", command=author.text_copy)
+    # editmenu.add_command(label="カット (Ctrl-x)", command=author.text_cut)
+    # # editmenu.add_command(label="貼り付け (Ctrl-v)", command=lambda: author.text_paste())
+    # menubar.add_cascade(label="編集", menu=editmenu)
 
     # メニューバー作成
     # 集中モード
@@ -659,16 +697,16 @@ def main():
     # オートインデント/オン・オフ
     auto_indent = tk.Menu(menubar, tearoff=0)
     auto_indent.add_command(
-        label="オン/オフ (Ctrl-q)", command=lambda: author.toggle_auto_indent()
+        label="オン/オフ (Ctrl-q)", command=author.toggle_auto_indent
     )
     menubar.add_cascade(label="オートインデント", menu=auto_indent)
     # ヘルプメニューの表示
     help_menu = tk.Menu(menubar, tearoff=0)
     help_menu.add_command(
-        label="LICENSE", command=lambda: author.show_license()
+        label="LICENSE", command=author.show_license
     )
     # バージョン情報
-    help_menu.add_command(label="VERSION", command=lambda: view_version())
+    help_menu.add_command(label="VERSION", command=view_version)
     menubar.add_cascade(label="HELP", menu=help_menu)
 
     # タイトル
@@ -700,28 +738,28 @@ def main():
     theme_init(page)
 
     # ファイルを保存
-    page.bind("<Control-s>", lambda self: author.save_file("file"))
+    page.bind("<Control-s>", author.save_file)
     # コピペ＆カット
-    page.bind("<Control-c>", lambda self: author.text_copy())
-    # page.bind('<Control-v>', lambda self: author.text_paste())
-    page.bind("<Control-x>", lambda self: author.text_cut())
+    # page.bind("<Control-c>", author.text_copy)
+    # page.bind('<Control-v>', author.text_paste)
+    # page.bind("<Control-x>", author.text_cut)
     # 三点リーダー二つ組挿入
-    page.bind("<Control-t>", lambda self: independent_method.three_point(page))
+    page.bind("<Control-t>", author.three_point)
     # ダッシュの挿入
-    page.bind("<Control-d>", lambda self: independent_method.double_dash(page))
+    page.bind("<Control-d>", author.double_dash)
     # ルビを振る
-    page.bind("<Control-r>", lambda self: author.ruby())
+    page.bind("<Control-r>", author.ruby)
     # 傍点をつける
-    page.bind("<Control-b>", lambda self: independent_method.dot_mark(page))
+    page.bind("<Control-b>", author.dot_mark)
     # オートインデント
     # 半角全角切り替え
-    page.bind("<Control-w>", lambda self: author.toggle_half_or_full())
+    page.bind("<Control-w>", author.toggle_half_or_full)
     # オートインデントのオン・オフ
-    page.bind("<Control-q>", lambda self: author.toggle_auto_indent())
+    page.bind("<Control-q>", author.toggle_auto_indent)
     # オートセーブ
-    page.bind("<Control-e>", lambda self: author.toggle_as_flag())
+    page.bind("<Control-e>", author.toggle_as_flag)
     # エンターが押された場合、IMEの変換で押したものか改行をしたのかを判断してオートインデントを行う
-    page.bind("<KeyPress-Return>", lambda self: author.ime_check())
+    page.bind("<KeyPress-Return>", author.ime_check)
     page.bind(
         "<KeyRelease-Return>",
         lambda self: author.insert_space()
