@@ -635,6 +635,7 @@ def main():
     author: WillBeAuthor = WillBeAuthor()
     root = tk.Tk()
     author.setroot(root)
+    independent_method.set_root(root)
     root.geometry("640x640")
     page = tk.Text(root, undo=True, wrap=tkinter.NONE)
     author.set_page(page)
@@ -678,10 +679,8 @@ def main():
     # メニューバー作成
     # 集中モード
     c_mode = tk.Menu(menubar, tearoff=0)
-    c_mode.add_command(
-        label="スタート", command=lambda: independent_method.start_c_mode(root)
-    )
-    c_mode.add_command(label="終了", command=lambda: independent_method.end_c_mode(root))
+    c_mode.add_command(label="スタート", command=independent_method.start_c_mode)
+    c_mode.add_command(label="終了", command=independent_method.end_c_mode)
     menubar.add_cascade(label="集中モード", menu=c_mode)
     # ColorMode Change
     color_mode = tk.Menu(menubar, tearoff=False)
@@ -795,5 +794,5 @@ def main():
 
 
 if __name__ == "__main__":
-    version: const = const.Const("0.3.7_β")
+    version: const = const.Const("0.4.0_β_code:\"Shattered Skies\"")
     main()
