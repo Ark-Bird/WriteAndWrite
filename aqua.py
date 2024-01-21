@@ -459,7 +459,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             self.half_space = True
         return
 
-    def insert_space(self) -> None:
+    def insert_space(self, ev=None) -> None:
         """
         オートインデント
         self.half_spaceがTrueのとき半角スペース、Falseの時全角スペースのインデントを挿入
@@ -572,6 +572,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
     def set_page(self, page):
         self.page = page
+
+    def indent_system(self, event=None) -> None:
+        if self.hit_return and self.auto_indent:
+            self.insert_space()
+        else:
+            ignore()
 
 
 def res_path(rel: str) -> str:
@@ -762,9 +768,7 @@ def main():
     page.bind("<KeyPress-Return>", author.ime_check)
     page.bind(
         "<KeyRelease-Return>",
-        lambda self: author.insert_space()
-        if author.hit_return and author.auto_indent
-        else ignore(),
+        author.indent_system
     )
     # 文字カウント
     page.bind("<Any-KeyPress>", author.logger)
