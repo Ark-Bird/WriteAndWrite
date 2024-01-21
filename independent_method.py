@@ -72,3 +72,9 @@ def end_c_mode(root) -> None:
     root.attributes("-fullscreen", False)
     root.geometry("640x640")
     return
+
+
+def write_string(change_theme) -> None:
+    with open("color.bin", mode="w", encoding="utf-8") as f:
+        f.write(change_theme)
+    return

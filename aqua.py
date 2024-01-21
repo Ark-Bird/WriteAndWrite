@@ -5,7 +5,7 @@ Created on Fri Feb 17 20:47:33 2017
 @author: hiro
 """
 import tkinter
-import tkinter.font as tkfont
+# import tkinter.font as tkfont
 import const
 import os
 import platform
@@ -493,23 +493,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             with open("color.bin", mode="w", encoding="utf-8") as f:
                 self.theme = f.write("normal")
         if self.theme == "dark":
-            self.write_theme("dark")
+            independent_method.write_string("dark")
             self.page.configure(bg="gray16", fg="azure", insertbackground="white")
         elif self.theme == "paper":
-            self.write_theme("paper")
+            independent_method.write_string("paper")
             self.page.configure(bg="azure", fg="blueviolet", insertbackground="blueviolet")
         elif self.theme == "terminal":
-            self.write_theme("terminal")
+            independent_method.write_string("terminal")
             self.page.configure(bg="black", fg="springgreen3", insertbackground="green")
         elif self.theme == "normal":
-            self.write_theme("normal")
+            independent_method.write_string("normal")
             self.page.configure(bg="ghost white", fg="black", insertbackground="black")
         self.theme_f = False
-        return
-
-    def write_theme(self, change_theme) -> None:
-        with open("color.bin", mode="w", encoding="utf-8") as f:
-            f.write(change_theme)
         return
 
     def is_modify(self) -> bool:
@@ -686,7 +681,7 @@ def main():
     # page = tk.Text(root, undo=False, wrap=tkinter.NONE)
     # pkvin = vinegar.Vinegar(page)
     page.configure(bg="ghost white", fg="black")
-    defont = tkfont.Font(family="Yu Gothic", size=14)
+    # defont = tkfont.Font(family="Yu Gothic", size=14)
     # スクロールバー
 
     xscrollbar = tkinter.Scrollbar(root, orient=tkinter.HORIZONTAL, command=page.xview)
@@ -758,5 +753,5 @@ def main():
 
 
 if __name__ == "__main__":
-    version: const = const.Const("0.3.6_β")
+    version: const = const.Const("0.3.7_β")
     main()

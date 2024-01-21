@@ -4,6 +4,7 @@ import pickle
 class Vinegar:
     def __init__(self, page):
         self.page = page
+
     def umeboshi(self) -> None:
         all_text = self.page.get("0.0", "end")
         pkl = tk.filedialog.asksaveasfilename()
