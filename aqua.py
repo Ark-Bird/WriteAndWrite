@@ -374,7 +374,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     def dot_mark(self, event=None) -> None:
         """
         傍点をつける
-        :param page:
         pageは傍点をつけるテキストエリアで引数
         おそらく例外は出ないはずなので例外を投げられたら握りつぶす
         :return:
