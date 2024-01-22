@@ -640,7 +640,6 @@ def main() -> None:
     # アイコンファイルが見つからない場合はデフォルトアイコンで起動
     try:
         if pf == "Windows":
-            # icon = res_path('./res/wbe.ico')
             icon = "./res/wbe.ico"
             root.iconbitmap(icon)
         else:
@@ -658,13 +657,7 @@ def main() -> None:
     root.config(menu=menubar)
     root.title("I Want Be...")
     root.configure(background="gray")
-    # テキストエリア作成
-    # フォントは游ゴシックを想定
-    # ysc = tk.Text(page)
-    # page = tk.Text(root, undo=False, wrap=tkinter.NONE)
-    # pkvin = vinegar.Vinegar(page)
-    # defont = tkfont.Font(family="Yu Gothic", size=14)
-    # スクロールバー
+
 
     textarea_config.init_textarea(root, author, page)
 

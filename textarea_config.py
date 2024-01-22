@@ -9,8 +9,6 @@ def init_textarea(root, author, page) -> None:
     page.pack(fill="both", expand=True)
     yscrollbar.pack(side=tk.RIGHT, fill="y", )
     xscrollbar.pack(side=tk.BOTTOM, fill="x")
-    # xsc = tk.Text(root)
-    # psbar = tk.Scrollbar(root)?
     page["yscrollcommand"] = yscrollbar.set
     page["xscrollcommand"] = xscrollbar.set
 

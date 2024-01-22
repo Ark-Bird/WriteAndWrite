@@ -34,7 +34,6 @@ def menu_init(author, root, menubar, pkvin):
     # ColorMode Change
     color_mode = tk.Menu(menubar, tearoff=False)
     color_select = tk.Menu(color_mode, tearoff=False)
-    # color_select.add_command(label="test", command=author.change_theme)
     color_select.add_command(
         label="normal", command=lambda: author.set_theme(theme="normal")
     )
