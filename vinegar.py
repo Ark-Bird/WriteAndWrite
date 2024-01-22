@@ -6,6 +6,10 @@ class Vinegar:
         self.page = page
 
     def umeboshi(self) -> None:
+        """
+        テキストをシリアライズして保存
+        :return:
+        """
         all_text = self.page.get("0.0", "end")
         pkl = tk.filedialog.asksaveasfilename()
         pkl = pkl + ".pkl"
@@ -14,6 +18,10 @@ class Vinegar:
         return
 
     def sunuki(self) -> None:
+        """
+        シリアライズしたテキストをロード
+        :return:
+        """
         pkl = tk.filedialog.askopenfilename()
         with open(pkl, "rb") as f:
             deserialized_text = pickle.load(f)
