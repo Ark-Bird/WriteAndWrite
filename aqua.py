@@ -70,8 +70,7 @@ class WillBeAuthor:
         self.dark_mode: bool = False
         self.col: str = ""
         self.title_var_string: str = ""
-        self.theme: str = "normal"
-        self.theme_f: bool = False
+        self.theme: str = self.read_theme()
         self.copied_text = ""
         self.page = None
         self.root = None
@@ -101,8 +100,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     def setroot(self, root):
         self.root = root
 
-    def setpage(self, page):
-        self.page = page
+    def read_theme(self) -> str:
+        try:
+            with open("color.bin", "r") as f:
+                self.theme = f.read()
+        except FileNotFoundError:
+            print("例外")
+            independent_method.write_string("normal")
+        except Exception:
+            raise independent_method.FatalError
+        return self.theme
+
+    def set_theme(self, theme="normal") -> None:
+        independent_method.write_string(theme)
+        theme = self.read_theme()
+        self.change_theme(theme=theme)
+        return None
 
     def logger(self, event) -> None:
         """
@@ -176,7 +189,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             self.autosave()
         else:
             pass
-        self.change_theme(False, self.theme)
         return
 
     def toggle_as_flag(self, event=None) -> None:
@@ -488,7 +500,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.hit_return = True
         return
 
-    def change_theme(self, theme_f, new_theme) -> None:
+    def change_theme(self, theme) -> None:
         """
         テーマの変更
         theme_fはテーマが変更されているかのフラグ、Falseの時即時リターン
@@ -498,33 +510,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         該当ファイルはプレーンテキストでありマニュアルでの編集が可能
         ストレージへの負荷軽減のためモード変更のない場合ファイルへ書き込まずリターン
         """
-        try:
-            self.theme = new_theme
-            # テーマが変更されていなければ即リターン
-            self.theme_f = theme_f
-        except FileNotFoundError:
-            with open("color.bin", mode="w", encoding="utf-8") as f:
-                self.theme = f.write("normal")
-                return
-        if not self.theme_f:
-            return
-        try:
-            with open("color.bin", mode="r", encoding="utf-8") as f:
-                self.theme = f.read()
-            if self.theme_f:
-                if self.theme == "normal":
-                    self.theme = new_theme
-                elif self.theme == "paper":
-                    self.theme = new_theme
-                elif self.theme == "dark":
-                    self.theme = new_theme
-                elif self.theme == "terminal":
-                    self.theme = new_theme
-                else:
-                    self.theme = "normal"
-        except FileNotFoundError:
-            with open("color.bin", mode="w", encoding="utf-8") as f:
-                self.theme = f.write("normal")
+        self.theme = theme
         if self.theme == "dark":
             independent_method.write_string("dark")
             self.page.configure(bg="gray16", fg="azure", insertbackground="white")
@@ -534,10 +520,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         elif self.theme == "terminal":
             independent_method.write_string("terminal")
             self.page.configure(bg="black", fg="springgreen3", insertbackground="green")
-        elif self.theme == "normal":
+        else:
             independent_method.write_string("normal")
             self.page.configure(bg="ghost white", fg="black", insertbackground="black")
-        self.theme_f = False
         return
 
     def is_modify(self) -> bool:
@@ -615,29 +600,6 @@ def ignore() -> None:
     return
 
 
-def theme_init(page) -> None:
-    """
-    カラーコンフィグ
-    """
-    try:
-        with open("color.bin", mode="r", encoding="utf-8") as f:
-            initialize_color: str = f.read()
-        if initialize_color == "dark":
-            page.configure(bg="gray16", fg="azure", insertbackground="white")
-        elif initialize_color == "paper":
-            page.configure(
-                bg="azure", fg="blueviolet", insertbackground="blueviolet"
-            )
-        elif initialize_color == "terminal":
-            page.configure(bg="black", fg="springgreen3", insertbackground="green")
-        else:
-            page.configure(bg="ghost white", fg="black", insertbackground="black")
-    except FileNotFoundError:
-        print("Error!")
-        page.configure(bg="ghost white", fg="black", insertbackground="black")
-    return
-
-
 def view_version() -> None:
     """
     バージョン情報をポップアップで表示
@@ -657,7 +619,6 @@ def main():
     root.geometry("640x640")
     page = tk.Text(root, undo=True, wrap=tkinter.NONE)
     author.set_page(page)
-    author.setpage(page)
     pkvin = vinegar.Vinegar(page)
     # 動いているOSの判別
     # このif節をコメントアウトしてからバイナリ化すればアイコンファイルをコピーせずに実行可能,その場合アイコンはPythonのデフォルトになります
@@ -670,7 +631,9 @@ def main():
         else:
             root.wm_iconbitmap("@./res/wbe.xbm")
     except tkinter.TclError:
-        pass
+        ignore()
+    theme = author.read_theme()
+    author.set_theme(theme=theme)
     root.minsize(32, 32)
     menubar = tk.Menu(root)
     filemenu = tk.Menu(menubar, tearoff=0)
@@ -703,17 +666,18 @@ def main():
     # ColorMode Change
     color_mode = tk.Menu(menubar, tearoff=False)
     color_select = tk.Menu(color_mode, tearoff=False)
+    # color_select.add_command(label="test", command=author.change_theme)
     color_select.add_command(
-        label="normal", command=lambda: author.change_theme(True, "normal")
+        label="normal", command=lambda: author.set_theme(theme="normal")
     )
     color_select.add_command(
-        label="dark", command=lambda: author.change_theme(True, "dark")
+        label="dark", command=lambda: author.set_theme(theme="dark")
     )
     color_select.add_command(
-        label="paper", command=lambda: author.change_theme(True, "paper")
+        label="paper", command=lambda: author.set_theme(theme="paper")
     )
     color_select.add_command(
-        label="terminal", command=lambda: author.change_theme(True, "terminal")
+        label="terminal", command=lambda: author.set_theme(theme="terminal")
     )
     color_mode.add_cascade(label="テーマ切り替え", menu=color_select)
     menubar.add_cascade(label="テーマ", menu=color_mode)
@@ -741,7 +705,6 @@ def main():
     # ysc = tk.Text(page)
     # page = tk.Text(root, undo=False, wrap=tkinter.NONE)
     # pkvin = vinegar.Vinegar(page)
-    page.configure(bg="ghost white", fg="black")
     # defont = tkfont.Font(family="Yu Gothic", size=14)
     # スクロールバー
 
@@ -756,9 +719,6 @@ def main():
     # psbar = tk.Scrollbar(root)?
     page["yscrollcommand"] = yscrollbar.set
     page["xscrollcommand"] = xscrollbar.set
-
-    # テーマ初期化
-    theme_init(page)
 
     # ファイルを保存
     page.bind("<Control-s>", author.save_file)
@@ -791,19 +751,6 @@ def main():
     page.bind("<Any-KeyPress>", author.logger)
 
     root.protocol("WM_DELETE_WINDOW", author.exit_as_save)
-
-    # color.binの読み込み
-    try:
-        with open("color.bin", "r") as theme_file:
-            theme = theme_file.read()
-    # ファイルが見つからない場合通常テーマで開く
-    except FileNotFoundError:
-        theme: str = "normal"
-    # 潰せない例外の場合終了
-    except Exception as e:
-        tk.messagebox.showinfo("ERROR!", "致命的なエラーが発生しました:" + str(e))
-        raise independent_method.FatalError
-    author.change_theme(True, theme)
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
     # オートセーブその他の再帰呼び出し
