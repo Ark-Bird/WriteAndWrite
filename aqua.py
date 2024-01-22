@@ -566,13 +566,28 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         assert_never(unreachable)
 
     def show_license(self) -> None:
+        """
+        ライセンスをポップアップで表示
+        :return:
+        """
         tk.messagebox.showinfo("LICENSE", self.MIT_LICENSE)
         return
 
     def set_page(self, page):
+        """
+        テキストエリアの参照pageをインスタンス変数に参照渡し
+        :param page:テキストエリアの参照
+        :return:
+        """
         self.page = page
 
     def indent_system(self, event=None) -> None:
+        """
+        インデントの挿入
+        EnterがIMEの確定ならなにもしない
+        :param event: 無視する
+        :return:
+        """
         if self.hit_return and self.auto_indent:
             self.insert_space()
         else:
@@ -624,6 +639,10 @@ def theme_init(page) -> None:
 
 
 def view_version() -> None:
+    """
+    バージョン情報をポップアップで表示
+    :return:
+    """
     tk.messagebox.showinfo("バージョン情報:", version.get_const())
     return
 

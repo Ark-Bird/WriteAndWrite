@@ -3,4 +3,7 @@ class Const:
         self._const_ = const
 
     def get_const(self):
+        """
+        定数のgetter、setterは無し
+        """
         return self._const_
