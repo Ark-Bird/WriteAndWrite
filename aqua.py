@@ -97,10 +97,20 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
-    def setroot(self, root):
+    def setroot(self, root) -> None:
+        """
+        rootウインドウの参照を受け取り、クラス内で扱えるようにする
+        :return:
+        """
         self.root = root
+        return
 
     def read_theme(self) -> str:
+        """
+        テーマファイルを読み込み、テーマ名を返す
+        ファイルが存在しなければnormalでcolor.binを作成
+        :return: color.binに書かれたテーマ名
+        """
         try:
             with open("color.bin", "r") as f:
                 self.theme = f.read()
@@ -112,6 +122,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         return self.theme
 
     def set_theme(self, theme="normal") -> None:
+        """
+        テーマをファイルから読み込みchange_theme関数に渡す
+        :param theme: 変更するテーマ、デフォルトでnormal
+        """
         independent_method.write_string(theme)
         theme = self.read_theme()
         self.change_theme(theme=theme)
@@ -558,7 +572,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         tk.messagebox.showinfo("LICENSE", self.MIT_LICENSE)
         return
 
-    def set_page(self, page):
+    def set_page(self, page) -> None:
         """
         テキストエリアの参照pageをインスタンス変数に参照渡し
         :param page:テキストエリアの参照
@@ -609,7 +623,12 @@ def view_version() -> None:
     return
 
 
-def main():
+def main() -> None:
+    """
+    主処理系
+    if __name__ == "__main__"から呼ばれる
+    グローバル変数を閉じ込めるためだけの関数
+    """
     # Windowsもしくはそれ以外を判別
     pf: str = platform.system()
     author: WillBeAuthor = WillBeAuthor()
