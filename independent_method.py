@@ -1,4 +1,6 @@
 import aqua
+
+
 class NotOpenPathException(Exception):
     """
     ファイルを開くのに失敗した時の例外
