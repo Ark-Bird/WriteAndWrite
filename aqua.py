@@ -759,5 +759,5 @@ def main():
 
 
 if __name__ == "__main__":
-    version: const = const.Const("0.4.0_β_code:\"Shattered Skies\"")
+    version: const = const.Const("0.4.2_β_code:\"Shattered Skies\"")
     main()
