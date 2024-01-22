@@ -17,3 +17,5 @@ venv
 /venv/
 aqua.zip
 /dist/aqua.exe
+setup.cfg
+setup.py
