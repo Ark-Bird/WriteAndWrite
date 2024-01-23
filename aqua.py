@@ -18,7 +18,7 @@ import menu_init
 import vinegar
 import textarea_config
 from independent_method import ignore
-
+import string_decorate
 """
 Copyright 2020 hiro
 
@@ -400,64 +400,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             raise independent_method.FatalError
         return
 
-    def dot_mark(self, event=None) -> None:
-        """
-        傍点をつける
-        pageは傍点をつけるテキストエリアで引数
-        おそらく例外は出ないはずなので例外を投げられたら握りつぶす
-        :return:
-        """
-        try:
-            m = self.page.get("insert", "insert +1c")
-            if m == "\n":
-                self.page.mark_set("insert", "insert+1c")
-                return
-            m = "|" + m + "《・》"
-            self.page.delete("insert")
-            self.page.insert("insert", m)
-        except Exception:
-            raise independent_method.FatalError
-        return
-
-    def three_point(self, event=None) -> None:
-        """
-        三点リーダの挿入
-        全角で二つ一組で挿入
-        """
-        self.page.insert("insert", "……")
-        pass
-
-    def double_dash(self, event=None) -> None:
-        """
-        ダッシュの挿入
-        全角で二つ一組で挿入
-        """
-        self.page.insert("insert", "――")
-
-    def ruby(self, event=None) -> None:
-        """
-        テキストを選択してルビを振る
-        選択範囲が十文字より多ければ警告を表示、十文字の基準は一般的なWEB小説投稿サイトの最長文字数、
-        これ以上でも問題無く表示できるサイトもある、その場合該当業をコメントアウトすればよい
-        ルビの書式は小説家になろう及びカクヨム、及びその互換書式に対応しています
-        返り値無し
-        """
-        try:
-            temp_str = self.page.get("sel.first", "sel.last")
-            # 投稿サイトが10文字以上のルビに対応の場合、以下二行をコメントアウトしてください
-            if len(temp_str) > 10:
-                messagebox.showinfo("over", "10文字以上にルビは非対応の可能性があります")
-            temp_str = "|" + temp_str + "《》"
-
-            self.page.delete("sel.first", "sel.last")
-            self.page.insert("insert", temp_str)
-            self.page.mark_set("insert", "insert-1c")
-        except tk.TclError:
-            ignore()
-        except Exception:
-            raise independent_method.FatalError
-        return
-
     def t_change(self) -> None:
         """
         テキストの変更フラグを立てる
@@ -615,6 +557,7 @@ def main() -> None:
     independent_method.set_root(root)
     root.geometry("640x640")
     page = tk.Text(root, undo=True, wrap=tkinter.NONE)
+    decorate = string_decorate.StringDecorator(page)
     author.set_page(page)
     pkvin = vinegar.Vinegar(page)
     # 動いているOSの判別
@@ -640,8 +583,7 @@ def main() -> None:
     root.title("I Want Be...")
     root.configure(background="gray")
 
-
-    textarea_config.init_textarea(root, author, page)
+    textarea_config.init_textarea(root, author, page, decorate)
 
     root.protocol("WM_DELETE_WINDOW", author.exit_as_save)
     root.columnconfigure(0, weight=1)

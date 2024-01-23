@@ -1,7 +1,8 @@
 import tkinter as tk
+import string_decorate
 
 
-def init_textarea(root, author, page) -> None:
+def init_textarea(root, author, page, decorate) -> None:
     xscrollbar = tk.Scrollbar(root, orient=tk.HORIZONTAL, command=page.xview)
     yscrollbar = tk.Scrollbar(root, orient=tk.VERTICAL, command=page.yview)
     xscrollbar.pack(side=tk.BOTTOM)
@@ -19,13 +20,13 @@ def init_textarea(root, author, page) -> None:
     # page.bind('<Control-v>', author.text_paste)
     # page.bind("<Control-x>", author.text_cut)
     # 三点リーダー二つ組挿入
-    page.bind("<Control-t>", author.three_point)
+    page.bind("<Control-t>", decorate.three_point)
     # ダッシュの挿入
-    page.bind("<Control-d>", author.double_dash)
+    page.bind("<Control-d>", decorate.double_dash)
     # ルビを振る
-    page.bind("<Control-r>", author.ruby)
+    page.bind("<Control-r>", decorate.ruby)
     # 傍点をつける
-    page.bind("<Control-b>", author.dot_mark)
+    page.bind("<Control-b>", decorate.dot_mark)
     # オートインデント
     # 半角全角切り替え
     page.bind("<Control-w>", author.toggle_half_or_full)
