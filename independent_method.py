@@ -1,6 +1,3 @@
-import aqua
-
-
 class NotOpenPathException(Exception):
     """
     ファイルを開くのに失敗した時の例外
@@ -63,4 +60,14 @@ def write_string(change_theme) -> None:
     """
     with open("color.bin", mode="w", encoding="utf-8") as f:
         f.write(change_theme)
+    return
+
+
+def ignore() -> None:
+    """
+    何もしない
+    例外を握りつぶす時等に使用
+    passではなく明示的に握りつぶす
+    """
+    pass
     return

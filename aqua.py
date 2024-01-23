@@ -6,7 +6,6 @@ Created on Fri Feb 17 20:47:33 2017
 """
 import tkinter
 # import tkinter.font as tkfont
-import const
 import os
 import platform
 import sys
@@ -18,6 +17,8 @@ import independent_method
 import menu_init
 import vinegar
 import textarea_config
+from independent_method import ignore
+
 """
 Copyright 2020 hiro
 
@@ -598,19 +599,6 @@ def res_path(rel: str) -> str:
     if hasattr(sys, "_MEIPASS"):
         return os.path.join(sys._MEIPASS, rel)
     return os.path.join(os.path.abspath("."), rel)
-
-
-def ignore() -> None:
-    """
-    何もしない
-    例外を握りつぶす時等に使用
-    passではなく明示的に握りつぶす
-    """
-    pass
-    return
-
-
-
 
 
 def main() -> None:
