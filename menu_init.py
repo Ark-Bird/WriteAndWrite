@@ -57,7 +57,7 @@ def menu_init(author, root, menubar, pkvin):
     # ヘルプメニューの表示
     help_menu = tk.Menu(menubar, tearoff=0)
     help_menu.add_command(
-        label="LICENSE", command=author.show_license
+        label="LICENSE", command=version.show_license
     )
     # バージョン情報
     help_menu.add_command(label="VERSION", command=version.view_version)

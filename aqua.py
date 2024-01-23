@@ -566,13 +566,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         # ここには到達しないはず
         assert_never(unreachable)
 
-    def show_license(self) -> None:
-        """
-        ライセンスをポップアップで表示
-        :return:
-        """
-        tk.messagebox.showinfo("LICENSE", self.MIT_LICENSE)
-        return
+
 
     def set_page(self, page) -> None:
         """
