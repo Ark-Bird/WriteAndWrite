@@ -1,3 +1,5 @@
+import tkinter
+
 import independent_method
 from independent_method import ignore
 from tkinter import messagebox
@@ -32,18 +34,20 @@ class StringDecorator:
         三点リーダの挿入
         全角で二つ一組で挿入
         """
-        self.page.insert("insert", "……")
-        pass
-    
-    
+        self.page.insert("insert", "…")
+        self.page.mark_set("insert", "insert-1c")
+        self.page.insert("insert", "…")
+        return
+
     def double_dash(self, event=None) -> None:
         """
         ダッシュの挿入
         全角で二つ一組で挿入
         """
-        self.page.insert("insert", "――")
-    
-    
+        s = self.page.get("insert", "insert+1c")
+        self.page.insert("insert", "――" + s)
+        self.page.mark_set("insert", "insert-1c")
+
     def ruby(self, event=None) -> None:
         """
         テキストを選択してルビを振る
