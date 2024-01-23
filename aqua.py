@@ -542,6 +542,10 @@ def res_path(rel: str) -> str:
         return os.path.join(sys._MEIPASS, rel)
     return os.path.join(os.path.abspath("."), rel)
 
+def init_page(page: tk.Text):
+    decorate = string_decorate.StringDecorator(page)
+    pkvin = vinegar.Vinegar(page)
+    return decorate, pkvin
 
 def main() -> None:
     """
@@ -557,9 +561,8 @@ def main() -> None:
     independent_method.set_root(root)
     root.geometry("640x640")
     page = tk.Text(root, undo=True, wrap=tkinter.NONE)
-    decorate = string_decorate.StringDecorator(page)
+    decorate, pkvin = init_page(page)
     author.set_page(page)
-    pkvin = vinegar.Vinegar(page)
     # 動いているOSの判別
     # このif節をコメントアウトしてからバイナリ化すればアイコンファイルをコピーせずに実行可能,その場合アイコンはPythonのデフォルトになります
     # アイコンファイルが見つからない場合はデフォルトアイコンで起動
