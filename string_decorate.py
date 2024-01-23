@@ -47,6 +47,7 @@ class StringDecorator:
         s = self.page.get("insert", "insert+1c")
         self.page.insert("insert", "――" + s)
         self.page.mark_set("insert", "insert-1c")
+        return
 
     def ruby(self, event=None) -> None:
         """
