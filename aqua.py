@@ -78,6 +78,7 @@ class WillBeAuthor:
         self.page = None
         self.root = None
         self.file = ""
+        self.theme = ""
         if self.hit_return:
             self.blank_line = True
         else:
@@ -120,6 +121,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         except FileNotFoundError:
             print("例外")
             independent_method.write_string("normal")
+            self.theme = "normal"
         except Exception:
             raise independent_method.FatalError
         return self.theme
@@ -541,6 +543,7 @@ def res_path(rel: str) -> str:
     if hasattr(sys, "_MEIPASS"):
         return os.path.join(sys._MEIPASS, rel)
     return os.path.join(os.path.abspath("."), rel)
+
 
 def init_page(page: tk.Text):
     decorate = string_decorate.StringDecorator(page)
