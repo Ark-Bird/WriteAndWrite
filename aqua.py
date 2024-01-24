@@ -143,14 +143,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         文字カウントの変更
         Ctrlとの組み合わせに対応
         基本的に何かのキーが押された時に呼ばれる
-        テキストの変更時、アンドゥ用のスタックに現在のテキストを積む
         """
-        self.counter()
+        self.change_titlebar()
         self.is_save = False
         self.is_changed = True
         return
 
-    def counter(self) -> str:
+    def counter(self) -> int:
         """
         文字カウント
         loggerから呼ばれる
@@ -166,8 +165,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         s = s.replace('\n', '')
         s = s.replace('\r', '')
         vt = "".join(s.split())
-        vanillal = len(vt)
-        self.title_var_string = str(vanillal) + ":  文字"
+        text_length_without_whitespace = len(vt)
+        return text_length_without_whitespace
+
+    def change_titlebar(self) -> None:
+        """
+        タイトルバーの文字列を変更
+        """
+        character_num = self.counter()
+        self.title_var_string = str(character_num) + ":  文字"
 
         if not self.is_save:
             self.title_var_string += "*未保存*:"
@@ -183,7 +189,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             self.title_var_string += ":auto_save_disable:"
         self.blank_line = False
         self.root.title(self.title_var_string)
-        return self.title_var_string
+        return
 
     def autosave(self) -> None:
         """
@@ -549,6 +555,7 @@ def init_page(page: tk.Text):
     pkvin = vinegar.Vinegar(page)
     return decorate, pkvin
 
+
 def main() -> None:
     """
     主処理系
@@ -586,6 +593,7 @@ def main() -> None:
     # タイトル
     root.config(menu=menubar)
     root.title("I Want Be...")
+    author.change_titlebar()
     root.configure(background="gray")
 
     textarea_config.init_textarea(root, author, page, decorate)
