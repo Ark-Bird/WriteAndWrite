@@ -1,9 +1,9 @@
 import tkinter as tk
 import independent_method
+import indent_insert
 import version
 
-
-def menu_init(author, root, menubar, pkvin):
+def menu_init(author, root, menubar, pkvin, indent):
     filemenu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー、渡している'file'引数はダミー
     filemenu.add_command(label="新規ファイル", command=author.new_blank_file)
@@ -50,10 +50,10 @@ def menu_init(author, root, menubar, pkvin):
     menubar.add_cascade(label="テーマ", menu=color_mode)
     # オートインデント/オン・オフ
     auto_indent = tk.Menu(menubar, tearoff=0)
-    auto_indent.add_command(
-        label="オン/オフ (Ctrl-q)", command=author.toggle_auto_indent
-    )
+    auto_indent.add_command(label="オン/オフ (Ctrl-q)", command=indent.toggle_auto_indent)
+    auto_indent.add_command(label="半角/全角 (Ctrl-q)", command=indent.toggle_half_or_full)
     menubar.add_cascade(label="オートインデント", menu=auto_indent)
+
     # ヘルプメニューの表示
     help_menu = tk.Menu(menubar, tearoff=0)
     help_menu.add_command(

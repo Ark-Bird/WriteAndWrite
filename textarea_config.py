@@ -1,8 +1,7 @@
 import tkinter as tk
-import string_decorate
 
 
-def init_textarea(root, author, page, decorate) -> None:
+def init_textarea(root, author, page, decorate, indent) -> None:
     xscrollbar = tk.Scrollbar(root, orient=tk.HORIZONTAL, command=page.xview)
     yscrollbar = tk.Scrollbar(root, orient=tk.VERTICAL, command=page.yview)
     xscrollbar.pack(side=tk.BOTTOM)
@@ -29,16 +28,16 @@ def init_textarea(root, author, page, decorate) -> None:
     page.bind("<Control-b>", decorate.dot_mark)
     # オートインデント
     # 半角全角切り替え
-    page.bind("<Control-w>", author.toggle_half_or_full)
+    page.bind("<Control-w>", indent.toggle_half_or_full)
     # オートインデントのオン・オフ
-    page.bind("<Control-q>", author.toggle_auto_indent)
+    page.bind("<Control-q>", indent.toggle_auto_indent)
     # オートセーブ
     page.bind("<Control-e>", author.toggle_as_flag)
     # エンターが押された場合、IMEの変換で押したものか改行をしたのかを判断してオートインデントを行う
-    page.bind("<KeyPress-Return>", author.ime_check)
+    page.bind("<KeyPress-Return>", indent.ime_check)
     page.bind(
         "<KeyRelease-Return>",
-        author.indent_system
+        indent.indent_system
     )
     # 文字カウント
     page.bind("<Any-KeyPress>", author.logger)

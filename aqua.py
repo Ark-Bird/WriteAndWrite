@@ -19,6 +19,7 @@ import vinegar
 import textarea_config
 from independent_method import ignore
 import string_decorate
+import indent_insert
 """
 Copyright 2020 hiro
 
@@ -64,9 +65,6 @@ class WillBeAuthor:
         self.is_changed: bool = False
         self.clipped_text: str = ""
         self.pasting_text: str = ""
-        self.auto_indent: bool = False
-        self.half_space: bool = False
-        self.hit_return: bool = False
         self.is_save: bool = True
         self.is_exit: bool = False
         self.is_autosave_flag: bool = False
@@ -80,10 +78,9 @@ class WillBeAuthor:
         self.file = ""
         self.theme = ""
         self.init = True
-        if self.hit_return:
-            self.blank_line = True
-        else:
-            self.blank_line = False
+        self.blank_line = False
+        self.indent = None
+
         try:
             with open("color.bin", mode="r", encoding="utf-8") as f:
                 self.col = f.read()
@@ -174,6 +171,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         タイトルバーの文字列を変更
         """
         character_num = self.counter()
+        auto_indent, half_space = self.indent.auto_indent_enable_and_half_space_checker()
         self.title_var_string = str(character_num) + ":  文字"
 
         if not self.is_save:
@@ -183,8 +181,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         else:
             self.init = False
         self.title_var_string = "I want Be... :" + self.title_var_string
-        if self.auto_indent:
-            if self.half_space:
+        if auto_indent:
+            if half_space:
                 self.title_var_string += "*AI半角*"
             else:
                 self.title_var_string += "*AI全角*"
@@ -424,64 +422,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.is_changed = True
         return
 
-    def toggle_auto_indent(self, event=None) -> None:
-        """
-        オートインデント機能のオン・オフ
-        返り値は無し
-        挿入されるインデントは全角・半角はtoggle_half_or_full関数でトグルする
-        デフォルトは全角スペース
-        """
-        self.auto_indent = not self.auto_indent
-        self.change_titlebar()
-        return
-
-    def toggle_half_or_full(self, event=None) -> None:
-        """
-        オートインデントの半角全角切り替え
-        """
-        if self.half_space:
-            self.half_space = False
-        else:
-            self.half_space = True
-        self.change_titlebar()
-        return
-
-    def insert_space(self, ev=None) -> None:
-        """
-        オートインデント
-        self.half_spaceがTrueのとき半角スペース、Falseの時全角スペースのインデントを挿入
-        カーソルを移動して前の文字を調べ、空行と判断すればインデントを削除する
-        """
-        if self.hit_return:
-            index = tk.INSERT
-            if self.blank_line:
-                prev = self.page.get("insert -3c")
-                d = self.page.get("insert -2c")
-                if (d == " " or d == "　") and prev == "\n":
-                    self.page.delete("insert -2c")
-                if self.half_space:
-                    self.page.insert(index, " ")
-                else:
-                    self.page.insert(index, "　")
-            self.hit_return = False
-        return
-
-    def paren_del(self):
-        c = self.page.get("insert -1c")
-        s = self.page.get("insert -2c")
-        if c == "「" and s == "　":
-            self.page.delete("insert -2c")
-
-    def ime_check(self, event=None) -> None:
-        """
-        IMEのリターンか、改行かの判断
-        改行ならばインスタンス変数のhit_returnを立てる
-        返り値無し
-        """
-        self.blank_line = True
-        self.hit_return = True
-        return
-
     def change_theme(self, theme) -> None:
         """
         テーマの変更
@@ -540,18 +480,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         """
         self.page = page
 
-    def indent_system(self, event=None) -> None:
-        """
-        インデントの挿入
-        EnterがIMEの確定ならなにもしない
-        :param event: 無視する
-        :return:
-        """
-        if self.hit_return and self.auto_indent:
-            self.insert_space()
-        else:
-            self.paren_del()
-            ignore()
+    def set_indent(self, indent):
+        self.indent = indent
 
 
 def res_path(rel: str) -> str:
@@ -586,6 +516,8 @@ def main() -> None:
     root.geometry("640x640")
     page = tk.Text(root, undo=True, wrap=tkinter.NONE)
     decorate, pkvin = init_page(page)
+    indent = indent_insert.Indent(author, page)
+    author.set_indent(indent)
     author.set_page(page)
     # 動いているOSの判別
     # このif節をコメントアウトしてからバイナリ化すればアイコンファイルをコピーせずに実行可能,その場合アイコンはPythonのデフォルトになります
@@ -603,7 +535,7 @@ def main() -> None:
     root.minsize(32, 32)
     menubar = tk.Menu(root)
 
-    menu_init.menu_init(author, root, menubar, pkvin)
+    menu_init.menu_init(author, root, menubar, pkvin, indent)
 
     # タイトル
     root.config(menu=menubar)
@@ -611,7 +543,7 @@ def main() -> None:
     author.change_titlebar()
     root.configure(background="gray")
 
-    textarea_config.init_textarea(root, author, page, decorate)
+    textarea_config.init_textarea(root, author, page, decorate, indent)
 
     root.protocol("WM_DELETE_WINDOW", author.exit_as_save)
     root.columnconfigure(0, weight=1)
