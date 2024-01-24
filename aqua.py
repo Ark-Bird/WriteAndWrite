@@ -436,6 +436,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             self.half_space = False
         else:
             self.half_space = True
+        self.change_titlebar()
         return
 
     def insert_space(self, ev=None) -> None:
