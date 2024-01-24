@@ -466,6 +466,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             self.hit_return = False
         return
 
+    def paren_del(self):
+        c = self.page.get("insert -1c")
+        s = self.page.get("insert -2c")
+        if c == "「" and s == "　":
+            self.page.delete("insert -2c")
+
     def ime_check(self, event=None) -> None:
         """
         IMEのリターンか、改行かの判断
@@ -544,6 +550,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         if self.hit_return and self.auto_indent:
             self.insert_space()
         else:
+            self.paren_del()
             ignore()
 
 
