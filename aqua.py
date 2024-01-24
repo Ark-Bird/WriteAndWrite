@@ -180,9 +180,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.title_var_string = "I want Be... :" + self.title_var_string
         if self.auto_indent:
             if self.half_space:
-                self.title_var_string += "*AI半角"
+                self.title_var_string += "*AI半角*"
             else:
-                self.title_var_string += "*AI全角"
+                self.title_var_string += "*AI全角*"
+        else:
+            self.title_var_string += "*AI無効"
         if self.is_autosave_flag:
             self.title_var_string += ":auto_save_enable:"
         else:
@@ -425,7 +427,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         デフォルトは全角スペース
         """
         self.auto_indent = not self.auto_indent
-        self.counter()
+        self.change_titlebar()
         return
 
     def toggle_half_or_full(self, event=None) -> None:
