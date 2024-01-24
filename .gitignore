@@ -19,3 +19,5 @@ aqua.zip
 /dist/aqua.exe
 setup.cfg
 setup.py
+/.idea/misc.xml
+/.idea/WriteAndWrite.iml
