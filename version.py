@@ -7,7 +7,7 @@ def view_version() -> None:
     バージョン情報をポップアップで表示
     :return:
     """
-    version: const = const.Const("0.4.4_β_code:\"Shattered Skies\"")
+    version: const = const.Const("0.4.6_β_code:\"Shattered Skies\"")
     messagebox.showinfo("バージョン情報:", version.get_const())
     return
 
