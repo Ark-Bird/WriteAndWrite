@@ -191,6 +191,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         """
         if self.file == "":
             ignore()
+            return
         if self.is_autosave_flag:
             self.is_save = True
             self.save_file()
@@ -510,8 +511,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             raise independent_method.FatalError
         # ここには到達しないはず
         assert_never(unreachable)
-
-
 
     def set_page(self, page) -> None:
         """
