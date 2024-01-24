@@ -79,6 +79,7 @@ class WillBeAuthor:
         self.root = None
         self.file = ""
         self.theme = ""
+        self.init = True
         if self.hit_return:
             self.blank_line = True
         else:
@@ -177,6 +178,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
         if not self.is_save:
             self.title_var_string += "*未保存*:"
+        elif self.is_save and not self.init:
+            self.title_var_string += ":保存済み:"
+        else:
+            self.init = False
         self.title_var_string = "I want Be... :" + self.title_var_string
         if self.auto_indent:
             if self.half_space:
@@ -283,7 +288,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             #     self.file = self.file
         self.is_changed = False
         self.is_save = True
-        self.counter()
+        self.change_titlebar()
         return
 
     def exit_as_save(self) -> None:
