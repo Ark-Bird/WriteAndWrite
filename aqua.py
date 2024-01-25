@@ -20,6 +20,7 @@ import textarea_config
 from independent_method import ignore
 import string_decorate
 import indent_insert
+import theme_mod
 """
 Copyright 2020 hiro
 
@@ -131,7 +132,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         """
         independent_method.write_string(theme)
         theme = self.read_theme()
-        self.change_theme(theme=theme)
+        theme_mod.change_theme(self.page, theme=theme)
         return None
 
     def logger(self, event) -> None:
@@ -422,30 +423,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         self.is_changed = True
         return
 
-    def change_theme(self, theme) -> None:
-        """
-        テーマの変更
-        theme_fはテーマが変更されているかのフラグ、Falseの時即時リターン
-        new_themeは変更するテーマ
-        モード名をcolor.binに書き込む
-        color.binに存在しないテーマ名が書き込まれていた場合標準テーマに変更
-        該当ファイルはプレーンテキストでありマニュアルでの編集が可能
-        ストレージへの負荷軽減のためモード変更のない場合ファイルへ書き込まずリターン
-        """
-        self.theme = theme
-        if self.theme == "dark":
-            independent_method.write_string("dark")
-            self.page.configure(bg="gray16", fg="azure", insertbackground="white")
-        elif self.theme == "paper":
-            independent_method.write_string("paper")
-            self.page.configure(bg="azure", fg="blueviolet", insertbackground="blueviolet")
-        elif self.theme == "terminal":
-            independent_method.write_string("terminal")
-            self.page.configure(bg="black", fg="springgreen3", insertbackground="green")
-        else:
-            independent_method.write_string("normal")
-            self.page.configure(bg="ghost white", fg="black", insertbackground="black")
-        return
+
 
     def is_modify(self) -> bool:
         """
