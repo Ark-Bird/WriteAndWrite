@@ -535,7 +535,7 @@ def main() -> None:
     root.minsize(32, 32)
     menubar = tk.Menu(root)
 
-    menu_init.menu_init(author, root, menubar, pkvin, indent)
+    menu_init.menu_init(author, menubar, pkvin, indent)
 
     # タイトル
     root.config(menu=menubar)

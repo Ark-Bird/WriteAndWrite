@@ -3,7 +3,8 @@ import independent_method
 import indent_insert
 import version
 
-def menu_init(author, root, menubar, pkvin, indent):
+
+def menu_init(author, menubar, pkvin, indent):
     filemenu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー、渡している'file'引数はダミー
     filemenu.add_command(label="新規ファイル", command=author.new_blank_file)
