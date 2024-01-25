@@ -51,7 +51,7 @@ def menu_init(author, root, menubar, pkvin, indent):
     # オートインデント/オン・オフ
     auto_indent = tk.Menu(menubar, tearoff=0)
     auto_indent.add_command(label="オン/オフ (Ctrl-q)", command=indent.toggle_auto_indent)
-    auto_indent.add_command(label="半角/全角 (Ctrl-q)", command=indent.toggle_half_or_full)
+    auto_indent.add_command(label="半角/全角 (Ctrl-w)", command=indent.toggle_half_or_full)
     menubar.add_cascade(label="オートインデント", menu=auto_indent)
 
     # ヘルプメニューの表示
