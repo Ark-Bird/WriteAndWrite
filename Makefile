@@ -1,6 +1,6 @@
 all:*.py
 	del /Q dist
-	pyinstaller aqua.py --onefile --noconsole --icon=author.ico --exclude-module _bootlocale
+	pyinstaller aqua.py --onefile --icon=author.ico --exclude-module _bootlocale
 	echo D | xcopy /Y /Q res dist\res /s
 	del /Q build\aqua\*
 	python archive.py

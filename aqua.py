@@ -118,7 +118,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             with open("color.bin", "r") as f:
                 self.theme = f.read()
         except FileNotFoundError:
-            print("例外")
+            print("設定ファイルが存在しないためcolor.binを作成します")
             independent_method.write_string("normal")
             self.theme = "normal"
         except Exception:
