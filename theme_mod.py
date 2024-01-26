@@ -11,6 +11,8 @@ def change_theme(page, theme) -> None:
     ストレージへの負荷軽減のためモード変更のない場合ファイルへ書き込まずリターン
     """
     match theme:
+        case "normal":
+            page.configure(bg="ghost white", fg="black", insertbackground="black")
         case "dark":
             page.configure(bg="gray16", fg="azure", insertbackground="white")
         case "paper":
@@ -18,5 +20,6 @@ def change_theme(page, theme) -> None:
         case "terminal":
             page.configure(bg="black", fg="springgreen3", insertbackground="green")
         case _:
+            independent_method.write_string("normal")
             page.configure(bg="ghost white", fg="black", insertbackground="black")
     return
