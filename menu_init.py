@@ -1,10 +1,10 @@
 import tkinter as tk
 import independent_method
-import indent_insert
 import version
 
 
 def menu_init(author, menubar, pkvin, indent):
+    show_info = version.ShowInfo()
     filemenu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー、渡している'file'引数はダミー
     filemenu.add_command(label="新規ファイル", command=author.new_blank_file)
@@ -58,8 +58,8 @@ def menu_init(author, menubar, pkvin, indent):
     # ヘルプメニューの表示
     help_menu = tk.Menu(menubar, tearoff=0)
     help_menu.add_command(
-        label="LICENSE", command=version.show_license
+        label="LICENSE", command=show_info.show_license
     )
     # バージョン情報
-    help_menu.add_command(label="VERSION", command=version.view_version)
+    help_menu.add_command(label="VERSION", command=show_info.show_version)
     menubar.add_cascade(label="HELP", menu=help_menu)
