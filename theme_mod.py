@@ -10,12 +10,13 @@ def change_theme(page, theme) -> None:
     該当ファイルはプレーンテキストでありマニュアルでの編集が可能
     ストレージへの負荷軽減のためモード変更のない場合ファイルへ書き込まずリターン
     """
-    if theme == "dark":
-        page.configure(bg="gray16", fg="azure", insertbackground="white")
-    elif theme == "paper":
-        page.configure(bg="azure", fg="blueviolet", insertbackground="blueviolet")
-    elif theme == "terminal":
-        page.configure(bg="black", fg="springgreen3", insertbackground="green")
-    else:
-        page.configure(bg="ghost white", fg="black", insertbackground="black")
+    match theme:
+        case "dark":
+            page.configure(bg="gray16", fg="azure", insertbackground="white")
+        case "paper":
+            page.configure(bg="azure", fg="blueviolet", insertbackground="blueviolet")
+        case "terminal":
+            page.configure(bg="black", fg="springgreen3", insertbackground="green")
+        case _:
+            page.configure(bg="ghost white", fg="black", insertbackground="black")
     return
