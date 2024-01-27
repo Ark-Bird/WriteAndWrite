@@ -414,8 +414,6 @@ class WillBeAuthor:
         self.is_changed = True
         return
 
-
-
     def is_modify(self) -> bool:
         """
         color.binを読み込み現在のモードと同じならFalseを返す
