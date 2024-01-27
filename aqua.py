@@ -88,6 +88,8 @@ class WillBeAuthor:
                 self.theme = f.read()
         except FileNotFoundError:
             ignore()
+        except Exception:
+            raise independent_method.FatalError
 
     def setroot(self, root) -> None:
         """
