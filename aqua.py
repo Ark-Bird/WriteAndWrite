@@ -148,7 +148,6 @@ class WillBeAuthor:
         自動セーブの有効無効をタイトルバーに表示
         """
         s: str = self.page.get("0.0", "end")
-        # messagebox.showinfo('文字数(改行、スペース込み)', self.leng)
         # vt = " a \t b\r\n\tc\t\n"
         s = s.replace(' ', '')
         s = s.replace('　', '')
@@ -274,8 +273,6 @@ class WillBeAuthor:
             f.write(self.ftext)
         with open("./path.bin", mode="w", encoding="utf-8") as f:
             f.write(self.file)
-            # if types == 'file':
-            #     self.file = self.file
         self.is_changed = False
         self.is_save = True
         self.change_titlebar()
@@ -328,7 +325,6 @@ class WillBeAuthor:
         if self.page.get("0.0", "end") != "\n" and self.is_changed:
             if not messagebox.askyesno("注意", "ファイルが変更されています、破棄しますか？"):
                 return
-        # file_type = [("", "*")]
         # paht.binは前回保存したディレクトリが書き込まれている
         try:
             if not os.path.exists("path.bin"):
