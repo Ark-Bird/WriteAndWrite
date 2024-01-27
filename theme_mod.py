@@ -4,11 +4,9 @@ import independent_method
 def change_theme(page, theme) -> None:
     """
     テーマの変更
-    theme_fはテーマが変更されているかのフラグ、Falseの時即時リターン
-    new_themeは変更するテーマ
-    color.binに存在しないテーマ名が書き込まれていた場合標準テーマに変更し、color.binにnormalを作成して書き込む
-    該当ファイルはプレーンテキストでありマニュアルでの編集が可能
-    ストレージへの負荷軽減のためモード変更のない場合ファイルへ書き込まずリターン
+    引数pageはテキストエリアで、それをthemeに変更
+    テーマの種類はここで管理
+    どれともマッチしなかった場合は標準テーマでcolor.binを作成
     """
     match theme:
         case "normal":
