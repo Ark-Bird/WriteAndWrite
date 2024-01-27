@@ -4,6 +4,11 @@ import version
 
 
 def menu_init(author, menubar, pkvin, indent):
+    """
+    参照の引数menubarに各項目を追加
+    初めにバージョンとライセンスを表示するためのクラスのインスタンスを作成している
+    :return:
+    """
     show_info = version.ShowInfo()
     filemenu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー、渡している'file'引数はダミー
