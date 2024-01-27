@@ -88,8 +88,6 @@ class WillBeAuthor:
                 self.theme = f.read()
         except FileNotFoundError:
             ignore()
-        if self.col == "dark":
-            self.dark_mode = True
 
     def setroot(self, root) -> None:
         """
