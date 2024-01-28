@@ -21,6 +21,7 @@ from independent_method import ignore
 import string_decorate
 import indent_insert
 import theme_mod
+import full_mode
 """
 Copyright 2020 hiro
 
@@ -475,7 +476,8 @@ def main() -> None:
     author: WillBeAuthor = WillBeAuthor()
     root = tk.Tk()
     author.setroot(root)
-    independent_method.set_root(root)
+    full_screen = full_mode.FullMode(root)
+    ##############################################independent_method.set_root(root)
     root.geometry("640x640")
     page = tk.Text(root, undo=True, wrap=tkinter.NONE)
     decorate, pkvin = init_page(page)
@@ -498,7 +500,7 @@ def main() -> None:
     root.minsize(32, 32)
     menubar = tk.Menu(root)
 
-    menu_init.menu_init(author, menubar, pkvin, indent)
+    menu_init.menu_init(author, menubar, pkvin, indent, full_screen)
 
     # タイトル
     root.config(menu=menubar)

@@ -1,9 +1,8 @@
 import tkinter as tk
-import independent_method
 import version
 
 
-def menu_init(author, menubar, pkvin, indent):
+def menu_init(author, menubar, pkvin, indent, full_mode):
     """
     参照の引数menubarに各項目を追加
     初めにバージョンとライセンスを表示するためのクラスのインスタンスを作成している
@@ -34,8 +33,8 @@ def menu_init(author, menubar, pkvin, indent):
     # メニューバー作成
     # 集中モード
     c_mode = tk.Menu(menubar, tearoff=0)
-    c_mode.add_command(label="スタート", command=independent_method.start_c_mode)
-    c_mode.add_command(label="終了", command=independent_method.end_c_mode)
+    c_mode.add_command(label="スタート", command=full_mode.start_c_mode)
+    c_mode.add_command(label="終了", command=full_mode.end_c_mode)
     menubar.add_cascade(label="集中モード", menu=c_mode)
     # ColorMode Change
     color_mode = tk.Menu(menubar, tearoff=False)
