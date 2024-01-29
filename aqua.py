@@ -428,8 +428,7 @@ class WillBeAuthor:
 
         # ファイルが何らかの理由で存在しない場合normalを書き込んで作成
         except FileNotFoundError:
-            with open("color.bin", mode="w", encoding="utf-8") as f:
-                f.write("normal")
+            independent_method.write_string("normal")
             return True
         except Exception:
             raise independent_method.FatalError
