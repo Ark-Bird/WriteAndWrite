@@ -113,6 +113,9 @@ class WillBeAuthor:
             print("設定ファイルが存在しないためcolor.binを作成します")
             independent_method.write_string("normal")
             self.theme = "normal"
+        except UnicodeDecodeError:
+            print("テーマにユニコード以外の文字列が含まれています")
+            self.theme = "normal"
         except Exception:
             raise independent_method.FatalError
         return self.theme
