@@ -22,6 +22,7 @@ import string_decorate
 import indent_insert
 import theme_mod
 import full_mode
+import extend_exception
 """
 Copyright 2020 hiro
 
@@ -90,7 +91,7 @@ class WillBeAuthor:
         except FileNotFoundError:
             ignore()
         except Exception:
-            raise independent_method.FatalError
+            raise extend_exception.FatalError
 
     def setroot(self, root) -> None:
         """
@@ -117,7 +118,7 @@ class WillBeAuthor:
             print("テーマにユニコード以外の文字列が含まれています")
             self.theme = "normal"
         except Exception:
-            raise independent_method.FatalError
+            raise extend_exception.FatalError
         return self.theme
 
     def set_theme(self, theme="normal") -> None:
@@ -252,10 +253,10 @@ class WillBeAuthor:
         # 前回の保存場所を参照
         try:
             if not os.path.exists("path.bin"):
-                raise independent_method.NotOpenPathException
+                raise extend_exception.NotOpenPathException
             with open("path.bin", mode="r", encoding="utf-8") as f:
                 prev_save_directory = os.path.abspath(os.path.dirname(f.readline()))
-        except independent_method.NotOpenPathException:
+        except extend_exception.NotOpenPathException:
             prev_save_directory = os.path.abspath(os.path.dirname(__file__))
 
         if self.file == "":
@@ -332,10 +333,10 @@ class WillBeAuthor:
         # paht.binは前回保存したディレクトリが書き込まれている
         try:
             if not os.path.exists("path.bin"):
-                raise independent_method.NotOpenPathException
+                raise extend_exception.NotOpenPathException
             with open("path.bin", mode="r", encoding="utf-8") as f:
                 directory_before_saved = f.readline()
-        except independent_method.NotOpenPathException:
+        except extend_exception.NotOpenPathException:
             directory_before_saved = os.path.abspath(os.path.dirname(__file__))
         self.file = tk.filedialog.askopenfilename(initialdir=directory_before_saved)
         if self.file == "":
@@ -365,7 +366,7 @@ class WillBeAuthor:
             ignore()
         except Exception:
             # どうしようもない例外でエラーをレイズ
-            raise independent_method.FatalError
+            raise extend_exception.FatalError
         return
 
     def text_paste(self, event=None) -> None:
@@ -384,7 +385,7 @@ class WillBeAuthor:
             ignore()
         except Exception:
             # 致命的なエラー
-            raise independent_method.FatalError
+            raise extend_exception.FatalError
         return
 
     def text_cut(self, event=None) -> None:
@@ -403,7 +404,7 @@ class WillBeAuthor:
             ignore()
         except Exception:
             print("致命的なエラー")
-            raise independent_method.FatalError
+            raise extend_exception.FatalError
         return
 
     def t_change(self) -> None:
@@ -434,7 +435,7 @@ class WillBeAuthor:
             independent_method.write_string("normal")
             return True
         except Exception:
-            raise independent_method.FatalError
+            raise extend_exception.FatalError
         # ここには到達しないはず
         assert_never(unreachable)
 

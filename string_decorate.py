@@ -1,9 +1,9 @@
 import tkinter
 
-import independent_method
 from independent_method import ignore
 from tkinter import messagebox
 from tkinter import TclError
+import extend_exception
 
 
 class StringDecorator:
@@ -26,7 +26,7 @@ class StringDecorator:
             self.page.delete("insert")
             self.page.insert("insert", m)
         except Exception:
-            raise independent_method.FatalError
+            raise extend_exception.FatalError
         return
     
     def three_point(self, event=None) -> None:
@@ -70,5 +70,5 @@ class StringDecorator:
         except TclError:
             ignore()
         except Exception:
-            raise independent_method.FatalError
+            raise extend_exception.FatalError
         return
