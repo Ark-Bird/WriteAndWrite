@@ -343,12 +343,12 @@ class WillBeAuthor:
             return
         try:
             with open(self.file, encoding="utf-8_sig") as f:
-                readed = f.read()
+                loaded = f.read()
         except UnicodeDecodeError:
             messagebox.showerror("文字コードエラー", "ファイルがUTF-8ではありません")
             return
         self.page.delete("0.0", "end")
-        self.page.insert("0.0", readed)
+        self.page.insert("0.0", loaded)
         self.t_change()
         return
 
