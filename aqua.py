@@ -83,6 +83,7 @@ class WillBeAuthor:
         self.init = True
         self.blank_line = False
         self.indent = None
+        self.before_text = ""
 
         try:
             with open("color.bin", mode="r", encoding="utf-8") as f:
@@ -202,6 +203,7 @@ class WillBeAuthor:
         if self.is_autosave_flag:
             self.is_save = True
             self.save_file()
+            self.before_text = self.page.get("0.0", "end")
             self.root.after(1000, self.autosave)
         return
 
@@ -274,6 +276,8 @@ class WillBeAuthor:
             self.ftext = self.ftext[0:-1]
         if self.file[-4:] != ".txt":
             self.file += ".txt"
+        if self.before_text == self.page.get("0.0", "end"):
+            return
         with open(self.file, mode="w", encoding="utf-8") as f:
             f.write(self.ftext)
         with open("./path.bin", mode="w", encoding="utf-8") as f:
