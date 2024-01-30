@@ -460,7 +460,6 @@ def main() -> None:
     root = tk.Tk()
     author.setroot(root)
     full_screen = full_mode.FullMode(root)
-    ##############################################independent_method.set_root(root)
     root.geometry("640x640")
     page = tk.Text(root, undo=True, wrap=tkinter.NONE)
     decorate, pkvin = init_page(page)
