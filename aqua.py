@@ -419,30 +419,6 @@ class WillBeAuthor:
         self.is_changed = True
         return
 
-    def is_modify(self) -> bool:
-        """
-        color.binを読み込み現在のモードと同じならFalseを返す
-        変更されていない場合はTrueを返す
-        ファイルが見つからなかった場合はnormalで開く、それ以外の例外なら終了
-        returnは起こらず、その場合例外を投げる
-        """
-        try:
-            with open("color.bin", mode="r", encoding="utf-8") as f:
-                mode: str = f.read()
-            if mode == self.theme:
-                return True
-            else:
-                return False
-
-        # ファイルが何らかの理由で存在しない場合normalを書き込んで作成
-        except FileNotFoundError:
-            independent_method.write_string("normal")
-            return True
-        except Exception:
-            raise extend_exception.FatalError
-        # ここには到達しないはず
-        assert_never(unreachable)
-
     def set_page(self, page) -> None:
         """
         テキストエリアの参照pageをインスタンス変数に参照渡し
