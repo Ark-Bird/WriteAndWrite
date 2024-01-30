@@ -23,6 +23,7 @@ import indent_insert
 import theme_mod
 import full_mode
 import extend_exception
+
 """
 Copyright 2020 hiro
 
@@ -84,6 +85,8 @@ class WillBeAuthor:
         self.blank_line = False
         self.indent = None
         self.before_text = ""
+        self.prev_save_file = ""
+        self.prev_text = ""
 
         try:
             with open("color.bin", mode="r", encoding="utf-8") as f:
@@ -132,7 +135,7 @@ class WillBeAuthor:
         theme_mod.change_theme(self.page, theme=theme)
         return None
 
-    def logger(self, event) -> None:
+    def logger(self, event=None) -> None:
         """
         テキストの変更を検知して変更フラグを立てる
         終了時にセーブするか訊ねるようにする
@@ -141,7 +144,10 @@ class WillBeAuthor:
         基本的に何かのキーが押された時に呼ばれる
         """
         self.change_titlebar()
-        self.is_save = False
+        if self.before_text != self.page.get("0.0", "end"):
+            self.is_save = False
+        elif self.before_text == self.page.get("0.0", "end"):
+            self.is_save = True
         self.is_changed = True
         return
 
@@ -197,9 +203,33 @@ class WillBeAuthor:
         """
         オートセーブ
         """
+        if self.prev_save_file == "" and self.is_autosave_flag:
+            self.prev_save_file = filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
+                                                               initialdir=self.prev_save_file)
+            return
+        try:
+            with open("path.bin", "r", encoding="utf-8") as fname:
+                # self.prev_save_dir = os.path.abspath(os.path.dirname(fname.readline()))
+                self.prev_save_file = os.path.abspath(fname.readline())
+        except UnicodeDecodeError:
+            print("パスがユニコードではありません")
+            self.prev_save_file = os.path.abspath(os.path.dirname(__file__))
+        except extend_exception.NotOpenPathException:
+            print("パスが無効です")
+            self.prev_save_file = os.path.abspath(os.path.dirname(__file__))
+        if self.prev_save_file == "":
+            self.prev_save_file = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
+                                                                  initialdir=self.prev_save_file)
+        try:
+            with open("path.bin", "w", encoding="utf-8") as dir_path:
+                dir_path.write(self.prev_save_file)
+        except Exception:
+            with open("path.bin", "w", encoding="utf-8") as dir_path:
+                dir_path.write("")
         if self.file == "":
             ignore()
             return
+        self.change_titlebar()
         if self.is_autosave_flag:
             self.is_save = True
             self.save_file()
@@ -231,7 +261,11 @@ class WillBeAuthor:
         else:
             self.is_autosave_flag = True
             self.is_auto_save_enable()
+        self.change_titlebar()
         return
+
+    def auto_save_disable(self):
+        self.is_autosave_flag = False
 
     def save_as(self) -> None:
         """
@@ -312,6 +346,7 @@ class WillBeAuthor:
         保存フラグを立てる
         """
         self.ftext = self.page.get("0.0", "end")
+        self.prev_save_file = ""
         if not self.is_save:
             if messagebox.askyesno("保存しますか?", "ファイルが変更されています、保存しますか?"):
                 self.save_as()
@@ -322,6 +357,8 @@ class WillBeAuthor:
         self.is_changed = False
         self.file = ""
         self.is_save = True
+        self.auto_save_disable()
+        self.change_titlebar()
         return
 
     def open_text_file(self) -> None:
@@ -345,6 +382,7 @@ class WillBeAuthor:
         self.file = tk.filedialog.askopenfilename(initialdir=directory_before_saved)
         if self.file == "":
             return
+        self.prev_save_file = self.file
         try:
             with open(self.file, encoding="utf-8_sig") as f:
                 loaded = f.read()
@@ -354,6 +392,8 @@ class WillBeAuthor:
         self.page.delete("0.0", "end")
         self.page.insert("0.0", loaded)
         self.t_change()
+        self.auto_save_disable()
+        self.change_titlebar()
         return
 
     def text_copy(self, event=None) -> None:
