@@ -116,7 +116,7 @@ class WillBeAuthor:
                 self.theme = f.read()
         except FileNotFoundError:
             print("設定ファイルが存在しないためcolor.binを作成します")
-            independent_method.write_string("normal")
+            independent_method.write_theme_string("normal")
             self.theme = "normal"
         except UnicodeDecodeError:
             print("テーマにユニコード以外の文字列が含まれています")
@@ -130,7 +130,7 @@ class WillBeAuthor:
         テーマをファイルから読み込みchange_theme関数に渡す
         :param theme: 変更するテーマ、デフォルトでnormal
         """
-        independent_method.write_string(theme)
+        independent_method.write_theme_string(theme)
         theme = self.read_theme()
         theme_mod.change_theme(self.page, theme=theme)
         return None
@@ -206,7 +206,7 @@ class WillBeAuthor:
         if self.prev_save_file == "" and self.is_autosave_flag:
             self.prev_save_file = filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
                                                                initialdir=self.prev_save_file)
-            return
+            independent_method.write_filename_string(self.prev_save_file)
         try:
             with open("path.bin", "r", encoding="utf-8") as fname:
                 # self.prev_save_dir = os.path.abspath(os.path.dirname(fname.readline()))
@@ -218,23 +218,19 @@ class WillBeAuthor:
             print("パスが無効です")
             self.prev_save_file = os.path.abspath(os.path.dirname(__file__))
         if self.prev_save_file == "":
+            print("assert!")
             self.prev_save_file = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
                                                                   initialdir=self.prev_save_file)
         try:
-            with open("path.bin", "w", encoding="utf-8") as dir_path:
-                dir_path.write(self.prev_save_file)
+            independent_method.write_filename_string(self.prev_save_file)
         except Exception:
-            with open("path.bin", "w", encoding="utf-8") as dir_path:
-                dir_path.write("")
-        if self.file == "":
-            ignore()
-            return
+            independent_method.write_filename_string("")
         self.change_titlebar()
         if self.is_autosave_flag:
             self.is_save = True
             self.save_file()
             self.before_text = self.page.get("0.0", "end")
-            self.root.after(1000, self.autosave)
+        self.root.after(1000, self.autosave)
         return
 
     def is_auto_save_enable(self) -> None:
@@ -244,11 +240,7 @@ class WillBeAuthor:
         テーマの変更が無い場合Falseを送って変更しない
         :return:無し
         """
-        if self.is_autosave_flag:
-            self.autosave()
-        else:
-            pass
-        return
+        self.is_autosave_flag = True
 
     def toggle_as_flag(self, event=None) -> None:
         """
@@ -257,9 +249,8 @@ class WillBeAuthor:
         :return:無し
         """
         if self.is_autosave_flag:
-            self.is_autosave_flag = False
+            self.auto_save_disable()
         else:
-            self.is_autosave_flag = True
             self.is_auto_save_enable()
         self.change_titlebar()
         return
@@ -536,7 +527,7 @@ def main() -> None:
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
     # オートセーブその他の再帰呼び出し
-    root.after(1000, author.is_auto_save_enable)
+    root.after(1000, author.autosave)
     root.mainloop()
 
 

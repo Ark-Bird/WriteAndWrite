@@ -18,6 +18,6 @@ def change_theme(page, theme) -> None:
         case "terminal":
             page.configure(bg="black", fg="springgreen3", insertbackground="green")
         case _:
-            independent_method.write_string("normal")
+            independent_method.write_theme_string("normal")
             page.configure(bg="ghost white", fg="black", insertbackground="black")
     return
