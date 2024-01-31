@@ -12,7 +12,6 @@ import sys
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
-from typing import assert_never
 import independent_method
 import menu_init
 import vinegar
