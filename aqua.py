@@ -222,8 +222,10 @@ class WillBeAuthor:
                                                                   initialdir=self.prev_save_file)
         try:
             independent_method.write_filename_string(self.prev_save_file)
-        except Exception:
+        except FileNotFoundError:
             independent_method.write_filename_string("")
+        except Exception:
+            raise extend_exception.FatalError
         self.change_titlebar()
         if self.is_autosave_flag:
             self.is_save = True
