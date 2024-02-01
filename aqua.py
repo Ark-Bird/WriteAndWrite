@@ -194,6 +194,7 @@ class WillBeAuthor:
             self.title_var_string += ":auto_save_enable:"
         else:
             self.title_var_string += ":auto_save_disable:"
+        self.title_var_string += self.file
         self.blank_line = False
         self.root.title(self.title_var_string)
         return
