@@ -3,13 +3,13 @@ import tkinter as tk
 
 def init_textarea(root, author, page, decorate, indent) -> None:
     # テキストエリアを配置し、スクロールバーを付ける
-    xscrollbar = tk.Scrollbar(root, orient=tk.HORIZONTAL, command=page.xview)
-    yscrollbar = tk.Scrollbar(root, orient=tk.VERTICAL, command=page.yview)
-    yscrollbar.pack(side=tk.RIGHT, fill="y")
-    xscrollbar.pack(side=tk.BOTTOM, fill="x")
+    horizontal_scrollbar = tk.Scrollbar(root, orient=tk.HORIZONTAL, command=page.xview)
+    vertical_scrollbar = tk.Scrollbar(root, orient=tk.VERTICAL, command=page.yview)
+    vertical_scrollbar.pack(side=tk.RIGHT, fill="y")
+    horizontal_scrollbar.pack(side=tk.BOTTOM, fill="x")
     page.pack(fill="both", expand=True)
-    page["yscrollcommand"] = yscrollbar.set
-    page["xscrollcommand"] = xscrollbar.set
+    page["yscrollcommand"] = vertical_scrollbar.set
+    page["xscrollcommand"] = horizontal_scrollbar.set
 
     # ファイルを保存
     page.bind("<Control-s>", author.save_file)
