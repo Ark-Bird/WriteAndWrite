@@ -235,7 +235,7 @@ class WillBeAuthor:
         self.root.after(1000, self.autosave)
         return
 
-    def is_auto_save_enable(self) -> None:
+    def change_auto_save_enable(self) -> None:
         """
         オートセーブフラグが有効ならオートセーブを毎秒呼び出し
         フラグが立っていない場合無視
@@ -251,13 +251,13 @@ class WillBeAuthor:
         :return:無し
         """
         if self.is_autosave_flag:
-            self.auto_save_disable()
+            self.change_auto_save_disable()
         else:
-            self.is_auto_save_enable()
+            self.change_auto_save_enable()
         self.change_titlebar()
         return
 
-    def auto_save_disable(self):
+    def change_auto_save_disable(self):
         self.is_autosave_flag = False
 
     def save_as(self) -> None:
@@ -293,7 +293,7 @@ class WillBeAuthor:
                 filetypes=[("txt files", "*.txt")], initialdir=prev_save_directory
             )
         if self.file == "":
-            self.is_autosave_flag = False
+            self.change_auto_save_disable()
             return
         if not self.file:
             self.file = ""
@@ -350,7 +350,7 @@ class WillBeAuthor:
         self.is_changed = False
         self.file = ""
         self.is_save = True
-        self.auto_save_disable()
+        self.change_auto_save_disable()
         self.change_titlebar()
         return
 
@@ -385,7 +385,7 @@ class WillBeAuthor:
         self.page.delete("0.0", "end")
         self.page.insert("0.0", loaded)
         self.t_change()
-        self.auto_save_disable()
+        self.change_auto_save_disable()
         self.change_titlebar()
         return
 
