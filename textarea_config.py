@@ -1,7 +1,7 @@
 import tkinter as tk
 
 
-def page_scroll_set(root, page):
+def page_scroll_set(root, page) -> None:
     # テキストエリアを配置し、スクロールバーを付ける
     horizontal_scrollbar = tk.Scrollbar(root, orient=tk.HORIZONTAL, command=page.xview)
     vertical_scrollbar = tk.Scrollbar(root, orient=tk.VERTICAL, command=page.yview)
