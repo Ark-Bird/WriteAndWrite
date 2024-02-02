@@ -1,7 +1,7 @@
 import tkinter as tk
 
 
-def init_textarea(root, author, page, decorate, indent) -> None:
+def page_scroll_set(root, page):
     # テキストエリアを配置し、スクロールバーを付ける
     horizontal_scrollbar = tk.Scrollbar(root, orient=tk.HORIZONTAL, command=page.xview)
     vertical_scrollbar = tk.Scrollbar(root, orient=tk.VERTICAL, command=page.yview)
@@ -11,6 +11,9 @@ def init_textarea(root, author, page, decorate, indent) -> None:
     page["yscrollcommand"] = vertical_scrollbar.set
     page["xscrollcommand"] = horizontal_scrollbar.set
 
+
+def init_textarea(root, author, page, decorate, indent) -> None:
+    page_scroll_set(root, page)
     # ファイルを保存
     page.bind("<Control-s>", author.save_file)
     # コピペ＆カット
