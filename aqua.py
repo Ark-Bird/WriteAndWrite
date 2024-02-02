@@ -199,7 +199,7 @@ class WillBeAuthor:
         self.root.title(self.title_var_string)
         return
 
-    def autosave(self) -> None:
+    def repeat_save_file(self) -> None:
         """
         オートセーブ
         """
@@ -232,7 +232,7 @@ class WillBeAuthor:
             self.is_save = True
             self.save_file()
             self.before_text = self.page.get("0.0", "end")
-        self.root.after(1000, self.autosave)
+        self.root.after(1000, self.repeat_save_file)
         return
 
     def toggle_as_flag(self, event=None) -> None:
@@ -533,7 +533,7 @@ def main() -> None:
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
     # オートセーブその他の再帰呼び出し
-    root.after(1000, author.autosave)
+    root.after(1000, author.repeat_save_file)
     root.mainloop()
 
 
