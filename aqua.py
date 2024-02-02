@@ -72,7 +72,6 @@ class WillBeAuthor:
         self.is_exit: bool = False
         self.is_autosave_flag: bool = False
         self.dark_mode: bool = False
-        self.col: str = ""
         self.title_var_string: str = ""
         self.theme: str = self.read_theme()
         self.copied_text = ""
@@ -89,7 +88,6 @@ class WillBeAuthor:
 
         try:
             with open("color.bin", mode="r", encoding="utf-8") as f:
-                self.col = f.read()
                 self.theme = f.read()
         except FileNotFoundError:
             ignore()
