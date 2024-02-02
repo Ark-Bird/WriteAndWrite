@@ -1,5 +1,6 @@
 import tkinter as tk
 import version
+import textarea_config
 
 
 def menu_init(author, menubar, pkvin, indent, full_mode):
@@ -8,6 +9,8 @@ def menu_init(author, menubar, pkvin, indent, full_mode):
     初めにバージョンとライセンスを表示するためのクラスのインスタンスを作成している
     :return:
     """
+    font_size = 10
+    font_change = textarea_config.FontChange(font_size, author.page)
     show_info = version.ShowInfo()
     filemenu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー、渡している'file'引数はダミー
@@ -30,6 +33,11 @@ def menu_init(author, menubar, pkvin, indent, full_mode):
     # # editmenu.add_command(label="貼り付け (Ctrl-v)", command=lambda: author.text_paste())
     # menubar.add_cascade(label="編集", menu=editmenu)
 
+    # フォントサイズ変更
+    fontmenu = tk.Menu(menubar, tearoff=0)
+    fontmenu.add_command(label="フォントを大きく", command=font_change.font_size_big)
+    fontmenu.add_command(label="フォントを小さく", command=font_change.font_size_small)
+    menubar.add_cascade(label="フォントサイズ", menu=fontmenu)
     # メニューバー作成
     # 集中モード
     c_mode = tk.Menu(menubar, tearoff=0)

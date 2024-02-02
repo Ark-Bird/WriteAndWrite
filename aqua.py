@@ -513,7 +513,7 @@ def main() -> None:
     full_screen.set_root_full_mode(root)
     root.geometry("640x640")
     page = tk.Text(root, undo=True, wrap=tkinter.NONE)
-    decorate, pkvin = init_page(page)
+    decorate, pk1vin = init_page(page)
     indent = indent_insert.Indent(author, page)
     author.set_indent(indent)
     author.set_page(page)
@@ -533,7 +533,7 @@ def main() -> None:
     root.minsize(32, 32)
     menubar = tk.Menu(root)
 
-    menu_init.menu_init(author, menubar, pkvin, indent, full_screen)
+    menu_init.menu_init(author, menubar, pk1vin, indent, full_screen)
 
     # タイトル
     root.config(menu=menubar)

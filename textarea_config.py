@@ -1,6 +1,24 @@
 import tkinter as tk
 
 
+class FontChange:
+    def __init__(self, now_font_size, page):
+        self.now_font_size = now_font_size
+        self.page = page
+
+    def font_size_big(self) -> None:
+        self.now_font_size = self.now_font_size + 5
+        if self.now_font_size >= 50:
+            self.now_font_size = 50
+        self.page.configure(font=("", self.now_font_size))
+
+    def font_size_small(self) -> None:
+        self.now_font_size = self.now_font_size - 5
+        if self.now_font_size <= 6:
+             self.now_font_size = 6
+        self.page.configure(font=("", self.now_font_size))
+
+
 def page_scroll_set(root, page) -> None:
     """
     tk.Scrollbarで縦と横のスクロールバーをrootウインドウに付けて、
