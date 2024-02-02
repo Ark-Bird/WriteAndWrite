@@ -56,9 +56,6 @@ class WillBeAuthor:
         is_save:セーブ済みフラグ
         is_exit:終了可能フラグ
         ASFLAG:オートセーブフラグ
-        dark_mode:テーマがダークモードか
-        col:現在のテーマ
-        nowcolor:保存されたテーマ
         txtc:クリップボードのクリア
         theme:現在のテーマ
         theme_f:テーマが変更フラグ
@@ -256,6 +253,10 @@ class WillBeAuthor:
         self.is_autosave_flag = True
 
     def change_auto_save_disable(self):
+        """
+        オートセーブ機能の無効化
+        :return:
+        """
         self.is_autosave_flag = False
 
     def save_as(self) -> None:
@@ -445,12 +446,17 @@ class WillBeAuthor:
     def is_text_changed(self) -> None:
         """
         テキストの変更フラグを立てる
+        テキストエリアでキーが押されると呼ばれる
         :return:無し
         """
         self.is_changed = True
         return
 
     def is_text_unchanged(self) -> None:
+        """
+        テキストが変更されていない場合呼ばれてis_changedをFalseにする
+        :return:
+        """
         self.is_changed = False
 
     def set_page(self, page) -> None:
@@ -462,6 +468,11 @@ class WillBeAuthor:
         self.page = page
 
     def set_indent(self, indent):
+        """
+        インデントの詳細指定をするクラスをフィールドに渡す
+        :param indent:
+        :return:
+        """
         self.indent = indent
 
 
@@ -477,6 +488,11 @@ def res_path(rel: str) -> str:
 
 
 def init_page(page: tk.Text):
+    """
+    テキストエリアの初期化処理
+    :param page:テキストエリアのインスタンス
+    :return:
+    """
     decorate = string_decorate.StringDecorator(page)
     pkvin = vinegar.Vinegar(page)
     return decorate, pkvin

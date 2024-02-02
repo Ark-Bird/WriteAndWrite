@@ -1,9 +1,18 @@
 class FullMode:
     def __init__(self):
+        """
+        初期化、デフォルトで全画面は無効
+        rootはset_root_full_modeで設定するのでこの時点では空
+        """
         self.c_mode_flag = False
         self.root = None
 
-    def set_root_full_mode(self, root):
+    def set_root_full_mode(self, root) -> None:
+        """
+        フルスクリーンにするウインドウをセットする
+        :param root:rootフィールドにインスタンスを渡す
+        :return:
+        """
         self.root = root
 
     def start_c_mode(self) -> None:
