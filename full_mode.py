@@ -1,7 +1,10 @@
 class FullMode:
-    def __init__(self, root):
-        self.root = root
+    def __init__(self):
         self.c_mode_flag = False
+        self.root = None
+
+    def set_root_full_mode(self, root):
+        self.root = root
 
     def start_c_mode(self) -> None:
         """
