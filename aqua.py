@@ -147,7 +147,7 @@ class WillBeAuthor:
             self.is_save = False
         elif self.before_text == self.page.get("0.0", "end"):
             self.is_save = True
-        self.is_changed = True
+        self.is_text_changed()
         return
 
     def counter(self) -> int:
@@ -235,15 +235,6 @@ class WillBeAuthor:
         self.root.after(1000, self.autosave)
         return
 
-    def change_auto_save_enable(self) -> None:
-        """
-        オートセーブフラグが有効ならオートセーブを毎秒呼び出し
-        フラグが立っていない場合無視
-        テーマの変更が無い場合Falseを送って変更しない
-        :return:無し
-        """
-        self.is_autosave_flag = True
-
     def toggle_as_flag(self, event=None) -> None:
         """
         オートセーブフラグのトグル
@@ -256,6 +247,15 @@ class WillBeAuthor:
             self.change_auto_save_enable()
         self.change_titlebar()
         return
+
+    def change_auto_save_enable(self) -> None:
+        """
+        オートセーブフラグが有効ならオートセーブを毎秒呼び出し
+        フラグが立っていない場合無視
+        テーマの変更が無い場合Falseを送って変更しない
+        :return:無し
+        """
+        self.is_autosave_flag = True
 
     def change_auto_save_disable(self):
         self.is_autosave_flag = False
@@ -309,7 +309,7 @@ class WillBeAuthor:
             f.write(self.ftext)
         with open("./path.bin", mode="w", encoding="utf-8") as f:
             f.write(self.file)
-        self.is_changed = False
+        self.is_text_unchanged()
         self.is_save = True
         self.change_titlebar()
         return
@@ -347,7 +347,7 @@ class WillBeAuthor:
                 return
         self.page.delete("0.0", "end")
         self.file = ""
-        self.is_changed = False
+        self.is_text_unchanged()
         self.file = ""
         self.is_save = True
         self.change_auto_save_disable()
@@ -384,7 +384,7 @@ class WillBeAuthor:
             return
         self.page.delete("0.0", "end")
         self.page.insert("0.0", loaded)
-        self.t_change()
+        self.is_text_changed()
         self.change_auto_save_disable()
         self.change_titlebar()
         return
@@ -444,13 +444,16 @@ class WillBeAuthor:
             raise extend_exception.FatalError
         return
 
-    def t_change(self) -> None:
+    def is_text_changed(self) -> None:
         """
         テキストの変更フラグを立てる
         :return:無し
         """
         self.is_changed = True
         return
+
+    def is_text_unchanged(self) -> None:
+        self.is_changed = False
 
     def set_page(self, page) -> None:
         """
