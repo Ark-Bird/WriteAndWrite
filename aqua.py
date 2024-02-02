@@ -84,8 +84,7 @@ class WillBeAuthor:
         self.prev_text = ""
 
         try:
-            with open("color.bin", mode="r", encoding="utf-8") as f:
-                self.theme = f.read()
+            self.theme = self.read_theme()
         except FileNotFoundError:
             ignore()
         except Exception:
