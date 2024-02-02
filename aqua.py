@@ -68,7 +68,7 @@ class WillBeAuthor:
         self.is_changed: bool = False
         self.clipped_text: str = ""
         self.pasting_text: str = ""
-        self.is_save: bool = True
+        self.is_save: bool = False
         self.is_exit: bool = False
         self.is_autosave_flag: bool = False
         self.dark_mode: bool = False
