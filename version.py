@@ -20,7 +20,7 @@ class ShowInfo:
         バージョン情報をポップアップで表示
         :return:
         """
-        messagebox.showinfo("バージョン情報:", self.version.get_const())
+        messagebox.showinfo("バージョン情報:", self._version.get_const())
         return
 
     def show_license(self) -> None:
@@ -28,5 +28,5 @@ class ShowInfo:
         ライセンスをポップアップで表示
         :return:
         """
-        messagebox.showinfo("LICENSE", self.LICENSE.get_const())
+        messagebox.showinfo("LICENSE", self._LICENSE.get_const())
         return
