@@ -1,6 +1,7 @@
 import tkinter as tk
 import version
 import textarea_config
+from keybind import keybind
 
 
 def menu_init(author, menubar, pkvin, indent, full_mode):
@@ -12,6 +13,7 @@ def menu_init(author, menubar, pkvin, indent, full_mode):
     font_size = 10
     font_change = textarea_config.FontChange(font_size, author.page)
     show_info = version.ShowInfo()
+    mode_change = textarea_config.ModeChange(author.page)
     filemenu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー、渡している'file'引数はダミー
     filemenu.add_command(label="新規ファイル", command=author.new_blank_file)
@@ -66,7 +68,11 @@ def menu_init(author, menubar, pkvin, indent, full_mode):
     auto_indent.add_command(label="オン/オフ (Ctrl-q)", command=indent.toggle_auto_indent)
     auto_indent.add_command(label="半角/全角 (Ctrl-w)", command=indent.toggle_half_or_full)
     menubar.add_cascade(label="オートインデント", menu=auto_indent)
-
+    #ViモードとEmacsモードの切り替え
+    keybind_mode = tk.Menu(menubar, tearoff=0)
+    keybind_mode.add_command(label="Vi-Mode", command=mode_change.change_vi_mode)
+    keybind_mode.add_command(label="Emacs-Mode", command=mode_change.change_emacs_mode)
+    menubar.add_cascade(label="Keybind Mode", menu=keybind_mode)
     # ヘルプメニューの表示
     help_menu = tk.Menu(menubar, tearoff=0)
     help_menu.add_command(
