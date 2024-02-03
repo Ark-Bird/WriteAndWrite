@@ -38,6 +38,16 @@ def page_scroll_set(root, page) -> None:
     page["xscrollcommand"] = horizontal_scrollbar.set
 
 
+def vi_mode_change(page):
+    original_key_bind = keybind.KeyBindViMode(page)
+    original_key_bind.edit_key_bind()
+
+
+def emacs_mode_change(page):
+    original_key_bind = keybind.KeyBindEmacsMode(page)
+    original_key_bind.edit_key_bind()
+
+
 def init_textarea(root, author, page, decorate, indent) -> None:
     """
     テキストエリアの初期設定とキーバインドの設定を行う
@@ -79,6 +89,19 @@ def init_textarea(root, author, page, decorate, indent) -> None:
     )
     # 文字カウント
     page.bind("<Any-KeyPress>", author.logger)
-    original_key_bind = keybind.KeyBind(page)
+    original_key_bind = keybind.KeyBindViMode(page)
     original_key_bind.edit_key_bind()
     return
+
+
+class ModeChange:
+    def __init__(self, page):
+        self.page = page
+
+    def change_vi_mode(self):
+        my_key_bind = keybind.ViMode(self.page)
+        my_key_bind.edit_key_bind()
+
+    def change_emacs_mode(self):
+        my_key_bind = keybind.EmacsMode(self.page)
+        my_key_bind.edit_key_bind()
