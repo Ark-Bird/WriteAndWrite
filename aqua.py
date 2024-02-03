@@ -82,6 +82,7 @@ class WillBeAuthor:
         self.before_text = ""
         self.prev_save_file = ""
         self.prev_text = ""
+        self.cursor_move_mode = "vi"
 
         try:
             self.theme = self.read_theme()
@@ -188,6 +189,10 @@ class WillBeAuthor:
             self.title_var_string += ":auto_save_enable:"
         else:
             self.title_var_string += ":auto_save_disable:"
+        if self.cursor_move_mode == "vi":
+            self.title_var_string += "Vi mode:"
+        elif self.cursor_move_mode == "emacs":
+            self.title_var_string += "Emacs mode:"
         self.title_var_string += self.file
         self.blank_line = False
         self.root.title(self.title_var_string)
@@ -473,6 +478,12 @@ class WillBeAuthor:
         :return:
         """
         self.indent = indent
+
+    def change_vi_mode_flag(self):
+        self.cursor_move_mode = "vi"
+
+    def change_emacs_mode_flag(self):
+        self.cursor_move_mode = "emacs"
 
 
 def res_path(rel: str) -> str:

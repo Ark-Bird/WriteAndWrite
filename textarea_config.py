@@ -89,19 +89,21 @@ def init_textarea(root, author, page, decorate, indent) -> None:
     )
     # 文字カウント
     page.bind("<Any-KeyPress>", author.logger)
-    original_key_bind = keybind.KeyBindViMode(page)
+    original_key_bind = keybind.ViMode(author)
     original_key_bind.edit_key_bind()
     return
 
 
 class ModeChange:
-    def __init__(self, page):
-        self.page = page
+    def __init__(self, author):
+        self.author = author
 
     def change_vi_mode(self):
-        my_key_bind = keybind.ViMode(self.page)
+        my_key_bind = keybind.ViMode(self.author)
         my_key_bind.edit_key_bind()
+        self.author.change_vi_mode_flag()
 
     def change_emacs_mode(self):
-        my_key_bind = keybind.EmacsMode(self.page)
+        my_key_bind = keybind.EmacsMode(self.author)
         my_key_bind.edit_key_bind()
+        self.author.change_emacs_mode_flag()

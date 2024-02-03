@@ -13,7 +13,7 @@ def menu_init(author, menubar, pkvin, indent, full_mode):
     font_size = 10
     font_change = textarea_config.FontChange(font_size, author.page)
     show_info = version.ShowInfo()
-    mode_change = textarea_config.ModeChange(author.page)
+    mode_change = textarea_config.ModeChange(author)
     filemenu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー、渡している'file'引数はダミー
     filemenu.add_command(label="新規ファイル", command=author.new_blank_file)
