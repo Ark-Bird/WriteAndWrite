@@ -63,7 +63,7 @@ def init_textarea(root, author, page, decorate, indent) -> None:
     # ルビを振る
     page.bind("<Control-r>", decorate.ruby)
     # 傍点をつける
-    page.bind("<Control-b>", decorate.dot_mark)
+    page.bind("<Control-.>", decorate.dot_mark)
     # オートインデント
     # 半角全角切り替え
     page.bind("<Control-w>", indent.toggle_half_or_full)
