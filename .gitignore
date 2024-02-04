@@ -16,6 +16,7 @@ color.bin
 venv
 /venv/
 aqua.zip
+localdeploy.bat
 /dist/aqua.exe
 setup.cfg
 setup.py
