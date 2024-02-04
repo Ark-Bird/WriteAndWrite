@@ -1,5 +1,28 @@
 import tkinter as tk
+
+import extend_exception
+import inmemory_module.ram_memo
 from keybind import keybind
+from inmemory_module import ram_memo
+from tkinter import messagebox
+
+
+class Memory(inmemory_module.ram_memo.RamMemo):
+    def __init__(self, page):
+        self.memo = "i am amnesia"
+        self.page = page
+
+    def set_text(self, event=None):
+        try:
+            self.new_memo(self.page.get(tk.SEL_FIRST, tk.SEL_LAST))
+        except tk.TclError:
+            pass
+        except Exception:
+            raise extend_exception.FatalError
+
+    def show_memory(self, event=None) -> None:
+        messagebox.showinfo("Memory", self.remember())
+        return "break"
 
 
 class FontChange:
@@ -16,7 +39,7 @@ class FontChange:
     def font_size_small(self) -> None:
         self.now_font_size = self.now_font_size - 5
         if self.now_font_size <= 6:
-             self.now_font_size = 6
+            self.now_font_size = 6
         self.page.configure(font=("", self.now_font_size))
 
 
@@ -39,12 +62,12 @@ def page_scroll_set(root, page) -> None:
 
 
 def vi_mode_change(page):
-    original_key_bind = keybind.KeyBindViMode(page)
+    original_key_bind = keybind.ViMode(page)
     original_key_bind.edit_key_bind()
 
 
 def emacs_mode_change(page):
-    original_key_bind = keybind.KeyBindEmacsMode(page)
+    original_key_bind = keybind.EmacsMode(page)
     original_key_bind.edit_key_bind()
 
 
@@ -87,6 +110,10 @@ def init_textarea(root, author, page, decorate, indent) -> None:
         "<KeyRelease-Return>",
         indent.indent_system
     )
+    # インメモリメモ
+    memo = Memory(page)
+    page.bind("<Control-m>", memo.set_text)
+    page.bind("<Control-o>", memo.show_memory)
     # 文字カウント
     page.bind("<Any-KeyPress>", author.logger)
     original_key_bind = keybind.ViMode(author)
