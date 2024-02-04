@@ -116,6 +116,9 @@ def init_textarea(root, author, page, decorate, indent) -> None:
     page.bind("<Control-o>", memo.show_memory)
     # 文字カウント
     page.bind("<Any-KeyPress>", author.logger)
+    # 現在のファイルパス
+    page.bind("<Control-0>", author.file_full_name_show)
+    # キーバインド設定
     original_key_bind = keybind.ViMode(author)
     original_key_bind.edit_key_bind()
     return

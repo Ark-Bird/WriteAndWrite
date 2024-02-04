@@ -80,5 +80,5 @@ def menu_init(author, menubar, pkvin, indent, full_mode):
     )
     # バージョン情報
     help_menu.add_command(label="VERSION", command=show_info.show_version)
-    help_menu.add_command(label="現在のファイル", command=author.file_full_name_show)
+    help_menu.add_command(label="現在のファイル(Ctrl-0)", command=author.file_full_name_show)
     menubar.add_cascade(label="HELP", menu=help_menu)
