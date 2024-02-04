@@ -62,6 +62,7 @@ class WillBeAuthor:
         blank_line:空行かどうかのフラグ
         """
         self.file: str = ""
+        self.basename: str = ""
         self.is_changed: bool = False
         self.clipped_text: str = ""
         self.pasting_text: str = ""
@@ -193,8 +194,8 @@ class WillBeAuthor:
             self.title_var_string += "Vi mode:"
         elif self.cursor_move_mode == "emacs":
             self.title_var_string += "Emacs mode:"
-        self.title_var_string += self.file
         self.blank_line = False
+        self.title_var_string += os.path.basename(self.file)
         self.root.title(self.title_var_string)
         return
 
@@ -391,6 +392,9 @@ class WillBeAuthor:
         self.change_auto_save_disable()
         self.change_titlebar()
         return
+
+    def path_to_filename(self, filepath) -> str:
+        self.basename = os.path.basename(self.file)
 
     def text_copy(self, event=None) -> None:
         """
