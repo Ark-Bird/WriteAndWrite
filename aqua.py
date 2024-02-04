@@ -490,6 +490,9 @@ class WillBeAuthor:
         self.cursor_move_mode = "emacs"
 
     def file_full_name_show(self):
+        if self.file == "":
+            messagebox.showinfo("Not open", "現在ファイルを開いていません")
+            return
         messagebox.showinfo("現在のファイル", self.file)
 
 
