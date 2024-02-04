@@ -489,6 +489,9 @@ class WillBeAuthor:
     def change_emacs_mode_flag(self):
         self.cursor_move_mode = "emacs"
 
+    def file_full_name_show(self):
+        messagebox.showinfo("現在のファイル", self.file)
+
 
 def res_path(rel: str) -> str:
     """
