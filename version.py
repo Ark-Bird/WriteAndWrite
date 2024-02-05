@@ -15,7 +15,7 @@ class ShowInfo:
     """)
         self._version: const = const.Const("0.12.6_β_code:\"MagicOfStella\"")
         self._recommend_font: const = const.Const("このプログラムの推奨フォントはhttps://moji.or.jp/より配布されているIPAフォントになります、"
-                                                  "標準フォントでの使用も可能です")
+                                                  "リポジトリに同梱されているIPAexfont00401.zipを展開し、中のライセンスに同意していただければ使用可能です")
 
     def show_version(self) -> None:
         """

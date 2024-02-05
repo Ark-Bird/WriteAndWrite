@@ -5,7 +5,7 @@ Created on Fri Feb 17 20:47:33 2017
 @author: hiro
 """
 import tkinter
-# import tkinter.font as tkfont
+import tkinter.font
 import os
 import platform
 import sys
@@ -84,7 +84,6 @@ class WillBeAuthor:
         self.prev_save_file = ""
         self.prev_text = ""
         self.cursor_move_mode = "vi"
-
         try:
             self.theme = self.read_theme()
         except FileNotFoundError:
@@ -496,6 +495,10 @@ class WillBeAuthor:
         messagebox.showinfo("現在のファイル", self.file)
         return "break"
 
+    def set_font(self, font):
+        self.font = font
+        pass
+
 
 def res_path(rel: str) -> str:
     """
@@ -530,6 +533,7 @@ def main() -> None:
     author: WillBeAuthor = WillBeAuthor()
     root = tk.Tk()
     author.setroot(root)
+    font = tk.font.Font(root, family="IPAexゴシック")
     full_screen = full_mode.FullMode()
     full_screen.set_root_full_mode(root)
     root.geometry("640x640")
@@ -552,7 +556,7 @@ def main() -> None:
     theme = author.read_theme()
     author.set_theme(theme=theme)
     root.minsize(32, 32)
-    menubar = tk.Menu(root)
+    menubar = tk.Menu(root, font=font)
 
     menu_init.menu_init(author, menubar, pk1vin, indent, full_screen)
 
