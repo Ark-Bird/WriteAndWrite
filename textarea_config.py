@@ -20,7 +20,7 @@ class Memory(inmemory_module.ram_memo.RamMemo):
         except Exception:
             raise extend_exception.FatalError
 
-    def show_memory(self, event=None) -> None:
+    def show_memory(self, event=None) -> str:
         messagebox.showinfo("Memory", self.remember())
         return "break"
 
@@ -34,7 +34,7 @@ class FontChange:
         self.now_font_size = self.now_font_size + 5
         if self.now_font_size >= 50:
             self.now_font_size = 50
-        self.page.configure(font=("", self.now_font_size))
+        self.page.configure(font=("IPAexゴシック", self.now_font_size))
 
     def font_size_small(self) -> None:
         self.now_font_size = self.now_font_size - 5
