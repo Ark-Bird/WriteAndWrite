@@ -3,7 +3,6 @@ import tkinter as tk
 import extend_exception
 import inmemory_module.ram_memo
 from keybind import keybind
-from inmemory_module import ram_memo
 from tkinter import messagebox
 
 
@@ -29,6 +28,7 @@ class FontChange:
     def __init__(self, now_font_size, page):
         self.now_font_size = now_font_size
         self.page = page
+        self.page.configure(font=("IPAexゴシック", self.now_font_size))
 
     def font_size_big(self) -> None:
         self.now_font_size = self.now_font_size + 5
@@ -40,7 +40,7 @@ class FontChange:
         self.now_font_size = self.now_font_size - 5
         if self.now_font_size <= 6:
             self.now_font_size = 6
-        self.page.configure(font=("", self.now_font_size))
+        self.page.configure(font=("IPAexゴシック", self.now_font_size))
 
 
 def page_scroll_set(root, page) -> None:

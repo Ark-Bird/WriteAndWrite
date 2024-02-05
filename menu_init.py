@@ -10,7 +10,7 @@ def menu_init(author, menubar, pkvin, indent, full_mode):
     初めにバージョンとライセンスを表示するためのクラスのインスタンスを作成している
     :return:
     """
-    font_size = 10
+    font_size = 13
     font_change = textarea_config.FontChange(font_size, author.page)
     show_info = version.ShowInfo()
     mode_change = textarea_config.ModeChange(author)
@@ -81,4 +81,5 @@ def menu_init(author, menubar, pkvin, indent, full_mode):
     # バージョン情報
     help_menu.add_command(label="VERSION", command=show_info.show_version)
     help_menu.add_command(label="現在のファイル(Ctrl-0)", command=author.file_full_name_show)
+    help_menu.add_command(label="推奨フォント", command=show_info.show_recommend_font)
     menubar.add_cascade(label="HELP", menu=help_menu)
