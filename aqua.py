@@ -213,6 +213,9 @@ class WillBeAuthor:
         except UnicodeDecodeError:
             print("パスがユニコードではありません")
             self.prev_save_file = os.path.abspath(os.path.dirname(__file__))
+        except FileNotFoundError:
+            independent_method.write_filename_string(__file__)
+            print("パスファイルを作成します")
         except extend_exception.NotOpenPathException:
             print("パスが無効です")
             self.prev_save_file = os.path.abspath(os.path.dirname(__file__))
