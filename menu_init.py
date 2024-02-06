@@ -14,19 +14,19 @@ def menu_init(author, menubar, pkvin, indent, full_mode):
     font_change = textarea_config.FontChange(font_size, author.page)
     show_info = version.ShowInfo()
     mode_change = textarea_config.ModeChange(author)
-    filemenu = tk.Menu(menubar, tearoff=0)
+    file_menu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー、渡している'file'引数はダミー
-    filemenu.add_command(label="新規ファイル", command=author.new_blank_file)
-    filemenu.add_command(label="開く", command=author.open_text_file)
-    filemenu.add_command(label="保存 (Ctrl-s)", command=author.save_file)
-    filemenu.add_command(label="名前をつけて保存", command=author.save_as)
-    filemenu.add_command(label="シリアライズして保存", command=pkvin.umeboshi)
-    filemenu.add_command(label="デシリアライズして開く", command=pkvin.sunuki)
-    filemenu.add_command(
+    file_menu.add_command(label="新規ファイル", command=author.new_blank_file)
+    file_menu.add_command(label="開く", command=author.open_text_file)
+    file_menu.add_command(label="保存 (Ctrl-s)", command=author.save_file)
+    file_menu.add_command(label="名前をつけて保存", command=author.save_as)
+    file_menu.add_command(label="シリアライズして保存", command=pkvin.umeboshi)
+    file_menu.add_command(label="デシリアライズして開く", command=pkvin.sunuki)
+    file_menu.add_command(
         label="オートセーブ (Ctrl-e)", command=author.toggle_as_flag
     )
-    filemenu.add_command(label="終了", command=author.exit_as_save)
-    menubar.add_cascade(label="ファイル", menu=filemenu)
+    file_menu.add_command(label="終了", command=author.exit_as_save)
+    menubar.add_cascade(label="ファイル", menu=file_menu)
 
     # 編集メニュー、カット、コピー、ペーストをラムダ式で呼び出し
     # editmenu = tk.Menu(menubar, tearoff=0)

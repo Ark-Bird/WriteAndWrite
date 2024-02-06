@@ -46,20 +46,20 @@ class WillBeAuthor:
     def __init__(self):
         """
         変数初期化
-        len:文字数
         file:ファイル名
         cliptext:クリップボードのテキスト
         pstxt:ペースとするテキスト
-        auto_indent:オートインデントのフラグ
+        self.indent:オートインデントのフラグ
         half_space:オートインデントの全角/半角切り替え
         hit_return:IMEの文字決定と改行の区別フラグ
         is_save:セーブ済みフラグ
         is_exit:終了可能フラグ
-        ASFLAG:オートセーブフラグ
+        is_autosave_flag:オートセーブフラグ
         txtc:クリップボードのクリア
         theme:現在のテーマ
         theme_f:テーマが変更フラグ
         blank_line:空行かどうかのフラグ
+        self.cursor_move_mode:カーソル移動のモード、デフォルトでviスタイルライク
         """
         self.file: str = ""
         self.basename: str = ""
@@ -82,7 +82,6 @@ class WillBeAuthor:
         self.indent = None
         self.before_text = ""
         self.prev_save_file = ""
-        self.prev_text = ""
         self.cursor_move_mode = "vi"
         try:
             self.theme = self.read_theme()
@@ -121,7 +120,7 @@ class WillBeAuthor:
 
     def set_theme(self, theme="normal") -> None:
         """
-        テーマをファイルから読み込みchange_theme関数に渡す
+        引数themeで渡されたテーマをファイルに書き込んでテーマの変更
         :param theme: 変更するテーマ、デフォルトでnormal
         """
         independent_method.write_theme_string(theme)
@@ -148,6 +147,7 @@ class WillBeAuthor:
     def counter(self) -> int:
         """
         文字カウント
+        テキストエリアから全文を読んで空白をトリムした長さを返す
         loggerから呼ばれる
         カウントした文字はタイトルバーに表示
         オートインデント有効の場合タイトルバーに表示
@@ -201,6 +201,7 @@ class WillBeAuthor:
     def repeat_save_file(self) -> None:
         """
         オートセーブ
+        ファイルパスはユニコードであること
         """
         if self.prev_save_file == "" and self.is_autosave_flag:
             self.prev_save_file = filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
@@ -240,7 +241,7 @@ class WillBeAuthor:
     def toggle_as_flag(self, event=None) -> None:
         """
         オートセーブフラグのトグル
-        self.ASFLAG:オートセーブのフラグ
+        self.is_autosave_flag:オートセーブのフラグ
         :return:無し
         """
         if self.is_autosave_flag:
@@ -252,9 +253,7 @@ class WillBeAuthor:
 
     def change_auto_save_enable(self) -> None:
         """
-        オートセーブフラグが有効ならオートセーブを毎秒呼び出し
-        フラグが立っていない場合無視
-        テーマの変更が無い場合Falseを送って変更しない
+        オートセーフのフラグを有効にする
         :return:無し
         """
         self.is_autosave_flag = True
