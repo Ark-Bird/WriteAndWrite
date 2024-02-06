@@ -68,7 +68,12 @@ def menu_init(author, menubar, pkvin, indent, full_mode):
     auto_indent.add_command(label="オン/オフ (Ctrl-q)", command=indent.toggle_auto_indent)
     auto_indent.add_command(label="半角/全角 (Ctrl-w)", command=indent.toggle_half_or_full)
     menubar.add_cascade(label="オートインデント", menu=auto_indent)
-    #ViモードとEmacsモードの切り替え
+    # 折り返しのオンオフ
+    wrap_mode = tk.Menu(menubar, tearoff=0)
+    wrap_mode.add_command(label="折り返し有効", command=author.wrap_enable)
+    wrap_mode.add_command(label="折り返し無効", command=author.wrap_disable)
+    menubar.add_cascade(label="行末の折り返し", menu=wrap_mode)
+    # ViモードとEmacsモードの切り替え
     keybind_mode = tk.Menu(menubar, tearoff=0)
     keybind_mode.add_command(label="Vi-Mode", command=mode_change.change_vi_mode)
     keybind_mode.add_command(label="Emacs-Mode", command=mode_change.change_emacs_mode)

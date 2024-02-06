@@ -84,6 +84,7 @@ class WillBeAuthor:
         self.before_text = ""
         self.prev_save_file = ""
         self.cursor_move_mode = "vi"
+        self.is_wrap = True
         try:
             self.theme = self.read_theme()
         except FileNotFoundError:
@@ -505,6 +506,14 @@ class WillBeAuthor:
         self.font = font
         pass
 
+    def wrap_enable(self) -> None:
+        self.is_wrap = True
+        self.page.configure(wrap=tk.CHAR)
+
+    def wrap_disable(self) -> None:
+        self.is_wrap = False
+        self.page.configure(wrap=tk.NONE)
+
 
 def res_path(rel: str) -> str:
     """
@@ -543,7 +552,7 @@ def main() -> None:
     full_screen = full_mode.FullMode()
     full_screen.set_root_full_mode(root)
     root.geometry("640x640")
-    page = tk.Text(root, undo=True, wrap=tkinter.NONE)
+    page = tk.Text(root, undo=True, wrap=tkinter.CHAR)
     decorate, pk1vin = init_page(page)
     indent = indent_insert.Indent(author, page)
     author.set_indent(indent)
