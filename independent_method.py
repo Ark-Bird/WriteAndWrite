@@ -11,6 +11,11 @@ def write_theme_string(change_theme) -> None:
 
 
 def write_filename_string(change_filename) -> None:
+    """
+    ファイルの保存時にpath.binにファイルのパスを書き込む
+    :param change_filename: 保存したファイルのフルパス
+    :return:
+    """
     with open("path.bin", mode="w", encoding="utf-8") as sf:
         sf.write(change_filename)
     return
