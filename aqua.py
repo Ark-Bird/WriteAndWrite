@@ -66,7 +66,7 @@ class WillBeAuthor:
         self.is_changed: bool = False
         self.clipped_text: str = ""
         self.pasting_text: str = ""
-        self.is_save: bool = True
+        self.is_save: bool = False
         self.is_exit: bool = False
         self.is_init: bool = True
         self.is_autosave_flag: bool = False
@@ -173,10 +173,10 @@ class WillBeAuthor:
         auto_indent, half_space = self.indent.auto_indent_enable_and_half_space_checker()
         self.title_var_string = str(character_num) + ":  文字"
 
-        if not self.is_save:
-            self.title_var_string += "*未保存*:"
-        elif self.is_init:
+        if self.file == "" and self.page.get("0.0", "end") == "\n":
             self.title_var_string += ":無題:"
+        elif not self.is_save:
+            self.title_var_string += "*未保存*:"
         elif self.is_save and not self.init:
             self.title_var_string += ":保存済み:"
         else:
