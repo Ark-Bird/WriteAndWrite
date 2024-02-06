@@ -68,6 +68,7 @@ class WillBeAuthor:
         self.pasting_text: str = ""
         self.is_save: bool = True
         self.is_exit: bool = False
+        self.is_init: bool = True
         self.is_autosave_flag: bool = False
         self.dark_mode: bool = False
         self.title_var_string: str = ""
@@ -142,6 +143,7 @@ class WillBeAuthor:
         elif self.before_text == self.page.get("0.0", "end"):
             self.is_save = True
         self.is_text_changed()
+        self.is_init = False
         return
 
     def counter(self) -> int:
@@ -173,6 +175,8 @@ class WillBeAuthor:
 
         if not self.is_save:
             self.title_var_string += "*未保存*:"
+        elif self.is_init:
+            self.title_var_string += ":無題:"
         elif self.is_save and not self.init:
             self.title_var_string += ":保存済み:"
         else:
