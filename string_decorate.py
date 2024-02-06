@@ -8,6 +8,10 @@ import extend_exception
 
 class StringDecorator:
     def __init__(self, page):
+        """
+        テキストpageを受け取ってそれを装飾するクラス
+        :param page: テキストエリア
+        """
         self.page = page
         
     def dot_mark(self, event=None) -> None:
