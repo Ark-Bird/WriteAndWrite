@@ -70,14 +70,11 @@ class WillBeAuthor:
         self.is_exit: bool = False
         self.is_init: bool = True
         self.is_autosave_flag: bool = False
-        self.dark_mode: bool = False
         self.title_var_string: str = ""
         self.theme: str = self.read_theme()
         self.copied_text = ""
         self.page = None
         self.root = None
-        self.file = ""
-        self.theme = ""
         self.init = True
         self.blank_line = False
         self.indent = None
