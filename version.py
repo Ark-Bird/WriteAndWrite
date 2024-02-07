@@ -13,7 +13,7 @@ class ShowInfo:
 
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     """)
-        self._version: const = const.Const("0.13.5_β_code:\"MagicOfStella\"")
+        self._version: const = const.Const("0.13.6_β_code:\"MagicOfStella\"")
         self._recommend_font: const = const.Const("このプログラムの推奨フォントはhttps://moji.or.jp/より配布されているIPAフォントになります、"
                                                   "リポジトリに同梱されているIPAexfont00401.zipを展開し、中のライセンスに同意していただければ使用可能です")
 
@@ -39,3 +39,4 @@ class ShowInfo:
         :return:
         """
         messagebox.showinfo("推奨情報", self._recommend_font.get_const())
+        return
