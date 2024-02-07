@@ -12,6 +12,11 @@ class Memory(inmemory_module.ram_memo.RamMemo):
         self.page = page
 
     def set_text(self, event=None):
+        """
+        Ctrl-mでアプリ終了、もしくは新規記録時までメモリ上にテキストメモを保存
+        :param event:
+        :return:
+        """
         try:
             self.new_memo(self.page.get(tk.SEL_FIRST, tk.SEL_LAST))
         except tk.TclError:
@@ -20,6 +25,11 @@ class Memory(inmemory_module.ram_memo.RamMemo):
             raise extend_exception.FatalError
 
     def show_memory(self, event=None) -> str:
+        """
+        Ctrl-oでメモリ上に保存されたテキストを表示
+        :param event:
+        :return:
+        """
         messagebox.showinfo("Memory", self.remember())
         return "break"
 
