@@ -66,7 +66,7 @@ class WillBeAuthor:
         self.is_changed: bool = False
         self.clipped_text: str = ""
         self.pasting_text: str = ""
-        self.is_save: bool = False
+        self.is_save: bool = True
         self.is_exit: bool = False
         self.is_init: bool = True
         self.is_autosave_flag: bool = False
@@ -328,13 +328,14 @@ class WillBeAuthor:
         保存されていなければ確認ダイアログを表示
         :return:終了時ウインドウの破棄、キャンセル時、空のリターン
         """
-        if not self.is_save:
+        s = self.page.get("0.0", "end")
+        if not self.is_save or s != "\n":
             save_exit = messagebox.askyesno("ファイルが変更されています", "ファイルを保存しますか？")
             if save_exit:
                 self.save_as()
             if messagebox.askyesno("終了しますか？", "終了しますか？"):
                 self.is_exit = True
-        if self.is_exit or self.is_save:
+        if self.is_exit or self.is_save or s == "\n":
             self.root.destroy()
         else:
             return
