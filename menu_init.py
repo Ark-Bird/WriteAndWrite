@@ -10,11 +10,11 @@ def menu_init(author, menubar, pkvin, indent, full_mode) -> None:
     初めにバージョンとライセンスを表示するためのクラスのインスタンスを作成している
     :return:
     """
-    font_size = 13
+    font_size: int = 13
     font_change = textarea_config.FontChange(font_size, author.page)
-    show_info = version.ShowInfo()
-    mode_change = textarea_config.ModeChange(author)
-    file_menu = tk.Menu(menubar, tearoff=0)
+    show_info: version.ShowInfo = version.ShowInfo()
+    mode_change: textarea_config.ModeChange = textarea_config.ModeChange(author)
+    file_menu: tk.Menu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー、渡している'file'引数はダミー
     file_menu.add_command(label="新規ファイル", command=author.new_blank_file)
     file_menu.add_command(label="開く", command=author.open_text_file)
