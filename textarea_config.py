@@ -61,11 +61,21 @@ def page_scroll_set(root, page) -> None:
 
 
 def vi_mode_change(page):
+    """
+    カーソル移動をCtrl-h,j,k,lに変更
+    :param page:
+    :return:
+    """
     original_key_bind = keybind.ViMode(page)
     original_key_bind.edit_key_bind()
 
 
 def emacs_mode_change(page):
+    """
+    カーソル移動をCtrl-f,b,n,pに変更
+    :param page:
+    :return:
+    """
     original_key_bind = keybind.EmacsMode(page)
     original_key_bind.edit_key_bind()
 
@@ -128,11 +138,19 @@ class ModeChange:
         self.author = author
 
     def change_vi_mode(self):
+        """
+        カーソル移動をViライクなモードに変更
+        :return:
+        """
         my_key_bind = keybind.ViMode(self.author)
         my_key_bind.edit_key_bind()
         self.author.change_vi_mode_flag()
 
     def change_emacs_mode(self):
+        """
+        カーソル移動をEmacs方式に変更
+        :return:
+        """
         my_key_bind = keybind.EmacsMode(self.author)
         my_key_bind.edit_key_bind()
         self.author.change_emacs_mode_flag()
