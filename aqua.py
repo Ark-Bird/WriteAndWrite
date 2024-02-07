@@ -125,7 +125,7 @@ class WillBeAuthor:
         independent_method.write_theme_string(theme)
         theme = self.read_theme()
         theme_mod.change_theme(self.page, theme=theme)
-        return None
+        return
 
     def logger(self, event=None) -> None:
         """
@@ -259,13 +259,15 @@ class WillBeAuthor:
         :return:無し
         """
         self.is_autosave_flag = True
+        return
 
-    def change_auto_save_disable(self):
+    def change_auto_save_disable(self) -> None:
         """
         オートセーブ機能の無効化
         :return:
         """
         self.is_autosave_flag = False
+        return
 
     def save_as(self) -> None:
         """
@@ -469,6 +471,7 @@ class WillBeAuthor:
         :return:
         """
         self.is_changed = False
+        return
 
     def set_page(self, page) -> None:
         """
@@ -477,22 +480,26 @@ class WillBeAuthor:
         :return:
         """
         self.page = page
+        return
 
-    def set_indent(self, indent):
+    def set_indent(self, indent: indent_insert.Indent) -> None:
         """
         インデントの詳細指定をするクラスをフィールドに渡す
         :param indent:
         :return:
         """
         self.indent = indent
+        return
 
-    def change_vi_mode_flag(self):
+    def change_vi_mode_flag(self) -> None:
         self.cursor_move_mode = "vi"
+        return
 
-    def change_emacs_mode_flag(self):
+    def change_emacs_mode_flag(self) -> None:
         self.cursor_move_mode = "emacs"
+        return
 
-    def file_full_name_show(self, event=None):
+    def file_full_name_show(self, event=None) -> str:
         if self.file == "":
             messagebox.showinfo("Not open", "現在ファイルを開いていません")
             return "break"

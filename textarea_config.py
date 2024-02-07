@@ -11,7 +11,7 @@ class Memory(inmemory_module.ram_memo.RamMemo):
         self.memo = "i am amnesia"
         self.page = page
 
-    def set_text(self, event=None):
+    def set_text(self, event=None) -> None:
         """
         Ctrl-mでアプリ終了、もしくは新規記録時までメモリ上にテキストメモを保存
         :param event:
@@ -23,6 +23,7 @@ class Memory(inmemory_module.ram_memo.RamMemo):
             pass
         except Exception:
             raise extend_exception.FatalError
+        return
 
     def show_memory(self, event=None) -> str:
         """
@@ -44,12 +45,14 @@ class FontChange:
         if self.now_font_size >= 50:
             self.now_font_size = 50
         self.page.configure(font=("", self.now_font_size))
+        return
 
     def font_size_small(self) -> None:
         self.now_font_size = self.now_font_size - 5
         if self.now_font_size <= 6:
             self.now_font_size = 6
         self.page.configure(font=("", self.now_font_size))
+        return
 
 
 def page_scroll_set(root, page) -> None:
@@ -68,9 +71,10 @@ def page_scroll_set(root, page) -> None:
     page.pack(fill="both", expand=True)
     page["yscrollcommand"] = vertical_scrollbar.set
     page["xscrollcommand"] = horizontal_scrollbar.set
+    return
 
 
-def vi_mode_change(page):
+def vi_mode_change(page) -> None:
     """
     カーソル移動をCtrl-h,j,k,lに変更
     :param page:
@@ -78,9 +82,10 @@ def vi_mode_change(page):
     """
     original_key_bind = keybind.ViMode(page)
     original_key_bind.edit_key_bind()
+    return
 
 
-def emacs_mode_change(page):
+def emacs_mode_change(page) -> None:
     """
     カーソル移動をCtrl-f,b,n,pに変更
     :param page:
@@ -88,6 +93,7 @@ def emacs_mode_change(page):
     """
     original_key_bind = keybind.EmacsMode(page)
     original_key_bind.edit_key_bind()
+    return
 
 
 def init_textarea(root, author, page, decorate, indent) -> None:
@@ -147,7 +153,7 @@ class ModeChange:
     def __init__(self, author):
         self.author = author
 
-    def change_vi_mode(self):
+    def change_vi_mode(self) -> None:
         """
         カーソル移動をViライクなモードに変更
         :return:
@@ -155,8 +161,9 @@ class ModeChange:
         my_key_bind = keybind.ViMode(self.author)
         my_key_bind.edit_key_bind()
         self.author.change_vi_mode_flag()
+        return
 
-    def change_emacs_mode(self):
+    def change_emacs_mode(self) -> None:
         """
         カーソル移動をEmacs方式に変更
         :return:
@@ -164,3 +171,4 @@ class ModeChange:
         my_key_bind = keybind.EmacsMode(self.author)
         my_key_bind.edit_key_bind()
         self.author.change_emacs_mode_flag()
+        return

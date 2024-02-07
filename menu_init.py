@@ -4,7 +4,7 @@ import textarea_config
 from keybind import keybind
 
 
-def menu_init(author, menubar, pkvin, indent, full_mode):
+def menu_init(author, menubar, pkvin, indent, full_mode) -> None:
     """
     参照の引数menubarに各項目を追加
     初めにバージョンとライセンスを表示するためのクラスのインスタンスを作成している
@@ -88,3 +88,4 @@ def menu_init(author, menubar, pkvin, indent, full_mode):
     help_menu.add_command(label="現在のファイル(Ctrl-0)", command=author.file_full_name_show)
     help_menu.add_command(label="推奨フォント", command=show_info.show_recommend_font)
     menubar.add_cascade(label="HELP", menu=help_menu)
+    return
