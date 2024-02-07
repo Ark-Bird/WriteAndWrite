@@ -41,7 +41,6 @@ class WillBeAuthor:
 
     path = ""
     ftext = ""
-    is_save = True
 
     def __init__(self):
         """
@@ -329,7 +328,7 @@ class WillBeAuthor:
         :return:終了時ウインドウの破棄、キャンセル時、空のリターン
         """
         s = self.page.get("0.0", "end")
-        if not self.is_save or s != "\n":
+        if not self.is_save:
             save_exit = messagebox.askyesno("ファイルが変更されています", "ファイルを保存しますか？")
             if save_exit:
                 self.save_as()
