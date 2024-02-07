@@ -22,7 +22,7 @@ class StringDecorator:
         :return:
         """
         try:
-            m = self.page.get("insert", "insert +1c")
+            m: str = self.page.get("insert", "insert +1c")
             if m == "\n":
                 self.page.mark_set("insert", "insert+1c")
                 return
@@ -48,7 +48,7 @@ class StringDecorator:
         ダッシュの挿入
         全角で二つ一組で挿入
         """
-        s = self.page.get("insert", "insert+1c")
+        s: str = self.page.get("insert", "insert+1c")
         self.page.insert("insert", "――" + s)
         self.page.mark_set("insert", "insert-1c")
         return
@@ -62,7 +62,7 @@ class StringDecorator:
         返り値無し
         """
         try:
-            temp_str = self.page.get("sel.first", "sel.last")
+            temp_str: str = self.page.get("sel.first", "sel.last")
             # 投稿サイトが10文字以上のルビに対応の場合、以下二行をコメントアウトしてください
             if len(temp_str) > 10:
                 messagebox.showinfo("over", "10文字以上にルビは非対応の可能性があります")
