@@ -71,7 +71,6 @@ class WillBeAuthor:
         self.is_init: bool = True
         self.is_autosave_flag: bool = False
         self.title_var_string: str = ""
-        self.theme: str = self.read_theme()
         self.copied_text = ""
         self.page = None
         self.root = None
