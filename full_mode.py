@@ -4,7 +4,7 @@ class FullMode:
         初期化、デフォルトで全画面は無効
         rootはset_root_full_modeで設定するのでこの時点では空
         """
-        self.c_mode_flag = False
+        self.c_mode_flag: bool = False
         self.root = None
 
     def set_root_full_mode(self, root) -> None:
