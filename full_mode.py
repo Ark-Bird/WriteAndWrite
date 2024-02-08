@@ -14,6 +14,7 @@ class FullMode:
         :return:
         """
         self.root = root
+        return
 
     def start_c_mode(self) -> None:
         """
