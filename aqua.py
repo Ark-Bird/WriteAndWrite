@@ -397,7 +397,12 @@ class WillBeAuthor:
         self.change_titlebar()
         return
 
-    def path_to_filename(self, filepath) -> str:
+    def path_to_filename(self, filepath) -> None:
+        """
+        ファイルパスのファイル名を抜き出してself.basenameに代入
+        :param filepath:
+        :return:
+        """
         self.basename = os.path.basename(self.file)
 
     def text_copy(self, event=None) -> None:
