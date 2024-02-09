@@ -1,9 +1,8 @@
-import tkinter
-
-from independent_method import ignore
-from tkinter import messagebox
 from tkinter import TclError
+from tkinter import messagebox
+
 import extend_exception
+from independent_method import ignore
 
 
 class StringDecorator:
