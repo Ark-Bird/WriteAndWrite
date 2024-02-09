@@ -17,7 +17,9 @@ class ShowInfo:
         0.13.13_RC_code:/MagicOfStella/
         """)
         self._recommend_font: const.Const = const.Const("""
-        このプログラムの推奨フォントはhttps://moji.or.jp/より配布されているIPAフォントになります、
+        このプログラムの推奨フォントは
+        https://moji.or.jp/
+        より配布されているIPAフォントになります、
         リポジトリに同梱されているIPAexfont00401.zipを展開し、
         中のライセンスに同意していただければ使用可能です
         """)
