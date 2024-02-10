@@ -18,6 +18,7 @@ def change_theme(page, theme) -> None:
         case "terminal":
             page.configure(bg="black", fg="springgreen3", insertbackground="green")
         case _:
+            print("テーマファイルの破損、もしくは存在していません、標準設定で作成します")
             independent_method.write_theme_string("normal")
             page.configure(bg="ghost white", fg="black", insertbackground="black")
     return
