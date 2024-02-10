@@ -194,7 +194,7 @@ class WillBeAuthor:
         elif self.cursor_move_mode == "emacs":
             self.title_var_string += "Emacs mode:"
         self.blank_line = False
-        self.title_var_string += os.path.basename(self.file)
+        self.title_var_string += self.path_to_filename(self.file)
         self.root.title(self.title_var_string)
         return
 
@@ -403,7 +403,8 @@ class WillBeAuthor:
         :param filepath:
         :return:
         """
-        self.basename = os.path.basename(self.file)
+        basename = os.path.basename(filepath)
+        return basename
 
     def text_copy(self, event=None) -> None:
         """
