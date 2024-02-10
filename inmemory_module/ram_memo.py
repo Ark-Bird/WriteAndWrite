@@ -4,7 +4,7 @@ class RamMemo:
 
     def new_memo(self, memo: str) -> None:
         self.memo = memo
-        return self.memo
+        return
 
     def remember(self) -> str:
         return self.memo
