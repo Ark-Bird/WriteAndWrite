@@ -128,7 +128,7 @@ def init_textarea(root, author, page, decorate, indent) -> None:
     # オートインデントのオン・オフ
     page.bind("<Control-q>", indent.toggle_auto_indent)
     # オートセーブ
-    page.bind("<Control-e>", author.toggle_as_flag)
+    page.bind("<Control-e>", author.toggle_autosave_flag)
     # エンターが押された場合、IMEの変換で押したものか改行をしたのかを判断してオートインデントを行う
     page.bind("<KeyPress-Return>", indent.ime_check)
     page.bind(

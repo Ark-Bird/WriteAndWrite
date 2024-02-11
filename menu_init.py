@@ -23,7 +23,7 @@ def menu_init(author, menubar, pkvin, indent, full_mode) -> None:
     file_menu.add_command(label="シリアライズして保存", command=pkvin.umeboshi)
     file_menu.add_command(label="デシリアライズして開く", command=pkvin.sunuki)
     file_menu.add_command(
-        label="オートセーブ (Ctrl-e)", command=author.toggle_as_flag
+        label="オートセーブ (Ctrl-e)", command=author.toggle_autosave_flag
     )
     file_menu.add_command(label="終了", command=author.exit_as_save)
     menubar.add_cascade(label="ファイル", menu=file_menu)

@@ -238,7 +238,7 @@ class WillBeAuthor:
         self.root.after(1000, self.repeat_save_file)
         return
 
-    def toggle_as_flag(self, event=None) -> None:
+    def toggle_autosave_flag(self, event=None) -> None:
         """
         オートセーブフラグのトグル
         self.is_autosave_flag:オートセーブのフラグ
