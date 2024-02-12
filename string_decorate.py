@@ -47,7 +47,7 @@ class StringDecorator:
         全角で二つ一組で挿入
         """
         s: str = self.page.get("insert", "insert+1c")
-        self.page.insert("insert", "――" + s)
+        self.page.insert("insert", """――""" + s)
         self.page.mark_set("insert", "insert-1c")
         return
 
