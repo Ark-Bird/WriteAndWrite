@@ -61,7 +61,6 @@ class WillBeAuthor:
         self.cursor_move_mode:カーソル移動のモード、デフォルトでviスタイルライク
         """
         self.file: str = ""
-        self.basename: str = ""
         self.is_changed: bool = False
         self.clipped_text: str = ""
         self.pasting_text: str = ""
@@ -74,7 +73,6 @@ class WillBeAuthor:
         self.page = None
         self.root = None
         self.init = True
-        self.blank_line = False
         self.indent = None
         self.before_text = ""
         self.prev_save_file = ""
@@ -193,7 +191,6 @@ class WillBeAuthor:
             self.title_var_string += "Vi mode:"
         elif self.cursor_move_mode == "emacs":
             self.title_var_string += "Emacs mode:"
-        self.blank_line = False
         self.title_var_string += self.path_to_filename(self.file)
         self.root.title(self.title_var_string)
         return
