@@ -96,7 +96,7 @@ def emacs_mode_change(page) -> None:
     return
 
 
-def init_textarea(root, author, page, decorate, indent) -> None:
+def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     """
     テキストエリアの初期設定とキーバインドの設定を行う
     初期化処理なので一度だけ呼ばれる
@@ -107,8 +107,7 @@ def init_textarea(root, author, page, decorate, indent) -> None:
     :param indent: インデントの有無と半角全角を決定
     :return: 無し
     """
-    font_size = 13
-    font_change = FontChange(font_size, author.page)
+    font = font_change
     page_scroll_set(root, page)
     # ファイルを保存
     page.bind("<Control-s>", author.save_file)
@@ -146,8 +145,8 @@ def init_textarea(root, author, page, decorate, indent) -> None:
     # 現在のファイルパス
     page.bind("<Control-0>", author.file_full_name_show)
     # フォントの拡大縮小
-    page.bind("<Control-L>", font_change.font_size_big)
-    page.bind("<Control-S>", font_change.font_size_small)
+    page.bind("<Control-L>", font.font_size_big)
+    page.bind("<Control-S>", font.font_size_small)
     # キーバインド設定
     original_key_bind = keybind.ViMode(author)
     original_key_bind.edit_key_bind()

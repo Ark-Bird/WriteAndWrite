@@ -3,14 +3,12 @@ import version
 import textarea_config
 
 
-def menu_init(author, menubar, pkvin, indent, full_mode) -> None:
+def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     """
     参照の引数menubarに各項目を追加
     初めにバージョンとライセンスを表示するためのクラスのインスタンスを作成している
     :return:
     """
-    font_size = 13
-    font_change = textarea_config.FontChange(font_size, author.page)
     show_info: version.ShowInfo = version.ShowInfo()
     mode_change: textarea_config.ModeChange = textarea_config.ModeChange(author)
     file_menu: tk.Menu = tk.Menu(menubar, tearoff=0)

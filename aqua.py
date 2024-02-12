@@ -567,6 +567,8 @@ def main() -> None:
     full_screen.set_root_full_mode(root)
     root.geometry("640x640")
     page = tk.Text(root, undo=True, wrap=tkinter.CHAR)
+    font_size = 13
+    font_change = textarea_config.FontChange(font_size, page)
     decorate, pk1vin = init_page(page)
     indent = indent_insert.Indent(author, page)
     author.set_indent(indent)
@@ -587,7 +589,7 @@ def main() -> None:
     root.minsize(32, 32)
     menubar = tk.Menu(root, font=font)
 
-    menu_init.menu_init(author, menubar, pk1vin, indent, full_screen)
+    menu_init.menu_init(author, menubar, pk1vin, indent, full_screen, font_change)
 
     # タイトル
     root.config(menu=menubar)
@@ -595,7 +597,7 @@ def main() -> None:
     author.change_titlebar()
     root.configure(background="gray")
 
-    textarea_config.init_textarea(root, author, page, decorate, indent)
+    textarea_config.init_textarea(root, author, page, decorate, indent, font_change)
 
     root.protocol("WM_DELETE_WINDOW", author.exit_as_save)
     root.columnconfigure(0, weight=1)
