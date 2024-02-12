@@ -1,7 +1,6 @@
 import tkinter as tk
 import version
 import textarea_config
-from keybind import keybind
 
 
 def menu_init(author, menubar, pkvin, indent, full_mode) -> None:
@@ -10,7 +9,7 @@ def menu_init(author, menubar, pkvin, indent, full_mode) -> None:
     初めにバージョンとライセンスを表示するためのクラスのインスタンスを作成している
     :return:
     """
-    font_size: int = 13
+    font_size = 13
     font_change = textarea_config.FontChange(font_size, author.page)
     show_info: version.ShowInfo = version.ShowInfo()
     mode_change: textarea_config.ModeChange = textarea_config.ModeChange(author)
@@ -37,8 +36,8 @@ def menu_init(author, menubar, pkvin, indent, full_mode) -> None:
 
     # フォントサイズ変更
     fontmenu = tk.Menu(menubar, tearoff=0)
-    fontmenu.add_command(label="フォントを大きく", command=font_change.font_size_big)
-    fontmenu.add_command(label="フォントを小さく", command=font_change.font_size_small)
+    fontmenu.add_command(label="フォントを大きく(Ctrl-Shift-L)", command=font_change.font_size_big)
+    fontmenu.add_command(label="フォントを小さく(Ctrl-Shift-S)", command=font_change.font_size_small)
     menubar.add_cascade(label="フォントサイズ", menu=fontmenu)
     # メニューバー作成
     # 集中モード

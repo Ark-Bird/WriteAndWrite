@@ -4,7 +4,7 @@ import extend_exception
 import inmemory_module.ram_memo
 from keybind import keybind
 from tkinter import messagebox
-
+import menu_init
 
 class Memory(inmemory_module.ram_memo.RamMemo):
     def __init__(self, page):
@@ -40,14 +40,14 @@ class FontChange:
         self.now_font_size = now_font_size
         self.page = page
 
-    def font_size_big(self) -> None:
+    def font_size_big(self, event=None) -> None:
         self.now_font_size = self.now_font_size + 5
         if self.now_font_size >= 50:
             self.now_font_size = 50
         self.page.configure(font=("", self.now_font_size))
         return
 
-    def font_size_small(self) -> None:
+    def font_size_small(self, event=None) -> None:
         self.now_font_size = self.now_font_size - 5
         if self.now_font_size <= 6:
             self.now_font_size = 6
@@ -107,6 +107,8 @@ def init_textarea(root, author, page, decorate, indent) -> None:
     :param indent: インデントの有無と半角全角を決定
     :return: 無し
     """
+    font_size = 13
+    font_change = FontChange(font_size, author.page)
     page_scroll_set(root, page)
     # ファイルを保存
     page.bind("<Control-s>", author.save_file)
@@ -143,6 +145,9 @@ def init_textarea(root, author, page, decorate, indent) -> None:
     page.bind("<Any-KeyPress>", author.logger)
     # 現在のファイルパス
     page.bind("<Control-0>", author.file_full_name_show)
+    # フォントの拡大縮小
+    page.bind("<Control-L>", font_change.font_size_big)
+    page.bind("<Control-S>", font_change.font_size_small)
     # キーバインド設定
     original_key_bind = keybind.ViMode(author)
     original_key_bind.edit_key_bind()
