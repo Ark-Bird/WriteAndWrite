@@ -15,6 +15,8 @@ def change_theme(page, theme) -> None:
             page.configure(bg="gray16", fg="azure", insertbackground="white")
         case "paper":
             page.configure(bg="azure", fg="blueviolet", insertbackground="blueviolet")
+        case "nightsky":
+            page.configure(bg="#000022", fg="lavender", insertbackground="lightyellow")
         case "terminal":
             page.configure(bg="black", fg="springgreen3", insertbackground="green")
         case _:

@@ -59,6 +59,9 @@ def menu_init(author, menubar, pkvin, indent, full_mode) -> None:
         label="paper", command=lambda: author.set_theme(theme="paper")
     )
     color_select.add_command(
+        label="nightsky", command=lambda: author.set_theme(theme="nightsky")
+    )
+    color_select.add_command(
         label="terminal", command=lambda: author.set_theme(theme="terminal")
     )
     color_mode.add_cascade(label="テーマ切り替え", menu=color_select)
