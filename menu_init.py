@@ -56,7 +56,7 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
         label="paper", command=lambda: author.set_theme(theme="paper")
     )
     color_select.add_command(
-        label="nightsky", command=lambda: author.set_theme(theme="nightsky")
+        label="night-sky", command=lambda: author.set_theme(theme="night-sky")
     )
     color_select.add_command(
         label="terminal", command=lambda: author.set_theme(theme="terminal")
