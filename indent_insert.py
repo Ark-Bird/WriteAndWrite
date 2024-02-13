@@ -8,10 +8,7 @@ class Indent:
         self.auto_indent: bool = False
         self.half_space: bool = False
         self.author = author
-        if self.hit_return:
-            self.blank_line = True
-        else:
-            self.blank_line = False
+        self.blank_line = False
 
     def toggle_auto_indent(self, event=None) -> bool:
         """
