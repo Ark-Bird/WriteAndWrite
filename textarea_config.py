@@ -41,6 +41,12 @@ class FontChange:
         self.page = page
 
     def font_size_big(self, event=None) -> None:
+        """
+        フォントサイズを拡大する
+        対象は__init__で渡されたself.page
+        :param event:
+        :return:
+        """
         self.now_font_size = self.now_font_size + 5
         if self.now_font_size >= 50:
             self.now_font_size = 50
@@ -48,6 +54,12 @@ class FontChange:
         return
 
     def font_size_small(self, event=None) -> None:
+        """
+        フォントサイズを縮小する
+        対象は__init__で渡されたself.page
+        :param event:
+        :return:
+        """
         self.now_font_size = self.now_font_size - 5
         if self.now_font_size <= 6:
             self.now_font_size = 6
