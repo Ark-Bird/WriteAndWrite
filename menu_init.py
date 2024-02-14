@@ -87,5 +87,6 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     help_menu.add_command(label="VERSION", command=show_info.show_version)
     help_menu.add_command(label="現在のファイル(Ctrl-0)", command=author.file_full_name_show)
     help_menu.add_command(label="推奨フォント", command=show_info.show_recommend_font)
+    help_menu.add_command(label="テーマ設定方法", command=show_info.show_theme_exsample)
     menubar.add_cascade(label="HELP", menu=help_menu)
     return
