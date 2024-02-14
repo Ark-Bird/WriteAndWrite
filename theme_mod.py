@@ -16,8 +16,8 @@ def change_theme(page, theme) -> None:
     """
     try:
         with open("dist/custom_theme/original_theme.txt", "r") as theme_file:
-            originale_theme = theme_file.read()
-            enable, bg, fg, cursor = originale_theme.split()
+            original_theme = theme_file.read()
+            enable, bg, fg, cursor = original_theme.split()
         if enable == "True":
             page.configure(bg=bg, fg=fg, insertbackground=cursor)
             return
@@ -35,7 +35,9 @@ def change_theme(page, theme) -> None:
             theme_file.write("False #000000 #FFFFFF #FFFFFF")
         theme = "invalid_theme"
     except Exception:
-        messagebox.showerror("不明なエラーです", "original_themeのoriginal_enableをFalseに設定することを考慮してください")
+        messagebox.showerror("不明なエラーです", "original_themeのoriginal_enableの書式が正しくありません、初期設定で作成します、ソフトを再起動してください")
+        with open("dist/custom_theme/original_theme.txt", "w") as theme_file:
+            theme_file.write("False #000000 #FFFFFF #FFFFFF")
         raise extend_exception.FatalError
     match theme:
         case "normal":
