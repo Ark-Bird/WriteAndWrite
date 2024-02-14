@@ -14,7 +14,7 @@ class ShowInfo:
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     """)
         self._version: const.Const = const.Const("""
-        ver0.16.0_RC_code:/YetAgain/
+        ver0.16.1_RC_code:/YetAgain/
         """)
         self._recommend_font: const.Const = const.Const("""
         このプログラムの推奨フォントは
@@ -23,7 +23,7 @@ class ShowInfo:
         リポジトリに同梱されているIPAexfont00401.zipを展開し、
         中のライセンスに同意していただければ使用可能です
         """)
-        self._theme_exsample_conf: const.Const = const.Const("""
+        self._theme_example_conf: const.Const = const.Const("""
         テーマは以下の書式で書いてください
         "#RRGGBB"
         RGBはそれぞれ0~Fまでの数値
@@ -59,4 +59,4 @@ class ShowInfo:
         オリジナルテーマの設定法
         :return:
         """
-        messagebox.showinfo("テーマ設定の書式", self._theme_exsample_conf.get_const())
+        messagebox.showinfo("テーマ設定の書式", self._theme_example_conf.get_const())

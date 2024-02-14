@@ -1,10 +1,10 @@
+import os
 from tkinter import messagebox
 
 import _tkinter
 
 import extend_exception
 import independent_method
-from costom_theme import original_theme
 
 
 def change_theme(page, theme) -> None:
@@ -15,13 +15,25 @@ def change_theme(page, theme) -> None:
     どれともマッチしなかった場合は標準テーマでcolor.binを作成
     """
     try:
-        if original_theme.original_enable:
-            page.configure(bg=original_theme.back, fg=original_theme.letter, insertbackground=original_theme.cursor)
+        with open("dist/custom_theme/original_theme.txt", "r") as theme_file:
+            originale_theme = theme_file.read()
+            print(originale_theme.split())
+            enable, bg, fg, cursor = originale_theme.split()
+        if enable == "True":
+            page.configure(bg=bg, fg=fg, insertbackground=cursor)
             return
+    except FileNotFoundError:
+        messagebox.showerror("テーマファイルが見つかりません", "dist/custom_theme/にオリジナルテーマを作成します")
+        os.makedirs("dist/custom_theme", exist_ok=True)
+        with open("dist/custom_theme/original_theme.txt", "w") as theme_file:
+            theme_file.write("False #000000 #FFFFFF #FFFFFF")
     except _tkinter.TclError:
         messagebox.showerror("テーマ設定エラー", """テーマの数値が違います、
         標準テーマで起動します。
         テーマの書式はHELPからテーマ設定例を調べてください""")
+        os.makedirs("dist/custom_theme", exist_ok=True)
+        with open("dist/custom_theme/original_theme.txt", "w") as theme_file:
+            theme_file.write("False #000000 #FFFFFF #FFFFFF")
         theme = "invalid_theme"
     except Exception:
         messagebox.showerror("不明なエラーです", "original_themeのoriginal_enableをFalseに設定することを考慮してください")
