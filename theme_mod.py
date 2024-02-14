@@ -17,7 +17,6 @@ def change_theme(page, theme) -> None:
     try:
         with open("dist/custom_theme/original_theme.txt", "r") as theme_file:
             originale_theme = theme_file.read()
-            print(originale_theme.split())
             enable, bg, fg, cursor = originale_theme.split()
         if enable == "True":
             page.configure(bg=bg, fg=fg, insertbackground=cursor)
