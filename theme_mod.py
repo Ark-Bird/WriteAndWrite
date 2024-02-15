@@ -7,6 +7,11 @@ import _tkinter
 import extend_exception
 import independent_method
 
+def make_default_theme():
+    os.makedirs("dist/custom_theme", exist_ok=True)
+    with open("dist/custom_theme/original_theme.txt", "w") as theme_file:
+        theme_file.write("False #000000 #FFFFFF #FFFFFF")
+
 
 def change_theme(page: tkinter.Text, theme: str) -> None:
     """
@@ -24,21 +29,16 @@ def change_theme(page: tkinter.Text, theme: str) -> None:
             return
     except FileNotFoundError:
         messagebox.showerror("テーマファイルが見つかりません", "dist/custom_theme/にオリジナルテーマを作成します")
-        os.makedirs("dist/custom_theme", exist_ok=True)
-        with open("dist/custom_theme/original_theme.txt", "w") as theme_file:
-            theme_file.write("False #000000 #FFFFFF #FFFFFF")
+        make_default_theme()
     except _tkinter.TclError:
         messagebox.showerror("テーマ設定エラー", """テーマの数値が違います、
         標準テーマで起動します。
         テーマの書式はHELPからテーマ設定例を調べてください""")
-        os.makedirs("dist/custom_theme", exist_ok=True)
-        with open("dist/custom_theme/original_theme.txt", "w") as theme_file:
-            theme_file.write("False #000000 #FFFFFF #FFFFFF")
+        make_default_theme()
         theme = "invalid_theme"
     except Exception:
         messagebox.showerror("不明なエラーです", "original_themeのoriginal_enableの書式が正しくありません、初期設定で作成します、ソフトを再起動してください")
-        with open("dist/custom_theme/original_theme.txt", "w") as theme_file:
-            theme_file.write("False #000000 #FFFFFF #FFFFFF")
+        make_default_theme()
         raise extend_exception.FatalError
     match theme:
         case "normal":
