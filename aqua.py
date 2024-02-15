@@ -70,14 +70,14 @@ class WillBeAuthor:
         self.is_autosave_flag: bool = False
         self.title_var_string: str = ""
         self.copied_text = ""
-        self.page = None
-        self.root = None
-        self.init = True
-        self.indent = None
-        self.before_text = ""
-        self.prev_save_file = ""
-        self.cursor_move_mode = "vi"
-        self.is_wrap = True
+        self.page: tk.Text = None
+        self.root: tk.Tk = None
+        self.init: bool = True
+        self.indent: indent_insert.Indent = None
+        self.before_text: str = ""
+        self.prev_save_file: str = ""
+        self.cursor_move_mode: str = "vi"
+        self.is_wrap: bool = True
         try:
             self.theme = self.read_theme()
         except FileNotFoundError:
