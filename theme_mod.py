@@ -1,4 +1,5 @@
 import os
+import tkinter
 from tkinter import messagebox
 
 import _tkinter
@@ -7,7 +8,7 @@ import extend_exception
 import independent_method
 
 
-def change_theme(page, theme) -> None:
+def change_theme(page: tkinter.Text, theme: str) -> None:
     """
     テーマの変更
     引数pageはテキストエリアで、それをthemeに変更
