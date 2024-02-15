@@ -7,10 +7,12 @@ import _tkinter
 import extend_exception
 import independent_method
 
-def make_default_theme():
+
+def make_default_theme() -> None:
     os.makedirs("dist/custom_theme", exist_ok=True)
     with open("dist/custom_theme/original_theme.txt", "w") as theme_file:
         theme_file.write("False #000000 #FFFFFF #FFFFFF")
+    return
 
 
 def change_theme(page: tkinter.Text, theme: str) -> None:
