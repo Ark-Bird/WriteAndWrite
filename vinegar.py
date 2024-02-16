@@ -1,6 +1,9 @@
 import tkinter as tk
 import tkinter.filedialog
+import tkinter.messagebox
 import pickle
+
+
 class Vinegar:
     def __init__(self, page):
         self.page = page
@@ -22,7 +25,10 @@ class Vinegar:
         シリアライズしたテキストをロード
         :return:
         """
-        pkl = tk.filedialog.askopenfilename()
+        tkinter.messagebox.showinfo("NOTICE!", "デシリアライズを行う時は対象ファイルが安全であることを確認してください")
+        pkl: str = tk.filedialog.askopenfilename()
+        if pkl == "":
+            return
         with open(pkl, "rb") as f:
             deserialized_text = pickle.load(f)
         self.page.delete("0.0", "end")
