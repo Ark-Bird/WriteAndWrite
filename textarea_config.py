@@ -9,7 +9,6 @@ from keybind import keybind
 class Memory(inmemory_module.ram_memo.RamMemo):
     def __init__(self, page):
         super().__init__()
-        self.memo = "i am amnesia"
         self.page = page
 
     def set_text(self, event=None) -> None:
