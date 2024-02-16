@@ -1,13 +1,14 @@
 import tkinter as tk
+from tkinter import messagebox
 
 import extend_exception
 import inmemory_module.ram_memo
 from keybind import keybind
-from tkinter import messagebox
-import menu_init
+
 
 class Memory(inmemory_module.ram_memo.RamMemo):
     def __init__(self, page):
+        super().__init__()
         self.memo = "i am amnesia"
         self.page = page
 
