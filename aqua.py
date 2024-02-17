@@ -79,7 +79,7 @@ class WillBeAuthor:
         self.cursor_move_mode: str = "vi"
         self.is_wrap: bool = True
         try:
-            self.theme = self.read_theme()
+            self.theme: str = self.read_theme()
         except FileNotFoundError:
             ignore()
         except Exception:
