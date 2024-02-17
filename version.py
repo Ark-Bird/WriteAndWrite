@@ -54,7 +54,7 @@ class ShowInfo:
         messagebox.showinfo("推奨情報", self._recommend_font.get_const())
         return
 
-    def show_theme_exsample(self) -> None:
+    def show_theme_example(self) -> None:
         """
         オリジナルテーマの設定法
         :return:
