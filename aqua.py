@@ -166,9 +166,10 @@ class WillBeAuthor:
         character_num = self.counter()
         auto_indent, half_space = self.indent.auto_indent_enable_and_half_space_checker()
         self.title_var_string = str(character_num) + ":  文字"
-
+        # インデントの半角/全角
         if self.file == "" and self.page.get("0.0", "end") == "\n":
             self.title_var_string += ":無題:"
+        # 保存の有無
         elif not self.is_save:
             self.title_var_string += "*未保存*:"
         elif self.is_save and not self.init:
@@ -176,6 +177,7 @@ class WillBeAuthor:
         else:
             self.init = False
         self.title_var_string = "I want Be... :" + self.title_var_string
+        # オートインデントの半角/全角状態の表示
         if auto_indent:
             if half_space:
                 self.title_var_string += "*AI半角*"
@@ -183,10 +185,12 @@ class WillBeAuthor:
                 self.title_var_string += "*AI全角*"
         else:
             self.title_var_string += "*AI無効"
+        # オートセーブは有効か
         if self.is_autosave_flag:
             self.title_var_string += ":auto_save_enable:"
         else:
             self.title_var_string += ":auto_save_disable:"
+        # カーソル移動の方法
         if self.cursor_move_mode == "vi":
             self.title_var_string += "Vi mode:"
         elif self.cursor_move_mode == "emacs":
