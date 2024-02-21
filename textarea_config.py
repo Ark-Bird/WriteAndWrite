@@ -1,3 +1,4 @@
+import os.path
 import tkinter as tk
 from tkinter import messagebox
 
@@ -39,6 +40,27 @@ class FontChange:
     def __init__(self, now_font_size, page):
         self.now_font_size = now_font_size
         self.page = page
+        self.now_font_size = 13
+        if os.path.exists("conf/font-size.txt"):
+            try:
+                with open("conf/font-size.txt") as fs:
+                    enable_font, font_size = fs.read().split()
+                if enable_font == "True":
+                    self.now_font_size = int(font_size)
+            except FileNotFoundError:
+                messagebox.showinfo("File Not Found", "ファイルが見つかりません")
+            except TypeError:
+                messagebox.showinfo("ファイルのフォーマットが正しくありません", "新規作成します")
+                with open("conf/font-size.txt", "w") as fs:
+                    fs.write("False 13")
+            except Exception:
+                messagebox.showerror("Error", "致命的なエラーです")
+                raise extend_exception.FatalError
+        else:
+            os.makedirs("./conf/")
+            with open("conf/font-size.txt", "w") as fs:
+                fs.write("False 10")
+        self.page.configure(font=("", self.now_font_size))
 
     def font_size_big(self, event=None) -> None:
         """
