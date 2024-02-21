@@ -156,14 +156,16 @@ class WillBeAuthor:
         s = s.replace('\n', '')
         s = s.replace('\r', '')
         vt = "".join(s.split())
-        text_length_without_whitespace = len(vt)
+        text_length_without_whitespace: int = len(vt)
         return text_length_without_whitespace
 
     def change_titlebar(self) -> None:
         """
         タイトルバーの文字列を変更
         """
-        character_num = self.counter()
+        auto_indent: bool = False
+        half_space: bool = False
+        character_num: int = self.counter()
         auto_indent, half_space = self.indent.auto_indent_enable_and_half_space_checker()
         self.title_var_string = str(character_num) + ":  文字"
         # インデントの半角/全角
