@@ -23,7 +23,7 @@ def change_theme(page: tkinter.Text, theme: str) -> None:
     どれともマッチしなかった場合は標準テーマでcolor.binを作成
     """
     try:
-        with open("dist/custom_theme/original_theme.txt", "r") as theme_file:
+        with open("conf/original_theme.txt", "r") as theme_file:
             original_theme = theme_file.read()
             enable, bg, fg, cursor = original_theme.split()
         if enable == "True":
