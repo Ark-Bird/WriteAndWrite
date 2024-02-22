@@ -1,7 +1,6 @@
 from shutil import make_archive
 
 import extend_exception
-import independent_method
 
 if __name__ == '__main__':
     try:
