@@ -47,6 +47,11 @@ class FullMode:
         return
 
     def valid_root(self) -> bool:
+        """
+        self.rootがセットされている時Trueを返す
+        何らかの原因で実行時に山椒が渡されていない場合False
+        :return:
+        """
         if self.root is None:
             tkinter.messagebox.showerror("root is NOT SET", "ウインドウをフルスクリーンにできません")
             return False
