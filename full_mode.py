@@ -1,3 +1,4 @@
+import tkinter.messagebox
 class FullMode:
     def __init__(self):
         """
@@ -47,7 +48,7 @@ class FullMode:
 
     def valid_root(self) -> bool:
         if self.root is None:
-            print("何らかの理由で変数rootがセットされていません")
+            tkinter.messagebox.showerror("root is NOT SET", "ウインドウをフルスクリーンにできません")
             return False
         else:
             return True
