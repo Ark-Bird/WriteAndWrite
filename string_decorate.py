@@ -1,3 +1,4 @@
+import tkinter
 from tkinter import TclError
 from tkinter import messagebox
 
@@ -11,7 +12,7 @@ class StringDecorator:
         テキストpageを受け取ってそれを装飾するクラス
         :param page: テキストエリア
         """
-        self.page = page
+        self.page: tkinter.Text = page
         
     def dot_mark(self, event=None) -> None:
         """

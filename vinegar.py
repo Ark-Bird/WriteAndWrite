@@ -6,7 +6,7 @@ import pickle
 
 class Vinegar:
     def __init__(self, page):
-        self.page = page
+        self.page: tk.Text = page
 
     def umeboshi(self) -> None:
         """

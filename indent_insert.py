@@ -1,14 +1,16 @@
+import tkinter
+
 from independent_method import ignore
 
 
 class Indent:
     def __init__(self, author, page):
-        self.page = page
+        self.page: tkinter.Text = page
         self.hit_return: bool = False
         self.auto_indent: bool = False
         self.half_space: bool = False
         self.author = author
-        self.blank_line = False
+        self.blank_line: bool = False
 
     def toggle_auto_indent(self, event=None) -> bool:
         """
