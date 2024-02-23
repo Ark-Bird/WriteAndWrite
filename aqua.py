@@ -566,17 +566,17 @@ def main() -> None:
     # Windowsもしくはそれ以外を判別
     pf: str = platform.system()
     author: WillBeAuthor = WillBeAuthor()
-    root = tk.Tk()
+    root: tk.Tk = tk.Tk()
     author.setroot(root)
-    font = tk.font.Font(root, family="IPAexゴシック")
-    full_screen = full_mode.FullMode()
+    font: tk.font.Font = tk.font.Font(root, family="IPAexゴシック")
+    full_screen: full_mode.FullMode = full_mode.FullMode()
     full_screen.set_root_full_mode(root)
     root.geometry("640x640")
-    page = tk.Text(root, undo=True, wrap=tkinter.CHAR)
-    font_size = 13
+    page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR)
+    font_size: int = 13
     font_change = textarea_config.FontChange(font_size, page)
     decorate, pk1vin = init_page(page)
-    indent = indent_insert.Indent(author, page)
+    indent: indent_insert.Indent = indent_insert.Indent(author, page)
     author.set_indent(indent)
     author.set_page(page)
     # 動いているOSの判別
@@ -590,10 +590,10 @@ def main() -> None:
             root.wm_iconbitmap("@./res/wbe.xbm")
     except tkinter.TclError:
         ignore()
-    theme = author.read_theme()
+    theme: str = author.read_theme()
     author.set_theme(theme=theme)
     root.minsize(32, 32)
-    menubar = tk.Menu(root, font=font)
+    menubar: tk.Menu = tk.Menu(root, font=font)
 
     menu_init.menu_init(author, menubar, pk1vin, indent, full_screen, font_change)
 
