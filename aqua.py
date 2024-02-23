@@ -525,6 +525,7 @@ class WillBeAuthor:
         """
         self.is_wrap = True
         self.page.configure(wrap=tk.CHAR)
+        return
 
     def wrap_disable(self) -> None:
         """
@@ -533,6 +534,7 @@ class WillBeAuthor:
         """
         self.is_wrap = False
         self.page.configure(wrap=tk.NONE)
+        return
 
 
 def res_path(rel: str) -> str:
