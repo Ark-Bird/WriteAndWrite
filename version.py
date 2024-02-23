@@ -49,3 +49,4 @@ class ShowInfo:
         :return:
         """
         messagebox.showinfo("テーマ設定の書式", self._theme_example_conf.get_const())
+        return
