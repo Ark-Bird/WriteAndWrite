@@ -514,10 +514,6 @@ class WillBeAuthor:
         messagebox.showinfo("現在のファイル", self.file)
         return "break"
 
-    def set_font(self, font):
-        self.font = font
-        pass
-
     def wrap_enable(self) -> None:
         """
         テキストエリアの橋で自動で折り返すように設定する
