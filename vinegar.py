@@ -13,8 +13,8 @@ class Vinegar:
         テキストをシリアライズして保存
         :return:
         """
-        all_text = self.page.get("0.0", "end")
-        pkl = tk.filedialog.asksaveasfilename()
+        all_text: str = self.page.get("0.0", "end")
+        pkl: str = tk.filedialog.asksaveasfilename()
         pkl = pkl + ".pkl"
         with open(pkl, "wb") as f:
             pickle.dump(all_text, f)
@@ -30,7 +30,7 @@ class Vinegar:
         if pkl == "":
             return
         with open(pkl, "rb") as f:
-            deserialized_text = pickle.load(f)
+            deserialized_text: str = pickle.load(f)
         self.page.delete("0.0", "end")
         self.page.insert("insert", deserialized_text[:-1])
         return
