@@ -83,4 +83,8 @@ class Indent:
             ignore()
 
     def auto_indent_enable_and_half_space_checker(self):
+        """
+        オートインデントが有効かどうかのフラグと、インデントが全角か半角かを返す
+        :return:
+        """
         return self.auto_indent, self.half_space

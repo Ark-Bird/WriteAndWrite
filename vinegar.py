@@ -23,6 +23,7 @@ class Vinegar:
     def sunuki(self) -> None:
         """
         シリアライズしたテキストをロード
+        注!:ファイルは信用出来るものを使用すること！
         :return:
         """
         tkinter.messagebox.showinfo("NOTICE!", "デシリアライズを行う時は対象ファイルが安全であることを確認してください")
