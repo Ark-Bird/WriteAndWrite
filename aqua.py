@@ -500,10 +500,18 @@ class WillBeAuthor:
         return
 
     def change_vi_mode_flag(self) -> None:
+        """
+        カーソル移動をViライクに変更
+        :return:
+        """
         self.cursor_move_mode = "vi"
         return
 
     def change_emacs_mode_flag(self) -> None:
+        """
+        カーソル移動をEmacsライクに変更
+        :return:
+        """
         self.cursor_move_mode = "emacs"
         return
 
