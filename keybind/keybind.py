@@ -2,19 +2,19 @@ class KeyBindMode:
     def __init__(self, author):
         self.author = author
 
-    def cursor_move_forward(self, event=None):
+    def cursor_move_forward(self, event=None) -> str:
         self.author.page.mark_set("insert", "insert+1c")
         return "break"
 
-    def cursor_move_next_line(self, event=None):
+    def cursor_move_next_line(self, event=None) -> str:
         self.author.page.mark_set("insert", "insert+1lines")
         return "break"
 
-    def cursor_move_prev_line(self, event=None):
+    def cursor_move_prev_line(self, event=None) -> str:
         self.author.page.mark_set("insert", "insert-1lines")
         return "break"
 
-    def cursor_move_back(self, event=None):
+    def cursor_move_back(self, event=None) -> str:
         self.author.page.mark_set("insert", "insert-1c")
         return "break"
 
