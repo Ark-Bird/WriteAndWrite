@@ -20,16 +20,18 @@ class KeyBindMode:
 
 
 class ViMode(KeyBindMode):
-    def edit_key_bind(self):
+    def edit_key_bind(self) -> None:
         self.author.page.bind("<Control-h>", self.cursor_move_back)
         self.author.page.bind("<Control-j>", self.cursor_move_next_line)
         self.author.page.bind("<Control-k>", self.cursor_move_prev_line)
         self.author.page.bind("<Control-l>", self.cursor_move_forward)
+        return
 
 
 class EmacsMode(KeyBindMode):
-    def edit_key_bind(self):
+    def edit_key_bind(self) -> None:
         self.author.page.bind("<Control-b>", self.cursor_move_back)
         self.author.page.bind("<Control-n>", self.cursor_move_next_line)
         self.author.page.bind("<Control-p>", self.cursor_move_prev_line)
         self.author.page.bind("<Control-f>", self.cursor_move_forward)
+        return
