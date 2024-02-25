@@ -30,7 +30,7 @@ class ShowInfo:
     def show_version(self) -> None:
         """
         バージョン情報をポップアップで表示
-        :return:
+        :return:None
         """
         messagebox.showinfo("バージョン情報:", self._version.get_const())
         return
@@ -38,7 +38,7 @@ class ShowInfo:
     def show_license(self) -> None:
         """
         ライセンスをポップアップで表示
-        :return:
+        :return:None
         """
         messagebox.showinfo("LICENSE", self._LICENSE.get_const())
         return
@@ -46,7 +46,7 @@ class ShowInfo:
     def show_theme_example(self) -> None:
         """
         オリジナルテーマの設定法
-        :return:
+        :return:None
         """
         messagebox.showinfo("テーマ設定の書式", self._theme_example_conf.get_const())
         return
