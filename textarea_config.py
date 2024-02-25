@@ -139,6 +139,7 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     :param page: テキストエリア
     :param decorate: 文字の装飾モジュール
     :param indent: インデントの有無と半角全角を決定
+    :param font_change:フォントのサイズ変更
     :return: 無し
     """
     font = font_change
