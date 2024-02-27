@@ -19,7 +19,7 @@ class ShowInfo:
     """)
         # バージョン
         self._version: const.Const = const.Const("""
-        ver1.0.0_code:/Is_the_Order_a_Rabbit/
+        ver1.0.1_code:/Is_the_Order_a_Rabbit/
         """)
 
         # テーマ書式
@@ -48,7 +48,7 @@ class ShowInfo:
 
     def show_theme_example(self) -> None:
         """
-        オリジナルテーマの設定法
+        オリジナルテーマの設定方法の例示
         :return:None
         """
         messagebox.showinfo("テーマ設定の書式", self._theme_example_conf.get_const())
