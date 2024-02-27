@@ -18,6 +18,6 @@ class RamMemo:
     def remember(self) -> str:
         """
         変数memoを返す関数
-        :return:
+        :return:self.memoはstr型
         """
         return self.memo
