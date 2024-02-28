@@ -5,7 +5,7 @@ import const
 class ShowInfo:
     def __init__(self):
         """
-        バイナリ及びソースの除法を定数として記録
+        バイナリ及びソースの情報を定数として記録
         """
         # ライセンス
         self._LICENSE: const.Const = const.Const("""
