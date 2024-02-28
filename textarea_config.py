@@ -57,7 +57,7 @@ class FontChange:
                 messagebox.showerror("Error", "致命的なエラーです")
                 raise extend_exception.FatalError
         else:
-            os.makedirs("./conf/")
+            os.makedirs("./conf/", exist_ok=True)
             with open("conf/font-size.txt", "w") as fs:
                 fs.write("False 10")
         self.page.configure(font=("", self.now_font_size))

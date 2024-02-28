@@ -571,6 +571,9 @@ def main() -> None:
     """
     # Windowsもしくはそれ以外を判別
     pf: str = platform.system()
+    conf_exist: bool = os.path.isdir("conf")
+    if not conf_exist:
+        os.makedirs("conf", exist_ok=True)
     author: WillBeAuthor = WillBeAuthor()
     root: tk.Tk = tk.Tk()
     author.setroot(root)
