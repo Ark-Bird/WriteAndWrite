@@ -38,6 +38,12 @@ class Memory(inmemory_module.ram_memo.RamMemo):
 
 class FontChange:
     def __init__(self, now_font_size, page):
+        """
+        フォントサイズの設定
+        confディレクトリにfont-size.txtが存在しない場合、無効化した状態で作成
+        :param now_font_size: 現在のフォントサイズ
+        :param page: 適用するテキストエリア
+        """
         self.now_font_size = now_font_size
         self.page = page
         self.now_font_size = 13
