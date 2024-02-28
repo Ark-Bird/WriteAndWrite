@@ -596,6 +596,18 @@ def main() -> None:
             root.wm_iconbitmap("@./res/wbe.xbm")
     except tkinter.TclError:
         ignore()
+
+    # オートインデントの設定
+    try:
+        with open("conf/auto_indent.txt", "r") as default_indent:
+            indent_flag = default_indent.read()
+            if indent_flag == "True":
+                indent.toggle_auto_indent()
+    except FileNotFoundError:
+        with open("conf/auto_indent.txt", "w") as default:
+            default.write("False")
+    except Exception:
+        raise extend_exception.FatalError
     theme: str = author.read_theme()
     author.set_theme(theme=theme)
     root.minsize(32, 32)
