@@ -13,7 +13,7 @@ def make_default_theme() -> None:
     何らかの理由でテーマファイルが存在しない、もしくは破損している場合に生成
     :return:
     """
-    os.makedirs("conf/", exist_ok=True)
+    os.makedirs("conf", exist_ok=True)
     with open("conf/original_theme.txt", "w") as theme_file:
         theme_file.write("False #000000 #FFFFFF #FFFFFF")
     return
