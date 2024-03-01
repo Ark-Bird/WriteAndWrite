@@ -490,7 +490,7 @@ class WillBeAuthor:
         self.page = page
         return
 
-    def set_indent(self, indent: indent_insert.Indent) -> None:
+    def set_indent(self, indent) -> None:
         """
         インデントの詳細指定をするクラスをフィールドに渡す
         :param indent:
