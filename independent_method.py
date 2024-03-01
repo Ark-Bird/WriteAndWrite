@@ -1,3 +1,8 @@
+import os
+
+import extend_exception
+
+
 def write_theme_string(change_theme) -> None:
     """
     文字列の書き込み
@@ -5,6 +10,10 @@ def write_theme_string(change_theme) -> None:
     :param change_theme:
     :return:
     """
+    try:
+        os.makedirs("conf", exist_ok=True)
+    except Exception:
+        raise extend_exception.FatalError
     with open("conf/color.bin", mode="w", encoding="utf-8") as tf:
         tf.write(change_theme)
     return
