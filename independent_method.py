@@ -5,7 +5,7 @@ def write_theme_string(change_theme) -> None:
     :param change_theme:
     :return:
     """
-    with open("color.bin", mode="w", encoding="utf-8") as tf:
+    with open("conf/color.bin", mode="w", encoding="utf-8") as tf:
         tf.write(change_theme)
     return
 

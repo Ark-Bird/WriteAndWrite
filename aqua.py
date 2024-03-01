@@ -100,7 +100,7 @@ class WillBeAuthor:
         :return: color.binに書かれたテーマ名
         """
         try:
-            with open("color.bin", "r") as f:
+            with open("conf/color.bin", "r") as f:
                 self.theme = f.read()
         except FileNotFoundError:
             print("設定ファイルが存在しないためcolor.binを作成します")
