@@ -163,8 +163,6 @@ class WillBeAuthor:
         """
         タイトルバーの文字列を変更
         """
-        auto_indent: bool = False
-        half_space: bool = False
         character_num: int = self.counter()
         auto_indent, half_space = self.indent.auto_indent_enable_and_half_space_checker()
         self.title_var_string = str(character_num) + ":  文字"
