@@ -26,6 +26,7 @@ def change_theme(page: tkinter.Text, theme: str) -> None:
     テーマの種類はここで管理
     どれともマッチしなかった場合は標準テーマでcolor.binを作成
     """
+    os.makedirs("conf", exist_ok=True)
     try:
         with open("conf/original_theme.txt", "r") as theme_file:
             original_theme = theme_file.read()
