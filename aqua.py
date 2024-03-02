@@ -75,7 +75,7 @@ class WillBeAuthor:
         self.init: bool = True
         self.indent: indent_insert.Indent = None
         self.before_text: str = ""
-        self.prev_save_file: str = ""
+        self.prev_save_dir: str = ""
         self.cursor_move_mode: str = "vi"
         self.is_wrap: bool = True
         try:
@@ -204,28 +204,28 @@ class WillBeAuthor:
         オートセーブ
         ファイルパスはユニコードであること
         """
-        if self.prev_save_file == "" and self.is_autosave_flag:
-            self.prev_save_file = filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
-                                                               initialdir=self.prev_save_file)
-            independent_method.write_filename_string(self.prev_save_file)
+        if self.prev_save_dir == "" and self.is_autosave_flag:
+            self.prev_save_dir = filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
+                                                              initialdir=self.prev_save_dir)
+            independent_method.write_filename_string(self.prev_save_dir)
         try:
             with open("path.bin", "r", encoding="utf-8") as fname:
-                self.prev_save_file = os.path.abspath(fname.readline())
+                self.prev_save_dir = os.path.abspath(fname.readline())
         except UnicodeDecodeError:
             print("パスがユニコードではありません")
-            self.prev_save_file = os.path.abspath(os.path.dirname(__file__))
+            self.prev_save_dir = os.path.abspath(os.path.dirname(__file__))
         except FileNotFoundError:
             independent_method.write_filename_string(__file__)
             print("パスファイルを作成します")
         except extend_exception.NotOpenPathException:
             print("パスが無効です")
-            self.prev_save_file = os.path.abspath(os.path.dirname(__file__))
-        if self.prev_save_file == "":
+            self.prev_save_dir = os.path.abspath(os.path.dirname(__file__))
+        if self.prev_save_dir == "":
             print("assert!")
-            self.prev_save_file = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
-                                                                  initialdir=self.prev_save_file)
+            self.prev_save_dir = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
+                                                                 initialdir=self.prev_save_dir)
         try:
-            independent_method.write_filename_string(self.prev_save_file)
+            independent_method.write_filename_string(self.prev_save_dir)
         except FileNotFoundError:
             independent_method.write_filename_string("")
         except Exception:
@@ -347,7 +347,7 @@ class WillBeAuthor:
         保存フラグを立てる
         """
         self.ftext = self.page.get("0.0", "end")
-        self.prev_save_file = ""
+        self.prev_save_dir = ""
         if not self.is_save:
             if messagebox.askyesno("保存しますか?", "ファイルが変更されています、保存しますか?"):
                 self.save_as()
@@ -383,7 +383,7 @@ class WillBeAuthor:
         self.file = tk.filedialog.askopenfilename(initialdir=directory_before_saved)
         if self.file == "":
             return
-        self.prev_save_file = self.file
+        self.prev_save_dir = self.file
         try:
             with open(self.file, encoding="utf-8_sig") as f:
                 loaded = f.read()
