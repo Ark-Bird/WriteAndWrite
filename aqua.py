@@ -590,7 +590,7 @@ def main() -> None:
     # アイコンファイルが見つからない場合はデフォルトアイコンで起動
     try:
         if pf == "Windows":
-            icon: str = "res\\wbe.ico"
+            icon: str = "res/wbe.ico"
             root.iconbitmap(icon)
         else:
             root.wm_iconbitmap("@./res/wbe.xbm")
