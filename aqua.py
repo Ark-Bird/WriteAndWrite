@@ -242,7 +242,7 @@ class WillBeAuthor:
         """
         オートセーブフラグのトグル
         self.is_autosave_flag:オートセーブのフラグ
-        :return:無し
+        :return:None
         """
         if self.is_autosave_flag:
             self.change_auto_save_disable()
@@ -254,7 +254,7 @@ class WillBeAuthor:
     def change_auto_save_enable(self) -> None:
         """
         オートセーフのフラグを有効にする
-        :return:無し
+        :return:None
         """
         self.is_autosave_flag = True
         return
@@ -262,7 +262,7 @@ class WillBeAuthor:
     def change_auto_save_disable(self) -> None:
         """
         オートセーブ機能の無効化
-        :return:
+        :return:None
         """
         self.is_autosave_flag = False
         return
@@ -271,7 +271,7 @@ class WillBeAuthor:
         """
         clear file name
         名前をつけて保存
-        返り値なし
+        :return:None
         """
         self.file = ""
         self.save_file()
