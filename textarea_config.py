@@ -118,7 +118,7 @@ def vi_mode_change(page) -> None:
     """
     カーソル移動をCtrl-h,j,k,lに変更
     :param page:
-    :return:
+    :return:None
     """
     original_key_bind = keybind.ViMode(page)
     original_key_bind.edit_key_bind()
@@ -129,7 +129,7 @@ def emacs_mode_change(page) -> None:
     """
     カーソル移動をCtrl-f,b,n,pに変更
     :param page:
-    :return:
+    :return:None
     """
     original_key_bind = keybind.EmacsMode(page)
     original_key_bind.edit_key_bind()
