@@ -11,7 +11,7 @@ import independent_method
 def make_default_theme() -> None:
     """
     何らかの理由でテーマファイルが存在しない、もしくは破損している場合に生成
-    :return:
+    :return:None
     """
     os.makedirs("conf", exist_ok=True)
     with open("conf/original_theme.txt", "w") as theme_file:
@@ -25,6 +25,7 @@ def change_theme(page: tkinter.Text, theme: str) -> None:
     引数pageはテキストエリアで、それをthemeに変更
     テーマの種類はここで管理
     どれともマッチしなかった場合は標準テーマでcolor.binを作成
+    :return:None
     """
     os.makedirs("conf", exist_ok=True)
     try:
