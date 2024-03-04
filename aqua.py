@@ -401,7 +401,7 @@ class WillBeAuthor:
         """
         ファイルパスのファイル名を抜き出してself.basenameに代入
         :param filepath:
-        :return:
+        :return:ファイル名
         """
         basename = os.path.basename(filepath)
         return basename
@@ -473,7 +473,7 @@ class WillBeAuthor:
     def is_text_unchanged(self) -> None:
         """
         テキストが変更されていない場合呼ばれてis_changedをFalseにする
-        :return:
+        :return:None
         """
         self.is_changed = False
         return
@@ -482,7 +482,7 @@ class WillBeAuthor:
         """
         テキストエリアの参照pageをインスタンス変数に参照渡し
         :param page:テキストエリアの参照
-        :return:
+        :return:None
         """
         self.page = page
         return
@@ -491,7 +491,7 @@ class WillBeAuthor:
         """
         インデントの詳細指定をするクラスをフィールドに渡す
         :param indent:
-        :return:
+        :return:None
         """
         self.indent = indent
         return
@@ -499,7 +499,7 @@ class WillBeAuthor:
     def change_vi_mode_flag(self) -> None:
         """
         カーソル移動をViライクに変更
-        :return:
+        :return:None
         """
         self.cursor_move_mode = "vi"
         return
@@ -507,7 +507,7 @@ class WillBeAuthor:
     def change_emacs_mode_flag(self) -> None:
         """
         カーソル移動をEmacsライクに変更
-        :return:
+        :return:None
         """
         self.cursor_move_mode = "emacs"
         return
