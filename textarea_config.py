@@ -7,6 +7,10 @@ import inmemory_module.ram_memo
 from keybind import keybind
 
 
+def no_do(event=None):
+    pass
+
+
 class Memory(inmemory_module.ram_memo.RamMemo):
     def __init__(self, page):
         super().__init__()

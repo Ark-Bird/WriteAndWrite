@@ -74,7 +74,7 @@ class WillBeAuthor:
         self.root: tk.Tk = None
         self.init: bool = True
         self.indent: indent_insert.Indent = None
-        self.before_text: str = ""
+        self.before_text: str = "\n"
         self.prev_save_dir: str = ""
         self.cursor_move_mode: str = "vi"
         self.is_wrap: bool = True
