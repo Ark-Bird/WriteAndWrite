@@ -80,7 +80,6 @@ class Indent:
             self.insert_space()
         else:
             self.paren_del()
-            ignore()
 
     def auto_indent_enable_and_half_space_checker(self):
         """
