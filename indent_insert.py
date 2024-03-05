@@ -1,7 +1,5 @@
 import tkinter
 
-from independent_method import ignore
-
 
 class Indent:
     def __init__(self, author, page):
