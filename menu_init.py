@@ -33,10 +33,10 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     # menubar.add_cascade(label="編集", menu=editmenu)
 
     # フォントサイズ変更
-    fontmenu = tk.Menu(menubar, tearoff=0)
-    fontmenu.add_command(label="フォントを大きく(Ctrl-Shift-L)", command=font_change.font_size_big)
-    fontmenu.add_command(label="フォントを小さく(Ctrl-Shift-S)", command=font_change.font_size_small)
-    menubar.add_cascade(label="フォントサイズ", menu=fontmenu)
+    font_menu = tk.Menu(menubar, tearoff=0)
+    font_menu.add_command(label="フォントを大きく(Ctrl-Shift-L)", command=font_change.font_size_big)
+    font_menu.add_command(label="フォントを小さく(Ctrl-Shift-S)", command=font_change.font_size_small)
+    menubar.add_cascade(label="フォントサイズ", menu=font_menu)
     # メニューバー作成
     # 集中モード
     c_mode = tk.Menu(menubar, tearoff=0)
