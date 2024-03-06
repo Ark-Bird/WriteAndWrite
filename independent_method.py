@@ -1,7 +1,7 @@
 import os
 
 import extend_exception
-
+from tkinter import messagebox
 
 def write_theme_string(change_theme) -> None:
     """
@@ -13,6 +13,7 @@ def write_theme_string(change_theme) -> None:
     try:
         os.makedirs("conf", exist_ok=True)
     except Exception:
+        messagebox.showerror("Error!", "ディレクトリを作成出来ませんでした")
         raise extend_exception.FatalError
     with open("conf/color.bin", mode="w", encoding="utf-8") as tf:
         tf.write(change_theme)
