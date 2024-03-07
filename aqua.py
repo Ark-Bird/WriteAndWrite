@@ -39,7 +39,6 @@ class WillBeAuthor:
     The God class
     """
 
-    ftext = ""
 
     def __init__(self):
         """
@@ -60,6 +59,7 @@ class WillBeAuthor:
         self.cursor_move_mode:カーソル移動のモード、デフォルトでviスタイルライク
         """
         self.file: str = ""
+        self.ftext: str = ""
         self.is_changed: bool = False
         self.clipped_text: str = ""
         self.pasting_text: str = ""
