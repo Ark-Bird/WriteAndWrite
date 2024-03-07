@@ -39,7 +39,6 @@ class WillBeAuthor:
     The God class
     """
 
-    path = ""
     ftext = ""
 
     def __init__(self):
