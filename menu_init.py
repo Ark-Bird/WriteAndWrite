@@ -78,6 +78,10 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     keybind_mode.add_command(label="Vi-Mode", command=mode_change.change_vi_mode)
     keybind_mode.add_command(label="Emacs-Mode", command=mode_change.change_emacs_mode)
     menubar.add_cascade(label="Keybind Mode", menu=keybind_mode)
+    # ツール
+    erase_lines = tk.Menu(menubar, tearoff=0)
+    erase_lines.add_command(label="連続した改行を削除", command=author.erase_newline)
+    menubar.add_cascade(label="ツール", menu=erase_lines)
     # ヘルプメニューの表示
     help_menu = tk.Menu(menubar, tearoff=0)
     help_menu.add_command(

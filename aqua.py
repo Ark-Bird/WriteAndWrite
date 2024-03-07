@@ -158,6 +158,13 @@ class WillBeAuthor:
         text_length_without_whitespace: int = len(vt)
         return text_length_without_whitespace
 
+    def erase_newline(self) -> None:
+        s: str = self.page.get("0.0", "end")
+        s = s.replace('\n\n', '\n')
+        self.page.delete("0.0", "end")
+        self.page.insert("0.0", s)
+        return
+
     def change_titlebar(self) -> None:
         """
         タイトルバーの文字列を変更
