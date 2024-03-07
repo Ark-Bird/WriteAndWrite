@@ -3,6 +3,7 @@ import os
 import extend_exception
 from tkinter import messagebox
 
+
 def write_theme_string(change_theme) -> None:
     """
     文字列の書き込み
