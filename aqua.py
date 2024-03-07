@@ -159,10 +159,11 @@ class WillBeAuthor:
         return text_length_without_whitespace
 
     def erase_newline(self) -> None:
-        s: str = self.page.get("0.0", "end")
-        s = s.replace('\n\n', '\n')
-        self.page.delete("0.0", "end")
-        self.page.insert("0.0", s)
+        if messagebox.askyesno("空行を削除しますか？", "テキストの空行を削除しますか？"):
+            s: str = self.page.get("0.0", "end")
+            s = s.replace('\n\n', '\n')
+            self.page.delete("0.0", "end")
+            self.page.insert("0.0", s)
         return
 
     def change_titlebar(self) -> None:
