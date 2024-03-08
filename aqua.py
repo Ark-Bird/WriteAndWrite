@@ -216,7 +216,7 @@ class WillBeAuthor:
                                                               initialdir=self.prev_save_dir)
             independent_method.write_filename_string(self.prev_save_dir)
         try:
-            with open("path.bin", "r", encoding="utf-8") as fname:
+            with open("conf/path.bin", "r", encoding="utf-8") as fname:
                 self.prev_save_dir = os.path.abspath(fname.readline())
         except UnicodeDecodeError:
             print("パスがユニコードではありません")
@@ -227,10 +227,11 @@ class WillBeAuthor:
         except extend_exception.NotOpenPathException:
             print("パスが無効です")
             self.prev_save_dir = os.path.abspath(os.path.dirname(__file__))
-        if self.prev_save_dir == "":
+        if self.prev_save_dir == "/":
             print("assert!")
-            self.prev_save_dir = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
-                                                                 initialdir=self.prev_save_dir)
+            independent_method.write_filename_string(self.prev_save_dir)
+            # self.prev_save_dir = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
+            #                                                      initialdir=self.prev_save_dir)
         try:
             independent_method.write_filename_string(self.prev_save_dir)
         except FileNotFoundError:
@@ -295,9 +296,9 @@ class WillBeAuthor:
         """
         # 前回の保存場所を参照
         try:
-            if not os.path.exists("path.bin"):
+            if not os.path.exists("conf/path.bin"):
                 raise extend_exception.NotOpenPathException
-            with open("path.bin", mode="r", encoding="utf-8") as f:
+            with open("conf/path.bin", mode="r", encoding="utf-8") as f:
                 prev_save_directory = os.path.abspath(os.path.dirname(f.readline()))
         except extend_exception.NotOpenPathException:
             prev_save_directory = os.path.abspath(os.path.dirname(__file__))
@@ -321,7 +322,7 @@ class WillBeAuthor:
             return
         with open(self.file, mode="w", encoding="utf-8") as f:
             f.write(self.ftext)
-        with open("./path.bin", mode="w", encoding="utf-8") as f:
+        with open("conf/path.bin", mode="w", encoding="utf-8") as f:
             f.write(self.file)
         self.is_text_unchanged()
         self.is_save = True
@@ -381,9 +382,9 @@ class WillBeAuthor:
                 return
         # paht.binは前回保存したディレクトリが書き込まれている
         try:
-            if not os.path.exists("path.bin"):
+            if not os.path.exists("conf/path.bin"):
                 raise extend_exception.NotOpenPathException
-            with open("path.bin", mode="r", encoding="utf-8") as f:
+            with open("conf/path.bin", mode="r", encoding="utf-8") as f:
                 directory_before_saved = f.readline()
         except extend_exception.NotOpenPathException:
             directory_before_saved = os.path.abspath(os.path.dirname(__file__))

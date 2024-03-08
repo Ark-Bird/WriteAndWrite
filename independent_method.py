@@ -27,7 +27,12 @@ def write_filename_string(change_filename) -> None:
     :param change_filename: 保存したファイルのフルパス
     :return:
     """
-    with open("path.bin", mode="w", encoding="utf-8") as sf:
+    try:
+        os.makedirs("conf", exist_ok=True)
+    except Exception:
+        messagebox.showerror("Error!", "ディレクトリを作成出来ませんでした")
+        raise extend_exception.FatalError
+    with open("conf/path.bin", mode="w", encoding="utf-8") as sf:
         sf.write(change_filename)
     return
 

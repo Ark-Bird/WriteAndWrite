@@ -6,7 +6,6 @@ path.bin
 build
 /build/
 /build/*
-path.bin
 /build/aqua/
 color.bin
 /build/aqua/*
@@ -23,3 +22,4 @@ setup.py
 /.idea/misc.xml
 /.idea/WriteAndWrite.iml
 .idea/*
+/conf/path.bin
