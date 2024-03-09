@@ -183,7 +183,7 @@ class WillBeAuthor:
             self.title_var_string += ":保存済み:"
         else:
             self.init = False
-        self.title_var_string = "I want Be... :" + self.title_var_string
+        self.title_var_string = "絶賛執筆中!:" + self.title_var_string
         # オートインデントの半角/全角状態の表示
         if auto_indent:
             if half_space:
