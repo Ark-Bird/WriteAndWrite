@@ -625,7 +625,7 @@ def main() -> None:
 
     # タイトル
     root.config(menu=menubar)
-    root.title("I Want Be...")
+    root.title("インクの跡は全て文字")
     author.change_titlebar()
     root.configure(background="gray")
 
