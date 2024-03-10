@@ -216,8 +216,8 @@ class WillBeAuthor:
                                                               initialdir=self.prev_save_dir)
             independent_method.write_filename_string(self.prev_save_dir)
         try:
-            with open("conf/path.bin", "r", encoding="utf-8") as fname:
-                self.prev_save_dir = os.path.abspath(fname.readline())
+            with open("conf/path.bin", "r", encoding="utf-8") as text_filename:
+                self.prev_save_dir = os.path.abspath(text_filename.readline())
         except UnicodeDecodeError:
             print("パスがユニコードではありません")
             self.prev_save_dir = os.path.abspath(os.path.dirname(__file__))
