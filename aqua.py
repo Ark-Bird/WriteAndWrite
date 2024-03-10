@@ -39,7 +39,6 @@ class WillBeAuthor:
     The God class
     """
 
-
     def __init__(self):
         """
         変数初期化
