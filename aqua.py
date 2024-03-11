@@ -233,8 +233,6 @@ class WillBeAuthor:
         if self.prev_save_dir == "/":
             print("assert!")
             independent_method.write_filename_string(self.prev_save_dir)
-            # self.prev_save_dir = tk.filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
-            #                                                      initialdir=self.prev_save_dir)
         try:
             independent_method.write_filename_string(self.prev_save_dir)
         except FileNotFoundError:
