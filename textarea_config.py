@@ -7,8 +7,15 @@ import inmemory_module.ram_memo
 from keybind import keybind
 
 
-def no_do(event=None):
+def no_do(event=None) -> None:
+    """
+    何もしないときに使用
+    ignore()との違いは例外を握りつぶすときに使うか、何もしないときに使用するか
+    :param event:
+    :return:
+    """
     pass
+    return
 
 
 class Memory(inmemory_module.ram_memo.RamMemo):
