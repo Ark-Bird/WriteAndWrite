@@ -61,6 +61,9 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     color_select.add_command(
         label="terminal", command=lambda: author.set_theme(theme="terminal")
     )
+    color_select.add_command(
+        label="original", command=lambda: author.set_theme(theme="original")
+    )
     color_mode.add_cascade(label="テーマ切り替え", menu=color_select)
     menubar.add_cascade(label="テーマ", menu=color_mode)
     # オートインデント/オン・オフ

@@ -32,9 +32,6 @@ def change_theme(page: tkinter.Text, theme: str) -> None:
         with open("conf/original_theme.txt", "r") as theme_file:
             original_theme = theme_file.read()
             enable, bg, fg, cursor = original_theme.split()
-        if enable == "True":
-            page.configure(bg=bg, fg=fg, insertbackground=cursor)
-            return
     except FileNotFoundError:
         messagebox.showerror("テーマファイルが見つかりません", "dist/custom_theme/にオリジナルテーマを作成します")
         make_default_theme()
@@ -59,6 +56,8 @@ def change_theme(page: tkinter.Text, theme: str) -> None:
             page.configure(bg="#000022", fg="lavender", insertbackground="lightyellow")
         case "terminal":
             page.configure(bg="black", fg="springgreen3", insertbackground="green")
+        case "original":
+            page.configure(bg=bg, fg=fg, insertbackground=cursor)
         case _:
             print("テーマファイルの破損、もしくは存在していません、標準設定で作成します")
             independent_method.write_theme_string("normal")
