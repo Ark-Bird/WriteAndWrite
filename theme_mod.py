@@ -60,10 +60,15 @@ def change_theme(page: tkinter.Text, theme: str) -> None:
             if enable == "True":
                 page.configure(bg=bg, fg=fg, insertbackground=cursor)
             else:
-                messagebox.showinfo("変更出来ません", "コンフィグファイルでカスタムテーマが無効になっています")
+                messagebox.showinfo("変更出来ません", """コンフィグファイルでカスタムテーマが無効になっています
+                テーマをデフォルトのものに初期化します""")
+                independent_method.write_theme_string("normal")
+                with open("conf/original_theme.txt", "w") as theme_file:
+                    theme_file.write("False #000000 #FFFFFF #FFFFFF")
                 return
         case _:
-            print("テーマファイルの破損、もしくは存在していません、標準設定で作成します")
+            messagebox.showerror("original_themeの書式が正しくありません", "テーマファイルの破損、もしくは存在していません、標準設定で作成します")
             independent_method.write_theme_string("normal")
+            make_default_theme()
             page.configure(bg="ghost white", fg="black", insertbackground="black")
     return

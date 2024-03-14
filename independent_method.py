@@ -3,6 +3,8 @@ import os
 import extend_exception
 from tkinter import messagebox
 
+import theme_mod
+
 
 def write_theme_string(change_theme) -> None:
     """
@@ -16,8 +18,8 @@ def write_theme_string(change_theme) -> None:
     except Exception:
         messagebox.showerror("Error!", "ディレクトリを作成出来ませんでした")
         raise extend_exception.FatalError
-    with open("conf/color.bin", mode="w", encoding="utf-8") as tf:
-        tf.write(change_theme)
+    with open("conf/color.bin", "w") as file:
+        file.write(change_theme)
     return
 
 

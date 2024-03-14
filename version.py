@@ -19,7 +19,7 @@ class ShowInfo:
     """)
         # バージョン
         self._version: const.Const = const.Const("""
-        ver1.2.8_code:/Is_the_Order_a_Rabbit/
+        ver1.2.9_code:/Is_the_Order_a_Rabbit/
         """)
 
         # テーマ書式
