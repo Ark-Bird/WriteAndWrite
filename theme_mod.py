@@ -57,10 +57,11 @@ def change_theme(page: tkinter.Text, theme: str) -> None:
         case "terminal":
             page.configure(bg="black", fg="springgreen3", insertbackground="green")
         case "original":
-            if enable == "False":
+            if enable == "True":
+                page.configure(bg=bg, fg=fg, insertbackground=cursor)
+            else:
                 messagebox.showinfo("変更出来ません", "コンフィグファイルでカスタムテーマが無効になっています")
                 return
-            page.configure(bg=bg, fg=fg, insertbackground=cursor)
         case _:
             print("テーマファイルの破損、もしくは存在していません、標準設定で作成します")
             independent_method.write_theme_string("normal")
