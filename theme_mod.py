@@ -61,7 +61,7 @@ def change_theme(page: tkinter.Text, theme: str) -> None:
                 page.configure(bg=bg, fg=fg, insertbackground=cursor)
                 independent_method.write_theme_string("original")
             elif enable == "False":
-                return
+                independent_method.write_theme_string(theme)
             else:
                 messagebox.showinfo("変更出来ません", """コンフィグファイルでカスタムテーマが無効になっています
                 テーマをデフォルトのものに初期化します""")
