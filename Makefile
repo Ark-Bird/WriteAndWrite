@@ -16,3 +16,10 @@ deploy:
 	git merge stable
 	git push
 	git checkout develop
+pull:
+	git pull
+	git checkout stable
+	git pull
+	git checkout master
+	git pull
+	git checkout develop
