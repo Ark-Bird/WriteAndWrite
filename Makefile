@@ -23,3 +23,5 @@ pull:
 	git checkout master
 	git pull
 	git checkout develop
+dev:
+	git checkout develop
