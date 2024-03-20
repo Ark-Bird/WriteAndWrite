@@ -366,6 +366,7 @@ class WillBeAuthor:
         self.is_text_unchanged()
         self.file = ""
         self.is_save = True
+        self.init = True
         self.change_auto_save_disable()
         self.change_titlebar()
         return
