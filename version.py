@@ -26,6 +26,7 @@ class ShowInfo:
         self._theme_example_conf: const.Const = const.Const("""
         テーマは以下の書式で書いてください
         "#RRGGBB"
+        設定値は先頭から 背景 文字色 キャレット色です
         RGBはそれぞれ0~Fまでの数値
         数値の前に#を付けるのを忘れないでください
         """)
