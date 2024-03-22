@@ -181,9 +181,8 @@ class WillBeAuthor:
         """
         タイトルバーの文字列を変更
         """
-        character_num: int = self.counter()
         auto_indent, half_space = self.indent.auto_indent_enable_and_half_space_checker()
-        self.title_var_string = str(character_num) + ":  文字"
+        self.title_var_string = str(self.counter()) + ":  文字"
         # インデントの半角/全角
         if self.file == "" and self.page.get("0.0", "end") == "\n":
             self.title_var_string += ":無題:"
