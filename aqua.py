@@ -76,6 +76,7 @@ class WillBeAuthor:
         self.prev_save_dir: str = ""
         self.cursor_move_mode: str = "vi"
         self.is_wrap: bool = True
+        self.app_name: str = ""
         try:
             self.theme: str = self.read_theme()
         except FileNotFoundError:
@@ -168,6 +169,14 @@ class WillBeAuthor:
             self.page.insert("0.0", s)
         return
 
+    def app_name_for_now(self):
+        """
+        アプリ名を返すメソッド
+        :return: アプリ名
+        """
+        self.app_name = "累卵"
+        return self.app_name
+
     def change_titlebar(self) -> None:
         """
         タイトルバーの文字列を変更
@@ -185,7 +194,7 @@ class WillBeAuthor:
             self.title_var_string += ":保存済み:"
         else:
             self.init = False
-        self.title_var_string = "LAMP:" + self.title_var_string
+        self.title_var_string = self.app_name_for_now() + self.title_var_string
         # オートインデントの半角/全角状態の表示
         if auto_indent:
             if half_space:
