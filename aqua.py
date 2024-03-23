@@ -130,10 +130,7 @@ class WillBeAuthor:
         基本的に何かのキーが押された時に呼ばれる
         """
         self.change_titlebar()
-        if self.before_text != self.page.get("0.0", "end"):
-            self.is_save = False
-        elif self.before_text == self.page.get("0.0", "end"):
-            self.is_save = True
+        self.is_save = False
         self.is_text_changed()
         self.is_init = False
         return
@@ -177,13 +174,7 @@ class WillBeAuthor:
         self.app_name = "累卵"
         return self.app_name
 
-    def change_titlebar(self) -> None:
-        """
-        タイトルバーの文字列を変更
-        """
-        auto_indent, half_space = self.indent.auto_indent_enable_and_half_space_checker()
-        self.title_var_string = str(self.counter()) + ":  文字"
-        # インデントの半角/全角
+    def text_is_save(self) -> None:
         if self.file == "" and self.page.get("0.0", "end") == "\n":
             self.title_var_string += ":無題:"
         # 保存の有無
@@ -193,6 +184,15 @@ class WillBeAuthor:
             self.title_var_string += ":保存済み:"
         else:
             self.init = False
+
+    def change_titlebar(self) -> None:
+        """
+        タイトルバーの文字列を変更
+        """
+        auto_indent, half_space = self.indent.auto_indent_enable_and_half_space_checker()
+        self.title_var_string = str(self.counter()) + ":  文字"
+        # インデントの半角/全角
+        self.text_is_save()
         self.title_var_string = self.app_name_for_now() + self.title_var_string
         # オートインデントの半角/全角状態の表示
         if auto_indent:
