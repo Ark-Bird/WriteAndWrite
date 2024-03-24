@@ -186,6 +186,10 @@ class WillBeAuthor:
             self.init = False
 
     def cursor_move_vi_or_emacs(self) -> str:
+        """
+        現在のカーソル移動モードを文字列で返す
+        :return: 現在の移動モードの文字列
+        """
         # カーソル移動の方法
         if self.cursor_move_mode == "vi":
             return "Vi mode:"
