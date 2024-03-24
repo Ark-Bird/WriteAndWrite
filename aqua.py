@@ -185,6 +185,13 @@ class WillBeAuthor:
         else:
             self.init = False
 
+    def cursor_move_vi_or_emacs(self) -> str:
+        # カーソル移動の方法
+        if self.cursor_move_mode == "vi":
+            return "Vi mode:"
+        elif self.cursor_move_mode == "emacs":
+            return "Emacs mode:"
+
     def change_titlebar(self) -> None:
         """
         タイトルバーの文字列を変更
@@ -208,10 +215,7 @@ class WillBeAuthor:
         else:
             self.title_var_string += ":auto_save_disable:"
         # カーソル移動の方法
-        if self.cursor_move_mode == "vi":
-            self.title_var_string += "Vi mode:"
-        elif self.cursor_move_mode == "emacs":
-            self.title_var_string += "Emacs mode:"
+        self.title_var_string += self.cursor_move_vi_or_emacs()
         self.title_var_string += self.path_to_filename(self.file)
         self.root.title(self.title_var_string)
         return
