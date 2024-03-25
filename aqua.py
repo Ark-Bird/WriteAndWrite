@@ -175,6 +175,10 @@ class WillBeAuthor:
         return self.app_name
 
     def text_is_save(self) -> None:
+        """
+        テキストが初期状態、もしくは未保存か保存済みかを書き換えるメソッド
+        :return: None
+        """
         if self.file == "" and self.page.get("0.0", "end") == "\n":
             self.title_var_string += ":無題:"
         # 保存の有無
