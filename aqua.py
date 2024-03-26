@@ -22,6 +22,7 @@ import indent_insert
 import theme_mod
 import full_mode
 import extend_exception
+import version
 
 """
 Copyright 2020 hiro
@@ -166,14 +167,6 @@ class WillBeAuthor:
             self.page.insert("0.0", s)
         return
 
-    def app_name_for_now(self):
-        """
-        アプリ名を返すメソッド
-        :return: アプリ名
-        """
-        self.app_name = "累卵"
-        return self.app_name
-
     def text_is_save(self) -> None:
         """
         テキストが初期状態、もしくは未保存か保存済みかを書き換えるメソッド
@@ -208,7 +201,7 @@ class WillBeAuthor:
         self.title_var_string = str(self.counter()) + ":  文字"
         # インデントの半角/全角
         self.text_is_save()
-        self.title_var_string = self.app_name_for_now() + self.title_var_string
+        self.title_var_string = version.ShowInfo.return_app_name_for_now() + self.title_var_string
         # オートインデントの半角/全角状態の表示
         if auto_indent:
             if half_space:
