@@ -77,7 +77,7 @@ class WillBeAuthor:
         self.prev_save_dir: str = ""
         self.cursor_move_mode: str = "vi"
         self.is_wrap: bool = True
-        self.app_name: str = ""
+        self.app_name: version.ShowInfo = version.ShowInfo()
         try:
             self.theme: str = self.read_theme()
         except FileNotFoundError:
@@ -201,7 +201,7 @@ class WillBeAuthor:
         self.title_var_string = str(self.counter()) + ":  文字"
         # インデントの半角/全角
         self.text_is_save()
-        self.title_var_string = version.ShowInfo.return_app_name_for_now() + self.title_var_string
+        self.title_var_string = self.app_name.return_app_name_for_now() + self.title_var_string
         # オートインデントの半角/全角状態の表示
         if auto_indent:
             if half_space:
