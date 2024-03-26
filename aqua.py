@@ -443,7 +443,6 @@ class WillBeAuthor:
         try:
             # 選択範囲をクリップボードにコピー
             self.clipped_text = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
-            self.copied_text = self.clipped_text
         except tk.TclError:
             # 問題の無い例外は握りつぶす
             ignore()
@@ -461,7 +460,7 @@ class WillBeAuthor:
         """
         try:
             # self.pstxt = self.cliptext
-            self.page.insert("insert", self.copied_text)
+            self.page.insert("insert", self.clipped_text)
         # 選択範囲がない場合例外が投げられる
         except tk.TclError:
             # 問題の無いエラー（握りつぶす）
@@ -480,7 +479,6 @@ class WillBeAuthor:
         try:
             # ローカル変数とクリップボードにコピー
             self.clipped_text = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
-            self.copied_text = self.clipped_text
             self.page.delete(tk.SEL_FIRST, tk.SEL_LAST)
         except tk.TclError:
             # 選択範囲がない場合例を投げられるので握りつぶす
