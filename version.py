@@ -19,10 +19,8 @@ class ShowInfo:
     """)
         # バージョン
         self._version: const.Const = const.Const("""
-        ver1.2.21_code:/GA/
+        ver1.2.22_code:/GA/
         """)
-
-        self.app_name: const.Const = const.Const("""曖昧模糊""")
 
         # テーマ書式
         self._theme_example_conf: const.Const = const.Const("""
@@ -41,13 +39,6 @@ class ShowInfo:
         messagebox.showinfo("バージョン情報:", self._version.get_const())
         return
 
-    def return_app_name_for_now(self):
-        """
-        暫定アプリ名を返す
-        :return: app_name
-        """
-        return self.app_name.get_const()
-
     def show_license(self) -> None:
         """
         ライセンスをポップアップで表示
@@ -63,3 +54,15 @@ class ShowInfo:
         """
         messagebox.showinfo("テーマ設定の書式", self._theme_example_conf.get_const())
         return
+
+
+class AppName:
+    def __init__(self):
+        self.app_name: const.Const = const.Const("""思兼""")
+
+    def return_app_name_for_now(self):
+        """
+        暫定アプリ名を返す
+        :return: app_name
+        """
+        return self.app_name.get_const()

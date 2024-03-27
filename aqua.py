@@ -77,7 +77,7 @@ class WillBeAuthor:
         self.prev_save_dir: str = ""
         self.cursor_move_mode: str = "vi"
         self.is_wrap: bool = True
-        self.app_name: version.ShowInfo = version.ShowInfo()
+        self.app_name: version.AppName = version.AppName()
         try:
             self.theme: str = self.read_theme()
         except FileNotFoundError:
