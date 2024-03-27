@@ -394,7 +394,7 @@ class WillBeAuthor:
         if self.page.get("0.0", "end") != "\n" and self.is_changed:
             if not messagebox.askyesno("注意", "ファイルが変更されています、破棄しますか？"):
                 return
-        # paht.binは前回保存したディレクトリが書き込まれている
+        # path.binは前回保存したディレクトリが書き込まれている
         try:
             if not os.path.exists("conf/path.bin"):
                 raise extend_exception.NotOpenPathException
