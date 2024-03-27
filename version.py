@@ -19,7 +19,7 @@ class ShowInfo:
     """)
         # バージョン
         self._version: const.Const = const.Const("""
-        ver1.2.22_code:/GA/
+        ver1.2.23_code:/GA/
         """)
 
         # テーマ書式
@@ -58,11 +58,11 @@ class ShowInfo:
 
 class AppName:
     def __init__(self):
-        self.app_name: const.Const = const.Const("""思兼""")
+        self._app_name: const.Const = const.Const("""思兼""")
 
     def return_app_name_for_now(self):
         """
         暫定アプリ名を返す
         :return: app_name
         """
-        return self.app_name.get_const()
+        return self._app_name.get_const()
