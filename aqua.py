@@ -193,6 +193,12 @@ class WillBeAuthor:
         elif self.cursor_move_mode == "emacs":
             return "Emacs mode:"
 
+    def check_autosave_flag(self) -> str:
+        if self.is_autosave_flag:
+            return ":auto_save_enable:"
+        else:
+            return ":auto_save_disable:"
+
     def change_titlebar(self) -> None:
         """
         タイトルバーの文字列を変更
@@ -211,10 +217,7 @@ class WillBeAuthor:
         else:
             self.title_var_string += "*AI無効"
         # オートセーブは有効か
-        if self.is_autosave_flag:
-            self.title_var_string += ":auto_save_enable:"
-        else:
-            self.title_var_string += ":auto_save_disable:"
+        self.title_var_string += self.check_autosave_flag()
         # カーソル移動の方法
         self.title_var_string += self.cursor_move_vi_or_emacs()
         self.title_var_string += self.path_to_filename(self.file_name)
