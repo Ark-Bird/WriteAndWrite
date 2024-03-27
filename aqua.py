@@ -43,7 +43,7 @@ class WillBeAuthor:
     def __init__(self):
         """
         変数初期化
-        file:ファイル名
+        file_name:ファイル名
         cliptext:クリップボードのテキスト
         pstxt:ペースとするテキスト
         self.indent:オートインデントのフラグ
@@ -58,7 +58,7 @@ class WillBeAuthor:
         blank_line:空行かどうかのフラグ
         self.cursor_move_mode:カーソル移動のモード、デフォルトでviスタイルライク
         """
-        self.file: str = ""
+        self.file_name: str = ""
         self.ftext: str = ""
         self.is_changed: bool = False
         self.clipped_text: str = ""
@@ -172,7 +172,7 @@ class WillBeAuthor:
         テキストが初期状態、もしくは未保存か保存済みかを書き換えるメソッド
         :return: None
         """
-        if self.file == "" and self.page.get("0.0", "end") == "\n":
+        if self.file_name == "" and self.page.get("0.0", "end") == "\n":
             self.title_var_string += ":無題:"
         # 保存の有無
         elif not self.is_save:
@@ -217,7 +217,7 @@ class WillBeAuthor:
             self.title_var_string += ":auto_save_disable:"
         # カーソル移動の方法
         self.title_var_string += self.cursor_move_vi_or_emacs()
-        self.title_var_string += self.path_to_filename(self.file)
+        self.title_var_string += self.path_to_filename(self.file_name)
         self.root.title(self.title_var_string)
         return
 
@@ -294,7 +294,7 @@ class WillBeAuthor:
         名前をつけて保存
         :return:None
         """
-        self.file = ""
+        self.file_name = ""
         self.save_file()
         self.is_save = True
         return
@@ -316,27 +316,27 @@ class WillBeAuthor:
         except extend_exception.NotOpenPathException:
             prev_save_directory = os.path.abspath(os.path.dirname(__file__))
 
-        if self.file == "":
-            self.file = tk.filedialog.asksaveasfilename(
+        if self.file_name == "":
+            self.file_name = tk.filedialog.asksaveasfilename(
                 filetypes=[("txt files", "*.txt")], initialdir=prev_save_directory
             )
-        if self.file == "":
+        if self.file_name == "":
             self.change_auto_save_disable()
             return
-        if not self.file:
-            self.file = ""
+        if not self.file_name:
+            self.file_name = ""
             return
         if True:
             self.ftext = self.page.get("0.0", "end")
             self.ftext = self.ftext[0:-1]
-        if self.file[-4:] != ".txt":
-            self.file += ".txt"
+        if self.file_name[-4:] != ".txt":
+            self.file_name += ".txt"
         if self.before_text == self.page.get("0.0", "end"):
             return
-        with open(self.file, mode="w", encoding="utf-8") as f:
+        with open(self.file_name, mode="w", encoding="utf-8") as f:
             f.write(self.ftext)
         with open("conf/path.bin", mode="w", encoding="utf-8") as f:
-            f.write(self.file)
+            f.write(self.file_name)
         self.is_text_unchanged()
         self.is_save = True
         self.change_titlebar()
@@ -375,9 +375,9 @@ class WillBeAuthor:
             if not messagebox.askyesno("破棄しますか？", "文書を破棄しますか？"):
                 return
         self.page.delete("0.0", "end")
-        self.file = ""
+        self.file_name = ""
         self.is_text_unchanged()
-        self.file = ""
+        self.file_name = ""
         self.is_save = True
         self.init = True
         self.change_auto_save_disable()
@@ -402,12 +402,12 @@ class WillBeAuthor:
                 directory_before_saved = f.readline()
         except extend_exception.NotOpenPathException:
             directory_before_saved = os.path.abspath(os.path.dirname(__file__))
-        self.file = tk.filedialog.askopenfilename(initialdir=directory_before_saved)
-        if self.file == "":
+        self.file_name = tk.filedialog.askopenfilename(initialdir=directory_before_saved)
+        if self.file_name == "":
             return
-        self.prev_save_dir = self.file
+        self.prev_save_dir = self.file_name
         try:
-            with open(self.file, encoding="utf-8_sig") as f:
+            with open(self.file_name, encoding="utf-8_sig") as f:
                 loaded = f.read()
         except UnicodeDecodeError:
             messagebox.showerror("文字コードエラー", "ファイルがUTF-8ではありません")
@@ -533,10 +533,10 @@ class WillBeAuthor:
         return
 
     def file_full_name_show(self, event=None) -> str:
-        if self.file == "":
+        if self.file_name == "":
             messagebox.showinfo("Not open", "現在ファイルを開いていません")
             return "break"
-        messagebox.showinfo("現在のファイル", self.file)
+        messagebox.showinfo("現在のファイル", self.file_name)
         return "break"
 
     def wrap_enable(self) -> None:

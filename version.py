@@ -19,7 +19,7 @@ class ShowInfo:
     """)
         # バージョン
         self._version: const.Const = const.Const("""
-        ver1.2.19_code:/Is_the_Order_a_Rabbit/
+        ver1.2.20_code:/Is_the_Order_a_Rabbit/
         """)
 
         self.app_name: const.Const = const.Const("""曖昧模糊""")
