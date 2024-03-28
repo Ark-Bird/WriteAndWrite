@@ -69,10 +69,10 @@ class WillBeAuthor:
         self.is_autosave_flag: bool = False
         self.title_var_string: str = ""
         self.copied_text = ""
-        self.page: tk.Text = None
-        self.root: tk.Tk = None
+        self.page: tk.Text | None = None
+        self.root: tk.Tk | None = None
         self.init: bool = True
-        self.indent: indent_insert.Indent = None
+        self.indent: indent_insert.Indent | None = None
         self.before_text: str = "\n"
         self.prev_save_dir: str = ""
         self.cursor_move_mode: str = "vi"

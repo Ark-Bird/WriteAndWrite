@@ -19,7 +19,7 @@ class ShowInfo:
     """)
         # バージョン
         self._version: const.Const = const.Const("""
-        ver1.2.26_code:/GA/
+        ver1.2.27_code:/GA/
         """)
 
         # テーマ書式
