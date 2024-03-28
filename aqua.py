@@ -561,6 +561,7 @@ class WillBeAuthor:
         return
 
 
+
 def init_page(page: tk.Text):
     """
     テキストエリアの初期化処理
@@ -592,8 +593,11 @@ def main() -> None:
     root.geometry("640x640")
     page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR)
     font_size: int = 13
-    font_change = textarea_config.FontChange(font_size, page)
-    decorate, pk1vin = init_page(page)
+    font_change: textarea_config.FontChange = textarea_config.FontChange(font_size, page)
+    temp_assign: tuple[string_decorate.StringDecorator, vinegar.Vinegar] = init_page(page)
+    decorate: string_decorate
+    pk1vin: vinegar.Vinegar
+    decorate, pk1vin = temp_assign
     indent: indent_insert.Indent = indent_insert.Indent(author, page)
     author.set_indent(indent)
     author.set_page(page)
@@ -645,3 +649,6 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+
