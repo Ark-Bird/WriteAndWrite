@@ -11,6 +11,7 @@ import tkinter as tk
 import tkinter.font
 from tkinter import filedialog
 from tkinter import messagebox
+import re
 
 import extend_exception
 import full_mode
@@ -162,7 +163,8 @@ class WillBeAuthor:
         """
         if messagebox.askyesno("空行を削除しますか？", "テキストの空行を削除しますか？"):
             s: str = self.page.get("0.0", "end")
-            s = s.replace('\n\n', '\n')
+            # s = s.replace('\n\n', '\n')
+            s = re.sub('[\n][\n]+', '\n', s)
             self.page.delete("0.0", "end")
             self.page.insert("0.0", s)
         return
