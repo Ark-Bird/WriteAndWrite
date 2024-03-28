@@ -456,7 +456,6 @@ class WillBeAuthor:
         返り値無し
         """
         try:
-            # self.pstxt = self.cliptext
             self.page.insert("insert", self.clipped_text)
         # 選択範囲がない場合例外が投げられる
         except tk.TclError:
