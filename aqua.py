@@ -561,6 +561,7 @@ class WillBeAuthor:
         return
 
 
+
 def init_page(page: tk.Text):
     """
     テキストエリアの初期化処理
@@ -648,3 +649,6 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+

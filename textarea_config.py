@@ -199,6 +199,8 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     # フォントの拡大縮小
     page.bind("<Control-L>", font.font_size_big)
     page.bind("<Control-S>", font.font_size_small)
+    # 検索テスト
+    page.bind("<Control-F>", decorate.search)
     # キーバインド設定
     original_key_bind = keybind.ViMode(author)
     original_key_bind.edit_key_bind()

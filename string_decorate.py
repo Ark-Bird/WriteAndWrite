@@ -1,4 +1,5 @@
 import tkinter
+import tkinter as tk
 from tkinter import TclError
 from tkinter import messagebox
 
@@ -51,6 +52,13 @@ class StringDecorator:
         self.page.insert("insert", """――""" + s)
         self.page.mark_set("insert", "insert-1c")
         return
+
+    def search(self, event=None):
+        txt = self.page.get("0.0", "end")
+        search_word = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
+        ans = txt.find(search_word)
+        self.page.mark_set(tk.FIRST, "insert+" + str(ans) + "c")
+        return "break"
 
     def ruby(self, event=None) -> None:
         """
