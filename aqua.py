@@ -4,25 +4,25 @@
 Created on Fri Feb 17 20:47:33 2017
 @author: hiro
 """
-import tkinter
-import tkinter.font
 import os
 import platform
-import sys
+import tkinter
 import tkinter as tk
+import tkinter.font
 from tkinter import filedialog
 from tkinter import messagebox
+
+import extend_exception
+import full_mode
+import indent_insert
 import independent_method
 import menu_init
-import vinegar
-import textarea_config
-from independent_method import ignore
 import string_decorate
-import indent_insert
+import textarea_config
 import theme_mod
-import full_mode
-import extend_exception
 import version
+import vinegar
+from independent_method import ignore
 
 """
 Copyright 2020 hiro
