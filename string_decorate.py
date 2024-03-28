@@ -54,7 +54,7 @@ class StringDecorator:
         return
 
     def search(self, event=None):
-        txt: str = self.page.get("0.0", "end")
+        target_full_text: str = self.page.get("0.0", "end")
         search_word: str = ""
         try:
             search_word = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
@@ -65,9 +65,9 @@ class StringDecorator:
             raise extend_exception.FatalError
         if search_word == "":
             return
-        ans = txt.find(search_word)
+        search_result: int = target_full_text.find(search_word)
         self.page.mark_set("insert", "0.0")
-        self.page.mark_set("insert", "insert+" + str(ans) + "c")
+        self.page.mark_set("insert", "insert+" + str(search_result) + "c")
         return "break"
 
     def ruby(self, event=None) -> None:
