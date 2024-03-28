@@ -59,7 +59,7 @@ class WillBeAuthor:
         self.cursor_move_mode:カーソル移動のモード、デフォルトでviスタイルライク
         """
         self.file_name: str = ""
-        self.ftext: str = ""
+        self.written_textum: str = ""
         self.is_changed: bool = False
         self.clipped_text: str = ""
         self.pasting_text: str = ""
@@ -329,14 +329,14 @@ class WillBeAuthor:
             self.file_name = ""
             return
         if True:
-            self.ftext = self.page.get("0.0", "end")
-            self.ftext = self.ftext[0:-1]
+            self.written_textum = self.page.get("0.0", "end")
+            self.written_textum = self.written_textum[0:-1]
         if self.file_name[-4:] != ".txt":
             self.file_name += ".txt"
         if self.before_text == self.page.get("0.0", "end"):
             return
         with open(self.file_name, mode="w", encoding="utf-8") as f:
-            f.write(self.ftext)
+            f.write(self.written_textum)
         with open("conf/path.bin", mode="w", encoding="utf-8") as f:
             f.write(self.file_name)
         self.is_text_unchanged()
@@ -369,7 +369,7 @@ class WillBeAuthor:
         変更フラグを降ろす
         保存フラグを立てる
         """
-        self.ftext = self.page.get("0.0", "end")
+        self.written_textum = self.page.get("0.0", "end")
         self.prev_save_dir = ""
         if not self.is_save:
             if messagebox.askyesno("保存しますか?", "ファイルが変更されています、保存しますか?"):
