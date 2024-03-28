@@ -256,8 +256,8 @@ class WillBeAuthor:
             raise extend_exception.FatalError
         self.change_titlebar()
         if self.is_autosave_flag:
-            self.is_save = True
             self.save_file()
+            self.is_save = True
             self.before_text = self.page.get("0.0", "end")
         self.root.after(1000, self.repeat_save_file)
         return
