@@ -560,7 +560,6 @@ class WillBeAuthor:
         return
 
 
-
 def init_page(page: tk.Text):
     """
     テキストエリアの初期化処理
