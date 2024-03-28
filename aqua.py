@@ -560,16 +560,6 @@ class WillBeAuthor:
         return
 
 
-def res_path(rel: str) -> str:
-    """
-    Windowsの場合、アイコンへのパスを返す
-    他のOSの場合は呼ばれることはない
-    exe化時にバイナリのフォルダにresフォルダを作成すること
-    """
-    if hasattr(sys, "_MEIPASS"):
-        return os.path.join(sys._MEIPASS, rel)
-    return os.path.join(os.path.abspath("."), rel)
-
 
 def init_page(page: tk.Text):
     """
