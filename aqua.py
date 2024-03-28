@@ -299,7 +299,6 @@ class WillBeAuthor:
         """
         self.file_name = ""
         self.save_file()
-        self.is_save = True
         return
 
     def save_file(self, event=None) -> None:
