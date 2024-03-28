@@ -54,10 +54,20 @@ class StringDecorator:
         return
 
     def search(self, event=None):
-        txt = self.page.get("0.0", "end")
-        search_word = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
+        txt: str = self.page.get("0.0", "end")
+        search_word: str = ""
+        try:
+            search_word = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
+            self.page.delete(tk.SEL_FIRST, tk.SEL_LAST)
+        except TclError:
+            ignore()
+        except Exception:
+            raise extend_exception.FatalError
+        if search_word == "":
+            return
         ans = txt.find(search_word)
-        self.page.mark_set(tk.FIRST, "insert+" + str(ans) + "c")
+        self.page.mark_set("insert", "0.0")
+        self.page.mark_set("insert", "insert+" + str(ans) + "c")
         return "break"
 
     def ruby(self, event=None) -> None:
