@@ -4,6 +4,7 @@ from tkinter import TclError
 from tkinter import messagebox
 
 import extend_exception
+import independent_method
 from independent_method import ignore
 
 
@@ -56,9 +57,11 @@ class StringDecorator:
     def search(self, event=None):
         target_full_text: str = self.page.get("0.0", "end")
         search_word: str = ""
+        erase_flag: bool = independent_method.find_erase_flag_read()
         try:
             search_word = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
-            self.page.delete(tk.SEL_FIRST, tk.SEL_LAST)
+            if erase_flag:
+                self.page.delete(tk.SEL_FIRST, tk.SEL_LAST)
         except TclError:
             ignore()
         except Exception:

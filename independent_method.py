@@ -39,6 +39,21 @@ def write_filename_string(change_filename) -> None:
     return
 
 
+def find_erase_flag_read() -> bool:
+    try:
+        with open("conf/find_erase.txt", "r") as fefp:
+            erase_flag = fefp.read()
+    except FileNotFoundError:
+        with open("conf/find_erase.txt", "w") as wp:
+            wp.write("False")
+            erase_flag = False
+    except Exception:
+        raise extend_exception.FatalError
+    if erase_flag == "True":
+        return True
+    else:
+        return False
+
 def ignore() -> None:
     """
     何もしない
