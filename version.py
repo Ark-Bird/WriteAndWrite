@@ -58,7 +58,7 @@ class ShowInfo:
 
 class AppName:
     def __init__(self):
-        self._app_name: const.Const = const.Const("""常春""")
+        self._app_name: const.Const = const.Const("""言霊""")
 
     def return_app_name_for_now(self):
         """
