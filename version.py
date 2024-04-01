@@ -19,7 +19,7 @@ class ShowInfo:
     """)
         # バージョン
         self._version: const.Const = const.Const("""
-        ver1.4.1_code:/GA/
+        ver1.4.2_code:/GA/
         """)
 
         # テーマ書式
@@ -58,7 +58,7 @@ class ShowInfo:
 
 class AppName:
     def __init__(self):
-        self._app_name: const.Const = const.Const("""言霊""")
+        self._app_name: const.Const = const.Const("""極光""")
 
     def return_app_name_for_now(self):
         """

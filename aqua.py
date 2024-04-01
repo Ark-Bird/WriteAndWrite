@@ -582,7 +582,7 @@ def main() -> None:
     pf: str = platform.system()
     conf_exist: bool = os.path.isdir("conf")
     if not conf_exist:
-        os.makedirs("conf", exist_ok=True)
+        independent_method.conf_dir_make()
     author: WillBeAuthor = WillBeAuthor()
     root: tk.Tk = tk.Tk()
     author.setroot(root)
