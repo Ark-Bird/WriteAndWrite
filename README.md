@@ -34,7 +34,8 @@ Notice!
 当ソフトは現在64bitのWindows11環境でのみサポートしています  
 ※非推奨ではありますがこのバイナリをアンチウイルスソフトのホワイトリストに登録すると多少軽くなります  
 
-
+# Amazonの干し芋  
+[モチベーションが上がります](https://www.amazon.jp/hz/wishlist/ls/1J2JK61UUSMOP?ref_=wl_share)
 -------------
 LICENSE
 ====
