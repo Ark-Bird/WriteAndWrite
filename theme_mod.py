@@ -13,7 +13,7 @@ def make_default_theme() -> None:
     何らかの理由でテーマファイルが存在しない、もしくは破損している場合に生成
     :return:None
     """
-    os.makedirs("conf", exist_ok=True)
+    independent_method.conf_dir_make()
     with open("conf/original_theme.txt", "w") as theme_file:
         theme_file.write("False #000000 #FFFFFF #FFFFFF")
     return
@@ -27,7 +27,7 @@ def change_theme(page: tkinter.Text, theme: str) -> None:
     どれともマッチしなかった場合は標準テーマでcolor.binを作成
     :return:None
     """
-    os.makedirs("conf", exist_ok=True)
+    independent_method.conf_dir_make()
     try:
         with open("conf/original_theme.txt", "r") as theme_file:
             original_theme = theme_file.read()

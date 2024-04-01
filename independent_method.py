@@ -14,7 +14,7 @@ def write_theme_string(change_theme) -> None:
     :return:
     """
     try:
-        os.makedirs("conf", exist_ok=True)
+        conf_dir_make()
     except Exception:
         messagebox.showerror("Error!", "ディレクトリを作成出来ませんでした")
         raise extend_exception.FatalError
@@ -30,7 +30,7 @@ def write_filename_string(change_filename) -> None:
     :return:
     """
     try:
-        os.makedirs("conf", exist_ok=True)
+        conf_dir_make()
     except Exception:
         messagebox.showerror("Error!", "ディレクトリを作成出来ませんでした")
         raise extend_exception.FatalError
@@ -41,6 +41,9 @@ def write_filename_string(change_filename) -> None:
 
 def find_erase_flag_read() -> bool:
     try:
+        success = conf_dir_make()
+        if not success:
+            return False
         with open("conf/find_erase.txt", "r") as fefp:
             erase_flag = fefp.read()
     except FileNotFoundError:
@@ -54,6 +57,7 @@ def find_erase_flag_read() -> bool:
     else:
         return False
 
+
 def ignore() -> None:
     """
     何もしない
@@ -62,3 +66,12 @@ def ignore() -> None:
     """
     pass
     return
+
+
+def conf_dir_make() -> bool:
+    try:
+        os.makedirs("conf", exist_ok=True)
+    except Exception:
+        messagebox.showerror("cannot make dir!", "ディレクトリを作成出来ませんでした")
+        return False
+    return True
