@@ -152,8 +152,7 @@ class WillBeAuthor:
         s = s.replace('　', '')
         s = s.replace('\n', '')
         s = s.replace('\r', '')
-        vt = "".join(s.split())
-        text_length_without_whitespace: int = len(vt)
+        text_length_without_whitespace: int = len(s)
         return text_length_without_whitespace
 
     def erase_newline(self) -> None:
