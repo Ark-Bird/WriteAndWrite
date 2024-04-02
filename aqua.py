@@ -69,7 +69,7 @@ class WillBeAuthor:
         self.is_init: bool = True
         self.is_autosave_flag: bool = False
         self.title_var_string: str = ""
-        self.copied_text = ""
+        self.copied_text: str = ""
         self.page: tk.Text | None = None
         self.root: tk.Tk | None = None
         self.init: bool = True
@@ -316,7 +316,7 @@ class WillBeAuthor:
             if not os.path.exists("conf/path.bin"):
                 raise extend_exception.NotOpenPathException
             with open("conf/path.bin", mode="r", encoding="utf-8") as f:
-                prev_save_directory = os.path.abspath(os.path.dirname(f.readline()))
+                prev_save_directory: str = os.path.abspath(os.path.dirname(f.readline()))
         except extend_exception.NotOpenPathException:
             prev_save_directory = os.path.abspath(os.path.dirname(__file__))
 
