@@ -1,5 +1,7 @@
 import tkinter
 
+import aqua
+
 
 class Indent:
     def __init__(self, author, page):
@@ -58,7 +60,7 @@ class Indent:
         """
         c = self.page.get("insert -1c")
         s = self.page.get("insert -2c")
-        if c == "「" and s == "　":
+        if (c == "「" or c == "『") and s == "　":
             self.page.delete("insert -2c")
         return None
 
