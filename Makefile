@@ -1,10 +1,12 @@
 all:*.py
 	deactivate
+	git checkout master
 	del /Q dist
 	pyinstaller aqua.py --noconsole --onefile --icon=author.ico --exclude-module _bootlocale
 	echo D | xcopy /Y /Q res dist\res /s
 	del /Q build\aqua\*
 	python archive.py
+	git checkout develop
 	activate
 stable:
 	git checkout stable
