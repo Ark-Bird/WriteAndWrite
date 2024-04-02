@@ -11,7 +11,7 @@ class Vinegar:
     def umeboshi(self) -> None:
         """
         テキストをシリアライズして保存
-        :return:
+        :return:None
         """
         all_text: str = self.page.get("0.0", "end")
         pkl: str = tk.filedialog.asksaveasfilename()
@@ -24,7 +24,7 @@ class Vinegar:
         """
         シリアライズしたテキストをロード
         注!:ファイルは信用出来るものを使用すること！
-        :return:
+        :return:None
         """
         tkinter.messagebox.showinfo("NOTICE!", "デシリアライズを行う時は対象ファイルが安全であることを確認してください")
         pkl: str = tk.filedialog.askopenfilename()
