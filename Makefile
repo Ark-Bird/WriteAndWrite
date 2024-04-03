@@ -27,3 +27,6 @@ pull:
 	git checkout develop
 dev:
 	git checkout develop
+base:
+	git checkout develop
+	git push
