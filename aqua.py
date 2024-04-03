@@ -578,12 +578,12 @@ def read_font() -> str:
     except extend_exception.CanonotMakedirsException:
         raise extend_exception.FatalError
     try:
-        with open("conf/font-familly.txt", "r") as font_conf:
+        with open("conf/font-family.txt", "r") as font_conf:
             font = font_conf.read()
             return font
     except FileNotFoundError:
         try:
-            with open("conf/font-familly.txt", "w") as wf:
+            with open("conf/font-family.txt", "w") as wf:
                 wf.write("Times")
                 return "Times"
         except Exception:
@@ -604,8 +604,8 @@ def main() -> None:
     author: WillBeAuthor = WillBeAuthor()
     root: tk.Tk = tk.Tk()
     author.setroot(root)
-    font_familly: str = read_font()
-    font: tk.font.Font = tk.font.Font(root, family=font_familly)
+    font_family: str = read_font()
+    font: tk.font.Font = tk.font.Font(root, family=font_family)
     full_screen: full_mode.FullMode = full_mode.FullMode()
     full_screen.set_root_full_mode(root)
     root.geometry("640x640")
