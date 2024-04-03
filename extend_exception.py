@@ -7,6 +7,13 @@ class NotOpenPathException(Exception):
     pass
 
 
+class CanonotMakedirsException(Exception):
+    """
+    ディレクトリの作成エラー
+    """
+    pass
+
+
 class FatalError(Exception):
     """
     復旧不能なエラーの発生時に投げる
