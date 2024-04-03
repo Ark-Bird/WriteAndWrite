@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 import extend_exception
+import independent_method
 import inmemory_module.ram_memo
 from keybind import keybind
 
@@ -58,6 +59,7 @@ class FontChange:
         self.now_font_size = now_font_size
         self.page = page
         self.now_font_size = 13
+        self.font_family = independent_method.read_font()
         if os.path.exists("conf/font-size.txt"):
             try:
                 with open("conf/font-size.txt") as fs:
@@ -77,7 +79,7 @@ class FontChange:
             os.makedirs("./conf/", exist_ok=True)
             with open("conf/font-size.txt", "w") as fs:
                 fs.write("False 10")
-        self.page.configure(font=("", self.now_font_size))
+        self.page.configure(font=(self.font_family, self.now_font_size))
 
     def font_size_big(self, event=None) -> None:
         """

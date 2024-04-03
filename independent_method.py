@@ -80,3 +80,21 @@ def conf_dir_make() -> bool:
         messagebox.showerror("cannot make dir!", "ディレクトリを作成出来ませんでした")
         raise extend_exception.CanonotMakedirsException
     return True
+
+
+def read_font() -> str:
+    try:
+        conf_dir_make()
+    except extend_exception.CanonotMakedirsException:
+        raise extend_exception.FatalError
+    try:
+        with open("conf/font-family.txt", "r") as font_conf:
+            font = font_conf.read()
+            return font
+    except FileNotFoundError:
+        try:
+            with open("conf/font-family.txt", "w") as wf:
+                wf.write("Times")
+                return "Times"
+        except Exception:
+            raise extend_exception.FatalError
