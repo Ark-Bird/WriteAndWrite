@@ -69,9 +69,14 @@ def ignore() -> None:
 
 
 def conf_dir_make() -> bool:
+    """
+    confディレクトリを作成
+    失敗した場合ソレを示す例外を投げる
+    :return:
+    """
     try:
         os.makedirs("conf", exist_ok=True)
     except Exception:
         messagebox.showerror("cannot make dir!", "ディレクトリを作成出来ませんでした")
-        return False
+        raise extend_exception.CanonotMakedirsException
     return True
