@@ -19,7 +19,7 @@ class ShowInfo:
     """)
         # バージョン
         self._version: const.Const = const.Const("""
-        ver1.4.9_code:/Mrs. Thor's way/
+        ver1.4.10_code:/Mrs. Thor's way/
         """)
 
         # テーマ書式
@@ -63,7 +63,7 @@ class AppName:
         """
         self._app_name: const.Const = const.Const("""月夜""")
 
-    def return_app_name_for_now(self):
+    def return_app_name_for_now(self) -> str:
         """
         暫定アプリ名を返す
         :return: app_name
