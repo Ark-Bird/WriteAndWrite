@@ -1,3 +1,6 @@
+from typing import Any
+
+
 class Const:
     def __init__(self, const):
         """
@@ -6,7 +9,7 @@ class Const:
         """
         self._const_ = const
 
-    def get_const(self):
+    def get_const(self) -> Any:
         """
         定数のgetter、setterは無し
         """
