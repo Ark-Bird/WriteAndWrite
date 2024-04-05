@@ -61,7 +61,7 @@ class AppName:
         """
         アプリ名を定数として設定
         """
-        self._app_name: const.Const = const.Const("""紫陽花""")
+        self._app_name: const.Const = const.Const("""紫煙""")
 
     def return_app_name_for_now(self) -> str:
         """
