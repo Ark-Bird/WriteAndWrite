@@ -83,6 +83,10 @@ def conf_dir_make() -> bool:
 
 
 def read_font() -> str:
+    """
+    フォントの設定ファイルを読み込み、形式が正しくない場合デフォルトでTimesフォントを使用する
+    :return: フォント名
+    """
     try:
         conf_dir_make()
     except extend_exception.CanonotMakedirsException:
