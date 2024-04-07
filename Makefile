@@ -11,7 +11,6 @@ all:*.py
 stable:
 	git checkout stable
 	git merge develop
-	git push
 	git checkout develop
 deploy:
 	git checkout master
@@ -26,6 +25,10 @@ pull:
 	git pull
 	git checkout develop
 dev:
+	git checkout develop
+merge:
+	git checkout stable
+	git merge stable
 	git checkout develop
 base:
 	git checkout develop

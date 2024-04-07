@@ -7,7 +7,7 @@ class NotOpenPathException(Exception):
     pass
 
 
-class CanonotMakedirsException(Exception):
+class CannotMakedirsException(Exception):
     """
     ディレクトリの作成エラー
     """
