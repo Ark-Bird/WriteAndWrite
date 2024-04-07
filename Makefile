@@ -11,6 +11,7 @@ all:*.py
 stable:
 	git checkout stable
 	git merge develop
+	git push
 	git checkout develop
 deploy:
 	git checkout master
