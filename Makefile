@@ -26,6 +26,9 @@ pull:
 	git checkout develop
 dev:
 	git checkout develop
+dev-push:
+	git checkout develop
+	git push
 merge:
 	git checkout stable
 	git merge stable
