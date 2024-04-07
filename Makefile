@@ -32,7 +32,7 @@ dev-push:
 	git push
 merge:
 	git checkout stable
-	git merge stable
+	git merge develop
 	git checkout develop
 base:
 	git checkout develop
