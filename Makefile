@@ -8,10 +8,6 @@ all:*.py
 	python archive.py
 	git checkout develop
 	activate
-stable-dep:
-	git checkout stable
-	git push
-	git checkout develop
 stable:
 	git checkout stable
 	git merge develop
