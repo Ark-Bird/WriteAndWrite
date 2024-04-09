@@ -10,7 +10,6 @@ all:*.py
 	activate
 stable:
 	git checkout stable
-	git merge develop
 	git push
 	git checkout develop
 deploy:
