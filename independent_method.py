@@ -40,6 +40,10 @@ def write_filename_string(change_filename) -> None:
 
 
 def find_erase_flag_read() -> bool:
+    """
+    検索時に入力した検索ワードを検索時に消すかどうかの判定
+    :return: 成功時True,失敗時False
+    """
     try:
         success = conf_dir_make()
         if not success:
