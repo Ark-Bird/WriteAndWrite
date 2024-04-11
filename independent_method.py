@@ -45,6 +45,7 @@ def find_erase_flag_read() -> bool:
     :return: 成功時True,失敗時False
     """
     try:
+        # successはディレクトリの作成結果フラグ
         success = conf_dir_make()
         if not success:
             return False
