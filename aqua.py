@@ -207,7 +207,6 @@ class WillBeAuthor:
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
         self.title_var_string = str(self.counter()) + ":  文字"
-        # インデントの半角/全角
         self.text_is_save()
         self.title_var_string = self.app_name.return_app_name_for_now() + self.title_var_string
         # オートインデントの半角/全角状態の表示
