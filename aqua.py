@@ -272,6 +272,7 @@ class WillBeAuthor:
         if self.is_autosave_flag:
             self.change_auto_save_disable()
         else:
+            self.file_name = ""
             self.change_auto_save_enable()
         self.change_titlebar()
         return
