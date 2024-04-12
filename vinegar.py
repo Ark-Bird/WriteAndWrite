@@ -15,6 +15,9 @@ class Vinegar:
         """
         all_text: str = self.page.get("0.0", "end")
         pkl: str = tk.filedialog.asksaveasfilename()
+        if pkl == "":
+            tk.messagebox.showinfo("Not Name", "ファイル名が空です")
+            return
         pkl = pkl + ".pkl"
         with open(pkl, "wb") as f:
             pickle.dump(all_text, f)
