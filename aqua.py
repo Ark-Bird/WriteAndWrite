@@ -572,9 +572,6 @@ def init_page(page: tk.Text):
     return decorate, pkvin
 
 
-
-
-
 def main() -> None:
     """
     主処理系
@@ -652,6 +649,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-
-
