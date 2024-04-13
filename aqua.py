@@ -221,7 +221,7 @@ class WillBeAuthor:
         self.title_var_string += self.check_autosave_flag()
         # カーソル移動の方法
         self.title_var_string += self.cursor_move_vi_or_emacs()
-        self.title_var_string += self.path_to_filename(self.file_name)
+        self.title_var_string += independent_method.path_to_filename(self.file_name)
         self.root.title(self.title_var_string)
         return
 
@@ -422,15 +422,6 @@ class WillBeAuthor:
         self.change_auto_save_disable()
         self.change_titlebar()
         return
-
-    def path_to_filename(self, filepath) -> None:
-        """
-        ファイルパスのファイル名を抜き出してself.basenameに代入
-        :param filepath:
-        :return:ファイル名
-        """
-        basename = os.path.basename(filepath)
-        return basename
 
     def text_copy(self, event=None) -> None:
         """

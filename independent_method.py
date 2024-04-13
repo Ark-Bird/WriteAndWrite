@@ -107,3 +107,13 @@ def read_font() -> str:
                 return "Times"
         except Exception:
             raise extend_exception.FatalError
+
+
+def path_to_filename(filepath) -> None:
+    """
+    ファイルパスのファイル名を抜き出してself.basenameに代入
+    :param filepath:
+    :return:ファイル名
+    """
+    basename = os.path.basename(filepath)
+    return basename
