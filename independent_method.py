@@ -109,7 +109,7 @@ def read_font() -> str:
             raise extend_exception.FatalError
 
 
-def path_to_filename(filepath) -> None:
+def path_to_filename(filepath: str) -> str:
     """
     ファイルパスのファイル名を抜き出してself.basenameに代入
     :param filepath:
