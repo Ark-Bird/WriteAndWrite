@@ -18,12 +18,12 @@ class ShowInfo:
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     """)
         # バージョン
-        self._version: const.Const = const.Const("""
-        ver1.4.20_code:/Mrs. Thor's way/
+        self._VERSION: const.Const = const.Const("""
+        ver1.4.21_code:/Mrs. Thor's way/
         """)
 
         # テーマ書式
-        self._theme_example_conf: const.Const = const.Const("""
+        self._THEME_EXAMPLE_CONF: const.Const = const.Const("""
         テーマは以下の書式で書いてください
         "#RRGGBB"
         設定値は先頭から 背景 文字色 キャレット色です
@@ -36,7 +36,7 @@ class ShowInfo:
         バージョン情報をポップアップで表示
         :return:None
         """
-        messagebox.showinfo("バージョン情報:", self._version.get_const())
+        messagebox.showinfo("バージョン情報:", self._VERSION.get_const())
         return
 
     def show_license(self) -> None:
@@ -52,7 +52,7 @@ class ShowInfo:
         オリジナルテーマの設定方法の例示
         :return:None
         """
-        messagebox.showinfo("テーマ設定の書式", self._theme_example_conf.get_const())
+        messagebox.showinfo("テーマ設定の書式", self._THEME_EXAMPLE_CONF.get_const())
         return
 
 
