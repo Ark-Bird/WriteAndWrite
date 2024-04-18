@@ -572,7 +572,11 @@ def main() -> None:
     pf: str = platform.system()
     conf_exist: bool = os.path.isdir("conf")
     if not conf_exist:
-        independent_method.conf_dir_make()
+        try:
+            independent_method.conf_dir_make()
+        except extend_exception.CannotMakedirsException:
+            messagebox.showinfo("can't mkdir!", "設定ファイル用ディレクトリを作成出来ませんでした、終了します")
+            raise extend_exception.FatalError
     author: WillBeAuthor = WillBeAuthor()
     root: tk.Tk = tk.Tk()
     author.setroot(root)
