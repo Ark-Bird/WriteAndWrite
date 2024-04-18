@@ -19,7 +19,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver1.4.23_code:/Mrs. Thor's way/
+        ver1.4.24_code:/Mrs. Thor's way/
         """)
 
         # テーマ書式
@@ -54,18 +54,3 @@ class ShowInfo:
         """
         messagebox.showinfo("テーマ設定の書式", self._THEME_EXAMPLE_CONF.get_const())
         return
-
-
-class AppName:
-    def __init__(self):
-        """
-        アプリ名を定数として設定
-        """
-        self._APP_CODE_NAME: const.Const = const.Const("""朱雀""")
-
-    def return_app_name_for_now(self) -> str:
-        """
-        暫定アプリ名を返す
-        :return: app_name
-        """
-        return self._APP_CODE_NAME.get_const()

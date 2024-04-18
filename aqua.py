@@ -13,6 +13,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 import re
 
+import app_name
 import extend_exception
 import full_mode
 import indent_insert
@@ -78,7 +79,7 @@ class WillBeAuthor:
         self.prev_save_dir: str = ""
         self.cursor_move_mode: str = "vi"
         self.is_wrap: bool = True
-        self.app_name: version.AppName = version.AppName()
+        self.app_name: app_name.AppName = app_name.AppName()
         try:
             self.theme: str = self.read_theme()
         except FileNotFoundError:
