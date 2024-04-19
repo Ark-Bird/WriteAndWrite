@@ -3,8 +3,6 @@ import os
 import extend_exception
 from tkinter import messagebox
 
-import theme_mod
-
 
 def write_theme_string(change_theme) -> None:
     """
