@@ -16,7 +16,7 @@ def write_theme_string(change_theme) -> None:
     except Exception:
         messagebox.showerror("Error!", "ディレクトリを作成出来ませんでした")
         raise extend_exception.FatalError
-    with open("conf/color.bin", "w") as file:
+    with open("conf/color.bin", "w", encoding="utf-8") as file:
         file.write(change_theme)
     return
 
@@ -47,10 +47,10 @@ def find_erase_flag_read() -> bool:
         success = conf_dir_make()
         if not success:
             return False
-        with open("conf/find_erase.txt", "r") as fefp:
+        with open("conf/find_erase.txt", "r", encoding="utf-8") as fefp:
             erase_flag = fefp.read()
     except FileNotFoundError:
-        with open("conf/find_erase.txt", "w") as wp:
+        with open("conf/find_erase.txt", "w", encoding="utf-8") as wp:
             wp.write("False")
             erase_flag = False
     except Exception:
