@@ -19,7 +19,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver1.4.24_code:/Mrs. Thor's way/
+        ver1.4.25_code:/Mrs. Thor's way/
         """)
 
         # テーマ書式

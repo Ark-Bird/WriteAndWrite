@@ -97,12 +97,12 @@ def read_font() -> str:
     except extend_exception.CannotMakedirsException:
         raise extend_exception.FatalError
     try:
-        with open("conf/font-family.txt", "r") as font_conf:
+        with open("conf/font-family.txt", "r", encoding="utf-8") as font_conf:
             font = font_conf.read()
             return font
     except FileNotFoundError:
         try:
-            with open("conf/font-family.txt", "w") as wf:
+            with open("conf/font-family.txt", "w", encoding="utf-8") as wf:
                 wf.write("Times")
                 return "Times"
         except Exception:

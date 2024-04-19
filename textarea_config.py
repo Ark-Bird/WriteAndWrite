@@ -62,7 +62,7 @@ class FontChange:
         self.font_family = independent_method.read_font()
         if os.path.exists("conf/font-size.txt"):
             try:
-                with open("conf/font-size.txt") as fs:
+                with open("conf/font-size.txt",  encoding="utf-8") as fs:
                     enable_font, font_size = fs.read().split()
                 if enable_font == "True":
                     self.now_font_size = int(font_size)
