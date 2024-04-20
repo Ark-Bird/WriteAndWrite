@@ -588,7 +588,7 @@ def main() -> None:
     root.geometry("640x640")
     page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR)
     font_size: int = 13
-    font_change: textarea_config.FontChange = textarea_config.FontChange(font_size, page)
+    font_change: textarea_config.FontChange = textarea_config.FontChange(font_family, font_size, page)
     temp_assign: tuple[string_decorate.StringDecorator, vinegar.Vinegar] = init_page(page)
     decorate: string_decorate
     pk1vin: vinegar.Vinegar

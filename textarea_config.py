@@ -49,13 +49,14 @@ class Memory(inmemory_module.ram_memo.RamMemo):
 
 
 class FontChange:
-    def __init__(self, now_font_size, page):
+    def __init__(self, font_family, now_font_size, page):
         """
         フォントサイズの設定
         confディレクトリにfont-size.txtが存在しない場合、無効化した状態で作成
         :param now_font_size: 現在のフォントサイズ
         :param page: 適用するテキストエリア
         """
+        self.font_family = font_family
         self.now_font_size = now_font_size
         self.page = page
         self.now_font_size = 13
@@ -91,7 +92,7 @@ class FontChange:
         self.now_font_size = self.now_font_size + 5
         if self.now_font_size >= 50:
             self.now_font_size = 50
-        self.page.configure(font=("", self.now_font_size))
+        self.page.configure(font=(self.font_family, self.now_font_size))
         return
 
     def font_size_small(self, event=None) -> None:
@@ -104,7 +105,7 @@ class FontChange:
         self.now_font_size = self.now_font_size - 5
         if self.now_font_size <= 6:
             self.now_font_size = 6
-        self.page.configure(font=("", self.now_font_size))
+        self.page.configure(font=(self.font_family, self.now_font_size))
         return
 
 
