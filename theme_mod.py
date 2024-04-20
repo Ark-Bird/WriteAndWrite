@@ -29,7 +29,7 @@ def change_theme(page: tkinter.Text, theme: str) -> None:
     """
     independent_method.conf_dir_make()
     try:
-        with open("conf/original_theme.txt", "r") as theme_file:
+        with open("conf/original_theme.txt", "r", encoding="utf-8") as theme_file:
             original_theme = theme_file.read()
             enable, bg, fg, cursor = original_theme.split()
     except FileNotFoundError:
