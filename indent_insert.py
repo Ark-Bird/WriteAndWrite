@@ -60,7 +60,7 @@ class Indent:
         """
         c = self.page.get("insert -1c")
         s = self.page.get("insert -2c")
-        if (c == "「" or c == "『") and s == "　":
+        if (c == "「" or c == "『") and (s == "　" or s == " "):
             self.page.delete("insert -2c")
         return None
 
