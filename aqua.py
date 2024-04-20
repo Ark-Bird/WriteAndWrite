@@ -102,7 +102,7 @@ class WillBeAuthor:
         :return: color.binに書かれたテーマ名
         """
         try:
-            with open("conf/color.bin", "r") as f:
+            with open("conf/color.bin", "r", encoding="utf-8") as f:
                 self.theme = f.read()
         except FileNotFoundError:
             print("設定ファイルが存在しないためcolor.binを作成します")
@@ -610,12 +610,12 @@ def main() -> None:
 
     # オートインデントの設定
     try:
-        with open("conf/auto_indent.txt", "r") as default_indent:
+        with open("conf/auto_indent.txt", "r", encoding="utf-8") as default_indent:
             indent_flag = default_indent.read()
             if indent_flag == "True":
                 indent.toggle_auto_indent()
     except FileNotFoundError:
-        with open("conf/auto_indent.txt", "w") as default:
+        with open("conf/auto_indent.txt", "w", encoding="utf-8") as default:
             default.write("False")
     except Exception:
         raise extend_exception.FatalError
