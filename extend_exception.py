@@ -1,3 +1,6 @@
+import tkinter
+
+
 class NotOpenPathException(Exception):
     """
     ファイルを開くのに失敗した時の例外
@@ -18,5 +21,5 @@ class FatalError(Exception):
     """
     復旧不能なエラーの発生時に投げる
     """
-
+    tkinter.messagebox.showerror("Fatal Error", "復旧不能なエラーが発生しました。アプリケーションを終了します")
     pass
