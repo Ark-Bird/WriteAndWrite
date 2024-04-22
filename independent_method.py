@@ -109,7 +109,7 @@ def read_font() -> str:
 
 def path_to_filename(filepath: str) -> str:
     """
-    ファイルパスのファイル名を抜き出してself.basenameに代入
+    ファイルパスのファイル名を抜き出して返す
     :param filepath:
     :return:ファイル名
     """
