@@ -2,7 +2,7 @@ import os
 
 import extend_exception
 from tkinter import messagebox
-
+from winsound import Beep
 
 def write_theme_string(change_theme) -> None:
     """
@@ -115,3 +115,13 @@ def path_to_filename(filepath: str) -> str:
     """
     basename = os.path.basename(filepath)
     return basename
+
+
+def fix_this_later() -> None:
+    """
+    修正が必要なことをコマンドラインに表示
+    :return: None
+    """
+    Beep(777, 50)
+    print("未修正の箇所です")
+    return
