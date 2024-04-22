@@ -332,6 +332,7 @@ class WillBeAuthor:
             return
         if True:
             self.written_textum = self.page.get("0.0", "end")
+            # 末尾の改行を削除する
             self.written_textum = self.written_textum[0:-1]
         if self.file_name[-4:] != ".txt":
             self.file_name += ".txt"
