@@ -540,7 +540,6 @@ class WillBeAuthor:
         テキストエリアの橋で自動で折り返すように設定する
         :return:
         """
-        self.is_wrap = True
         self.page.configure(wrap=tk.CHAR)
         return
 
@@ -549,7 +548,6 @@ class WillBeAuthor:
         テキストエリアの折り返しを無効化する
         :return:
         """
-        self.is_wrap = False
         self.page.configure(wrap=tk.NONE)
         return
 
