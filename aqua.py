@@ -79,6 +79,7 @@ class WillBeAuthor:
         self.prev_save_dir: str = ""
         self.cursor_move_mode: str = "vi"
         self.is_wrap: bool = True
+        self.debug_enable = False
         self.app_name: app_name.AppName = app_name.AppName()
         try:
             self.theme: str = self.read_theme()
@@ -552,6 +553,25 @@ class WillBeAuthor:
         self.page.configure(wrap=tk.NONE)
         return
 
+    def debag_enable(self) -> bool:
+        """
+        conf/debug.txtを読んでTrueならデバッグ関数の有効化
+        :return: None
+        """
+        try:
+            with open("conf/debug.txt", mode="r", encoding="utf-8") as f:
+                debug_enable = f.read()
+                if debug_enable == "True":
+                    self.debug_enable = True
+                else:
+                    self.debug_enable = False
+        except FileNotFoundError:
+            with open("conf/debug.txt", mode="w", encoding="utf-8") as f:
+                f.write("False")
+        except Exception:
+            raise extend_exception.FatalError
+        return self.debug_enable
+
 
 def init_page(page: tk.Text):
     """
@@ -624,9 +644,7 @@ def main() -> None:
     author.set_theme(theme=theme)
     root.minsize(32, 32)
     menubar: tk.Menu = tk.Menu(root, font=font)
-
     menu_init.menu_init(author, menubar, pk1vin, indent, full_screen, font_change)
-
     # タイトル
     root.config(menu=menubar)
     root.title("インクの跡は全て文字")

@@ -117,11 +117,24 @@ def path_to_filename(filepath: str) -> str:
     return basename
 
 
-def fix_this_later(event=None) -> None:
+def fix_this_later() -> None:
     """
     修正が必要なことをコマンドラインに表示
     :return: None
     """
+    mes_box: bool = False
+    try:
+        with open("conf/debug_enable.txt", "r", encoding="utf-8") as f:
+            debug_flag = f.read()
+            if debug_flag == "True":
+                mes_box = True
+    except FileNotFoundError:
+        with open("conf/debug_enable.txt", "w", encoding="utf-8") as f:
+            f.write("False")
+    except Exception:
+        raise extend_exception.FatalError
+    if mes_box:
+        messagebox.showwarning("要修正箇所", f"{inspect.stack()[1].function}を修正してください")
     print(inspect.stack()[1].function)
     print("未修正の箇所です")
     return
