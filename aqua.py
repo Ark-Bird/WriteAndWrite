@@ -537,7 +537,7 @@ class WillBeAuthor:
 
     def wrap_enable(self) -> None:
         """
-        テキストエリアの橋で自動で折り返すように設定する
+        テキストエリアの端で自動で折り返すように設定する
         :return:
         """
         self.page.configure(wrap=tk.CHAR)
