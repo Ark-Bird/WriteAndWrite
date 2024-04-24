@@ -14,7 +14,7 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     # viモードとEmacsモードへキーバインドのインスタンス
     mode_change: textarea_config.ModeChange = textarea_config.ModeChange(author)
     file_menu: tk.Menu = tk.Menu(menubar, tearoff=0)
-    # ファイルメニュー、渡している'file'引数はダミー
+    # ファイルメニュー
     file_menu.add_command(label="新規ファイル", command=author.new_blank_file)
     file_menu.add_command(label="開く", command=author.open_text_file)
     file_menu.add_command(label="保存 (Ctrl-s)", command=author.save_file)
