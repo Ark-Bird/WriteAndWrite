@@ -9,7 +9,9 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     初めにバージョンとライセンスを表示するためのクラスのインスタンスを作成している
     :return:
     """
+    # ヘルプ情報のインスタンス
     show_info: version.ShowInfo = version.ShowInfo()
+    # viモードとEmacsモードへキーバインドのインスタンス
     mode_change: textarea_config.ModeChange = textarea_config.ModeChange(author)
     file_menu: tk.Menu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー、渡している'file'引数はダミー
