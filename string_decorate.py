@@ -65,6 +65,7 @@ class StringDecorator:
         except TclError:
             ignore()
         except Exception:
+            independent_method.fix_this_later()
             raise extend_exception.FatalError
         if search_word == "":
             return
