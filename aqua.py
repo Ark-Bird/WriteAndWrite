@@ -149,7 +149,6 @@ class WillBeAuthor:
         自動セーブの有効無効をタイトルバーに表示
         """
         s: str = self.page.get("0.0", "end")
-        # vt = " a \t b\r\n\tc\t\n"
         s = s.replace(' ', '')
         s = s.replace('　', '')
         s = s.replace('\n', '')
