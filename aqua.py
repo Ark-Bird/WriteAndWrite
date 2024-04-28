@@ -636,6 +636,7 @@ def main() -> None:
         with open("conf/auto_indent.txt", "w", encoding="utf-8") as default:
             default.write("False")
     except Exception:
+        independent_method.fix_this_later()
         raise extend_exception.FatalError
     theme: str = author.read_theme()
     author.set_theme(theme=theme)
