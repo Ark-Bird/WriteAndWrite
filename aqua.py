@@ -22,7 +22,6 @@ import menu_init
 import string_decorate
 import textarea_config
 import theme_mod
-import version
 import vinegar
 from independent_method import ignore
 
