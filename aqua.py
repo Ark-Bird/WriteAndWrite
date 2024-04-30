@@ -167,7 +167,7 @@ class WillBeAuthor:
             self.page.insert("0.0", s)
         return
 
-    def text_is_save(self) -> None:
+    def check_if_is_saved(self) -> None:
         """
         テキストが初期状態、もしくは未保存か保存済みかを書き換えるメソッド
         :return: None
@@ -208,7 +208,7 @@ class WillBeAuthor:
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
         self.title_var_string = str(self.counter()) + ":  文字"
-        self.text_is_save()
+        self.check_if_is_saved()
         self.title_var_string = self.app_name.return_app_name_for_now() + self.title_var_string
         # オートインデントの半角/全角状態の表示
         if auto_indent:
