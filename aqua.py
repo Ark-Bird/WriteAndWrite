@@ -203,6 +203,8 @@ class WillBeAuthor:
         """
         タイトルバーの文字列を変更
         """
+        # auto_indentはオートインデントが有効かどうかのフラグ
+        # half_spaceは挿入されるインデントが半角が全角かのフラグ
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
         self.title_var_string = str(self.counter()) + ":  文字"
