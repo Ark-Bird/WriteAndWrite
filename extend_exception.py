@@ -1,4 +1,4 @@
-import tkinter
+from tkinter import messagebox
 
 
 class NotOpenPathException(Exception):
@@ -21,6 +21,4 @@ class FatalError(Exception):
     """
     復旧不能なエラーの発生時に投げる
     """
-    def __init__(self):
-        tkinter.messagebox.showerror("""Fatal Error""", """復旧不能なエラーが発生しました。アプリケーションを終了します""")
     pass
