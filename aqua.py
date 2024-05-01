@@ -339,10 +339,10 @@ class WillBeAuthor:
             self.file_name += ".txt"
         if self.before_text == self.page.get("0.0", "end"):
             return
-        with open(self.file_name, mode="w", encoding="utf-8") as f:
-            f.write(self.written_textum)
-        with open("conf/path.bin", mode="w", encoding="utf-8") as f:
-            f.write(self.file_name)
+        with open(self.file_name, mode="w", encoding="utf-8") as textum_file:
+            textum_file.write(self.written_textum)
+        with open("conf/path.bin", mode="w", encoding="utf-8") as conf:
+            conf.write(self.file_name)
         self.is_text_unchanged()
         self.is_save = True
         self.change_titlebar()
