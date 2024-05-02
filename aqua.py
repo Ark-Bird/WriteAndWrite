@@ -381,7 +381,6 @@ class WillBeAuthor:
             if not messagebox.askyesno("破棄しますか？", "文書を破棄しますか？"):
                 return
         self.page.delete("0.0", "end")
-        self.file_name = ""
         self.is_text_unchanged()
         self.file_name = ""
         self.is_save = True
