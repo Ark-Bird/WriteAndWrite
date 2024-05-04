@@ -19,7 +19,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver1.4.46_code:/NullMeta/
+        ver1.4.47_code:/NullMeta/
         """)
 
         # テーマ書式
@@ -29,6 +29,7 @@ class ShowInfo:
         設定値は先頭から 背景 文字色 キャレット色です
         RGBはそれぞれ0~Fまでの数値
         数値の前に#を付けるのを忘れないでください
+        先頭の要素が「True」になっている場合ユーザ定義テーマが有効になります
         """)
 
     def show_version(self) -> None:
