@@ -6,6 +6,7 @@ Created on Fri Feb 17 20:47:33 2017
 """
 import os
 import platform
+import sys
 import tkinter
 import tkinter as tk
 import tkinter.font
@@ -79,6 +80,7 @@ class WillBeAuthor:
         self.cursor_move_mode: str = "vi"
         self.is_wrap: bool = True
         self.debug_enable = False
+        self.end_of_code = False
         self.app_name: app_name.AppName = app_name.AppName()
         try:
             self.theme: str = self.read_theme()
@@ -312,6 +314,8 @@ class WillBeAuthor:
         存在しなければNotOpenPathException例外を投げる
         失敗時Falseをリターン
         """
+        if self.end_of_code:
+            sys.exit()
         # 前回の保存場所を参照
         try:
             if not os.path.exists("conf/path.bin"):
@@ -362,6 +366,7 @@ class WillBeAuthor:
             if messagebox.askyesno("終了しますか？", "終了しますか？"):
                 self.is_exit = True
         if self.is_exit or self.is_save or s == "\n":
+            self.end_of_code = True
             self.root.destroy()
         else:
             return
