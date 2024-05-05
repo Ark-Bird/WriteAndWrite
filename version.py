@@ -25,8 +25,8 @@ class ShowInfo:
         # テーマ書式
         self._THEME_EXAMPLE_CONF: const.Const = const.Const("""
         テーマは以下の書式で書いてください
-        "#RRGGBB"
-        設定値は先頭から 背景 文字色 キャレット色です
+        "enable #RRGGBB #RRGGBB #RRGGBB"
+        設定値は先頭から　有効 背景 文字色 キャレット色です
         RGBはそれぞれ0~Fまでの数値
         数値の前に#を付けるのを忘れないでください
         先頭の要素が「True」になっている場合ユーザ定義テーマが有効になります
