@@ -315,6 +315,7 @@ class WillBeAuthor:
         失敗時Falseをリターン
         """
         if self.end_of_code:
+            independent_method.fix_this_later()
             sys.exit()
         # 前回の保存場所を参照
         try:

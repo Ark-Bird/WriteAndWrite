@@ -135,6 +135,7 @@ def fix_this_later() -> None:
     except Exception:
         raise extend_exception.FatalError
     if mes_box:
+        print(f"{inspect.stack()[1].function}で例外が起きました")
         messagebox.showwarning("要修正箇所", f"{inspect.stack()[1].function}を修正してください")
     print(inspect.stack()[1].function)
     print("未修正の箇所です")
