@@ -66,7 +66,12 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     color_select.add_command(
         label="original", command=lambda: author.set_theme(theme="original")
     )
-    color_mode.add_cascade(label="テーマ切り替え", menu=color_select)
+    color_select.add_command(
+        label="Apply", command=author.theme_apply
+    )
+    color_mode.add_cascade(
+        label="テーマ切り替え", menu=color_select
+    )
     menubar.add_cascade(label="テーマ", menu=color_mode)
     # オートインデント/オン・オフ
     auto_indent = tk.Menu(menubar, tearoff=0)

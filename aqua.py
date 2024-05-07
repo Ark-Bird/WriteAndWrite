@@ -126,6 +126,14 @@ class WillBeAuthor:
         theme_mod.change_theme(self.page, theme=theme)
         return
 
+    def theme_apply(self) -> None:
+        """
+        ユーザ定義テーマを適用する
+        :return:
+        """
+        theme_mod.change_theme(self.page, theme="original")
+        return
+
     def logger(self, event=None) -> None:
         """
         テキストの変更を検知して変更フラグを立てる
