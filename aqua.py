@@ -129,7 +129,7 @@ class WillBeAuthor:
     def theme_apply(self) -> None:
         """
         ユーザ定義テーマを適用する
-        :return:
+        :return:None
         """
         theme_mod.change_theme(self.page, theme="original")
         return
