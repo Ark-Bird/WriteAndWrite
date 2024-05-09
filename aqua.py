@@ -121,6 +121,7 @@ class WillBeAuthor:
         """
         引数themeで渡されたテーマをファイルに書き込んでテーマの変更
         :param theme: 変更するテーマ、デフォルトでnormal
+        :return:None
         """
         independent_method.write_theme_string(theme)
         theme_mod.change_theme(self.page, theme=theme)
