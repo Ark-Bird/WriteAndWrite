@@ -142,6 +142,7 @@ class WillBeAuthor:
         文字カウントの変更
         Ctrlとの組み合わせに対応
         基本的に何かのキーが押された時に呼ばれる
+        :return:None
         """
         self.change_titlebar()
         self.is_save = False
