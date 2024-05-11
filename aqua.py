@@ -179,6 +179,20 @@ class WillBeAuthor:
             self.page.insert("0.0", s)
         return
 
+    def insert_newline(self) -> None:
+        """
+        空行を1行空きに変更
+        :return: None
+        """
+        if messagebox.askyesno("改行を1行おきを変更しますか？", "テキストの単一改行を1行空きに変更しますか？"):
+            s: str = self.page.get("0.0", "end")
+            s = re.sub('[\n][\n]+', '\n', s)
+            s = re.sub('[\n]', '\n\n', s)
+            self.page.delete("0.0", "end")
+            self.page.insert("0.0", s)
+            self.page.delete("end-2c", "end")
+        return
+
     def check_if_is_saved(self) -> None:
         """
         テキストが初期状態、もしくは未保存か保存済みかを書き換えるメソッド
