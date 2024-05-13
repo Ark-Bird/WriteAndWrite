@@ -19,7 +19,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver1.7.0_code:/Magi/
+        ver1.7.1_code:/Magi/
         """)
 
         # テーマ書式
