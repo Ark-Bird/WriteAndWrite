@@ -28,7 +28,7 @@ class StringDecorator:
             if m == "\n":
                 self.page.mark_set("insert", "insert+1c")
                 return
-            m = "|" + m + "《・》"
+            m = self.decorate_text(m, char="・")
             self.page.delete("insert")
             self.page.insert("insert", m)
         except Exception:
@@ -75,7 +75,7 @@ class StringDecorator:
         self.page.mark_set("insert", "insert+" + str(search_result) + "c")
         return "break"
 
-    def ruby(self, event=None) -> None:
+    def ruby(self, event=None, char="") -> None:
         """
         テキストを選択してルビを振る
         選択範囲が十文字より多ければ警告を表示、十文字の基準は一般的なWEB小説投稿サイトの最長文字数、
@@ -88,7 +88,7 @@ class StringDecorator:
             # 投稿サイトが10文字以上のルビに対応の場合、以下二行をコメントアウトしてください
             if len(temp_str) > 10:
                 messagebox.showinfo("over", "10文字以上にルビは非対応の可能性があります")
-            temp_str = "|" + temp_str + "《》"
+            temp_str = self.decorate_text(temp_str)
     
             self.page.delete("sel.first", "sel.last")
             self.page.insert("insert", temp_str)
@@ -99,3 +99,6 @@ class StringDecorator:
             independent_method.fix_this_later()
             raise extend_exception.FatalError
         return
+
+    def decorate_text(self, text, char="") -> str:
+        return "|" + text + "《" + char + "》"
