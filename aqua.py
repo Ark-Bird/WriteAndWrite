@@ -580,10 +580,10 @@ class WillBeAuthor:
         self.page.configure(wrap=tk.NONE)
         return
 
-    def debag_enable(self) -> bool:
+    def debug_enable(self) -> bool:
         """
         conf/debug.txtを読んでTrueならデバッグ関数の有効化
-        :return: None
+        :return: bool
         """
         try:
             with open("conf/debug.txt", mode="r", encoding="utf-8") as f:
