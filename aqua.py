@@ -160,10 +160,7 @@ class WillBeAuthor:
         自動セーブの有効無効をタイトルバーに表示
         """
         s: str = self.page.get("0.0", "end")
-        s = s.replace(' ', '')
-        s = s.replace('　', '')
-        s = s.replace('\n', '')
-        s = s.replace('\r', '')
+        s = re.sub('[ 　\n\r\t]', '', s)
         text_length_without_whitespace: int = len(s)
         return text_length_without_whitespace
 
