@@ -55,7 +55,13 @@ class StringDecorator:
         self.page.mark_set("insert", "insert-1c")
         return
 
-    def search(self, event=None):
+    def search(self, event=None) -> str | None:
+        """
+        選択範囲の文字列を先頭から検索
+        検索時に消去フラグがTrueならば検索時に検索文字列を削除
+        :param event:None
+        :return: str | None
+        """
         target_full_text: str = self.page.get("0.0", "end")
         search_word: str = ""
         erase_flag: bool = independent_method.find_erase_flag_read()
@@ -101,4 +107,11 @@ class StringDecorator:
         return
 
     def decorate_text(self, text, char="") -> str:
+        """
+        ルビを振った文字列を返す
+        傍点とルビの機能を統一
+        :param text: ルビを振るテキスト
+        :param char: ルビ、デフォルトでは無し
+        :return: ルビ用文字を結合した文字列
+        """
         return "|" + text + "《" + char + "》"

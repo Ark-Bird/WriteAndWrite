@@ -12,6 +12,6 @@ class AppName:
     def return_app_name_for_now(self) -> str:
         """
         暫定アプリ名を返す
-        :return: app_name
+        :return: アプリ名
         """
         return self._APP_CODE_NAME.get_const()
