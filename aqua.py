@@ -92,7 +92,7 @@ class WillBeAuthor:
     def setroot(self, root) -> None:
         """
         rootウインドウの参照を受け取り、クラス内で扱えるようにする
-        :return:
+        :return:None
         """
         self.root = root
         return
@@ -158,6 +158,7 @@ class WillBeAuthor:
         カウントした文字はタイトルバーに表示
         オートインデント有効の場合タイトルバーに表示
         自動セーブの有効無効をタイトルバーに表示
+        :return:None
         """
         s: str = self.page.get("0.0", "end")
         s = re.sub('[ 　\n\r\t]', '', s)
@@ -216,6 +217,10 @@ class WillBeAuthor:
             return "Emacs mode:"
 
     def check_autosave_flag(self) -> str:
+        """
+        オートセーブの有効かどうかを文字列で返す
+        :return: オートセーブの状態
+        """
         if self.is_autosave_flag:
             return ":auto_save_enable:"
         else:
@@ -224,6 +229,7 @@ class WillBeAuthor:
     def change_titlebar(self) -> None:
         """
         タイトルバーの文字列を変更
+        :return:None
         """
         # auto_indentはオートインデントが有効かどうかのフラグ
         # half_spaceは挿入されるインデントが半角が全角かのフラグ
@@ -252,6 +258,7 @@ class WillBeAuthor:
         """
         オートセーブ
         ファイルパスはユニコードであること
+        :return:None
         """
         if self.prev_save_dir == "" and self.is_autosave_flag:
             self.prev_save_dir = filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
@@ -398,6 +405,7 @@ class WillBeAuthor:
         テキストをクリアして新しいファイルにする
         変更フラグを降ろす
         保存フラグを立てる
+        :return:None
         """
         self.written_textum = self.page.get("0.0", "end")
         self.prev_save_dir = ""
@@ -421,6 +429,7 @@ class WillBeAuthor:
         ファイルを開く
         変更されていたらチェック
         存在しないディレクトリをを指定していたらスクリプトのディレクトリを開く
+        :return:None
         """
         if self.page.get("0.0", "end") != "\n" and self.is_changed:
             if not messagebox.askyesno("注意", "ファイルが変更されています、破棄しますか？"):
@@ -454,6 +463,7 @@ class WillBeAuthor:
         """
         copy text
         テキストの範囲が選択されていなかった場合例外を投げ、握りつぶす
+        :return:None
         """
         try:
             # 選択範囲をクリップボードにコピー
@@ -471,7 +481,7 @@ class WillBeAuthor:
         paste text
         範囲を選択していなかった場合の例外は握りつぶす
         tk.TclError以外のエラーが出ると落ちる
-        返り値無し
+        :return:None
         """
         try:
             self.page.insert("insert", self.clipped_text)
@@ -489,6 +499,7 @@ class WillBeAuthor:
         cut text
         返り値無し
         TclError以外の例外が投げられると落ちる
+        :return:None
         """
         try:
             # ローカル変数とクリップボードにコピー
@@ -506,7 +517,7 @@ class WillBeAuthor:
         """
         テキストの変更フラグを立てる
         テキストエリアでキーが押されると呼ばれる
-        :return:無し
+        :return:None
         """
         self.is_changed = True
         return
@@ -554,6 +565,10 @@ class WillBeAuthor:
         return
 
     def file_full_name_show(self, event=None) -> str:
+        """
+        :param event:ダミー
+        :return: 文字列breakこのイベントでキーバインドを上書き
+        """
         if self.file_name == "":
             messagebox.showinfo("Not open", "現在ファイルを開いていません")
             return "break"
@@ -564,7 +579,7 @@ class WillBeAuthor:
         """
         テキストエリアの端で自動で折り返すように設定する
         起動時はこちらのオプションになっている
-        :return:
+        :return:None
         """
         self.page.configure(wrap=tk.CHAR)
         return
@@ -572,7 +587,7 @@ class WillBeAuthor:
     def wrap_disable(self) -> None:
         """
         テキストエリアの折り返しを無効化する
-        :return:
+        :return:None
         """
         self.page.configure(wrap=tk.NONE)
         return
@@ -613,6 +628,7 @@ def main() -> None:
     主処理系
     if __name__ == "__main__"から呼ばれる
     グローバル変数を閉じ込めるためだけの関数
+    :return:None
     """
     # Windowsもしくはそれ以外を判別
     pf: str = platform.system()
