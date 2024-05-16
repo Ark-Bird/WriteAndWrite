@@ -107,4 +107,11 @@ class StringDecorator:
         return
 
     def decorate_text(self, text, char="") -> str:
+        """
+        ルビを振った文字列を返す
+        傍点とルビの機能を統一
+        :param text: ルビを振るテキスト
+        :param char: ルビ、デフォルトでは無し
+        :return: ルビ用文字を結合した文字列
+        """
         return "|" + text + "《" + char + "》"
