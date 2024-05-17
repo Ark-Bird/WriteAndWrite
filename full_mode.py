@@ -14,7 +14,7 @@ class FullMode:
         """
         フルスクリーンにするウインドウをセットする
         :param root:rootフィールドにインスタンスを渡す
-        :return:
+        :return:None
         """
         self.root = root
         return
@@ -23,7 +23,7 @@ class FullMode:
         """
         START AUTHOR MODE
         集中モード開始（フルスクリーンになる）
-        返り値無し
+        :return:None
         """
         if not self.valid_root():
             return
@@ -37,7 +37,7 @@ class FullMode:
         """
         END AUTHOR MODE
         集中モード終了（フルスクリーンは解除されるがウィンドウからフォーカスが外れない場合があるので注意
-        返り値無し
+        :return:None
         """
         if not self.valid_root():
             return
@@ -52,7 +52,7 @@ class FullMode:
         """
         self.rootがセットされている時Trueを返す
         何らかの原因で実行時に山椒が渡されていない場合False
-        :return:
+        :return:None
         """
         if self.root is None:
             tkinter.messagebox.showerror("root is NOT SET", "ウインドウをフルスクリーンにできません")
