@@ -87,7 +87,7 @@ class StringDecorator:
         選択範囲が十文字より多ければ警告を表示、十文字の基準は一般的なWEB小説投稿サイトの最長文字数、
         これ以上でも問題無く表示できるサイトもある、その場合該当業をコメントアウトすればよい
         ルビの書式は小説家になろう及びカクヨム、及びその互換書式に対応しています
-        返り値無し
+        :return:None
         """
         try:
             temp_str: str = self.page.get("sel.first", "sel.last")
