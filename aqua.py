@@ -487,9 +487,11 @@ class WillBeAuthor:
         except tk.TclError:
             # 問題の無い例外は握りつぶす
             ignore()
+            return
         except Exception:
             # どうしようもない例外でエラーをレイズ
             raise extend_exception.FatalError
+        self.command_hist("ローカルクリップボードにコピーしました")
         return
 
     def text_paste(self, event=None) -> None:
@@ -499,15 +501,19 @@ class WillBeAuthor:
         tk.TclError以外のエラーが出ると落ちる
         :return:None
         """
+        if self.clipped_text == "":
+            return
         try:
             self.page.insert("insert", self.clipped_text)
         # 選択範囲がない場合例外が投げられる
         except tk.TclError:
             # 問題の無いエラー（握りつぶす）
             ignore()
+            return
         except Exception:
             # 致命的なエラー
             raise extend_exception.FatalError
+        self.command_hist("ローカルクリップボードからのペーストをしました")
         return
 
     def text_cut(self, event=None) -> None:
@@ -524,9 +530,11 @@ class WillBeAuthor:
         except tk.TclError:
             # 選択範囲がない場合例を投げられるので握りつぶす
             ignore()
+            return
         except Exception:
             print("致命的なエラー")
             raise extend_exception.FatalError
+        self.command_hist("ローカルクリップボードへカットしました")
         return
 
     def is_text_changed(self) -> None:
