@@ -317,11 +317,9 @@ class WillBeAuthor:
         """
         if self.is_autosave_flag:
             self.change_auto_save_disable()
-            self.command_hist("オートセーブ機能が無効になりました")
         else:
             self.file_name = ""
             self.change_auto_save_enable()
-            self.command_hist("オートセーブ機能が有効になりました")
         self.change_titlebar()
         return
 
@@ -331,6 +329,7 @@ class WillBeAuthor:
         :return:None
         """
         self.is_autosave_flag = True
+        self.command_hist("オートセーブ機能が有効になりました")
         return
 
     def change_auto_save_disable(self) -> None:
@@ -338,6 +337,7 @@ class WillBeAuthor:
         オートセーブ機能の無効化
         :return:None
         """
+        self.command_hist("オートセーブ機能が無効になりました")
         self.is_autosave_flag = False
         return
 
