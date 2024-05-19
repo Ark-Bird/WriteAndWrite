@@ -81,6 +81,8 @@ class WillBeAuthor:
         self.is_wrap: bool = True
         self.debug_enable = False
         self.end_of_code = False
+        self.mess: None | tk.Label = None
+        self.do_command: None | tk.StringVar = None
         self.app_name: app_name.AppName = app_name.AppName()
         try:
             self.theme: str = self.read_theme()
@@ -96,6 +98,20 @@ class WillBeAuthor:
         """
         self.root = root
         return
+
+    def init_label(self, message: str) -> None:
+        """
+
+        :param message:
+        :return:
+        """
+        self.do_command = tk.StringVar()
+        self.do_command.set(message)
+        self.mess = tk.Label(self.root, textvariable=self.do_command)
+        self.mess.pack(side=tk.BOTTOM, fill='x')
+
+    def command_hist(self, command) -> None:
+        self.do_command.set(command)
 
     def read_theme(self) -> str:
         """
@@ -301,9 +317,11 @@ class WillBeAuthor:
         """
         if self.is_autosave_flag:
             self.change_auto_save_disable()
+            self.command_hist("オートセーブ機能が無効になりました")
         else:
             self.file_name = ""
             self.change_auto_save_enable()
+            self.command_hist("オートセーブ機能が有効になりました")
         self.change_titlebar()
         return
 
@@ -471,9 +489,11 @@ class WillBeAuthor:
         except tk.TclError:
             # 問題の無い例外は握りつぶす
             ignore()
+            return
         except Exception:
             # どうしようもない例外でエラーをレイズ
             raise extend_exception.FatalError
+        self.command_hist("ローカルクリップボードにコピーしました")
         return
 
     def text_paste(self, event=None) -> None:
@@ -483,15 +503,19 @@ class WillBeAuthor:
         tk.TclError以外のエラーが出ると落ちる
         :return:None
         """
+        if self.clipped_text == "":
+            return
         try:
             self.page.insert("insert", self.clipped_text)
         # 選択範囲がない場合例外が投げられる
         except tk.TclError:
             # 問題の無いエラー（握りつぶす）
             ignore()
+            return
         except Exception:
             # 致命的なエラー
             raise extend_exception.FatalError
+        self.command_hist("ローカルクリップボードからのペーストをしました")
         return
 
     def text_cut(self, event=None) -> None:
@@ -508,9 +532,11 @@ class WillBeAuthor:
         except tk.TclError:
             # 選択範囲がない場合例を投げられるので握りつぶす
             ignore()
+            return
         except Exception:
             print("致命的なエラー")
             raise extend_exception.FatalError
+        self.command_hist("ローカルクリップボードへカットしました")
         return
 
     def is_text_changed(self) -> None:
@@ -642,6 +668,8 @@ def main() -> None:
     author: WillBeAuthor = WillBeAuthor()
     root: tk.Tk = tk.Tk()
     author.setroot(root)
+    # ラベルの作成
+    author.init_label("初期化")
     font_family: str = independent_method.read_font()
     font: tk.font.Font = tk.font.Font(root, family=font_family)
     full_screen: full_mode.FullMode = full_mode.FullMode()
@@ -649,7 +677,7 @@ def main() -> None:
     root.geometry("640x640")
     page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR)
     font_size: int = 13
-    font_change: textarea_config.FontChange = textarea_config.FontChange(font_family, font_size, page)
+    font_change: textarea_config.FontChange = textarea_config.FontChange(font_family, font_size, page, author)
     temp_assign: tuple[string_decorate.StringDecorator, vinegar.Vinegar] = init_page(page)
     decorate: string_decorate
     pk1vin: vinegar.Vinegar
@@ -697,6 +725,8 @@ def main() -> None:
     root.protocol("WM_DELETE_WINDOW", author.exit_as_save)
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
+
+    author.command_hist("初期化完了")
     # オートセーブその他の再帰呼び出し
     root.after(1000, author.repeat_save_file)
     root.mainloop()

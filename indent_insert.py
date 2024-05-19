@@ -21,6 +21,7 @@ class Indent:
         """
         self.auto_indent = not self.auto_indent
         self.author.change_titlebar()
+        self.author.command_hist("インデント有効/無効を変更しました")
         return self.auto_indent
 
     def toggle_half_or_full(self, event=None) -> None:
@@ -32,6 +33,7 @@ class Indent:
         else:
             self.half_space = True
         self.author.change_titlebar()
+        self.author.command_hist("インデント半角/全角を変更しました")
         return
 
     def insert_space(self, ev=None) -> None:
