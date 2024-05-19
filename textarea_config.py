@@ -225,6 +225,7 @@ class ModeChange:
         my_key_bind = keybind.ViMode(self.author)
         my_key_bind.edit_key_bind()
         self.author.change_vi_mode_flag()
+        self.author.command_hist("キーバインドをViモードにしました")
         return
 
     def change_emacs_mode(self) -> None:
@@ -235,4 +236,5 @@ class ModeChange:
         my_key_bind = keybind.EmacsMode(self.author)
         my_key_bind.edit_key_bind()
         self.author.change_emacs_mode_flag()
+        self.author.command_hist("キーバインドをEmacsモードにしました")
         return
