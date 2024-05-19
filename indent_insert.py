@@ -21,6 +21,7 @@ class Indent:
         """
         self.auto_indent = not self.auto_indent
         self.author.change_titlebar()
+        self.author.command_hist("インデント有効/無効を変更しました")
         return self.auto_indent
 
     def toggle_half_or_full(self, event=None) -> None:

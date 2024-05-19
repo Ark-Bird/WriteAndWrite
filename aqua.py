@@ -666,6 +666,8 @@ def main() -> None:
     author: WillBeAuthor = WillBeAuthor()
     root: tk.Tk = tk.Tk()
     author.setroot(root)
+    # ラベルの作成
+    author.init_label("初期化")
     font_family: str = independent_method.read_font()
     font: tk.font.Font = tk.font.Font(root, family=font_family)
     full_screen: full_mode.FullMode = full_mode.FullMode()
@@ -715,11 +717,6 @@ def main() -> None:
     root.title("インクの跡は全て文字")
     author.change_titlebar()
     root.configure(background="gray")
-
-    # ラベルの作成
-    author.init_label("初期化")
-
-
 
     textarea_config.init_textarea(root, author, page, decorate, indent, font_change)
 
