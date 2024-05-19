@@ -81,6 +81,8 @@ class WillBeAuthor:
         self.is_wrap: bool = True
         self.debug_enable = False
         self.end_of_code = False
+        self.mess: None | tk.Label = None
+        self.do_command: None | tk.StringVar = None
         self.app_name: app_name.AppName = app_name.AppName()
         try:
             self.theme: str = self.read_theme()
@@ -96,6 +98,20 @@ class WillBeAuthor:
         """
         self.root = root
         return
+
+    def init_label(self, message: str) -> None:
+        """
+
+        :param message:
+        :return:
+        """
+        self.do_command = tk.StringVar()
+        self.do_command.set(message)
+        self.mess = tk.Label(self.root, textvariable=self.do_command)
+        self.mess.pack(side=tk.BOTTOM, fill='x')
+
+    def command_hist(self, command) -> None:
+        self.do_command.set(command)
 
     def read_theme(self) -> str:
         """
@@ -649,7 +665,7 @@ def main() -> None:
     root.geometry("640x640")
     page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR)
     font_size: int = 13
-    font_change: textarea_config.FontChange = textarea_config.FontChange(font_family, font_size, page)
+    font_change: textarea_config.FontChange = textarea_config.FontChange(font_family, font_size, page, author)
     temp_assign: tuple[string_decorate.StringDecorator, vinegar.Vinegar] = init_page(page)
     decorate: string_decorate
     pk1vin: vinegar.Vinegar
@@ -692,11 +708,18 @@ def main() -> None:
     author.change_titlebar()
     root.configure(background="gray")
 
+    # ラベルの作成
+    author.init_label("初期化")
+
+
+
     textarea_config.init_textarea(root, author, page, decorate, indent, font_change)
 
     root.protocol("WM_DELETE_WINDOW", author.exit_as_save)
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
+
+    author.command_hist("初期化完了")
     # オートセーブその他の再帰呼び出し
     root.after(1000, author.repeat_save_file)
     root.mainloop()
