@@ -33,6 +33,7 @@ class Indent:
         else:
             self.half_space = True
         self.author.change_titlebar()
+        self.author.command_hist("インデント半角/全角を変更しました")
         return
 
     def insert_space(self, ev=None) -> None:
