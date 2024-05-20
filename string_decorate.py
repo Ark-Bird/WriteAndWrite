@@ -8,6 +8,17 @@ import independent_method
 from independent_method import ignore
 
 
+def decorate_text(text, char="") -> str:
+    """
+    ルビを振った文字列を返す
+    傍点とルビの機能を統一
+    :param text: ルビを振るテキスト
+    :param char: ルビ、デフォルトでは無し
+    :return: ルビ用文字を結合した文字列
+    """
+    return "|" + text + "《" + char + "》"
+
+
 class StringDecorator:
     def __init__(self, page):
         """
@@ -28,7 +39,7 @@ class StringDecorator:
             if m == "\n":
                 self.page.mark_set("insert", "insert+1c")
                 return
-            m = self.decorate_text(m, char="・")
+            m = decorate_text(m, char="・")
             self.page.delete("insert")
             self.page.insert("insert", m)
         except Exception:
@@ -94,7 +105,7 @@ class StringDecorator:
             # 投稿サイトが10文字以上のルビに対応の場合、以下二行をコメントアウトしてください
             if len(temp_str) > 10:
                 messagebox.showinfo("over", "10文字以上にルビは非対応の可能性があります")
-            temp_str = self.decorate_text(temp_str)
+            temp_str = decorate_text(temp_str)
     
             self.page.delete("sel.first", "sel.last")
             self.page.insert("insert", temp_str)
@@ -105,13 +116,3 @@ class StringDecorator:
             independent_method.fix_this_later()
             raise extend_exception.FatalError
         return
-
-    def decorate_text(self, text, char="") -> str:
-        """
-        ルビを振った文字列を返す
-        傍点とルビの機能を統一
-        :param text: ルビを振るテキスト
-        :param char: ルビ、デフォルトでは無し
-        :return: ルビ用文字を結合した文字列
-        """
-        return "|" + text + "《" + char + "》"
