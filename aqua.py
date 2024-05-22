@@ -131,7 +131,6 @@ class WillBeAuthor:
             self.theme = "normal"
         except Exception:
             raise extend_exception.FatalError
-
         return self.theme
 
     def set_theme(self, theme="normal") -> None:
@@ -727,6 +726,7 @@ def main() -> None:
     theme: str = author.read_theme()
     author.set_theme(theme=theme)
     author.command_hist("初期化完了")
+    author.command_hist("テーマを読み込みました")
     # オートセーブその他の再帰呼び出し
     root.after(1000, author.repeat_save_file)
     root.mainloop()
