@@ -111,6 +111,11 @@ class WillBeAuthor:
         self.mess.pack(side=tk.BOTTOM, fill='x')
 
     def command_hist(self, command) -> None:
+        """
+        直前のコマンドを表示
+        :param command: 実行されたコマンド
+        :return: None
+        """
         self.do_command.set(command)
 
     def read_theme(self) -> str:
