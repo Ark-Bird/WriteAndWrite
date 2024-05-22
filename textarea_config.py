@@ -20,9 +20,10 @@ def no_do(event=None) -> None:
 
 
 class Memory(inmemory_module.ram_memo.RamMemo):
-    def __init__(self, page):
+    def __init__(self, page, author):
         super().__init__()
         self.page: tk.Text = page
+        self.author = author
 
     def set_text(self, event=None) -> None:
         """
@@ -36,6 +37,7 @@ class Memory(inmemory_module.ram_memo.RamMemo):
             return
         except Exception:
             raise extend_exception.FatalError
+        self.author.command_hist("RAM上にテキストを保存しました")
         return
 
     def show_memory(self, event=None) -> str:
@@ -195,7 +197,7 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
         indent.indent_system
     )
     # インメモリメモ
-    memo = Memory(page)
+    memo = Memory(page, author)
     page.bind("<Control-m>", memo.set_text)
     page.bind("<Control-o>", memo.show_memory)
     # 文字カウント
