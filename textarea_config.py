@@ -33,7 +33,7 @@ class Memory(inmemory_module.ram_memo.RamMemo):
         try:
             self.new_memo(self.page.get(tk.SEL_FIRST, tk.SEL_LAST))
         except tk.TclError:
-            pass
+            return
         except Exception:
             raise extend_exception.FatalError
         return
