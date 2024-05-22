@@ -131,6 +131,7 @@ class WillBeAuthor:
             self.theme = "normal"
         except Exception:
             raise extend_exception.FatalError
+
         return self.theme
 
     def set_theme(self, theme="normal") -> None:
@@ -709,8 +710,6 @@ def main() -> None:
     except Exception:
         independent_method.fix_this_later()
         raise extend_exception.FatalError
-    theme: str = author.read_theme()
-    author.set_theme(theme=theme)
     root.minsize(32, 32)
     menubar: tk.Menu = tk.Menu(root, font=font)
     menu_init.menu_init(author, menubar, pk1vin, indent, full_screen, font_change)
@@ -725,7 +724,8 @@ def main() -> None:
     root.protocol("WM_DELETE_WINDOW", author.exit_as_save)
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
-
+    theme: str = author.read_theme()
+    author.set_theme(theme=theme)
     author.command_hist("初期化完了")
     # オートセーブその他の再帰呼び出し
     root.after(1000, author.repeat_save_file)
