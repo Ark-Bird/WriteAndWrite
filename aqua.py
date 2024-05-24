@@ -732,6 +732,7 @@ def main() -> None:
     author.set_theme(theme=theme)
     author.command_hist("初期化完了")
     author.command_hist("テーマを読み込みました")
+    author.command_hist("起動しました")
     # オートセーブその他の再帰呼び出し
     root.after(1000, author.repeat_save_file)
     root.mainloop()
