@@ -7,7 +7,7 @@ class AppName:
         アプリ名を定数として設定
         タイトルバーに表示されるアプリ名（仮）
         """
-        self._APP_CODE_NAME: const.Const = const.Const("""光速""")
+        self._APP_CODE_NAME: const.Const = const.Const("""龍神""")
 
     def return_app_name_for_now(self) -> str:
         """
