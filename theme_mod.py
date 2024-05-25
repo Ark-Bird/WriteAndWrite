@@ -18,7 +18,7 @@ def make_default_theme() -> None:
     return
 
 
-def change_theme(page: tkinter.Text, author, theme: str) -> None:
+def change_theme(page: tkinter.Text, command_hist, theme: str) -> None:
     """
     テーマの変更
     引数pageはテキストエリアで、それをthemeに変更
@@ -74,5 +74,5 @@ def change_theme(page: tkinter.Text, author, theme: str) -> None:
             independent_method.write_theme_string("normal")
             make_default_theme()
             page.configure(bg="ghost white", fg="black", insertbackground="black")
-    author.command_hist("テーマを" + theme + "に変更しました")
+    command_hist("テーマを" + theme + "に変更しました")
     return

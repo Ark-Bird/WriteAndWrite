@@ -145,7 +145,7 @@ class WillBeAuthor:
         :return:None
         """
         independent_method.write_theme_string(theme)
-        theme_mod.change_theme(self.page, self, theme=theme)
+        theme_mod.change_theme(self.page, self.command_hist, theme=theme)
         return
 
     def theme_apply(self) -> None:
