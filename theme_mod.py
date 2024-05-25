@@ -18,7 +18,7 @@ def make_default_theme() -> None:
     return
 
 
-def change_theme(page: tkinter.Text, theme: str) -> None:
+def change_theme(page: tkinter.Text, author, theme: str) -> None:
     """
     テーマの変更
     引数pageはテキストエリアで、それをthemeに変更
@@ -44,6 +44,7 @@ def change_theme(page: tkinter.Text, theme: str) -> None:
         messagebox.showerror("不明なエラーです", "original_themeのoriginal_enableの書式が正しくありません、初期設定で作成します、ソフトを再起動してください")
         make_default_theme()
         raise extend_exception.FatalError
+
     match theme:
         case "normal":
             page.configure(bg="ghost white", fg="black", insertbackground="black")
@@ -73,4 +74,5 @@ def change_theme(page: tkinter.Text, theme: str) -> None:
             independent_method.write_theme_string("normal")
             make_default_theme()
             page.configure(bg="ghost white", fg="black", insertbackground="black")
+    author.command_hist("テーマを" + theme + "に変更しました")
     return
