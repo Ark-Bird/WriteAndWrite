@@ -83,6 +83,7 @@ class WillBeAuthor:
         self.end_of_code = False
         self.mess: None | tk.Label = None
         self.do_command: None | tk.StringVar = None
+        self.com_hist = []
         self.app_name: app_name.AppName = app_name.AppName()
         try:
             self.theme: str = self.read_theme()
@@ -116,7 +117,11 @@ class WillBeAuthor:
         :param command: 実行されたコマンド
         :return: None
         """
-        self.do_command.set(command)
+        self.com_hist.insert(0, command)
+        if len(self.com_hist) > 10:
+            self.com_hist.pop()
+        com_log = ":".join(self.com_hist)
+        self.do_command.set(com_log)
 
     def read_theme(self) -> str:
         """
