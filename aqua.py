@@ -120,7 +120,7 @@ class WillBeAuthor:
         self.com_hist.insert(0, command)
         if len(self.com_hist) > 10:
             self.com_hist.pop()
-        com_log = ":".join(self.com_hist)
+        com_log = "←".join(self.com_hist)
         self.do_command.set(com_log)
 
     def read_theme(self) -> str:
