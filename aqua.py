@@ -113,14 +113,14 @@ class WillBeAuthor:
 
     def command_hist(self, command) -> None:
         """
-        直前のコマンドを表示
+        コマンドのログを表示
         :param command: 実行されたコマンド
         :return: None
         """
-        self.com_hist.insert(0, command)
+        self.com_hist.append(command)
         if len(self.com_hist) > 10:
-            self.com_hist.pop()
-        com_log = ":".join(self.com_hist)
+            self.com_hist.remove(0)
+        com_log = "→".join(self.com_hist)
         self.do_command.set(com_log)
 
     def read_theme(self) -> str:
