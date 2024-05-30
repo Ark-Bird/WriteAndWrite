@@ -13,6 +13,7 @@ import tkinter.font
 from tkinter import filedialog
 from tkinter import messagebox
 import re
+from collections import deque
 
 import app_name
 import extend_exception
@@ -83,7 +84,7 @@ class WillBeAuthor:
         self.end_of_code = False
         self.mess: None | tk.Label = None
         self.do_command: None | tk.StringVar = None
-        self.com_hist = []
+        self.com_hist = deque()
         self.app_name: app_name.AppName = app_name.AppName()
         try:
             self.theme: str = self.read_theme()
@@ -119,7 +120,7 @@ class WillBeAuthor:
         """
         self.com_hist.append(command)
         if len(self.com_hist) > 10:
-            self.com_hist.remove(0)
+            self.com_hist.popleft()
         com_log = "→".join(self.com_hist)
         self.do_command.set(com_log)
 
