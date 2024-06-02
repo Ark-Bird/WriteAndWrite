@@ -249,9 +249,9 @@ class WillBeAuthor:
         :return: オートセーブの状態
         """
         if self.is_autosave_flag:
-            return ":auto_save_enable:"
+            return ":オートセーブ有効:"
         else:
-            return ":auto_save_disable:"
+            return ":オートセーブ無効:"
 
     def change_titlebar(self) -> None:
         """
