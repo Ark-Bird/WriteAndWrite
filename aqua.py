@@ -714,6 +714,7 @@ def main() -> None:
             indent_flag = default_indent.read()
             if indent_flag == "True":
                 indent.toggle_auto_indent()
+                author.command_hist("オートインデントは有効です")
     except FileNotFoundError:
         with open("conf/auto_indent.txt", "w", encoding="utf-8") as default:
             default.write("False")
