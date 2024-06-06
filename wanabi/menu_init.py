@@ -1,6 +1,8 @@
 import tkinter as tk
-import version
-import textarea_config
+from wanabi import version
+from wanabi import textarea_config
+# import version
+# import textarea_config
 
 
 def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:

@@ -3,9 +3,10 @@ from tkinter import messagebox
 
 import _tkinter
 
-import extend_exception
-import independent_method
-
+from wanabi import extend_exception
+from wanabi import independent_method
+# import extend_exception
+# import independent_method
 
 def make_default_theme() -> None:
     """
@@ -32,7 +33,7 @@ def change_theme(page: tkinter.Text, command_hist, theme: str) -> None:
             original_theme = theme_file.read()
             enable, bg, fg, cursor = original_theme.split()
     except FileNotFoundError:
-        messagebox.showerror("テーマファイルが見つかりません", "dist/custom_theme/にオリジナルテーマを作成します")
+        messagebox.showerror("テーマファイルが見つかりません", "/conf/にオリジナルテーマを作成します")
         make_default_theme()
     except _tkinter.TclError:
         messagebox.showerror("テーマ設定エラー", """テーマの数値が違います、
@@ -43,7 +44,7 @@ def change_theme(page: tkinter.Text, command_hist, theme: str) -> None:
     except Exception:
         messagebox.showerror("不明なエラーです", "original_themeのoriginal_enableの書式が正しくありません、初期設定で作成します、ソフトを再起動してください")
         make_default_theme()
-        raise extend_exception.FatalError
+        independent_method.ignore()
 
     match theme:
         case "normal":

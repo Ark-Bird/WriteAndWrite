@@ -1,4 +1,4 @@
-import const
+from wanabi import const
 
 
 class AppName:

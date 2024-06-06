@@ -1,6 +1,8 @@
 import os
 
-import extend_exception
+from wanabi import extend_exception
+
+# import extend_exception
 from tkinter import messagebox
 import inspect
 
@@ -125,12 +127,12 @@ def fix_this_later() -> None:
     """
     mes_box: bool = False
     try:
-        with open("conf/debug_enable.txt", "r", encoding="utf-8") as f:
+        with open("wanabi/conf/debug_enable.txt", "r", encoding="utf-8") as f:
             debug_flag = f.read()
             if debug_flag == "True":
                 mes_box = True
     except FileNotFoundError:
-        with open("conf/debug_enable.txt", "w", encoding="utf-8") as f:
+        with open("wanabi/conf/debug_enable.txt", "w", encoding="utf-8") as f:
             f.write("False")
     except Exception:
         raise extend_exception.FatalError

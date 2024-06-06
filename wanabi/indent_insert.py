@@ -1,7 +1,5 @@
 import tkinter
 
-import aqua
-
 
 class Indent:
     def __init__(self, author, page):

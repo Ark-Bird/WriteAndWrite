@@ -1,5 +1,3 @@
-delyv:
-	cp wanabi/*.py ../../Onedrive/Light-atuthor/wanabi/
 all:*.py
 	deactivate
 	git checkout master
