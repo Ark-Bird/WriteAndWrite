@@ -134,7 +134,7 @@ class WillBeAuthor:
             with open("conf/color.bin", "r", encoding="utf-8") as f:
                 self.theme = f.read()
         except FileNotFoundError:
-            print("設定ファイルが存在しないためcolor.binを作成します")
+            self.command_hist("設定ファイルが存在しないためcolor.binを作成します")
             independent_method.write_theme_string("normal")
             self.theme = "normal"
         except UnicodeDecodeError:
