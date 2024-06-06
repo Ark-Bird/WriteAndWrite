@@ -718,7 +718,17 @@ def main() -> None:
             root.wm_iconbitmap("@./res/wbe.xbm")
     except tkinter.TclError:
         ignore()
-
+    # color.binの作成
+    try:
+        with open("conf/color.bin", "r", encoding="utf-8") as tf:
+            _ = tf.read()
+            pass
+        pass
+    except FileNotFoundError:
+        with open("conf/color.bin", "w", encoding="utf-8") as theme_file:
+            theme_file.write("normal")
+    except:
+        raise extend_exception.FatalError
     # オートインデントの設定
     try:
         with open("conf/auto_indent.txt", "r", encoding="utf-8") as default_indent:
