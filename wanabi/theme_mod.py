@@ -3,9 +3,10 @@ from tkinter import messagebox
 
 import _tkinter
 
-import extend_exception
-import independent_method
-
+from wanabi import extend_exception
+from wanabi import independent_method
+# import extend_exception
+# import independent_method
 
 def make_default_theme() -> None:
     """

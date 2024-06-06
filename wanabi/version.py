@@ -1,5 +1,6 @@
 from tkinter import messagebox
-import const
+from wanabi import const
+# import const
 
 
 class ShowInfo:
@@ -19,7 +20,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver1.9.7_code:/BTR/
+        ver1.10.0_code:/BTR/
         """)
 
         # テーマ書式

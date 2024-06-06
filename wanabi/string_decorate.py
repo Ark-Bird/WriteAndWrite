@@ -4,8 +4,9 @@ from tkinter import TclError
 from tkinter import messagebox
 
 import extend_exception
-import independent_method
-from independent_method import ignore
+from wanabi import independent_method
+# import independent_method
+# from independent_method import ignore
 
 
 def decorate_text(text, char="") -> str:
@@ -81,7 +82,7 @@ class StringDecorator:
             if erase_flag:
                 self.page.delete(tk.SEL_FIRST, tk.SEL_LAST)
         except TclError:
-            ignore()
+            independent_method.ignore()
         except Exception:
             independent_method.fix_this_later()
             raise extend_exception.FatalError
@@ -111,7 +112,7 @@ class StringDecorator:
             self.page.insert("insert", temp_str)
             self.page.mark_set("insert", "insert-1c")
         except TclError:
-            ignore()
+            independent_method.ignore()
         except Exception:
             independent_method.fix_this_later()
             raise extend_exception.FatalError

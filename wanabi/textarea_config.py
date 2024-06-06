@@ -2,10 +2,15 @@ import os.path
 import tkinter as tk
 from tkinter import messagebox
 
-import extend_exception
-import independent_method
-import inmemory_module.ram_memo
-from keybind import keybind
+from wanabi import extend_exception
+from wanabi import independent_method
+from wanabi.inmemory_module import ram_memo
+from wanabi.keybind.keybind import ViMode
+from wanabi.keybind.keybind import EmacsMode
+# import extend_exception
+# import independent_method
+# import wanabi.inmemory_module.ram_memo
+# from wanabi.keybind import keybind
 
 
 def no_do(event=None) -> None:
@@ -19,7 +24,7 @@ def no_do(event=None) -> None:
     return
 
 
-class Memory(inmemory_module.ram_memo.RamMemo):
+class Memory(ram_memo.RamMemo):
     def __init__(self, page, author):
         super().__init__()
         self.page: tk.Text = page
@@ -66,7 +71,7 @@ class FontChange:
         self.font_family = independent_method.read_font()
         if os.path.exists("conf/font-size.txt"):
             try:
-                with open("conf/font-size.txt",  encoding="utf-8") as fs:
+                with open("conf/font-size.txt", encoding="utf-8") as fs:
                     enable_font, font_size = fs.read().split()
                 if enable_font == "True":
                     self.now_font_size = int(font_size)
@@ -80,7 +85,7 @@ class FontChange:
                 messagebox.showerror("Error", "致命的なエラーです")
                 raise extend_exception.FatalError
         else:
-            os.makedirs("./conf/", exist_ok=True)
+            os.makedirs("conf/", exist_ok=True)
             with open("conf/font-size.txt", "w") as fs:
                 fs.write("False 10")
         self.page.configure(font=(self.font_family, self.now_font_size))
@@ -150,7 +155,7 @@ def emacs_mode_change(page) -> None:
     :param page:
     :return:None
     """
-    original_key_bind = keybind.EmacsMode(page)
+    original_key_bind = EmacsMode(page)
     original_key_bind.edit_key_bind()
     return
 
@@ -210,7 +215,7 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     # 検索テスト
     page.bind("<Control-F>", decorate.search)
     # キーバインド設定
-    original_key_bind = keybind.ViMode(author)
+    original_key_bind = ViMode(author)
     original_key_bind.edit_key_bind()
     return
 
@@ -224,7 +229,7 @@ class ModeChange:
         カーソル移動をViライクなモードに変更
         :return:
         """
-        my_key_bind = keybind.ViMode(self.author)
+        my_key_bind = ViMode(self.author)
         my_key_bind.edit_key_bind()
         self.author.change_vi_mode_flag()
         self.author.command_hist("キーバインドをViモードにしました")
@@ -235,7 +240,7 @@ class ModeChange:
         カーソル移動をEmacs方式に変更
         :return:
         """
-        my_key_bind = keybind.EmacsMode(self.author)
+        my_key_bind = EmacsMode(self.author)
         my_key_bind.edit_key_bind()
         self.author.change_emacs_mode_flag()
         self.author.command_hist("キーバインドをEmacsモードにしました")
