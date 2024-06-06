@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import TclError
 from tkinter import messagebox
 
-import extend_exception
+from wanabi import extend_exception
 from wanabi import independent_method
 # import independent_method
 # from independent_method import ignore
