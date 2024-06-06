@@ -15,18 +15,29 @@ from tkinter import messagebox
 import re
 from collections import deque
 
-import app_name
-import extend_exception
-import full_mode
-import indent_insert
-import independent_method
-import menu_init
-import string_decorate
-import textarea_config
-import theme_mod
-import vinegar
-from independent_method import ignore
+# import app_name
+# import extend_exception
+# import full_mode
+# import indent_insert
+# import independent_method
+# import menu_init
+# import string_decorate
+# import textarea_config
+# import theme_mod
+# import vinegar
+# from independent_method import ignore
 
+from wanabi import app_name
+from wanabi import extend_exception
+from wanabi import full_mode
+from wanabi import indent_insert
+from wanabi import independent_method
+from wanabi import menu_init
+from wanabi import string_decorate
+from wanabi import textarea_config
+from wanabi import theme_mod
+from wanabi import vinegar
+from wanabi.independent_method import ignore
 """
 Copyright 2020 hiro
 
@@ -134,7 +145,7 @@ class WillBeAuthor:
             with open("conf/color.bin", "r", encoding="utf-8") as f:
                 self.theme = f.read()
         except FileNotFoundError:
-            self.command_hist("設定ファイルが存在しないためcolor.binを作成します")
+            print("設定ファイルが存在しないためcolor.binを作成します")
             independent_method.write_theme_string("normal")
             self.theme = "normal"
         except UnicodeDecodeError:
@@ -635,14 +646,14 @@ class WillBeAuthor:
         :return: bool
         """
         try:
-            with open("conf/debug.txt", mode="r", encoding="utf-8") as f:
+            with open("wanabi/conf/debug.txt", mode="r", encoding="utf-8") as f:
                 debug_enable = f.read()
                 if debug_enable == "True":
                     self.debug_enable = True
                 else:
                     self.debug_enable = False
         except FileNotFoundError:
-            with open("conf/debug.txt", mode="w", encoding="utf-8") as f:
+            with open("wanabi/conf/debug.txt", mode="w", encoding="utf-8") as f:
                 f.write("False")
         except Exception:
             raise extend_exception.FatalError
@@ -707,7 +718,17 @@ def main() -> None:
             root.wm_iconbitmap("@./res/wbe.xbm")
     except tkinter.TclError:
         ignore()
-
+    # color.binの作成
+    try:
+        with open("conf/original_theme.txt", "r", encoding="utf-8") as tf:
+            _ = tf.read()
+            pass
+        pass
+    except FileNotFoundError:
+        with open("conf/original_theme.txt", "w", encoding="utf-8") as theme_file:
+            theme_file.write("False #000000 #FFFFFF #FFFFFF")
+    except:
+        raise extend_exception.FatalError
     # オートインデントの設定
     try:
         with open("conf/auto_indent.txt", "r", encoding="utf-8") as default_indent:
@@ -737,11 +758,12 @@ def main() -> None:
     root.rowconfigure(0, weight=1)
     theme: str = author.read_theme()
     author.set_theme(theme=theme)
-    author.command_hist("初期化完了")
+    author.command_hist("初期化始め")
     author.command_hist("テーマを読み込みました")
-    author.command_hist("起動しました")
+    author.command_hist("初期化中")
     # オートセーブその他の再帰呼び出し
-    root.after(1000, author.repeat_save_file)
+    root.after(4000, author.repeat_save_file)
+    author.command_hist("初期化完了")
     root.mainloop()
 
 
