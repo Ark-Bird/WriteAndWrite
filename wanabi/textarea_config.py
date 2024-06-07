@@ -144,7 +144,7 @@ def vi_mode_change(page) -> None:
     :param page:
     :return:None
     """
-    original_key_bind = keybind.ViMode(page)
+    original_key_bind = ViMode(page)
     original_key_bind.edit_key_bind()
     return
 
