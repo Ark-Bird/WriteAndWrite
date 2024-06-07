@@ -1,6 +1,6 @@
 delyv:
-	cp wanabi/*.py ../../Onedrive/Light-author/wanabi
-all:*.py
+	cp wanabi\\*.py ..\..\onedrive\Light-author\wanabi
+all:
 	deactivate
 	git checkout master
 	del /Q dist
