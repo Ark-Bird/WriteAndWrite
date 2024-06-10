@@ -279,11 +279,11 @@ class WillBeAuthor:
         # オートインデントの半角/全角状態の表示
         if auto_indent:
             if half_space:
-                self.title_var_string += "*AI半角*"
+                self.title_var_string += "*オートインデント半角*"
             else:
-                self.title_var_string += "*AI全角*"
+                self.title_var_string += "*オートインデント全角*"
         else:
-            self.title_var_string += "*AI無効"
+            self.title_var_string += "*オートインデント無効"
         # オートセーブは有効か
         self.title_var_string += self.check_autosave_flag()
         # カーソル移動の方法
