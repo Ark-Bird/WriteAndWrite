@@ -1,5 +1,3 @@
-delyv:
-	cp wanabi\\*.py ..\..\onedrive\Light-author\wanabi
 all:
 	deactivate
 	git checkout master
@@ -35,3 +33,5 @@ merge:
 base:
 	git checkout develop
 	git push
+send:
+	cp wanabi\\*.py ..\..\onedrive\Light-author\wanabi
