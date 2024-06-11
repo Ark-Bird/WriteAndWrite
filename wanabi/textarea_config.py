@@ -89,6 +89,7 @@ class FontChange:
             with open("conf/font-size.txt", "w") as fs:
                 fs.write("False 10")
         self.page.configure(font=(self.font_family, self.now_font_size))
+        self.author.command_hist("フォントの初期化処理が完了しました")
 
     def font_size_big(self, event=None) -> None:
         """
