@@ -35,8 +35,11 @@ def write_filename_string(change_filename) -> None:
     except Exception:
         messagebox.showerror("Error!", "ディレクトリを作成出来ませんでした")
         raise extend_exception.FatalError
-    with open("conf/path.bin", mode="w", encoding="utf-8") as sf:
-        sf.write(change_filename)
+    try:
+        with open("conf/path.bin", mode="w", encoding="utf-8") as sf:
+            sf.write(change_filename)
+    except PermissionError:
+        messagebox.showwarning("パーミッションエラー", "path.binを書き込む権利がありません")
     return
 
 
