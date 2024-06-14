@@ -97,7 +97,6 @@ class WillBeAuthor:
         self.do_command: None | tk.StringVar = None
         self.com_hist = deque()
         self.app_name: app_name.AppName = app_name.AppName()
-        self.indent.auto_indent_enable()
         try:
             self.theme: str = self.read_theme()
         except FileNotFoundError:
@@ -595,7 +594,6 @@ class WillBeAuthor:
         :return:None
         """
         self.indent = indent
-        self.indent.auto_indent_enable()
         return
 
     def change_vi_mode_flag(self) -> None:
