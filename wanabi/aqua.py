@@ -594,6 +594,7 @@ class WillBeAuthor:
         :return:None
         """
         self.indent = indent
+        self.indent.auto_indent_enable()
         return
 
     def change_vi_mode_flag(self) -> None:
