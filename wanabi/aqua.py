@@ -210,7 +210,7 @@ class WillBeAuthor:
         """
         if messagebox.askyesno("空行を削除しますか？", "テキストの空行を削除しますか？"):
             s: str = self.page.get("0.0", "end")
-            s = re.sub('[\n][\n]+', '\n', s)
+            s = re.sub('[\n]+', '\n', s)
             self.page.delete("0.0", "end")
             self.page.insert("0.0", s)
         return
