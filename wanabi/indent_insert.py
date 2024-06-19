@@ -85,7 +85,7 @@ class Indent:
             self.insert_space()
         else:
             self.paren_del()
-        return None
+        return
 
     def auto_indent_enable(self):
         return self.auto_indent
