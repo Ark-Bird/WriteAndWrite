@@ -79,12 +79,13 @@ class Indent:
         インデントの挿入
         EnterがIMEの確定ならなにもしない
         :param event: 無視する
-        :return:
+        :return:None
         """
         if self.hit_return and self.auto_indent:
             self.insert_space()
         else:
             self.paren_del()
+        return None
 
     def auto_indent_enable(self):
         return self.auto_indent
