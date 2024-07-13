@@ -394,7 +394,6 @@ class WillBeAuthor:
                 prev_save_directory: str = os.path.abspath(os.path.dirname(f.readline()))
         except extend_exception.NotOpenPathException:
             prev_save_directory = os.path.abspath(os.path.dirname(__file__))
-
         if self.file_name == "":
             self.file_name = tk.filedialog.asksaveasfilename(
                 filetypes=[("txt files", "*.txt")], initialdir=prev_save_directory
@@ -415,8 +414,12 @@ class WillBeAuthor:
             return
         with open(self.file_name, mode="w", encoding="utf-8") as textum_file:
             textum_file.write(self.written_textum)
-        with open("conf/path.bin", mode="w", encoding="utf-8") as conf:
-            conf.write(self.file_name)
+        try:
+            with open("conf/path.bin", mode="w", encoding="utf-8") as conf:
+                conf.write(self.file_name)
+        except PermissionError:
+            messagebox.showwarning("パーミッションエラー", "save_fileでpath.binの書き込みに失敗しました")
+
         self.is_text_unchanged()
         self.is_save = True
         self.change_titlebar()
