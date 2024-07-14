@@ -22,3 +22,6 @@ class FatalError(Exception):
     復旧不能なエラーの発生時に投げる
     """
     pass
+
+class PathPermissionException(Exception):
+    pass
