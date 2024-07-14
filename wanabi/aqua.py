@@ -7,6 +7,7 @@ Created on Fri Feb 17 20:47:33 2017
 import os
 import platform
 import sys
+import time
 import tkinter
 import tkinter as tk
 import tkinter.font
@@ -418,8 +419,9 @@ class WillBeAuthor:
             with open("conf/path.bin", mode="w", encoding="utf-8") as conf:
                 conf.write(self.file_name)
         except PermissionError:
-            messagebox.showwarning("パーミッションエラー", "save_fileでpath.binの書き込みに失敗しました")
-
+            self.command_hist("path.binへの書き込み権限がありません、再試行します")
+            time.sleep(0.05)
+            self.save_file()
         self.is_text_unchanged()
         self.is_save = True
         self.change_titlebar()
