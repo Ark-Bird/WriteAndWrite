@@ -39,7 +39,7 @@ def write_filename_string(change_filename) -> None:
         with open("conf/path.bin", mode="w", encoding="utf-8") as sf:
             sf.write(change_filename)
     except PermissionError:
-        messagebox.showwarning("パーミッションエラー", "path.binを書き込む権利がありません")
+        raise extend_exception.PathPermissionException
     return
 
 
