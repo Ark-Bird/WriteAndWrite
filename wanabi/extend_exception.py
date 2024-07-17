@@ -23,5 +23,9 @@ class FatalError(Exception):
     """
     pass
 
+
 class PathPermissionException(Exception):
+    """
+    パーミッションエラーを無視
+    """
     pass
