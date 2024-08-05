@@ -90,7 +90,6 @@ class Indent:
                 self.paren_flag = False
                 pass
             if not self.paren_flag:
-                print("カーソル位置")
                 self.page.mark_set("insert", "insert-1c")
             self.page.delete("insert")
 
