@@ -56,12 +56,19 @@ class Indent:
     def paren_del(self) -> None:
         """
         行頭の括弧を入力した時、オートインデントが入っていた場合戦闘の空白を削除
+        対応する括弧を挿入
         :return: None
         """
         c = self.page.get("insert -1c")
         s = self.page.get("insert -2c")
         if (c == "「" or c == "『") and (s == "　" or s == " "):
             self.page.delete("insert -2c")
+            if c == "「":
+                self.page.insert("insert", "」")
+                self.page.mark_set("insert", "insert-1c")
+            if c == "『":
+                self.page.insert("insert", "』")
+                self.page.mark_set("insert", "insert-1c")
         return None
 
     def ime_check(self, event=None) -> None:
