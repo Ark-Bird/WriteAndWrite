@@ -12,6 +12,7 @@ class Indent:
         self.paren_flag: bool = False
         self.paren_kind: str = ""
         self.start_flag: bool = True
+        self.in_paren: bool = False
 
     def toggle_auto_indent(self, event=None) -> bool:
         """
@@ -65,44 +66,33 @@ class Indent:
 
         c = self.page.get("insert -1c")
         s = self.page.get("insert -2c")
-        if (c == "「" or c == "『") and (s == "　" or s == " "):
+        n = ""
+        if c == "「" or c == "『":
+            if s == " " or s == "　":
+                self.page.delete("insert -2c")
             if self.start_flag:
-                # self.page.insert("insert", c)
                 self.start_flag = False
             if c == "「":
                 self.page.insert("insert", "」")
                 self.paren_kind = "「"
+                self.page.mark_set("insert", "insert -1c")
                 self.paren_flag = True
+                self.in_paren = True
             if c == "『":
                 self.page.insert("insert", "』")
                 self.paren_kind = "『"
+                self.page.mark_set("insert", "insert -1c")
                 self.paren_flag = True
-            #self.page.mark_set("insert", "insert -1c")
-            #self.page.mark_set("insert", "insert+1c")
-            if self.paren_kind == "「":
-                self.page.insert("insert", "」")
-                self.page.mark_set("insert", "insert -1c")
-                self.paren_flag = False
-                pass
-            elif self.paren_kind == "『":
-                self.page.insert("insert", "』")
-                self.page.mark_set("insert", "insert -1c")
-                self.paren_flag = False
-                pass
-            if not self.paren_flag:
-                self.page.mark_set("insert", "insert-1c")
-            self.page.delete("insert")
-
-            #self.page.mark_set("insert", "insert+1c")
-            self.page.delete("insert-2c")
+                self.in_paren = True
+        c = self.page.get("insert -1c")
         if c == "」" or c == "』":
             if self.paren_kind == "「":
-                self.page.delete("insert -1c")
+                self.page.delete("insert")
                 self.page.mark_set("insert", "insert +1c")
             if self.paren_kind == "『":
-                self.page.delete("insert -1c")
+                self.page.delete("insert")
                 self.page.mark_set("insert", "insert +1c")
-            #self.page.mark_set("insert", "insert-1c")
+            self.in_paren = False
         return None
 
     def ime_check(self, event=None) -> None:
