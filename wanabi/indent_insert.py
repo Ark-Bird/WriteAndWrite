@@ -88,14 +88,14 @@ class Indent:
                 self.in_paren = True
         c = self.page.get("insert -1c")
         if c == "」" or c == "』":
-            if self.paren_kind == "「":
+            if self.paren_kind == "「" and c == "」":
                 self.page.delete("insert")
-                self.page.mark_set("insert", "insert +1c")
-            if self.paren_kind == "『":
+                # self.page.mark_set("insert", "insert +1c")
+            if self.paren_kind == "『" and c == "』":
                 self.page.delete("insert")
-                self.page.mark_set("insert", "insert +1c")
+                # self.page.mark_set("insert", "insert +1c")
             self.in_paren = False
-        return None
+        return
 
     def ime_check(self, event=None) -> None:
         """
