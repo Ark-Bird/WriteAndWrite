@@ -319,6 +319,9 @@ class WillBeAuthor:
             self.prev_save_dir = os.path.abspath(os.path.dirname(__file__))
         except extend_exception.PathPermissionException:
             self.command_hist("path.binへの書き込み権限がありません、再試行します")
+        except Exception:
+            self.prev_save_dir = ""
+            independent_method.write_filename_string("")
         if self.prev_save_dir == "/":
             print("assert!")
             independent_method.write_filename_string(self.prev_save_dir)
