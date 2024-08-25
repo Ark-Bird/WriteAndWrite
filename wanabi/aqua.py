@@ -173,7 +173,7 @@ class WillBeAuthor:
         ユーザ定義テーマを適用する
         :return:None
         """
-        theme_mod.change_theme(self.page, theme="original")
+        theme_mod.change_theme(self.page, self.command_hist, theme="original")
         return
 
     def logger(self, event=None) -> None:
