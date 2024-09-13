@@ -173,7 +173,7 @@ class WillBeAuthor:
         ユーザ定義テーマを適用する
         :return:None
         """
-        theme_mod.change_theme(self.page, theme="original")
+        theme_mod.change_theme(self.page, self.command_hist, theme="original")
         return
 
     def logger(self, event=None) -> None:
@@ -319,6 +319,9 @@ class WillBeAuthor:
             self.prev_save_dir = os.path.abspath(os.path.dirname(__file__))
         except extend_exception.PathPermissionException:
             self.command_hist("path.binへの書き込み権限がありません、再試行します")
+        except Exception:
+            self.prev_save_dir = ""
+            independent_method.write_filename_string("")
         if self.prev_save_dir == "/":
             print("assert!")
             independent_method.write_filename_string(self.prev_save_dir)
