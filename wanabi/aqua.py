@@ -692,6 +692,13 @@ def main() -> None:
     グローバル変数を閉じ込めるためだけの関数
     :return:None
     """
+    file_flag: bool = False
+    if len(sys.argv) >= 3:
+        print("引数は無しかファイル名一つだけです")
+        sys.exit()
+    if len(sys.argv) == 2:
+        file_flag = True
+        open_file: str = sys.argv[1]
     # Windowsもしくはそれ以外を判別
     pf: str = platform.system()
     conf_exist: bool = os.path.isdir("conf")
@@ -702,6 +709,8 @@ def main() -> None:
             messagebox.showinfo("can't mkdir!", "設定ファイル用ディレクトリを作成出来ませんでした、終了します")
             raise extend_exception.FatalError
     author: WillBeAuthor = WillBeAuthor()
+    if file_flag:
+        author.file_name = open_file
     root: tk.Tk = tk.Tk()
     author.setroot(root)
     # ラベルの作成
