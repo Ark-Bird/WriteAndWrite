@@ -38,6 +38,7 @@ from wanabi import string_decorate
 from wanabi import textarea_config
 from wanabi import theme_mod
 from wanabi import vinegar
+from wanabi.extend_exception import CannotWriteFileException
 from wanabi.independent_method import ignore
 """
 Copyright 2020 hiro
@@ -322,6 +323,7 @@ class WillBeAuthor:
         except Exception:
             self.prev_save_dir = ""
             independent_method.write_filename_string("")
+            raise extend_exception.CannotWriteFileException
         if self.prev_save_dir == "/":
             print("assert!")
             independent_method.write_filename_string(self.prev_save_dir)
@@ -338,7 +340,12 @@ class WillBeAuthor:
             self.save_file()
             self.is_save = True
             self.before_text = self.page.get("0.0", "end")
-        self.root.after(1000, self.repeat_save_file)
+        try:
+            self.root.after(1000, self.repeat_save_file)
+        except Exception:
+            self.command_hist("ファイルに書き込めませんでした")
+            self.root.after(1000, self.repeat_save_file)
+            raise extend_exception.CannotWriteFileException
         return
 
     def toggle_autosave_flag(self, event=None) -> None:

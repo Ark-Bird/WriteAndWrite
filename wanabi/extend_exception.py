@@ -9,6 +9,9 @@ class NotOpenPathException(Exception):
 
     pass
 
+class CannotWriteFileException(Exception):
+    """ファイルに書き込めなかったときのエラー"""
+    pass
 
 class CannotMakedirsException(Exception):
     """
