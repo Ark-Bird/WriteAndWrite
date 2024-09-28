@@ -203,9 +203,10 @@ class WillBeAuthor:
         :return:None
         """
         s: str = self.page.get("0.0", "end")
-        s = re.sub('[ 　\n\r\t]', '', s)
-        s = re.sub("[|]", "", s)
-        s = re.sub('《.*》', '', s)
+        s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
+        # s = re.sub('[ 　\n\r\t]', '', s)
+        # s = re.sub("[|]", "", s)
+        # s = re.sub('《.*》', '', s)
         text_length_without_whitespace: int = len(s)
         return text_length_without_whitespace
 
