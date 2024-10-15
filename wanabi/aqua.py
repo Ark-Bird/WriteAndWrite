@@ -39,7 +39,8 @@ from wanabi import textarea_config
 from wanabi import theme_mod
 from wanabi import vinegar
 from wanabi.extend_exception import CannotWriteFileException
-from wanabi.independent_method import ignore
+from wanabi.independent_method import ignore, conf_dir_make
+
 """
 Copyright 2020 hiro
 
@@ -644,6 +645,23 @@ class WillBeAuthor:
         messagebox.showinfo("現在のファイル", self.file_name)
         return "break"
 
+    def auto_indent(self) -> None:
+        try:
+            with open("conf/auto_indent.txt", "r")as ifp:
+                indent = ifp.read()
+                if indent == "True":
+                    self.indent.auto_indent = True
+                    self.page.insert('insert', '　')
+                else:
+                    pass
+        except FileNotFoundError:
+            independent_method.conf_dir_make()
+            with open("conf/auto_indent.txt", "w+")as wfp:
+                wfp.write("False")
+        except Exception:
+            raise extend_exception.FatalError
+        self.command_hist("オートインデントの初期化")
+
     def wrap_enable(self) -> None:
         """
         テキストエリアの端で自動で折り返すように設定する
@@ -788,6 +806,7 @@ def main() -> None:
     root.rowconfigure(0, weight=1)
     theme: str = author.read_theme()
     author.set_theme(theme=theme)
+    author.auto_indent()
     author.command_hist("初期化始め")
     author.command_hist("テーマを読み込みました")
     author.command_hist("初期化中")

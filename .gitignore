@@ -3,6 +3,8 @@
 ../.idea/workspace.xml
 aqua.spec
 conf/path.bin
+wanabi/conf
+wanabi/conf/*
 wanabi/build
 /wanabi/build/
 /wanabi/build/*
