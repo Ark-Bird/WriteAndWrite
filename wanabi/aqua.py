@@ -433,6 +433,8 @@ class WillBeAuthor:
             return
         with open(self.file_name, mode="w", encoding="utf-8") as textum_file:
             textum_file.write(self.written_textum)
+        if not self.is_autosave_flag:
+            self.command_hist(self.file_name + "を保存しました")
         try:
             with open("conf/path.bin", mode="w", encoding="utf-8") as conf:
                 conf.write(self.file_name)
@@ -522,6 +524,7 @@ class WillBeAuthor:
         self.is_text_changed()
         self.change_auto_save_disable()
         self.change_titlebar()
+        self.command_hist(self.file_name + "を開きました")
         return
 
     def text_copy(self, event=None) -> None:
@@ -744,7 +747,7 @@ def main() -> None:
     author.init_label("初期化")
     font_family: str = independent_method.read_font()
     font: tk.font.Font = tk.font.Font(root, family=font_family)
-    full_screen: full_mode.FullMode = full_mode.FullMode()
+    full_screen: full_mode.FullMode = full_mode.FullMode(author)
     full_screen.set_root_full_mode(root)
     root.geometry("640x640")
     page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR)
