@@ -15,7 +15,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 import re
 from collections import deque
-
+from wanabi.log_recorder_me import record_hist
 # import app_name
 # import extend_exception
 # import full_mode
@@ -38,8 +38,7 @@ from wanabi import string_decorate
 from wanabi import textarea_config
 from wanabi import theme_mod
 from wanabi import vinegar
-from wanabi.extend_exception import CannotWriteFileException
-from wanabi.independent_method import ignore, conf_dir_make
+from wanabi.independent_method import ignore
 
 """
 Copyright 2020 hiro
@@ -102,6 +101,8 @@ class WillBeAuthor:
         self.do_command: None | tk.StringVar = None
         self.com_hist = deque()
         self.app_name: app_name.AppName = app_name.AppName()
+        if self.debug_enable:
+            self.log2me = record_hist.RecordHist("conf/command.log")
         try:
             self.theme: str = self.read_theme()
         except FileNotFoundError:
@@ -140,8 +141,7 @@ class WillBeAuthor:
         com_log = "→".join(self.com_hist)
         self.do_command.set(com_log)
         if self.debug_enable:
-            with open("conf/command.log", mode="a+", encoding="utf-8") as dbgfile:
-                dbgfile.write(command + "\n")
+            self.log2me.write_log(command)
 
     def read_theme(self) -> str:
         """
