@@ -688,14 +688,14 @@ class WillBeAuthor:
         :return: bool
         """
         try:
-            with open("wanabi/conf/debug.txt", mode="r", encoding="utf-8") as f:
+            with open("conf/debug.txt", mode="r", encoding="utf-8") as f:
                 debug_enable = f.read()
                 if debug_enable == "True":
                     return True
                 else:
                     return False
         except FileNotFoundError:
-            with open("wanabi/conf/debug.txt", mode="w", encoding="utf-8") as f:
+            with open("conf/debug.txt", mode="w", encoding="utf-8") as f:
                 f.write("False")
         except Exception:
             return False
