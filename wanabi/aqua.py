@@ -96,7 +96,7 @@ class WillBeAuthor:
         self.prev_save_dir: str = ""
         self.cursor_move_mode: str = "vi"
         self.is_wrap: bool = True
-        self.debug_enable = False
+        self.debug_enable = self.is_debug_enable()
         self.end_of_code = False
         self.mess: None | tk.Label = None
         self.do_command: None | tk.StringVar = None
@@ -139,6 +139,9 @@ class WillBeAuthor:
             self.com_hist.popleft()
         com_log = "→".join(self.com_hist)
         self.do_command.set(com_log)
+        if self.debug_enable:
+            with open("conf/command.log", mode="a+", encoding="utf-8") as dbgfile:
+                dbgfile.write(command + "\n")
 
     def read_theme(self) -> str:
         """
@@ -679,7 +682,7 @@ class WillBeAuthor:
         self.page.configure(wrap=tk.NONE)
         return
 
-    def debug_enable(self) -> bool:
+    def is_debug_enable(self) -> bool:
         """
         conf/debug.txtを読んでTrueならデバッグ関数の有効化
         :return: bool
@@ -688,15 +691,14 @@ class WillBeAuthor:
             with open("wanabi/conf/debug.txt", mode="r", encoding="utf-8") as f:
                 debug_enable = f.read()
                 if debug_enable == "True":
-                    self.debug_enable = True
+                    return True
                 else:
-                    self.debug_enable = False
+                    return False
         except FileNotFoundError:
             with open("wanabi/conf/debug.txt", mode="w", encoding="utf-8") as f:
                 f.write("False")
         except Exception:
-            raise extend_exception.FatalError
-        return self.debug_enable
+            return False
 
 
 def init_page(page: tk.Text):
