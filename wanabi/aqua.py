@@ -7,6 +7,7 @@ Created on Fri Feb 17 20:47:33 2017
 import os
 import platform
 import sys
+import threading
 import time
 import tkinter
 import tkinter as tk
@@ -99,6 +100,8 @@ class WillBeAuthor:
         self.end_of_code = False
         self.mess: None | tk.Label = None
         self.do_command: None | tk.StringVar = None
+        self.letter_count = 0
+        self.count_thread = threading.Thread(target=self.counter)
         self.com_hist = deque()
         self.app_name: app_name.AppName = app_name.AppName()
         if self.debug_enable:
@@ -196,7 +199,7 @@ class WillBeAuthor:
         self.is_init = False
         return
 
-    def counter(self) -> int:
+    def counter(self) -> None:
         """
         文字カウント
         テキストエリアから全文を読んで空白をトリムした長さを返す
@@ -209,7 +212,7 @@ class WillBeAuthor:
         s: str = self.page.get("0.0", "end")
         s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
         text_length_without_whitespace: int = len(s)
-        return text_length_without_whitespace
+        self.letter_count = text_length_without_whitespace
 
     def erase_newline(self) -> None:
         """
@@ -277,11 +280,13 @@ class WillBeAuthor:
         タイトルバーの文字列を変更
         :return:None
         """
+        self.count_thread = threading.Thread(target=self.counter)
+        self.count_thread.start()
         # auto_indentはオートインデントが有効かどうかのフラグ
         # half_spaceは挿入されるインデントが半角が全角かのフラグ
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
-        self.title_var_string = str(self.counter()) + ":  文字"
+        self.title_var_string = str(self.letter_count) + ":  文字"
         self.check_if_is_saved()
         self.title_var_string = self.app_name.return_app_name_for_now() + self.title_var_string
         # オートインデントの半角/全角状態の表示
