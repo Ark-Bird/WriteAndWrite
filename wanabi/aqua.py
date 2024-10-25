@@ -695,14 +695,6 @@ class WillBeAuthor:
         self.page.configure(wrap=tk.NONE)
         return
 
-    def enable_topmost_window(self) -> None:
-        self.root.attributes("-topmost", True)
-        self.command_hist("ウインドウを最前面にします")
-
-    def disable_topmost_window(self) -> None:
-        self.root.attributes("-topmost", False)
-        self.command_hist("最前面化を解除しました")
-
     def is_debug_enable(self) -> bool:
         """
         conf/debug.txtを読んでTrueならデバッグ関数の有効化
@@ -833,8 +825,6 @@ def main() -> None:
     author.command_hist("初期化始め")
     author.command_hist("テーマを読み込みました")
     author.command_hist("初期化中")
-    if author.debug_enable:
-        author.command_hist("デバッグログを有効化しました")
     # 文字カウントThreadのスタート
     author.count_thread.start()
     # オートセーブその他の再帰呼び出し
