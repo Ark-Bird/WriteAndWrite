@@ -99,8 +99,8 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     menubar.add_cascade(label="ツール", menu=modify_line)
     # ウィンドウを最前面に表示
     attri = tk.Menu(menubar, tearoff=0)
-    attri.add_command(label="最前面に表示", command=author.enable_topmost_window)
-    attri.add_command(label="最前面に表示を終了", command=author.disable_topmost_window)
+    attri.add_command(label="最前面に表示", command=lambda :author.root.attributes("-topmost", True))
+    attri.add_command(label="最前面に表示を終了", command=lambda: author.root.attributes("-topmost", False))
     menubar.add_cascade(label="ウインドウ", menu=attri)
     # ヘルプメニューの表示
     help_menu = tk.Menu(menubar, tearoff=0)
