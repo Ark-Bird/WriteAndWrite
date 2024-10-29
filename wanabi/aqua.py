@@ -695,6 +695,12 @@ class WillBeAuthor:
         self.page.configure(wrap=tk.NONE)
         return
 
+    def enable_topmost_window(self) -> None:
+        self.root.attributes("-topmost", True)
+
+    def disable_topmost_window(self) -> None:
+        self.root.attributes("-topmost", False)
+
     def is_debug_enable(self) -> bool:
         """
         conf/debug.txtを読んでTrueならデバッグ関数の有効化
