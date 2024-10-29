@@ -22,7 +22,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver2.2.7_code:/Quill pen/
+        ver2.5.3_code:/天沼矛/beta
         """)
 
         # テーマ書式
