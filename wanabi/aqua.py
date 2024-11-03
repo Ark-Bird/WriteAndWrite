@@ -833,6 +833,8 @@ def main() -> None:
     author.command_hist("初期化始め")
     author.command_hist("テーマを読み込みました")
     author.command_hist("初期化中")
+    if author.debug_enable:
+        author.command_hist("デバッグログを有効化しました")
     # 文字カウントThreadのスタート
     author.count_thread.start()
     # オートセーブその他の再帰呼び出し
