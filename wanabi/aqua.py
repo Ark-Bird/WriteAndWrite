@@ -697,9 +697,11 @@ class WillBeAuthor:
 
     def enable_topmost_window(self) -> None:
         self.root.attributes("-topmost", True)
+        self.command_hist("ウインドウを最前面にします")
 
     def disable_topmost_window(self) -> None:
         self.root.attributes("-topmost", False)
+        self.command_hist("最前面化を解除しました")
 
     def is_debug_enable(self) -> bool:
         """
