@@ -2,13 +2,14 @@ import tkinter.messagebox
 
 
 class FullMode:
-    def __init__(self):
+    def __init__(self, author):
         """
         初期化、デフォルトで全画面は無効
         rootはset_root_full_modeで設定するのでこの時点では空
         """
         self.c_mode_flag: bool = False
         self.root = None
+        self.author = author
 
     def set_root_full_mode(self, root) -> None:
         """
@@ -31,6 +32,7 @@ class FullMode:
             return
         self.c_mode_flag = True
         self.root.attributes("-fullscreen", True)
+        self.author.command_hist("集中モードを開始しました")
         return
 
     def end_c_mode(self) -> None:
@@ -46,6 +48,7 @@ class FullMode:
         self.c_mode_flag = False
         self.root.attributes("-fullscreen", False)
         self.root.geometry("640x640")
+        self.author.command_hist("集中モードを終了しました")
         return
 
     def valid_root(self) -> bool:

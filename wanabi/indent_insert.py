@@ -5,7 +5,7 @@ class Indent:
     def __init__(self, author, page):
         self.page: tkinter.Text = page
         self.hit_return: bool = False
-        self.auto_indent: bool = True
+        self.auto_indent: bool = False
         self.half_space: bool = False
         self.author = author
         self.blank_line: bool = False
