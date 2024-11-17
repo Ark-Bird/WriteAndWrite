@@ -34,4 +34,4 @@ base:
 	git checkout develop
 	git push
 send:
-	cp wanabi\\*.py ..\..\onedrive\Light-author\wanabi
+	cp wanabi\*.py ..\..\onedrive\Light-author\wanabi
