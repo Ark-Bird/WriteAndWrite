@@ -104,6 +104,7 @@ class WillBeAuthor:
         self.count_thread = threading.Thread(target=self.counter)
         self.com_hist = deque()
         self.app_name: app_name.AppName = app_name.AppName()
+        self.is_terminate = False
         if self.debug_enable:
             self.log2me = record_hist.RecordHist("conf/command.log")
         try:
@@ -209,10 +210,14 @@ class WillBeAuthor:
         自動セーブの有効無効をタイトルバーに表示
         :return:None
         """
-        s: str = self.page.get("0.0", "end")
-        s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
-        text_length_without_whitespace: int = len(s)
-        self.letter_count = text_length_without_whitespace
+        while True:
+            if self.is_terminate:
+                break
+            s: str = self.page.get("0.0", "end")
+            s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
+            text_length_without_whitespace: int = len(s)
+            self.letter_count = text_length_without_whitespace
+            time.sleep(1)
 
     def erase_newline(self) -> None:
         """
@@ -280,8 +285,6 @@ class WillBeAuthor:
         タイトルバーの文字列を変更
         :return:None
         """
-        self.count_thread = threading.Thread(target=self.counter)
-        self.count_thread.start()
         # auto_indentはオートインデントが有効かどうかのフラグ
         # half_spaceは挿入されるインデントが半角が全角かのフラグ
         auto_indent: bool = self.indent.auto_indent_enable()
@@ -466,6 +469,8 @@ class WillBeAuthor:
             if messagebox.askyesno("終了しますか？", "終了しますか？"):
                 self.is_exit = True
         if self.is_exit or self.is_save or s == "\n":
+            self.is_terminate = True
+            self.count_thread.join()
             self.end_of_code = True
             self.root.destroy()
         else:
@@ -690,6 +695,14 @@ class WillBeAuthor:
         self.page.configure(wrap=tk.NONE)
         return
 
+    def enable_topmost_window(self) -> None:
+        self.root.attributes("-topmost", True)
+        self.command_hist("ウインドウを最前面にします")
+
+    def disable_topmost_window(self) -> None:
+        self.root.attributes("-topmost", False)
+        self.command_hist("最前面化を解除しました")
+
     def is_debug_enable(self) -> bool:
         """
         conf/debug.txtを読んでTrueならデバッグ関数の有効化
@@ -820,6 +833,10 @@ def main() -> None:
     author.command_hist("初期化始め")
     author.command_hist("テーマを読み込みました")
     author.command_hist("初期化中")
+    if author.debug_enable:
+        author.command_hist("デバッグログを有効化しました")
+    # 文字カウントThreadのスタート
+    author.count_thread.start()
     # オートセーブその他の再帰呼び出し
     root.after(4000, author.repeat_save_file)
     author.command_hist("初期化完了")
