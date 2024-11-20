@@ -37,3 +37,4 @@ send:
 	cp wanabi\\*.py ..\..\onedrive\Light-author\wanabi
 	cp wanabi/log_recorder_me/*.py ../../onedrive/light-author/wanabi/log_recorder_me
 	cp wanabi/inmemory_module/*.py ../../onedrive/light-author/wanabi/inmemory_module
+	cp wanabi/keybind/*.py ../../onedrive/light-author/wanabi/keybind
