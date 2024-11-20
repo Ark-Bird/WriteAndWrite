@@ -7,6 +7,7 @@ from wanabi import independent_method
 from wanabi.inmemory_module import ram_memo
 from wanabi.keybind.keybind import ViCommandMode, ViInsertMode
 from wanabi.keybind.keybind import EmacsMode
+import wanabi.encoding
 # import extend_exception
 # import independent_method
 # import wanabi.inmemory_module.ram_memo
@@ -63,6 +64,8 @@ class FontChange:
         :param now_font_size: 現在のフォントサイズ
         :param page: 適用するテキストエリア
         """
+        self.str_code = wanabi.encoding.Encoding()
+        self.code = self.str_code.code
         self.author = author
         self.font_family = font_family
         self.now_font_size = now_font_size
@@ -71,7 +74,7 @@ class FontChange:
         self.font_family = independent_method.read_font()
         if os.path.exists("conf/font-size.txt"):
             try:
-                with open("conf/font-size.txt", encoding="utf-8") as fs:
+                with open("conf/font-size.txt", encoding=self.code) as fs:
                     enable_font, font_size = fs.read().split()
                 if enable_font == "True":
                     self.now_font_size = int(font_size)

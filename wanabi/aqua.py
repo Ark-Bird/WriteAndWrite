@@ -29,7 +29,7 @@ from wanabi.log_recorder_me import record_hist
 # import vinegar
 # from independent_method import ignore
 
-from wanabi import app_name
+from wanabi import app_name, encoding
 from wanabi import extend_exception
 from wanabi import full_mode
 from wanabi import indent_insert
@@ -39,6 +39,7 @@ from wanabi import string_decorate
 from wanabi import textarea_config
 from wanabi import theme_mod
 from wanabi import vinegar
+import wanabi.encoding
 from wanabi.independent_method import ignore
 
 """
@@ -77,6 +78,8 @@ class WillBeAuthor:
         blank_line:空行かどうかのフラグ
         self.cursor_move_mode:カーソル移動のモード、デフォルトでviスタイルライク
         """
+        self.codepoint = wanabi.encoding.Encoding()
+        self.code = self.codepoint.code
         self.file_name: str = ""
         self.written_textum: str = ""
         self.is_changed: bool = False
@@ -154,7 +157,7 @@ class WillBeAuthor:
         :return: color.binに書かれたテーマ名
         """
         try:
-            with open("conf/color.bin", "r", encoding="utf-8") as f:
+            with open("conf/color.bin", "r", encoding=self.code) as f:
                 self.theme = f.read()
         except FileNotFoundError:
             print("設定ファイルが存在しないためcolor.binを作成します")
@@ -319,7 +322,7 @@ class WillBeAuthor:
                                                               initialdir=self.prev_save_dir)
             independent_method.write_filename_string(self.prev_save_dir)
         try:
-            with open("conf/path.bin", "r", encoding="utf-8") as text_filename:
+            with open("conf/path.bin", "r", encoding=self.code) as text_filename:
                 self.prev_save_dir = os.path.abspath(text_filename.readline())
         except UnicodeDecodeError:
             print("パスがユニコードではありません")
@@ -417,7 +420,7 @@ class WillBeAuthor:
         try:
             if not os.path.exists("conf/path.bin"):
                 raise extend_exception.NotOpenPathException
-            with open("conf/path.bin", mode="r", encoding="utf-8") as f:
+            with open("conf/path.bin", mode="r", encoding=self.code) as f:
                 prev_save_directory: str = os.path.abspath(os.path.dirname(f.readline()))
         except extend_exception.NotOpenPathException:
             prev_save_directory = os.path.abspath(os.path.dirname(__file__))
@@ -439,12 +442,12 @@ class WillBeAuthor:
             self.file_name += ".txt"
         if self.before_text == self.page.get("0.0", "end"):
             return
-        with open(self.file_name, mode="w", encoding="utf-8") as textum_file:
+        with open(self.file_name, mode="w", encoding=self.code) as textum_file:
             textum_file.write(self.written_textum)
         if not self.is_autosave_flag:
             self.command_hist(self.file_name + "を保存しました")
         try:
-            with open("conf/path.bin", mode="w", encoding="utf-8") as conf:
+            with open("conf/path.bin", mode="w", encoding=self.code) as conf:
                 conf.write(self.file_name)
         except PermissionError:
             self.command_hist("path.binへの書き込み権限がありません、再試行します")
@@ -515,7 +518,7 @@ class WillBeAuthor:
         try:
             if not os.path.exists("conf/path.bin"):
                 raise extend_exception.NotOpenPathException
-            with open("conf/path.bin", mode="r", encoding="utf-8") as f:
+            with open("conf/path.bin", mode="r", encoding=self.code) as f:
                 directory_before_saved = f.readline()
         except extend_exception.NotOpenPathException:
             directory_before_saved = os.path.abspath(os.path.dirname(__file__))
@@ -709,14 +712,14 @@ class WillBeAuthor:
         :return: bool
         """
         try:
-            with open("conf/debug.txt", mode="r", encoding="utf-8") as f:
+            with open("conf/debug.txt", mode="r", encoding=self.code) as f:
                 debug_enable = f.read()
                 if debug_enable == "True":
                     return True
                 else:
                     return False
         except FileNotFoundError:
-            with open("conf/debug.txt", mode="w", encoding="utf-8") as f:
+            with open("conf/debug.txt", mode="w", encoding=self.code) as f:
                 f.write("False")
         except Exception:
             return False
@@ -791,24 +794,24 @@ def main() -> None:
         ignore()
     # color.binの作成
     try:
-        with open("conf/original_theme.txt", "r", encoding="utf-8") as tf:
+        with open("conf/original_theme.txt", "r", encoding=author.code) as tf:
             _ = tf.read()
             pass
         pass
     except FileNotFoundError:
-        with open("conf/original_theme.txt", "w", encoding="utf-8") as theme_file:
+        with open("conf/original_theme.txt", "w", encoding=author.code) as theme_file:
             theme_file.write("False #000000 #FFFFFF #FFFFFF")
     except:
         raise extend_exception.FatalError
     # オートインデントの設定
     try:
-        with open("conf/auto_indent.txt", "r", encoding="utf-8") as default_indent:
+        with open("conf/auto_indent.txt", "r", encoding=author.code) as default_indent:
             indent_flag = default_indent.read()
             if indent_flag == "True":
                 indent.toggle_auto_indent()
                 author.command_hist("オートインデントは有効です")
     except FileNotFoundError:
-        with open("conf/auto_indent.txt", "w", encoding="utf-8") as default:
+        with open("conf/auto_indent.txt", "w", encoding=author.code) as default:
             default.write("False")
     except Exception:
         independent_method.fix_this_later()
