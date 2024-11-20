@@ -96,6 +96,7 @@ class ViInsertMode(KeyBindMode):
     def edit_key_bind(self) -> None:
         self.author.page.bind("<i>", self.insert_ignor)
         self.author.page.bind("<Escape>", self.command_mode)
+        self.author.page.bind("<Control-[>", self.command_mode)
 
 class EmacsMode(KeyBindMode):
     def edit_key_bind(self) -> None:
