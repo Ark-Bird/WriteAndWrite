@@ -843,7 +843,6 @@ def main() -> None:
     # オートセーブその他の再帰呼び出し
     root.after(4000, author.repeat_save_file)
     author.command_hist("初期化完了")
-    print(author.code)
     root.mainloop()
 
 
