@@ -144,7 +144,7 @@ def page_scroll_set(root, page) -> None:
 
 def vi_mode_change(page) -> None:
     """
-    カーソル移動をCtrl-h,j,k,lに変更
+    カーソル移動をh,j,k,lに変更
     :param page:
     :return:None
     """

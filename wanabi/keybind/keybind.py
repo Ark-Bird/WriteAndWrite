@@ -1,11 +1,29 @@
 import ctypes
-
-
+import tkinter.messagebox
 class KeyBindMode:
     def __init__(self, author):
         self.author = author
         self.vi_insert_mode = None
         self.vi_command_mode = None
+        self.is_windows = False
+        try:
+            with open("conf/platforms.txt", "r", encoding=self.author.code) as bindtype:
+                self.is_windows = bindtype.read()
+            if self.is_windows == "Windows":
+                self.is_windows = True
+        except FileNotFoundError:
+            pfask = tkinter.messagebox.askyesno("win or No win", "Windowsを使用していますか？")
+            if pfask:
+                with open("conf/platforms.txt", "w", encoding=self.author.code) as bindtype:
+                    bindtype.write("Windows")
+                    self.is_windows = True
+            else:
+                with open("conf/platforms.txt", "w", encoding=self.author.code) as bindtype:
+                    bindtype.write("AnothorOS")
+                    self.is_windows = False
+        except:
+            raise Exception
+
 
     def cursor_move_forward(self, event=None) -> str | None:
         if self.if_enable_ime():
@@ -54,7 +72,7 @@ class KeyBindMode:
         self.author.page.bind("<l>", self.bind_free)
         return "break"
 
-    def set_vi_mode(self) -> str:
+    def set_vi_mode(self) -> str | None:
         self.author.page.bind("<h>", self.bind_free)
         self.author.page.bind("<j>", self.bind_free)
         self.author.page.bind("<k>", self.bind_free)
@@ -68,7 +86,9 @@ class KeyBindMode:
         self.vi_command_mode = ViCommandMode(self.author)
         self.vi_command_mode.edit_key_bind()
 
-    def if_enable_ime(self) -> False:
+    def if_enable_ime(self) -> bool | None:
+        if not self.is_windows:
+            return
         wnd = ctypes.WinDLL(name="user32")
         himc = ctypes.WinDLL(name="imm32")
         ime_handle = wnd.GetForegroundWindow()
@@ -84,6 +104,9 @@ class KeyBindMode:
 class ViCommandMode(KeyBindMode):
     def edit_key_bind(self) -> None:
         self.disable_emacs_mode()
+        if not self.is_windows:
+            self.insert_mode()
+            return
         self.author.page.bind("<h>", self.cursor_move_backward)
         self.author.page.bind("<j>", self.cursor_move_next_line)
         self.author.page.bind("<k>", self.cursor_move_prev_line)
