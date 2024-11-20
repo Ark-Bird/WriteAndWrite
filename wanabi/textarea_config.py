@@ -5,7 +5,7 @@ from tkinter import messagebox
 from wanabi import extend_exception
 from wanabi import independent_method
 from wanabi.inmemory_module import ram_memo
-from wanabi.keybind.keybind import ViMode
+from wanabi.keybind.keybind import ViCommandMode, ViInsertMode
 from wanabi.keybind.keybind import EmacsMode
 # import extend_exception
 # import independent_method
@@ -145,10 +145,13 @@ def vi_mode_change(page) -> None:
     :param page:
     :return:None
     """
-    original_key_bind = ViMode(page)
+    original_key_bind = ViCommandMode(page)
     original_key_bind.edit_key_bind()
     return
 
+def vi_insert_mode_change(page) -> None:
+    original_key_bind = ViInsertMode(page)
+    original_key_bind.edit_key_bind()
 
 def emacs_mode_change(page) -> None:
     """
@@ -216,7 +219,7 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     # 検索テスト
     page.bind("<Control-F>", decorate.search)
     # キーバインド設定
-    original_key_bind = ViMode(author)
+    original_key_bind = ViCommandMode(author)
     original_key_bind.edit_key_bind()
     return
 
@@ -230,11 +233,17 @@ class ModeChange:
         カーソル移動をViライクなモードに変更
         :return:
         """
-        my_key_bind = ViMode(self.author)
+        my_key_bind = ViCommandMode(self.author)
         my_key_bind.edit_key_bind()
         self.author.change_vi_mode_flag()
         self.author.command_hist("キーバインドをViモードにしました")
         return
+
+    def change_vi_insert_mode(self) -> None:
+        my_key_bind = ViInsertMode(self.author)
+        my_key_bind.edit_key_bind()
+        self.author.command_hist("インサートモードに入りました")
+
 
     def change_emacs_mode(self) -> None:
         """
