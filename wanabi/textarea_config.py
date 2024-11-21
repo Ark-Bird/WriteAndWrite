@@ -5,8 +5,9 @@ from tkinter import messagebox
 from wanabi import extend_exception
 from wanabi import independent_method
 from wanabi.inmemory_module import ram_memo
-from wanabi.keybind.keybind import ViMode
+from wanabi.keybind.keybind import ViCommandMode, ViInsertMode
 from wanabi.keybind.keybind import EmacsMode
+import wanabi.encoding
 # import extend_exception
 # import independent_method
 # import wanabi.inmemory_module.ram_memo
@@ -63,6 +64,8 @@ class FontChange:
         :param now_font_size: 現在のフォントサイズ
         :param page: 適用するテキストエリア
         """
+        self.str_code = wanabi.encoding.Encoding()
+        self.code = self.str_code.code
         self.author = author
         self.font_family = font_family
         self.now_font_size = now_font_size
@@ -71,7 +74,7 @@ class FontChange:
         self.font_family = independent_method.read_font()
         if os.path.exists("conf/font-size.txt"):
             try:
-                with open("conf/font-size.txt", encoding="utf-8") as fs:
+                with open("conf/font-size.txt", encoding=self.code) as fs:
                     enable_font, font_size = fs.read().split()
                 if enable_font == "True":
                     self.now_font_size = int(font_size)
@@ -141,14 +144,17 @@ def page_scroll_set(root, page) -> None:
 
 def vi_mode_change(page) -> None:
     """
-    カーソル移動をCtrl-h,j,k,lに変更
+    カーソル移動をh,j,k,lに変更
     :param page:
     :return:None
     """
-    original_key_bind = ViMode(page)
+    original_key_bind = ViCommandMode(page)
     original_key_bind.edit_key_bind()
     return
 
+def vi_insert_mode_change(page) -> None:
+    original_key_bind = ViInsertMode(page)
+    original_key_bind.edit_key_bind()
 
 def emacs_mode_change(page) -> None:
     """
@@ -215,8 +221,11 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     page.bind("<Control-S>", font.font_size_small)
     # 検索テスト
     page.bind("<Control-F>", decorate.search)
+    # スレッド式オートセーブ
+    page.bind("<Control-E>", author.autosave_thread_start)
+    page.bind("<Control-D>", author.autosave_thread_end)
     # キーバインド設定
-    original_key_bind = ViMode(author)
+    original_key_bind = ViCommandMode(author)
     original_key_bind.edit_key_bind()
     return
 
@@ -230,11 +239,17 @@ class ModeChange:
         カーソル移動をViライクなモードに変更
         :return:
         """
-        my_key_bind = ViMode(self.author)
+        my_key_bind = ViCommandMode(self.author)
         my_key_bind.edit_key_bind()
         self.author.change_vi_mode_flag()
         self.author.command_hist("キーバインドをViモードにしました")
         return
+
+    def change_vi_insert_mode(self) -> None:
+        my_key_bind = ViInsertMode(self.author)
+        my_key_bind.edit_key_bind()
+        self.author.command_hist("インサートモードに入りました")
+
 
     def change_emacs_mode(self) -> None:
         """

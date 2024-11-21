@@ -7,12 +7,15 @@ from wanabi import extend_exception
 from wanabi import independent_method
 # import extend_exception
 # import independent_method
-
+import wanabi.encoding
+code = wanabi.encoding.Encoding()
+gcode = code.code
 def make_default_theme() -> None:
     """
     何らかの理由でテーマファイルが存在しない、もしくは破損している場合に生成
     :return:None
     """
+    global gcode
     independent_method.conf_dir_make()
     with open("conf/original_theme.txt", "w") as theme_file:
         theme_file.write("False #000000 #FFFFFF #FFFFFF")
@@ -27,9 +30,10 @@ def change_theme(page: tkinter.Text, command_hist, theme: str) -> None:
     どれともマッチしなかった場合は標準テーマでcolor.binを作成
     :return:None
     """
+    global gcode
     independent_method.conf_dir_make()
     try:
-        with open("conf/original_theme.txt", "r", encoding="utf-8") as theme_file:
+        with open("conf/original_theme.txt", "r", encoding=gcode) as theme_file:
             original_theme = theme_file.read()
             enable, bg, fg, cursor = original_theme.split()
     except FileNotFoundError:
