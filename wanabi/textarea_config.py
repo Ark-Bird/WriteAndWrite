@@ -221,6 +221,9 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     page.bind("<Control-S>", font.font_size_small)
     # 検索テスト
     page.bind("<Control-F>", decorate.search)
+    # スレッド式オートセーブ
+    page.bind("<Control-E>", author.autosave_thread_start)
+    page.bind("<Control-D>", author.autosave_thread_end)
     # キーバインド設定
     original_key_bind = ViCommandMode(author)
     original_key_bind.edit_key_bind()

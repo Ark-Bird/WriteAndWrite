@@ -109,6 +109,9 @@ class WillBeAuthor:
         self.app_name: app_name.AppName = app_name.AppName()
         self.is_terminate = False
         self.vi_mode_now = "Command_mode"
+        self.is_thread_autosave_flag = False
+        self.is_already_run_autosave_flag = False
+        self.t = None
         if self.debug_enable:
             self.log2me = record_hist.RecordHist("conf/command.log")
         try:
@@ -477,6 +480,9 @@ class WillBeAuthor:
             self.is_terminate = True
             self.count_thread.join()
             self.end_of_code = True
+            if self.is_already_run_autosave_flag:
+                self.is_thread_autosave_flag = False
+                self.t.join()
             self.root.destroy()
         else:
             return
@@ -725,6 +731,28 @@ class WillBeAuthor:
                 f.write("False")
         except Exception:
             return False
+
+    def autosave_thread(self) -> None:
+        while True:
+            if not self.is_already_run_autosave_flag:
+                break
+            if self.file_name == "":
+                break
+            if not self.is_thread_autosave_flag:
+                break
+            text = self.page.get("0.0", "end-1c")
+            with open(self.file_name, "w", encoding=self.code) as file:
+                file.write(text)
+            time.sleep(2)
+    def autosave_thread_start(self, event=None) -> None:
+        self.t = threading.Thread(target=self.autosave_thread)
+        self.is_thread_autosave_flag = True
+        self.is_already_run_autosave_flag = True
+        self.t.start()
+    def autosave_thread_end(self, event=None) -> None:
+        self.is_thread_autosave_flag = False
+        self.is_already_run_autosave_flag = False
+        self.t.join()
 
 
 def init_page(page: tk.Text):
