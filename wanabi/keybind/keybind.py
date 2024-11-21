@@ -39,33 +39,33 @@ class KeyBindMode:
 
     def cursor_move_forward(self, event=None) -> str | None:
         if not self.check_windows():
-            return
+            return "break"
         if self.if_enable_ime():
-            return
+            return "break"
         self.author.page.mark_set("insert", "insert+1c")
         return "break"
 
     def cursor_move_next_line(self, event=None) -> str | None:
         if not self.check_windows():
-            return
+            return "break"
         if self.if_enable_ime():
-            return
+            return "break"
         self.author.page.mark_set("insert", "insert+1lines")
         return "break"
 
     def cursor_move_prev_line(self, event=None) -> str | None:
         if not self.check_windows():
-            return
+            return "break"
         if self.if_enable_ime():
-            return
+            return "break"
         self.author.page.mark_set("insert", "insert-1lines")
         return "break"
 
     def cursor_move_backward(self, event=None) -> str | None:
         if not self.check_windows():
-            return
+            return "break"
         if self.if_enable_ime():
-            return
+            return "break"
         self.author.page.mark_set("insert", "insert-1c")
         return "break"
 
@@ -89,14 +89,24 @@ class KeyBindMode:
         self.author.page.bind("<j>", self.bind_free)
         self.author.page.bind("<k>", self.bind_free)
         self.author.page.bind("<l>", self.bind_free)
+        self.author.page.bind("<Control-h>", self.bind_free)
+        self.author.page.bind("<Control-j>", self.bind_free)
+        self.author.page.bind("<Control-k>", self.bind_free)
+        self.author.page.bind("<Control-l>", self.bind_free)
         return "break"
 
     def set_vi_mode(self) -> str | None:
-        self.author.page.bind("<h>", self.bind_free)
-        self.author.page.bind("<j>", self.bind_free)
-        self.author.page.bind("<k>", self.bind_free)
-        self.author.page.bind("<l>", self.bind_free)
+        self.author.page.bind("<h>",self.cursor_move_backward)
+        self.author.page.bind("<j>", self.cursor_move_next_line)
+        self.author.page.bind("<k>", self.cursor_move_prev_line)
+        self.author.page.bind("<l>", self.cursor_move_forward)
         return "break"
+
+    def set_insert_vi_ime_enable(self) -> None:
+        self.author.page.bind("<Control-h>", self.cursor_move_backward)
+        self.author.page.bind("<Control-j>", self.cursor_move_next_line)
+        self.author.page.bind("<Control-k>", self.cursor_move_prev_line)
+        self.author.page.bind("<Control-l>", self.cursor_move_forward)
 
     def insert_ignor(self, event=None) -> None:
         pass
@@ -124,10 +134,8 @@ class ViCommandMode(KeyBindMode):
         if not self.check_windows():
             self.insert_mode()
             return
-        self.author.page.bind("<h>", self.cursor_move_backward)
-        self.author.page.bind("<j>", self.cursor_move_next_line)
-        self.author.page.bind("<k>", self.cursor_move_prev_line)
-        self.author.page.bind("<l>", self.cursor_move_forward)
+        self.set_vi_mode()
+        self.author.vi_mode_now = "command mode"
         self.author.page.bind("<i>", self.insert_mode)
         return
 
@@ -135,12 +143,14 @@ class ViCommandMode(KeyBindMode):
 class ViInsertMode(KeyBindMode):
     def edit_key_bind(self) -> None:
         self.disable_vi_mode()
+        self.author.vi_mode_now = "insert mode"
         self.author.page.bind("<i>", self.insert_ignor)
         self.author.page.bind("<Escape>", self.command_mode)
         self.author.page.bind("<Control-[>", self.command_mode)
 
 class EmacsMode(KeyBindMode):
     def edit_key_bind(self) -> None:
+        self.author.vi_mode_now = ""
         self.disable_vi_mode()
         self.author.page.bind("<Control-b>", self.cursor_move_backward)
         self.author.page.bind("<Control-n>", self.cursor_move_next_line)

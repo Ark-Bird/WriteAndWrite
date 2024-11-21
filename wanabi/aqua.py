@@ -108,6 +108,7 @@ class WillBeAuthor:
         self.com_hist = deque()
         self.app_name: app_name.AppName = app_name.AppName()
         self.is_terminate = False
+        self.vi_mode_now = "Command_mode"
         if self.debug_enable:
             self.log2me = record_hist.RecordHist("conf/command.log")
         try:
@@ -307,6 +308,7 @@ class WillBeAuthor:
         self.title_var_string += self.check_autosave_flag()
         # カーソル移動の方法
         self.title_var_string += self.cursor_move_vi_or_emacs()
+        self.title_var_string += ":" + self.vi_mode_now
         self.title_var_string += independent_method.path_to_filename(self.file_name)
         self.root.title(self.title_var_string)
         return

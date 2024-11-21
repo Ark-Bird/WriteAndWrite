@@ -22,7 +22,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver2.6.6_code:/天沼矛/beta
+        ver2.6.7_code:/天沼矛/beta
         """)
 
         # テーマ書式
