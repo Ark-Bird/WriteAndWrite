@@ -100,6 +100,7 @@ class KeyBindMode:
         self.author.page.bind("<j>", self.cursor_move_next_line)
         self.author.page.bind("<k>", self.cursor_move_prev_line)
         self.author.page.bind("<l>", self.cursor_move_forward)
+        self.author.page.bind("<x>", self.erase_char)
         return "break"
 
     def set_insert_vi_ime_enable(self) -> None:
@@ -126,6 +127,10 @@ class KeyBindMode:
             return True
         ctypes.windll.imm32.ImmReleaseContext(ime_handle, h_im)
         return False
+
+    def erase_char(self, event=None) -> str:
+        self.author.page.delete("insert")
+        return "break"
 
 
 class ViCommandMode(KeyBindMode):
