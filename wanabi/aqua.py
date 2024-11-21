@@ -743,6 +743,7 @@ class WillBeAuthor:
             text = self.page.get("0.0", "end-1c")
             with open(self.file_name, "w", encoding=self.code) as file:
                 file.write(text)
+            self.is_save = True
             time.sleep(2)
     def autosave_thread_start(self, event=None) -> None:
         self.t = threading.Thread(target=self.autosave_thread)
