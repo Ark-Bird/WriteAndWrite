@@ -149,6 +149,7 @@ class ViInsertMode(KeyBindMode):
     def edit_key_bind(self) -> None:
         self.disable_vi_mode()
         self.author.vi_mode_now = "insert mode"
+        self.author.page.bind("<x>", self.insert_ignor)
         self.author.page.bind("<i>", self.insert_ignor)
         self.author.page.bind("<Escape>", self.command_mode)
         self.author.page.bind("<Control-[>", self.command_mode)
