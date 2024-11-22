@@ -1,10 +1,12 @@
 import tkinter.messagebox
+import sys
 class Encoding:
     def __init__(self, encoding="utf-8"):
         try:
             with open("conf/encode.txt", "r") as f:
                 encoding = f.read()
         except FileNotFoundError:
+
             with open("conf/encode.txt", "w") as f:
                 f.write("utf-8")
             encoding = "utf-8"

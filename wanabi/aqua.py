@@ -774,6 +774,7 @@ def main() -> None:
     グローバル変数を閉じ込めるためだけの関数
     :return:None
     """
+    independent_method.conf_dir_make()
     file_flag: bool = False
     if len(sys.argv) >= 3:
         print("引数は無しかファイル名一つだけです")
