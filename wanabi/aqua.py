@@ -112,6 +112,7 @@ class WillBeAuthor:
         self.is_thread_autosave_flag = False
         self.is_already_run_autosave_flag = False
         self.t = None
+        self.t_autosave_enable = False
         if self.debug_enable:
             self.log2me = record_hist.RecordHist("conf/command.log")
         try:
@@ -480,9 +481,9 @@ class WillBeAuthor:
             self.is_terminate = True
             self.count_thread.join()
             self.end_of_code = True
-            if self.is_already_run_autosave_flag:
-                self.is_thread_autosave_flag = False
-                self.t.join()
+            self.is_thread_autosave_flag = False
+            if self.t_autosave_enable:
+                self.autosave_thread_end()
             self.root.destroy()
         else:
             return
@@ -733,7 +734,10 @@ class WillBeAuthor:
             return False
 
     def autosave_thread(self) -> None:
+        prev_text = self.page.get("0.0", "end-1c")
         while True:
+            if self.t_autosave_enable:
+                break
             if not self.is_already_run_autosave_flag:
                 break
             if self.file_name == "":
@@ -741,18 +745,25 @@ class WillBeAuthor:
             if not self.is_thread_autosave_flag:
                 break
             text = self.page.get("0.0", "end-1c")
+            if prev_text == text:
+                time.sleep(1)
+                self.is_save = True
+                continue
             with open(self.file_name, "w", encoding=self.code) as file:
                 file.write(text)
             self.is_save = True
             time.sleep(2)
+            prev_text = self.page.get("0.0", "end-1c")
     def autosave_thread_start(self, event=None) -> None:
         self.t = threading.Thread(target=self.autosave_thread)
         self.is_thread_autosave_flag = True
         self.is_already_run_autosave_flag = True
+        self.t_autosave_enable = False
         self.t.start()
     def autosave_thread_end(self, event=None) -> None:
         self.is_thread_autosave_flag = False
         self.is_already_run_autosave_flag = False
+        self.t_autosave_enable = True
         self.t.join()
 
 
