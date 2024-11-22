@@ -484,9 +484,9 @@ class WillBeAuthor:
             self.is_thread_autosave_flag = False
             if self.t_autosave_enable:
                 self.autosave_thread_end()
-            self.root.destroy()
         else:
             return
+        self.root.destroy()
 
     def new_blank_file(self) -> None:
         """
