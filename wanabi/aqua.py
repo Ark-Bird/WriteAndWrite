@@ -112,7 +112,8 @@ class WillBeAuthor:
         self.is_thread_autosave_flag = False
         self.is_already_run_autosave_flag = False
         self.t = None
-        self.t_autosave_enable = False
+        self.is_not_t_autosave_enable = True
+        self.t_end = False
         if self.debug_enable:
             self.log2me = record_hist.RecordHist("conf/command.log")
         try:
@@ -482,10 +483,10 @@ class WillBeAuthor:
             self.count_thread.join()
             self.end_of_code = True
             self.is_thread_autosave_flag = False
-            if self.t_autosave_enable:
-                self.autosave_thread_end()
         else:
             return
+        if self.is_not_t_autosave_enable:
+            self.autosave_thread_end()
         self.root.destroy()
 
     def new_blank_file(self) -> None:
@@ -736,7 +737,7 @@ class WillBeAuthor:
     def autosave_thread(self) -> None:
         prev_text = self.page.get("0.0", "end-1c")
         while True:
-            if self.t_autosave_enable:
+            if self.is_not_t_autosave_enable:
                 break
             if not self.is_already_run_autosave_flag:
                 break
@@ -758,13 +759,14 @@ class WillBeAuthor:
         self.t = threading.Thread(target=self.autosave_thread)
         self.is_thread_autosave_flag = True
         self.is_already_run_autosave_flag = True
-        self.t_autosave_enable = False
+        self.is_not_t_autosave_enable = False
         self.t.start()
     def autosave_thread_end(self, event=None) -> None:
         self.is_thread_autosave_flag = False
         self.is_already_run_autosave_flag = False
-        self.t_autosave_enable = True
-        self.t.join()
+        self.t_end = True
+        self.is_not_t_autosave_enable = True
+        # self.t.join()
 
 
 def init_page(page: tk.Text):
