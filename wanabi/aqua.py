@@ -488,6 +488,7 @@ class WillBeAuthor:
         if self.is_not_t_autosave_enable:
             self.autosave_thread_end()
         self.root.destroy()
+        sys.exit(0)
 
     def new_blank_file(self) -> None:
         """
