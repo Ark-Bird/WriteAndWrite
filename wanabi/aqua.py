@@ -888,6 +888,8 @@ def main() -> None:
     author.count_thread.start()
     # オートセーブその他の再帰呼び出し
     root.after(4000, author.repeat_save_file)
+    insert_mode = textarea_config.ModeChange(author)
+    insert_mode.change_vi_insert_mode()
     author.command_hist("初期化完了")
     root.mainloop()
 
