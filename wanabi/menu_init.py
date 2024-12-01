@@ -1,11 +1,12 @@
 import tkinter as tk
 from cProfile import label
+from wanabi import aqua
 
 from wanabi import version
 from wanabi import textarea_config
 # import version
 # import textarea_config
-import aqua
+from wanabi import aqua
 
 def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     """
