@@ -1,9 +1,12 @@
 import tkinter as tk
+from cProfile import label
+from wanabi import aqua
+
 from wanabi import version
 from wanabi import textarea_config
 # import version
 # import textarea_config
-
+from wanabi import aqua
 
 def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     """
@@ -11,10 +14,10 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     初めにバージョンとライセンスを表示するためのクラスのインスタンスを作成している
     :return:
     """
+    # 初期値
+    mode_change = textarea_config.ModeChange(author)
     # ヘルプ情報のインスタンス
     show_info: version.ShowInfo = version.ShowInfo()
-    # viモードとEmacsモードへキーバインドのインスタンス
-    mode_change: textarea_config.ModeChange = textarea_config.ModeChange(author)
     file_menu: tk.Menu = tk.Menu(menubar, tearoff=0)
     # ファイルメニュー
     file_menu.add_command(label="新規ファイル", command=author.new_blank_file)
@@ -90,11 +93,17 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     keybind_mode.add_command(label="Vi-Mode", command=mode_change.change_vi_mode)
     keybind_mode.add_command(label="Emacs-Mode", command=mode_change.change_emacs_mode)
     menubar.add_cascade(label="Keybind Mode", menu=keybind_mode)
+
     # ツール
     modify_line = tk.Menu(menubar, tearoff=0)
     modify_line.add_command(label="連続した改行を削除", command=author.erase_newline)
     modify_line.add_command(label="空行を挿入", command=author.insert_newline)
     menubar.add_cascade(label="ツール", menu=modify_line)
+    # ウィンドウを最前面に表示
+    attri = tk.Menu(menubar, tearoff=0)
+    attri.add_command(label="最前面に表示", command=author.enable_topmost_window)
+    attri.add_command(label="最前面に表示を終了", command=author.disable_topmost_window)
+    menubar.add_cascade(label="ウインドウ", menu=attri)
     # ヘルプメニューの表示
     help_menu = tk.Menu(menubar, tearoff=0)
     help_menu.add_command(

@@ -7,6 +7,7 @@ Created on Fri Feb 17 20:47:33 2017
 import os
 import platform
 import sys
+import threading
 import time
 import tkinter
 import tkinter as tk
@@ -15,7 +16,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 import re
 from collections import deque
-
+from wanabi.log_recorder_me import record_hist
 # import app_name
 # import extend_exception
 # import full_mode
@@ -28,7 +29,7 @@ from collections import deque
 # import vinegar
 # from independent_method import ignore
 
-from wanabi import app_name
+from wanabi import app_name, encoding
 from wanabi import extend_exception
 from wanabi import full_mode
 from wanabi import indent_insert
@@ -38,7 +39,9 @@ from wanabi import string_decorate
 from wanabi import textarea_config
 from wanabi import theme_mod
 from wanabi import vinegar
+import wanabi.encoding
 from wanabi.independent_method import ignore
+
 """
 Copyright 2020 hiro
 
@@ -75,6 +78,8 @@ class WillBeAuthor:
         blank_line:空行かどうかのフラグ
         self.cursor_move_mode:カーソル移動のモード、デフォルトでviスタイルライク
         """
+        self.codepoint = wanabi.encoding.Encoding()
+        self.code = self.codepoint.code
         self.file_name: str = ""
         self.written_textum: str = ""
         self.is_changed: bool = False
@@ -94,12 +99,23 @@ class WillBeAuthor:
         self.prev_save_dir: str = ""
         self.cursor_move_mode: str = "vi"
         self.is_wrap: bool = True
-        self.debug_enable = False
+        self.debug_enable = self.is_debug_enable()
         self.end_of_code = False
         self.mess: None | tk.Label = None
         self.do_command: None | tk.StringVar = None
+        self.letter_count = 0
+        self.count_thread = threading.Thread(target=self.counter)
         self.com_hist = deque()
         self.app_name: app_name.AppName = app_name.AppName()
+        self.is_terminate = False
+        self.vi_mode_now = "Command_mode"
+        self.is_thread_autosave_flag: bool = False
+        self.is_already_run_autosave_flag: bool = False
+        self.t = None
+        self.is_not_t_autosave_enable: bool = True
+        self.t_end: bool = False
+        if self.debug_enable:
+            self.log2me = record_hist.RecordHist("conf/command.log")
         try:
             self.theme: str = self.read_theme()
         except FileNotFoundError:
@@ -137,6 +153,8 @@ class WillBeAuthor:
             self.com_hist.popleft()
         com_log = "→".join(self.com_hist)
         self.do_command.set(com_log)
+        if self.debug_enable:
+            self.log2me.write_log(command)
 
     def read_theme(self) -> str:
         """
@@ -145,7 +163,7 @@ class WillBeAuthor:
         :return: color.binに書かれたテーマ名
         """
         try:
-            with open("conf/color.bin", "r", encoding="utf-8") as f:
+            with open("conf/color.bin", "r", encoding=self.code) as f:
                 self.theme = f.read()
         except FileNotFoundError:
             print("設定ファイルが存在しないためcolor.binを作成します")
@@ -191,7 +209,7 @@ class WillBeAuthor:
         self.is_init = False
         return
 
-    def counter(self) -> int:
+    def counter(self) -> None:
         """
         文字カウント
         テキストエリアから全文を読んで空白をトリムした長さを返す
@@ -201,10 +219,14 @@ class WillBeAuthor:
         自動セーブの有効無効をタイトルバーに表示
         :return:None
         """
-        s: str = self.page.get("0.0", "end")
-        s = re.sub('[ 　\n\r\t]', '', s)
-        text_length_without_whitespace: int = len(s)
-        return text_length_without_whitespace
+        while True:
+            if self.is_terminate:
+                break
+            s: str = self.page.get("0.0", "end")
+            s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
+            text_length_without_whitespace: int = len(s)
+            self.letter_count = text_length_without_whitespace
+            time.sleep(1)
 
     def erase_newline(self) -> None:
         """
@@ -276,7 +298,7 @@ class WillBeAuthor:
         # half_spaceは挿入されるインデントが半角が全角かのフラグ
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
-        self.title_var_string = str(self.counter()) + ":  文字"
+        self.title_var_string = str(self.letter_count) + ":  文字"
         self.check_if_is_saved()
         self.title_var_string = self.app_name.return_app_name_for_now() + self.title_var_string
         # オートインデントの半角/全角状態の表示
@@ -291,6 +313,7 @@ class WillBeAuthor:
         self.title_var_string += self.check_autosave_flag()
         # カーソル移動の方法
         self.title_var_string += self.cursor_move_vi_or_emacs()
+        self.title_var_string += ":" + self.vi_mode_now
         self.title_var_string += independent_method.path_to_filename(self.file_name)
         self.root.title(self.title_var_string)
         return
@@ -306,7 +329,7 @@ class WillBeAuthor:
                                                               initialdir=self.prev_save_dir)
             independent_method.write_filename_string(self.prev_save_dir)
         try:
-            with open("conf/path.bin", "r", encoding="utf-8") as text_filename:
+            with open("conf/path.bin", "r", encoding=self.code) as text_filename:
                 self.prev_save_dir = os.path.abspath(text_filename.readline())
         except UnicodeDecodeError:
             print("パスがユニコードではありません")
@@ -322,6 +345,7 @@ class WillBeAuthor:
         except Exception:
             self.prev_save_dir = ""
             independent_method.write_filename_string("")
+            raise extend_exception.CannotWriteFileException
         if self.prev_save_dir == "/":
             print("assert!")
             independent_method.write_filename_string(self.prev_save_dir)
@@ -338,7 +362,12 @@ class WillBeAuthor:
             self.save_file()
             self.is_save = True
             self.before_text = self.page.get("0.0", "end")
-        self.root.after(1000, self.repeat_save_file)
+        try:
+            self.root.after(1000, self.repeat_save_file)
+        except Exception:
+            self.command_hist("ファイルに書き込めませんでした")
+            self.root.after(1000, self.repeat_save_file)
+            raise extend_exception.CannotWriteFileException
         return
 
     def toggle_autosave_flag(self, event=None) -> None:
@@ -398,7 +427,7 @@ class WillBeAuthor:
         try:
             if not os.path.exists("conf/path.bin"):
                 raise extend_exception.NotOpenPathException
-            with open("conf/path.bin", mode="r", encoding="utf-8") as f:
+            with open("conf/path.bin", mode="r", encoding=self.code) as f:
                 prev_save_directory: str = os.path.abspath(os.path.dirname(f.readline()))
         except extend_exception.NotOpenPathException:
             prev_save_directory = os.path.abspath(os.path.dirname(__file__))
@@ -420,10 +449,12 @@ class WillBeAuthor:
             self.file_name += ".txt"
         if self.before_text == self.page.get("0.0", "end"):
             return
-        with open(self.file_name, mode="w", encoding="utf-8") as textum_file:
+        with open(self.file_name, mode="w", encoding=self.code) as textum_file:
             textum_file.write(self.written_textum)
+        if not self.is_autosave_flag:
+            self.command_hist(self.file_name + "を保存しました")
         try:
-            with open("conf/path.bin", mode="w", encoding="utf-8") as conf:
+            with open("conf/path.bin", mode="w", encoding=self.code) as conf:
                 conf.write(self.file_name)
         except PermissionError:
             self.command_hist("path.binへの書き込み権限がありません、再試行します")
@@ -448,10 +479,16 @@ class WillBeAuthor:
             if messagebox.askyesno("終了しますか？", "終了しますか？"):
                 self.is_exit = True
         if self.is_exit or self.is_save or s == "\n":
+            self.is_terminate = True
+            self.count_thread.join()
             self.end_of_code = True
-            self.root.destroy()
+            self.is_thread_autosave_flag = False
         else:
             return
+        if self.is_not_t_autosave_enable:
+            self.autosave_thread_end()
+        self.root.destroy()
+        sys.exit(0)
 
     def new_blank_file(self) -> None:
         """
@@ -492,7 +529,7 @@ class WillBeAuthor:
         try:
             if not os.path.exists("conf/path.bin"):
                 raise extend_exception.NotOpenPathException
-            with open("conf/path.bin", mode="r", encoding="utf-8") as f:
+            with open("conf/path.bin", mode="r", encoding=self.code) as f:
                 directory_before_saved = f.readline()
         except extend_exception.NotOpenPathException:
             directory_before_saved = os.path.abspath(os.path.dirname(__file__))
@@ -511,6 +548,7 @@ class WillBeAuthor:
         self.is_text_changed()
         self.change_auto_save_disable()
         self.change_titlebar()
+        self.command_hist(self.file_name + "を開きました")
         return
 
     def text_copy(self, event=None) -> None:
@@ -637,6 +675,23 @@ class WillBeAuthor:
         messagebox.showinfo("現在のファイル", self.file_name)
         return "break"
 
+    def auto_indent(self) -> None:
+        try:
+            with open("conf/auto_indent.txt", "r")as ifp:
+                indent = ifp.read()
+                if indent == "True":
+                    self.indent.auto_indent = True
+                    self.page.insert('insert', '　')
+                else:
+                    pass
+        except FileNotFoundError:
+            independent_method.conf_dir_make()
+            with open("conf/auto_indent.txt", "w+")as wfp:
+                wfp.write("False")
+        except Exception:
+            raise extend_exception.FatalError
+        self.command_hist("オートインデントの初期化")
+
     def wrap_enable(self) -> None:
         """
         テキストエリアの端で自動で折り返すように設定する
@@ -654,24 +709,69 @@ class WillBeAuthor:
         self.page.configure(wrap=tk.NONE)
         return
 
-    def debug_enable(self) -> bool:
+    def enable_topmost_window(self) -> None:
+        self.root.attributes("-topmost", True)
+        self.command_hist("ウインドウを最前面にします")
+
+    def disable_topmost_window(self) -> None:
+        self.root.attributes("-topmost", False)
+        self.command_hist("最前面化を解除しました")
+
+    def is_debug_enable(self) -> bool:
         """
         conf/debug.txtを読んでTrueならデバッグ関数の有効化
         :return: bool
         """
         try:
-            with open("wanabi/conf/debug.txt", mode="r", encoding="utf-8") as f:
+            with open("conf/debug.txt", mode="r", encoding=self.code) as f:
                 debug_enable = f.read()
                 if debug_enable == "True":
-                    self.debug_enable = True
+                    return True
                 else:
-                    self.debug_enable = False
+                    return False
         except FileNotFoundError:
-            with open("wanabi/conf/debug.txt", mode="w", encoding="utf-8") as f:
+            with open("conf/debug.txt", mode="w", encoding=self.code) as f:
                 f.write("False")
         except Exception:
-            raise extend_exception.FatalError
-        return self.debug_enable
+            self.command_hist("致命的なバグの発生")
+            return False
+
+    def autosave_thread(self) -> None:
+        prev_text = self.page.get("0.0", "end-1c")
+        while not self.t_end:
+            if self.is_not_t_autosave_enable:
+                break
+            if not self.is_already_run_autosave_flag:
+                break
+            if self.file_name == "":
+                break
+            if not self.is_thread_autosave_flag:
+                break
+            text = self.page.get("0.0", "end-1c")
+            if prev_text == text:
+                time.sleep(1)
+                self.is_save = True
+                continue
+            with open(self.file_name, "w", encoding=self.code) as file:
+                file.write(text)
+            self.is_save = True
+            time.sleep(2)
+            prev_text = self.page.get("0.0", "end-1c")
+
+    def autosave_thread_start(self, event=None) -> None:
+        self.t = threading.Thread(target=self.autosave_thread, daemon=True)
+        self.is_thread_autosave_flag = True
+        self.is_already_run_autosave_flag = True
+        self.is_not_t_autosave_enable = False
+        self.t_end = False
+        self.t.start()
+
+    def autosave_thread_end(self, event=None) -> None:
+        self.is_thread_autosave_flag = False
+        self.is_already_run_autosave_flag = False
+        self.t_end = True
+        self.is_not_t_autosave_enable = True
+        # self.t.join()
 
 
 def init_page(page: tk.Text):
@@ -692,6 +792,7 @@ def main() -> None:
     グローバル変数を閉じ込めるためだけの関数
     :return:None
     """
+    independent_method.conf_dir_make()
     file_flag: bool = False
     if len(sys.argv) >= 3:
         print("引数は無しかファイル名一つだけです")
@@ -717,7 +818,7 @@ def main() -> None:
     author.init_label("初期化")
     font_family: str = independent_method.read_font()
     font: tk.font.Font = tk.font.Font(root, family=font_family)
-    full_screen: full_mode.FullMode = full_mode.FullMode()
+    full_screen: full_mode.FullMode = full_mode.FullMode(author)
     full_screen.set_root_full_mode(root)
     root.geometry("640x640")
     page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR)
@@ -743,24 +844,24 @@ def main() -> None:
         ignore()
     # color.binの作成
     try:
-        with open("conf/original_theme.txt", "r", encoding="utf-8") as tf:
+        with open("conf/original_theme.txt", "r", encoding=author.code) as tf:
             _ = tf.read()
             pass
         pass
     except FileNotFoundError:
-        with open("conf/original_theme.txt", "w", encoding="utf-8") as theme_file:
+        with open("conf/original_theme.txt", "w", encoding=author.code) as theme_file:
             theme_file.write("False #000000 #FFFFFF #FFFFFF")
     except:
         raise extend_exception.FatalError
     # オートインデントの設定
     try:
-        with open("conf/auto_indent.txt", "r", encoding="utf-8") as default_indent:
+        with open("conf/auto_indent.txt", "r", encoding=author.code) as default_indent:
             indent_flag = default_indent.read()
             if indent_flag == "True":
                 indent.toggle_auto_indent()
                 author.command_hist("オートインデントは有効です")
     except FileNotFoundError:
-        with open("conf/auto_indent.txt", "w", encoding="utf-8") as default:
+        with open("conf/auto_indent.txt", "w", encoding=author.code) as default:
             default.write("False")
     except Exception:
         independent_method.fix_this_later()
@@ -781,11 +882,18 @@ def main() -> None:
     root.rowconfigure(0, weight=1)
     theme: str = author.read_theme()
     author.set_theme(theme=theme)
+    author.auto_indent()
     author.command_hist("初期化始め")
     author.command_hist("テーマを読み込みました")
     author.command_hist("初期化中")
+    if author.debug_enable:
+        author.command_hist("デバッグログを有効化しました")
+    # 文字カウントThreadのスタート
+    author.count_thread.start()
     # オートセーブその他の再帰呼び出し
     root.after(4000, author.repeat_save_file)
+    insert_mode = textarea_config.ModeChange(author)
+    insert_mode.change_vi_insert_mode()
     author.command_hist("初期化完了")
     root.mainloop()
 

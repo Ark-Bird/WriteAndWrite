@@ -1,12 +1,13 @@
 import os
 
 from wanabi import extend_exception
-
+import wanabi.encoding
 # import extend_exception
 from tkinter import messagebox
 import inspect
 
-
+codepoint = wanabi.encoding.Encoding()
+strcode = codepoint.code
 def write_theme_string(change_theme) -> None:
     """
     文字列の書き込み
@@ -14,12 +15,13 @@ def write_theme_string(change_theme) -> None:
     :param change_theme:
     :return:
     """
+    global strcode
     try:
         conf_dir_make()
     except Exception:
         messagebox.showerror("Error!", "ディレクトリを作成出来ませんでした")
         raise extend_exception.FatalError
-    with open("conf/color.bin", "w", encoding="utf-8") as file:
+    with open("conf/color.bin", "w", encoding=strcode) as file:
         file.write(change_theme)
     return
 
@@ -30,13 +32,14 @@ def write_filename_string(change_filename) -> None:
     :param change_filename: 保存したファイルのフルパス
     :return:
     """
+    global strcode
     try:
         conf_dir_make()
     except Exception:
         messagebox.showerror("Error!", "ディレクトリを作成出来ませんでした")
         raise extend_exception.FatalError
     try:
-        with open("conf/path.bin", mode="w", encoding="utf-8") as sf:
+        with open("conf/path.bin", mode="w", encoding=strcode) as sf:
             sf.write(change_filename)
     except PermissionError:
         raise extend_exception.PathPermissionException
@@ -48,15 +51,16 @@ def find_erase_flag_read() -> bool:
     検索時に入力した検索ワードを検索時に消すかどうかの判定
     :return: 成功時True,失敗時False
     """
+    global strcode
     try:
         # successはディレクトリの作成結果フラグ
         success = conf_dir_make()
         if not success:
             return False
-        with open("conf/find_erase.txt", "r", encoding="utf-8") as fefp:
+        with open("conf/find_erase.txt", "r", encoding=strcode) as fefp:
             erase_flag = fefp.read()
     except FileNotFoundError:
-        with open("conf/find_erase.txt", "w", encoding="utf-8") as wp:
+        with open("conf/find_erase.txt", "w", encoding=strcode) as wp:
             wp.write("False")
             erase_flag = False
     except Exception:
@@ -96,17 +100,18 @@ def read_font() -> str:
     フォントの設定ファイルを読み込み、形式が正しくない場合デフォルトでTimesフォントを使用する
     :return: フォント名
     """
+    global strcode
     try:
         conf_dir_make()
     except extend_exception.CannotMakedirsException:
         raise extend_exception.FatalError
     try:
-        with open("conf/font-family.txt", "r", encoding="utf-8") as font_conf:
+        with open("conf/font-family.txt", "r", encoding=strcode) as font_conf:
             font = font_conf.read()
             return font
     except FileNotFoundError:
         try:
-            with open("conf/font-family.txt", "w", encoding="utf-8") as wf:
+            with open("conf/font-family.txt", "w", encoding=strcode) as wf:
                 wf.write("Times")
                 return "Times"
         except Exception:
@@ -128,14 +133,15 @@ def fix_this_later() -> None:
     修正が必要なことをコマンドラインに表示
     :return: None
     """
+    global strcode
     mes_box: bool = False
     try:
-        with open("wanabi/conf/debug_enable.txt", "r", encoding="utf-8") as f:
+        with open("wanabi/conf/debug_enable.txt", "r", encoding=strcode) as f:
             debug_flag = f.read()
             if debug_flag == "True":
                 mes_box = True
     except FileNotFoundError:
-        with open("wanabi/conf/debug_enable.txt", "w", encoding="utf-8") as f:
+        with open("wanabi/conf/debug_enable.txt", "w", encoding=strcode) as f:
             f.write("False")
     except Exception:
         raise extend_exception.FatalError
