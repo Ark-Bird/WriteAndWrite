@@ -109,11 +109,11 @@ class WillBeAuthor:
         self.app_name: app_name.AppName = app_name.AppName()
         self.is_terminate = False
         self.vi_mode_now = "Command_mode"
-        self.is_thread_autosave_flag = False
-        self.is_already_run_autosave_flag = False
+        self.is_thread_autosave_flag: bool = False
+        self.is_already_run_autosave_flag: bool = False
         self.t = None
-        self.is_not_t_autosave_enable = True
-        self.t_end = False
+        self.is_not_t_autosave_enable: bool = True
+        self.t_end: bool = False
         if self.debug_enable:
             self.log2me = record_hist.RecordHist("conf/command.log")
         try:
@@ -733,11 +733,12 @@ class WillBeAuthor:
             with open("conf/debug.txt", mode="w", encoding=self.code) as f:
                 f.write("False")
         except Exception:
+            self.command_hist("致命的なバグの発生")
             return False
 
     def autosave_thread(self) -> None:
         prev_text = self.page.get("0.0", "end-1c")
-        while True:
+        while not self.t_end:
             if self.is_not_t_autosave_enable:
                 break
             if not self.is_already_run_autosave_flag:
@@ -756,12 +757,15 @@ class WillBeAuthor:
             self.is_save = True
             time.sleep(2)
             prev_text = self.page.get("0.0", "end-1c")
+
     def autosave_thread_start(self, event=None) -> None:
-        self.t = threading.Thread(target=self.autosave_thread)
+        self.t = threading.Thread(target=self.autosave_thread, daemon=True)
         self.is_thread_autosave_flag = True
         self.is_already_run_autosave_flag = True
         self.is_not_t_autosave_enable = False
+        self.t_end = False
         self.t.start()
+
     def autosave_thread_end(self, event=None) -> None:
         self.is_thread_autosave_flag = False
         self.is_already_run_autosave_flag = False
