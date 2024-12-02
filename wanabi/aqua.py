@@ -109,9 +109,11 @@ class WillBeAuthor:
         self.app_name: app_name.AppName = app_name.AppName()
         self.is_terminate = False
         self.vi_mode_now = "Command_mode"
-        self.is_thread_autosave_flag = False
-        self.is_already_run_autosave_flag = False
+        self.is_thread_autosave_flag: bool = False
+        self.is_already_run_autosave_flag: bool = False
         self.t = None
+        self.is_not_t_autosave_enable: bool = True
+        self.t_end: bool = False
         if self.debug_enable:
             self.log2me = record_hist.RecordHist("conf/command.log")
         try:
@@ -480,12 +482,13 @@ class WillBeAuthor:
             self.is_terminate = True
             self.count_thread.join()
             self.end_of_code = True
-            if self.is_already_run_autosave_flag:
-                self.is_thread_autosave_flag = False
-                self.t.join()
-            self.root.destroy()
+            self.is_thread_autosave_flag = False
         else:
             return
+        if self.is_not_t_autosave_enable:
+            self.autosave_thread_end()
+        self.root.destroy()
+        sys.exit(0)
 
     def new_blank_file(self) -> None:
         """
@@ -730,10 +733,14 @@ class WillBeAuthor:
             with open("conf/debug.txt", mode="w", encoding=self.code) as f:
                 f.write("False")
         except Exception:
+            self.command_hist("致命的なバグの発生")
             return False
 
     def autosave_thread(self) -> None:
-        while True:
+        prev_text = self.page.get("0.0", "end-1c")
+        while not self.t_end:
+            if self.is_not_t_autosave_enable:
+                break
             if not self.is_already_run_autosave_flag:
                 break
             if self.file_name == "":
@@ -741,19 +748,30 @@ class WillBeAuthor:
             if not self.is_thread_autosave_flag:
                 break
             text = self.page.get("0.0", "end-1c")
+            if prev_text == text:
+                time.sleep(1)
+                self.is_save = True
+                continue
             with open(self.file_name, "w", encoding=self.code) as file:
                 file.write(text)
             self.is_save = True
             time.sleep(2)
+            prev_text = self.page.get("0.0", "end-1c")
+
     def autosave_thread_start(self, event=None) -> None:
-        self.t = threading.Thread(target=self.autosave_thread)
+        self.t = threading.Thread(target=self.autosave_thread, daemon=True)
         self.is_thread_autosave_flag = True
         self.is_already_run_autosave_flag = True
+        self.is_not_t_autosave_enable = False
+        self.t_end = False
         self.t.start()
+
     def autosave_thread_end(self, event=None) -> None:
         self.is_thread_autosave_flag = False
         self.is_already_run_autosave_flag = False
-        self.t.join()
+        self.t_end = True
+        self.is_not_t_autosave_enable = True
+        # self.t.join()
 
 
 def init_page(page: tk.Text):
@@ -774,6 +792,7 @@ def main() -> None:
     グローバル変数を閉じ込めるためだけの関数
     :return:None
     """
+    independent_method.conf_dir_make()
     file_flag: bool = False
     if len(sys.argv) >= 3:
         print("引数は無しかファイル名一つだけです")
@@ -873,6 +892,8 @@ def main() -> None:
     author.count_thread.start()
     # オートセーブその他の再帰呼び出し
     root.after(4000, author.repeat_save_file)
+    insert_mode = textarea_config.ModeChange(author)
+    insert_mode.change_vi_insert_mode()
     author.command_hist("初期化完了")
     root.mainloop()
 
