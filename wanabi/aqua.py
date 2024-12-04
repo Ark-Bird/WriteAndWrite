@@ -149,7 +149,7 @@ class WillBeAuthor:
         :return: None
         """
         self.com_hist.append(command)
-        if len(self.com_hist) > 10:
+        if len(self.com_hist) > 5:
             self.com_hist.popleft()
         com_log = "→".join(self.com_hist)
         self.do_command.set(com_log)
@@ -765,6 +765,7 @@ class WillBeAuthor:
         self.is_not_t_autosave_enable = False
         self.t_end = False
         self.t.start()
+        self.command_hist("ベータ版オートセーブを有効にしました")
 
     def autosave_thread_end(self, event=None) -> None:
         self.is_thread_autosave_flag = False
@@ -772,6 +773,7 @@ class WillBeAuthor:
         self.t_end = True
         self.is_not_t_autosave_enable = True
         # self.t.join()
+        self.command_hist("ベータ版オートセーブを無効にしました")
 
 
 def init_page(page: tk.Text):
