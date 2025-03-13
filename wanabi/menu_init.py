@@ -22,7 +22,7 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     except FileNotFoundError:
         with open("conf/lang.txt", "w",) as wf:
             wf.write("jp")
-            messagebox.showwarning("lang.txt is Not found set Japanese")
+            messagebox.showwarning("lang.txt is not found", "lang.txt is Not found set Japanese")
             UIlang = "jp"
 
     i18n = lang.Language(UIlang)
