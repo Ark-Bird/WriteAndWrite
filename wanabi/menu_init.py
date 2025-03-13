@@ -8,7 +8,7 @@ from wanabi import lang
 # import version
 # import textarea_config
 from wanabi import aqua
-
+from tkinter import messagebox
 def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     """
     参照の引数menubarに各項目を追加
@@ -22,6 +22,9 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     except FileNotFoundError:
         with open("conf/lang.txt", "w",) as wf:
             wf.write("jp")
+            messagebox.showwarning("lang.txt is Not found set Japanese")
+            UIlang = "jp"
+
     i18n = lang.Language(UIlang)
     # 初期値
     mode_change = textarea_config.ModeChange(author)
