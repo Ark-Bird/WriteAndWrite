@@ -822,7 +822,7 @@ def main() -> None:
     font: tk.font.Font = tk.font.Font(root, family=font_family)
     full_screen: full_mode.FullMode = full_mode.FullMode(author)
     full_screen.set_root_full_mode(root)
-    root.geometry("640x640")
+    root.geometry("820x640")
     page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR)
     font_size: int = 13
     font_change: textarea_config.FontChange = textarea_config.FontChange(font_family, font_size, page, author)
