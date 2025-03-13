@@ -38,6 +38,7 @@ class Language:
             self.now_file = "現在のファイル"
             self.how_config_theme = "テーマ設定方法"
             self.HELP = "HELP"
+            self.change_lang = "change_language_en"
         elif self.area == "en":
             self.new_file = "new file"
             self.open = "open file"
@@ -75,3 +76,4 @@ class Language:
             self.now_file = "現在のファイル"
             self.how_config_theme = "how change theme"
             self.HELP = "HELP"
+            self.change_lang = "change_language_jp"
