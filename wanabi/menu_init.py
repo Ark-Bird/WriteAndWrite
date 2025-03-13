@@ -9,6 +9,15 @@ from wanabi import lang
 # import textarea_config
 from wanabi import aqua
 from tkinter import messagebox
+def chg_lang():
+    with open("conf/lang.txt", "r") as f:
+        now_lang = f.read()
+    with open("conf/lang.txt", "w+") as f:
+        if now_lang == "jp":
+            f.write("en")
+        else:
+            f.write("jp")
+    messagebox.showinfo("need restart","change language is after restart")
 def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     """
     参照の引数menubarに各項目を追加
@@ -125,5 +134,6 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
     help_menu.add_command(label=i18n.version, command=show_info.show_version)
     help_menu.add_command(label=i18n.now_file, command=author.file_full_name_show)
     help_menu.add_command(label=i18n.how_config_theme, command=show_info.show_theme_example)
+    help_menu.add_command(label=i18n.change_lang, command=chg_lang)
     menubar.add_cascade(label=i18n.HELP, menu=help_menu)
     return
