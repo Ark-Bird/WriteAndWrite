@@ -18,13 +18,12 @@ def chg_lang():
         else:
             f.write("jp")
     messagebox.showinfo("need restart","change language is after restart")
-def menu_init(author, menubar, pkvin, indent, full_mode, font_change) -> None:
+def menu_init(author, menubar, pkvin, indent, full_mode, font_change, use_lang="jp") -> None:
     """
     参照の引数menubarに各項目を追加
     初めにバージョンとライセンスを表示するためのクラスのインスタンスを作成している
     :return:
     """
-
     try:
         with open("conf/lang.txt", "r",) as f:
             UIlang = f.read()

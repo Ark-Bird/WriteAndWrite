@@ -870,7 +870,29 @@ def main() -> None:
         raise extend_exception.FatalError
     root.minsize(32, 32)
     menubar: tk.Menu = tk.Menu(root, font=font)
-    menu_init.menu_init(author, menubar, pk1vin, indent, full_screen, font_change)
+    try:
+        with open("conf/lang.txt", "r") as lang_file:
+            ask_use_language = lang_file.read()
+        if ask_use_language == "jp" or ask_use_language == "en":
+            pass
+        else:
+            ask_use_language = False
+    except FileNotFoundError:
+        ask_use_language = False
+        pass
+    except Exception:
+        raise extend_exception.FatalError
+    if not ask_use_language:
+        ask_use_language = messagebox.askyesno("default language", "使用言語は日本語ですか？(use japanese?")
+        if ask_use_language:
+            with open("conf/lang.txt", "w", encoding=author.code) as lang_file:
+                lang_file.write("jp")
+            ask_use_language = "jp"
+        else:
+            with open("conf/lang.txt", "w", encoding=author.code) as lang_file:
+                lang_file.write("en")
+            ask_use_language = "en"
+    menu_init.menu_init(author, menubar, pk1vin, indent, full_screen, font_change, use_lang=ask_use_language)
     # タイトル
     root.config(menu=menubar)
     root.title("インクの跡は全て文字")

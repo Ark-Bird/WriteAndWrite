@@ -1,6 +1,7 @@
 class Language:
     def __init__(self, Area="jp"):
         self.area = Area
+        self.lang = "jp"
         if self.area == "jp":
             self.new_file = "新規ファイル"
             self.open = "開く"
