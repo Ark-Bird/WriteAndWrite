@@ -4,7 +4,7 @@ from wanabi import const
 # import const
 import webbrowser
 
-def contact_support(event=None):
+def contact_support():
     webbrowser.open_new("mailto:<skylake.author@gmail.com>")
 
 class ShowInfo:
@@ -68,11 +68,21 @@ class ShowInfo:
         連絡先
         :return:
         """
-        report = tkinter.Tk()
-        report.geometry("320x60")
-        contact = tkinter.Label(report, font=("Courier New", 10), text="Send crash report(クレッシュレポートの送信)", fg="blue", bg="white")
-        contact.pack()
-        contact.bind("<Button-1>", contact_support)
-        report.mainloop()
+        send_or_not = messagebox.askyesno("Send Crash Report", "不具合が出た場合、クラッシュが出たとき\n"
+                                                 "どのような環境でどんな操作をしたかを差し支えない範囲で書いてください\n"
+                                                 "情報の目的外利用はしませんが、個人情報は書き込まないでください\n"
+                                                 "If a malfunction or crash occurs, please kindly describe,\n"
+                                                 " to the extent you are comfortable,\n"
+                                                 " the environment in which it happened and the operations you performed.\n"
+                                                 " While we will not use the information for purposes other than intended,\n"
+                                                 " please refrain from including any personal information."
+
+)
+        if send_or_not:
+            contact_support()
+        else:
+            messagebox.showinfo("Canceled", "メッセージの送信をキャンセルしました\n"
+                                   "Report is NOT send.\n")
+            return
 
 
