@@ -1,7 +1,11 @@
+import tkinter
 from tkinter import messagebox
 from wanabi import const
 # import const
+import webbrowser
 
+def contact_support(event=None):
+    webbrowser.open_new("mailto:<skylake.author@gmail.com>")
 
 class ShowInfo:
     def __init__(self):
@@ -22,7 +26,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver2.6.22_code:/金剛石/
+        ver2.6.24_code:/金剛石/
         """)
 
         # テーマ書式
@@ -58,3 +62,17 @@ class ShowInfo:
         """
         messagebox.showinfo("テーマ設定の書式", self._THEME_EXAMPLE_CONF.get_const())
         return
+
+    def report_and_contact(self) -> None:
+        """
+        連絡先
+        :return:
+        """
+        report = tkinter.Tk()
+        report.geometry("320x60")
+        contact = tkinter.Label(report, font=("Courier New", 10), text="Send crash report(クレッシュレポートの送信)", fg="blue", bg="white")
+        contact.pack()
+        contact.bind("<Button-1>", contact_support)
+        report.mainloop()
+
+
