@@ -134,5 +134,6 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change, use_lang="
     help_menu.add_command(label=i18n.now_file, command=author.file_full_name_show)
     help_menu.add_command(label=i18n.how_config_theme, command=show_info.show_theme_example)
     help_menu.add_command(label=i18n.change_lang, command=chg_lang)
+    help_menu.add_command(label=i18n.report, command=show_info.report_and_contact)
     menubar.add_cascade(label=i18n.HELP, menu=help_menu)
     return
