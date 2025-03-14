@@ -1,6 +1,7 @@
 class Language:
     def __init__(self, Area="jp"):
         self.area = Area
+        self.lang = "jp"
         if self.area == "jp":
             self.new_file = "新規ファイル"
             self.open = "開く"
@@ -39,6 +40,7 @@ class Language:
             self.how_config_theme = "テーマ設定方法"
             self.HELP = "HELP"
             self.change_lang = "change_language_en"
+            self.report = "不具合の報告"
         elif self.area == "en":
             self.new_file = "new file"
             self.open = "open file"
@@ -77,3 +79,4 @@ class Language:
             self.how_config_theme = "how change theme"
             self.HELP = "HELP"
             self.change_lang = "change_language_jp"
+            self.report = "Crash report and support"
