@@ -43,7 +43,7 @@ class Memory(ram_memo.RamMemo):
             return
         except Exception:
             raise extend_exception.FatalError
-        self.author.command_hist("RAM上にテキストを保存しました")
+        self.author.command_hist(self.author.language.save_on_RAM_memory)
         return
 
     def show_memory(self, event=None) -> str:
@@ -92,7 +92,7 @@ class FontChange:
             with open("conf/font-size.txt", "w") as fs:
                 fs.write("False 10")
         self.page.configure(font=(self.font_family, self.now_font_size))
-        self.author.command_hist("フォントの初期化処理が完了しました")
+        self.author.command_hist("font initialize")
 
     def font_size_big(self, event=None) -> None:
         """
@@ -105,7 +105,7 @@ class FontChange:
         if self.now_font_size >= 50:
             self.now_font_size = 50
         self.page.configure(font=(self.font_family, self.now_font_size))
-        self.author.command_hist("フォントサイズを大きくしました")
+        self.author.command_hist(self.author.language.font_size_big)
         return
 
     def font_size_small(self, event=None) -> None:
@@ -119,7 +119,7 @@ class FontChange:
         if self.now_font_size <= 6:
             self.now_font_size = 6
         self.page.configure(font=(self.font_family, self.now_font_size))
-        self.author.command_hist("フォントサイズを小さくしました")
+        self.author.command_hist(self.author.language.font_size_small)
         return
 
 
@@ -242,13 +242,13 @@ class ModeChange:
         my_key_bind = ViCommandMode(self.author)
         my_key_bind.edit_key_bind()
         self.author.change_vi_mode_flag()
-        self.author.command_hist("キーバインドをViモードにしました")
+        self.author.command_hist(self.author.language.keybind_vi)
         return
 
     def change_vi_insert_mode(self) -> None:
         my_key_bind = ViInsertMode(self.author)
         my_key_bind.edit_key_bind()
-        self.author.command_hist("インサートモードに入りました")
+        self.author.command_hist(self.author.language.in_insert_mode)
 
 
     def change_emacs_mode(self) -> None:
@@ -259,5 +259,5 @@ class ModeChange:
         my_key_bind = EmacsMode(self.author)
         my_key_bind.edit_key_bind()
         self.author.change_emacs_mode_flag()
-        self.author.command_hist("キーバインドをEmacsモードにしました")
+        self.author.command_hist(self.author.language.keybind_emacs)
         return

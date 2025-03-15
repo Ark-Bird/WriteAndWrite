@@ -41,6 +41,36 @@ class Language:
             self.HELP = "HELP"
             self.change_lang = "change_language_en"
             self.report = "不具合の報告"
+            # logmessage
+            self.pathfile_permission_error = "path.binへの書き込み権限がありません、再試行します"
+            self.cannot_write_file = "ファイルに書き込めませんでした"
+            self.auto_save_enabled = "オートセーブが有効になりました"
+            self.auto_save_disabled = "オートセーブが無効になりました"
+            self.save_complete = "保存しました"
+            self.opened = "開きました"
+            self.app_clipboard_copy = "ローカルクリップボードにコピーしました"
+            self.app_clipboard_paste = "ローカルクリップボードからのペーストをしました"
+            self.app_clipboard_cut = "ローカルクリップボードへカットしました"
+            self.init_auto_indent = "オートインデントの初期化"
+            self.window_topmost_start = "ウインドウを最前面にします"
+            self.window_topmost_end = "最前面化を解除しました"
+            self.fatalError_is_raise = "復帰不可能なエラーが発生しました"
+            # c-mode
+            self.concentration_mode_start = "集中モードを開始しました"
+            self.concentration_mode_end = "集中モードを終了しました"
+            # indent
+            self.auto_indent_enable = "オートインデントは有効です"
+            self.toggle_auto_indent = "インデント有効/無効を変更しました"
+            self.auto_indent_half_or_full = "インデント半角/全角を変更しました"\
+            # furniture
+            self.save_on_RAM_memory = "RAM上にテキストを保存しました"
+            # font-size
+            self.font_size_big = "フォントサイズを大きくしました"
+            self.font_size_small = "フォントサイズを小さくしました"
+            # mode
+            self.keybind_vi = "viモードにしました"
+            self.in_insert_mode = "インサートモードに入りました"
+            self.keybind_emacs = "emacsモードにしました"
         elif self.area == "en":
             self.new_file = "new file"
             self.open = "open file"
@@ -80,3 +110,34 @@ class Language:
             self.HELP = "HELP"
             self.change_lang = "change_language_jp"
             self.report = "Crash report and support"
+            # log meesage
+            self.pathfile_permission_error = "can't write to path.bin、retry"
+            self.cannot_write_file = "can't write a file"
+            self.auto_save_enabled = "autosave enabled"
+            self.auto_save_disabled = "autosave disabled"
+            self.save_complete = "save complete"
+            self.opened = "opened"
+            self.app_clipboard_copy = "copy app clipboard"
+            self.app_clipboard_paste = "paste app clipboard"
+            self.app_clipboard_cut = "cut app clipboard"
+            self.init_auto_indent = "initialize auto indent"
+            self.window_topmost_start = "window topmost start"
+            self.window_topmost_end = "window topmost end"
+            self.fatalError_is_raise = "fatal error is raised"
+            self.auto_indent_enable = "auto_indent is enable"
+            # c-mode
+            self.concentration_mode_start = "concentration mode start"
+            self.concentration_mode_end = "concentration mode end"
+            # indent
+            self.auto_indent_enable = "auto_indent is enable"
+            self.toggle_auto_indent = "enable/disable auto_indent"
+            self.auto_indent_half_or_full = "toggle auto_indent half or full"
+            # furniture
+            self.save_on_RAM_memory = "write on RAM memory"
+            # font
+            self.font_size_big = "font size zoom"
+            self.font_size_small = "font size smaller"
+            # mode
+            self.change_vi_bind = "set keybind vi"
+            self.in_insert_mode = "in insert mode"
+            self.keybind_emacs = "set keybind emacs"
