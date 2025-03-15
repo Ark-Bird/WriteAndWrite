@@ -1,5 +1,5 @@
 import tkinter.messagebox
-
+from wanabi import lang
 
 class FullMode:
     def __init__(self, author):
@@ -7,6 +7,7 @@ class FullMode:
         初期化、デフォルトで全画面は無効
         rootはset_root_full_modeで設定するのでこの時点では空
         """
+        self.lang = lang.Language()
         self.c_mode_flag: bool = False
         self.root = None
         self.author = author
@@ -32,7 +33,7 @@ class FullMode:
             return
         self.c_mode_flag = True
         self.root.attributes("-fullscreen", True)
-        self.author.command_hist("集中モードを開始しました")
+        self.author.command_hist(self.author.language.concentration_mode_start)
         return
 
     def end_c_mode(self) -> None:
@@ -48,7 +49,7 @@ class FullMode:
         self.c_mode_flag = False
         self.root.attributes("-fullscreen", False)
         self.root.geometry("640x640")
-        self.author.command_hist("集中モードを終了しました")
+        self.author.command_hist(self.author.language.concentration_mode_end)
         return
 
     def valid_root(self) -> bool:
