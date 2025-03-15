@@ -71,6 +71,14 @@ class Language:
             self.keybind_vi = "viモードにしました"
             self.in_insert_mode = "インサートモードに入りました"
             self.keybind_emacs = "emacsモードにしました"
+            # titlebar
+            self.title = "無題"
+            self.no_saved = "未保存"
+            self.saved = "保存住み"
+            self.char = "文字"
+            self.auto_indent_half_width = "オートインデント半角"
+            self.auto_indent_full_width = "オートインデント全角"
+            self.auto_indent_disable_now = "インデント無効"
         elif self.area == "en":
             self.new_file = "new file"
             self.open = "open file"
@@ -141,3 +149,11 @@ class Language:
             self.change_vi_bind = "set keybind vi"
             self.in_insert_mode = "in insert mode"
             self.keybind_emacs = "set keybind emacs"
+            # titlebar
+            self.title = "no title"
+            self.no_saved = "no saved"
+            self.saved = "saved"
+            self.char = " letter"
+            self.auto_indent_half_width = " auto_indent half"
+            self.auto_indent_full_width = " auto_indent full"
+            self.auto_indent_disable_now = " auto_indent disable"
