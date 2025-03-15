@@ -39,6 +39,7 @@ from wanabi import string_decorate
 from wanabi import textarea_config
 from wanabi import theme_mod
 from wanabi import vinegar
+from wanabi import lang
 import wanabi.encoding
 from wanabi.independent_method import ignore
 
@@ -114,6 +115,24 @@ class WillBeAuthor:
         self.t = None
         self.is_not_t_autosave_enable: bool = True
         self.t_end: bool = False
+        try:
+            with open("conf/lang.txt", "r", encoding="utf-8") as f:
+                self.lang = f.read()
+            if self.lang == "jp":
+                self.language = lang.Language("jp")
+            elif self.lang == "en":
+                self.language = lang.Language("en")
+            else:
+                with open(f"conf/lang.txt", "r", encoding="utf-8") as f:
+                    f.write("en")
+                    self.language = lang.Language("en")
+        except FileNotFoundError:
+            with open("conf/lang.txt", "w", encoding="utf-8") as f:
+                f.write("jp")
+                self.language = lang.Language("jp")
+        except:
+            self.command_hist(self.language.fatalError_is_raise)
+            raise Exception
         if self.debug_enable:
             self.log2me = record_hist.RecordHist("conf/command.log")
         try:
@@ -341,7 +360,7 @@ class WillBeAuthor:
             print("パスが無効です")
             self.prev_save_dir = os.path.abspath(os.path.dirname(__file__))
         except extend_exception.PathPermissionException:
-            self.command_hist("path.binへの書き込み権限がありません、再試行します")
+            self.command_hist(self.language.pathfile_permission_error)
         except Exception:
             self.prev_save_dir = ""
             independent_method.write_filename_string("")
@@ -354,7 +373,7 @@ class WillBeAuthor:
         except FileNotFoundError:
             independent_method.write_filename_string("")
         except extend_exception.PathPermissionException:
-            self.command_hist("path.binへの書き込み権限がありません、再試行します")
+            self.command_hist(self.language.pathfile_permission_error)
         except Exception:
             raise extend_exception.FatalError
         self.change_titlebar()
@@ -365,7 +384,7 @@ class WillBeAuthor:
         try:
             self.root.after(1000, self.repeat_save_file)
         except Exception:
-            self.command_hist("ファイルに書き込めませんでした")
+            self.command_hist(self.language.cannot_write_file)
             self.root.after(1000, self.repeat_save_file)
             raise extend_exception.CannotWriteFileException
         return
@@ -390,7 +409,7 @@ class WillBeAuthor:
         :return:None
         """
         self.is_autosave_flag = True
-        self.command_hist("オートセーブ機能が有効になりました")
+        self.command_hist(self.language.auto_save_enabled)
         return
 
     def change_auto_save_disable(self) -> None:
@@ -398,7 +417,7 @@ class WillBeAuthor:
         オートセーブ機能の無効化
         :return:None
         """
-        self.command_hist("オートセーブ機能が無効になりました")
+        self.command_hist(self.language.auto_save_disabled)
         self.is_autosave_flag = False
         return
 
@@ -452,12 +471,12 @@ class WillBeAuthor:
         with open(self.file_name, mode="w", encoding=self.code) as textum_file:
             textum_file.write(self.written_textum)
         if not self.is_autosave_flag:
-            self.command_hist(self.file_name + "を保存しました")
+            self.command_hist(self.file_name + self.language.save_complete)
         try:
             with open("conf/path.bin", mode="w", encoding=self.code) as conf:
                 conf.write(self.file_name)
         except PermissionError:
-            self.command_hist("path.binへの書き込み権限がありません、再試行します")
+            self.command_hist(self.language.pathfile_permission_error)
             time.sleep(0.05)
             self.save_file()
         self.is_text_unchanged()
@@ -548,7 +567,7 @@ class WillBeAuthor:
         self.is_text_changed()
         self.change_auto_save_disable()
         self.change_titlebar()
-        self.command_hist(self.file_name + "を開きました")
+        self.command_hist(self.file_name + self.language.opened)
         return
 
     def text_copy(self, event=None) -> None:
@@ -567,7 +586,7 @@ class WillBeAuthor:
         except Exception:
             # どうしようもない例外でエラーをレイズ
             raise extend_exception.FatalError
-        self.command_hist("ローカルクリップボードにコピーしました")
+        self.command_hist(self.language.app_clipboard_copy)
         return
 
     def text_paste(self, event=None) -> None:
@@ -589,7 +608,7 @@ class WillBeAuthor:
         except Exception:
             # 致命的なエラー
             raise extend_exception.FatalError
-        self.command_hist("ローカルクリップボードからのペーストをしました")
+        self.command_hist(self.language.app_clipboard_copy)
         return
 
     def text_cut(self, event=None) -> None:
@@ -610,7 +629,7 @@ class WillBeAuthor:
         except Exception:
             print("致命的なエラー")
             raise extend_exception.FatalError
-        self.command_hist("ローカルクリップボードへカットしました")
+        self.command_hist(self.language.app_clipboard_copy)
         return
 
     def is_text_changed(self) -> None:
@@ -690,7 +709,7 @@ class WillBeAuthor:
                 wfp.write("False")
         except Exception:
             raise extend_exception.FatalError
-        self.command_hist("オートインデントの初期化")
+        self.command_hist(self.language.init_auto_indent)
 
     def wrap_enable(self) -> None:
         """
@@ -711,11 +730,11 @@ class WillBeAuthor:
 
     def enable_topmost_window(self) -> None:
         self.root.attributes("-topmost", True)
-        self.command_hist("ウインドウを最前面にします")
+        self.command_hist(self.language.window_topmost_start)
 
     def disable_topmost_window(self) -> None:
         self.root.attributes("-topmost", False)
-        self.command_hist("最前面化を解除しました")
+        self.command_hist(self.language.window_topmost_end)
 
     def is_debug_enable(self) -> bool:
         """
@@ -733,7 +752,7 @@ class WillBeAuthor:
             with open("conf/debug.txt", mode="w", encoding=self.code) as f:
                 f.write("False")
         except Exception:
-            self.command_hist("致命的なバグの発生")
+            self.command_hist(self.language.fatalError_is_raise)
             return False
 
     def autosave_thread(self) -> None:
@@ -765,7 +784,7 @@ class WillBeAuthor:
         self.is_not_t_autosave_enable = False
         self.t_end = False
         self.t.start()
-        self.command_hist("ベータ版オートセーブを有効にしました")
+        self.command_hist("ベータ版オートセーブを有効にしました(secret)")
 
     def autosave_thread_end(self, event=None) -> None:
         self.is_thread_autosave_flag = False
@@ -773,7 +792,7 @@ class WillBeAuthor:
         self.t_end = True
         self.is_not_t_autosave_enable = True
         # self.t.join()
-        self.command_hist("ベータ版オートセーブを無効にしました")
+        self.command_hist("ベータ版オートセーブを無効にしました(secret)")
 
 
 def init_page(page: tk.Text):
@@ -861,7 +880,7 @@ def main() -> None:
             indent_flag = default_indent.read()
             if indent_flag == "True":
                 indent.toggle_auto_indent()
-                author.command_hist("オートインデントは有効です")
+                author.command_hist("auto indent enable")
     except FileNotFoundError:
         with open("conf/auto_indent.txt", "w", encoding=author.code) as default:
             default.write("False")
@@ -907,18 +926,18 @@ def main() -> None:
     theme: str = author.read_theme()
     author.set_theme(theme=theme)
     author.auto_indent()
-    author.command_hist("初期化始め")
-    author.command_hist("テーマを読み込みました")
-    author.command_hist("初期化中")
+    author.command_hist("start initialise")
+    author.command_hist("read theme")
+    author.command_hist("initialising")
     if author.debug_enable:
-        author.command_hist("デバッグログを有効化しました")
+        author.command_hist("enable debug_log")
     # 文字カウントThreadのスタート
     author.count_thread.start()
     # オートセーブその他の再帰呼び出し
     root.after(4000, author.repeat_save_file)
     insert_mode = textarea_config.ModeChange(author)
     insert_mode.change_vi_insert_mode()
-    author.command_hist("初期化完了")
+    author.command_hist("initialise complete")
     root.mainloop()
 
 
