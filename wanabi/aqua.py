@@ -278,12 +278,12 @@ class WillBeAuthor:
         :return: None
         """
         if self.file_name == "" and self.page.get("0.0", "end") == "\n":
-            self.title_var_string += ":無題:"
+            self.title_var_string += ":" + self.language.title + ":"
         # 保存の有無
         elif not self.is_save:
-            self.title_var_string += "*未保存*:"
+            self.title_var_string += "*" + self.language.no_saved + "*:"
         elif self.is_save and not self.init:
-            self.title_var_string += ":保存済み:"
+            self.title_var_string += ":"+ self.language.saved +":"
         else:
             self.init = False
 
@@ -304,9 +304,9 @@ class WillBeAuthor:
         :return: オートセーブの状態
         """
         if self.is_autosave_flag:
-            return ":オートセーブ有効:"
+            return ":" + self.language.auto_save_enabled
         else:
-            return ":オートセーブ無効:"
+            return ":" + self.language.auto_save_disabled
 
     def change_titlebar(self) -> None:
         """
@@ -317,17 +317,17 @@ class WillBeAuthor:
         # half_spaceは挿入されるインデントが半角が全角かのフラグ
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
-        self.title_var_string = str(self.letter_count) + ":  文字"
+        self.title_var_string = str(self.letter_count) + ":" + self.language.char
         self.check_if_is_saved()
         self.title_var_string = self.app_name.return_app_name_for_now() + self.title_var_string
         # オートインデントの半角/全角状態の表示
         if auto_indent:
             if half_space:
-                self.title_var_string += "*オートインデント半角*"
+                self.title_var_string += self.language.auto_indent_half_width
             else:
-                self.title_var_string += "*オートインデント全角*"
+                self.title_var_string += self.language.auto_indent_full_width
         else:
-            self.title_var_string += "*オートインデント無効"
+            self.title_var_string += self.language.auto_indent_disable_now
         # オートセーブは有効か
         self.title_var_string += self.check_autosave_flag()
         # カーソル移動の方法
