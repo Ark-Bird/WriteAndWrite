@@ -61,16 +61,16 @@ class Language:
             # indent
             self.auto_indent_enable = "オートインデントは有効です"
             self.toggle_auto_indent = "インデント有効/無効を変更しました"
-            self.auto_indent_half_or_full = "インデント半角/全角を変更しました"\
+            self.auto_indent_half_or_full = "インデント半角/全角を変更"
             # furniture
             self.save_on_RAM_memory = "RAM上にテキストを保存しました"
             # font-size
             self.font_size_big = "フォントサイズを大きくしました"
             self.font_size_small = "フォントサイズを小さくしました"
             # mode
-            self.keybind_vi = "viモードにしました"
-            self.in_insert_mode = "インサートモードに入りました"
-            self.keybind_emacs = "emacsモードにしました"
+            self.keybind_vi = "viモードに変更"
+            self.in_insert_mode = "インサートモードに変更"
+            self.keybind_emacs = "emacsモードに変更"
             # titlebar
             self.title = "無題"
             self.no_saved = "未保存"
