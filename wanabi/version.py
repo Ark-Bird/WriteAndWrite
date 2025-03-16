@@ -1,4 +1,3 @@
-import tkinter
 from tkinter import messagebox
 from wanabi import const
 # import const
@@ -6,6 +5,30 @@ import webbrowser
 
 def contact_support():
     webbrowser.open_new("mailto:<skylake.author@gmail.com>")
+
+
+def report_and_contact() -> None:
+    """
+    連絡先
+    :return:
+    """
+    send_or_not = messagebox.askyesno("Send Crash Report", "不具合が出た場合、クラッシュが出たとき\n"
+                                             "どのような環境でどんな操作をしたかを差し支えない範囲で書いてください\n"
+                                             "情報の目的外利用はしませんが、個人情報は書き込まないでください\n"
+                                             "If a malfunction or crash occurs, please kindly describe,\n"
+                                             " to the extent you are comfortable,\n"
+                                             " the environment in which it happened and the operations you performed.\n"
+                                             " While we will not use the information for purposes other than intended,\n"
+                                             " please refrain from including any personal information."
+
+)
+    if send_or_not:
+        contact_support()
+    else:
+        messagebox.showinfo("Canceled", "メッセージの送信をキャンセルしました\n"
+                               "Report is NOT send.\n")
+        return
+
 
 class ShowInfo:
     def __init__(self):
@@ -26,7 +49,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver2.6.26_code:/金剛石/
+        ver2.6.28_code:/金剛石/
         """)
 
         # テーマ書式
@@ -62,27 +85,5 @@ class ShowInfo:
         """
         messagebox.showinfo("テーマ設定の書式", self._THEME_EXAMPLE_CONF.get_const())
         return
-
-    def report_and_contact(self) -> None:
-        """
-        連絡先
-        :return:
-        """
-        send_or_not = messagebox.askyesno("Send Crash Report", "不具合が出た場合、クラッシュが出たとき\n"
-                                                 "どのような環境でどんな操作をしたかを差し支えない範囲で書いてください\n"
-                                                 "情報の目的外利用はしませんが、個人情報は書き込まないでください\n"
-                                                 "If a malfunction or crash occurs, please kindly describe,\n"
-                                                 " to the extent you are comfortable,\n"
-                                                 " the environment in which it happened and the operations you performed.\n"
-                                                 " While we will not use the information for purposes other than intended,\n"
-                                                 " please refrain from including any personal information."
-
-)
-        if send_or_not:
-            contact_support()
-        else:
-            messagebox.showinfo("Canceled", "メッセージの送信をキャンセルしました\n"
-                                   "Report is NOT send.\n")
-            return
 
 
