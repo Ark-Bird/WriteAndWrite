@@ -113,7 +113,7 @@ class Language:
             self.is_topmost = "Window"
             self.lisence = "LISENCE"
             self.version = "version"
-            self.now_file = "現在のファイル"
+            self.now_file = "Now Edit FILE"
             self.how_config_theme = "how change theme"
             self.HELP = "HELP"
             self.change_lang = "change_language_jp"
