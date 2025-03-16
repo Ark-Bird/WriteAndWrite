@@ -95,7 +95,7 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change, use_lang="
         label="Apply", command=author.theme_apply
     )
     color_mode.add_cascade(
-        label="テーマ切り替え", menu=color_select
+        label=i18n.change_theme, menu=color_select
     )
     menubar.add_cascade(label=i18n.change_theme, menu=color_mode)
     # オートインデント/オン・オフ
