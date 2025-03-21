@@ -43,7 +43,7 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change, use_lang="
     file_menu.add_command(label=i18n.new_file, command=author.new_blank_file)
     file_menu.add_command(label=i18n.open, command=author.open_text_file)
     file_menu.add_command(label=i18n.save, command=author.save_file)
-    file_menu.add_command(label=i18n.save, command=author.save_as)
+    file_menu.add_command(label=i18n.save_as, command=author.save_as)
     file_menu.add_command(label=i18n.ser_save, command=pkvin.umeboshi)
     file_menu.add_command(label=i18n.des_open, command=pkvin.sunuki)
     file_menu.add_command(
