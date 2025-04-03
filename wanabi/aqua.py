@@ -852,7 +852,7 @@ def main() -> None:
             curflag, curswidth = f.read().split()
         if curflag == "True":
             curswidth = int(curswidth)
-        elif curflag != "False":
+        elif curflag == "False":
             curswidth = 2
         else:
             with open("conf/insertwidth.txt","w") as reset:
