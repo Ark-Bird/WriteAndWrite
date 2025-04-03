@@ -43,7 +43,7 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change, use_lang="
     file_menu.add_command(label=i18n.new_file, command=author.new_blank_file)
     file_menu.add_command(label=i18n.open, command=author.open_text_file)
     file_menu.add_command(label=i18n.save, command=author.save_file)
-    file_menu.add_command(label=i18n.save, command=author.save_as)
+    file_menu.add_command(label=i18n.save_as, command=author.save_as)
     file_menu.add_command(label=i18n.ser_save, command=pkvin.umeboshi)
     file_menu.add_command(label=i18n.des_open, command=pkvin.sunuki)
     file_menu.add_command(
@@ -55,7 +55,7 @@ def menu_init(author, menubar, pkvin, indent, full_mode, font_change, use_lang="
     # 編集メニュー、カット、コピー、ペーストをラムダ式で呼び出し
     # editmenu = tk.Menu(menubar, tearoff=0)
     # editmenu.add_command(label="コピー (Ctrl-c)", command=author.text_copy)
-    # editmenu.add_command(label="カット (Ctrl-x)", command=author.text_cut)
+    # editmenu.add_command(label="カット (Ctr                                                                 l-x)", command=author.text_cut)
     # # editmenu.add_command(label="貼り付け (Ctrl-v)", command=lambda: author.text_paste())
     # menubar.add_cascade(label="編集", menu=editmenu)
 
