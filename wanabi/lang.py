@@ -54,6 +54,7 @@ class Language:
             self.init_auto_indent = "オートインデントの初期化"
             self.window_topmost_start = "ウインドウを最前面にします"
             self.window_topmost_end = "最前面化を解除しました"
+            self.cursor_init = "カーソル設定ファイルがありません、作成します"
             self.curswidth_reset = "カーソル幅の設定ファイルが解釈できなかったため初期化します"
             self.fatalError_is_raise = "復帰不可能なエラーが発生しました"
             # c-mode
@@ -132,6 +133,7 @@ class Language:
             self.init_auto_indent = "initialize auto indent"
             self.window_topmost_start = "window topmost start"
             self.window_topmost_end = "window topmost end"
+            self.cursor_init = "cursor config file is not found, create it"
             self.curswidth_reset = ("cursor width config is invalid," +
                                     " reset file")
             self.fatalError_is_raise = "fatal error is raised"

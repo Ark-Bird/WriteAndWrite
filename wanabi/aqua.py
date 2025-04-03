@@ -812,6 +812,13 @@ def init_page(page: tk.Text):
     return decorate, pkvin
 
 
+def reset_cursor():
+    default = "False 2"
+    with open("conf/insertwidth.txt", "w") as reset:
+        reset.write("False 2")
+    return default
+
+
 def main() -> None:
     """
     主処理系
@@ -849,27 +856,26 @@ def main() -> None:
     root.geometry("820x640")
     try:
         with open("conf/insertwidth.txt","r") as f:
-            curflag, curswidth = f.read().split()
+            curflag, cursorwidth = f.read().split()
         if curflag == "True":
-            curswidth = int(curswidth)
+            cursorwidth = int(cursorwidth)
         elif curflag == "False":
-            curswidth = 2
+            cursorwidth = 2
         else:
             with open("conf/insertwidth.txt","w") as reset:
                 reset.write("False 2")
-                curswidth = 2
+                cursorwidth = 2
     except ValueError:
         messagebox.showinfo("attention!", author.language.curswidth_reset)
-        with open("conf/insertwidth.txt", "w") as reset:
-            reset.write("False 2")
-            curswidth = 2
+        reset_cursor()
+        cursorwidth = 2
     except FileNotFoundError:
-        with open("conf/insertwidth.txt", "w") as reset:
-            reset.write("False 2")
-            curswidth = 2
+        messagebox.showinfo("Attention", author.language.cursor_init)
+        reset_cursor()
+        cursorwidth = 2
     except Exception:
         raise extend_exception.FatalError
-    page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR, insertwidth=curswidth)
+    page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR, insertwidth=cursorwidth)
     font_size: int = 13
     font_change: textarea_config.FontChange = textarea_config.FontChange(font_family, font_size, page, author)
     temp_assign: tuple[string_decorate.StringDecorator, vinegar.Vinegar] = init_page(page)
