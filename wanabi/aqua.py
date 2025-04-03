@@ -570,6 +570,12 @@ class WillBeAuthor:
         self.command_hist(self.file_name + self.language.opened)
         return
 
+    def open_file(self, file_name) -> None:
+        with open(file_name, "r") as f:
+            txt = f.read()
+            self.page.insert("0.0",txt)
+        return
+
     def text_copy(self, event=None) -> None:
         """
         copy text
@@ -815,12 +821,13 @@ def main() -> None:
     """
     independent_method.conf_dir_make()
     file_flag: bool = False
+    open_click_file: str = ""
     if len(sys.argv) >= 3:
         print("引数は無しかファイル名一つだけです")
         sys.exit()
     if len(sys.argv) == 2:
         file_flag = True
-        open_file: str = sys.argv[1]
+        open_click_file_name = sys.argv[1]
     # Windowsもしくはそれ以外を判別
     pf: str = platform.system()
     conf_exist: bool = os.path.isdir("conf")
@@ -831,8 +838,6 @@ def main() -> None:
             messagebox.showinfo("can't mkdir!", "設定ファイル用ディレクトリを作成出来ませんでした、終了します")
             raise extend_exception.FatalError
     author: WillBeAuthor = WillBeAuthor()
-    if file_flag:
-        author.file_name = open_file
     root: tk.Tk = tk.Tk()
     author.setroot(root)
     # ラベルの作成
@@ -842,7 +847,29 @@ def main() -> None:
     full_screen: full_mode.FullMode = full_mode.FullMode(author)
     full_screen.set_root_full_mode(root)
     root.geometry("820x640")
-    page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR)
+    try:
+        with open("conf/insertwidth.txt","r") as f:
+            curflag, curswidth = f.read().split()
+        if curflag == "True":
+            curswidth = int(curswidth)
+        elif curflag != "False":
+            curswidth = 2
+        else:
+            with open("conf/insertwidth.txt","w") as reset:
+                reset.write("False 2")
+                curswidth = 2
+    except ValueError:
+        messagebox.showinfo("attention!", author.language.curswidth_reset)
+        with open("conf/insertwidth.txt", "w") as reset:
+            reset.write("False 2")
+            curswidth = 2
+    except FileNotFoundError:
+        with open("conf/insertwidth.txt", "w") as reset:
+            reset.write("False 2")
+            curswidth = 2
+    except Exception:
+        raise extend_exception.FatalError
+    page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR, insertwidth=curswidth)
     font_size: int = 13
     font_change: textarea_config.FontChange = textarea_config.FontChange(font_family, font_size, page, author)
     temp_assign: tuple[string_decorate.StringDecorator, vinegar.Vinegar] = init_page(page)
@@ -931,6 +958,8 @@ def main() -> None:
     author.command_hist("initialising")
     if author.debug_enable:
         author.command_hist("enable debug_log")
+    if file_flag:
+        author.open_file(open_click_file)
     # 文字カウントThreadのスタート
     author.count_thread.start()
     # オートセーブその他の再帰呼び出し
