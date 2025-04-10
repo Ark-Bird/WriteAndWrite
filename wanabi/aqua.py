@@ -254,6 +254,7 @@ class WillBeAuthor:
         """
         text = self.page.get("0.0", "end")
         text = re.sub('^.*：', '', text)
+        text = re.sub('\n.*：', '', text)
         text = re.sub('[ 　\t\r\n]', '', text)
         text = re.sub('[「」,.、。]', '', text)
         messagebox.showinfo("現在の文字数", f"{len(text)}")
