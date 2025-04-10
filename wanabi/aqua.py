@@ -247,6 +247,17 @@ class WillBeAuthor:
             self.letter_count = text_length_without_whitespace
             time.sleep(1)
 
+    def count_only_letters(self, event=None) -> None:
+        """
+        文字数のみのカウント
+        :return:
+        """
+        text = self.page.get("0.0", "end")
+        text = re.sub('^.*：', '', text)
+        text = re.sub('[ 　\t\r\n]', '', text)
+        text = re.sub('[「」,.、。]', '', text)
+        messagebox.showinfo("現在の文字数", f"{len(text)}")
+
     def erase_newline(self) -> None:
         """
         連続した空行を削除する
