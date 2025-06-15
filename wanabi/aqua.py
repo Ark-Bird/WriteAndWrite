@@ -152,7 +152,7 @@ class WillBeAuthor:
 
     def init_label(self, message: str) -> None:
         """
-
+        ラベルの初期化
         :param message:
         :return:
         """
@@ -247,6 +247,18 @@ class WillBeAuthor:
             self.letter_count = text_length_without_whitespace
             time.sleep(1)
 
+    def count_only_letters(self, event=None) -> None:
+        """
+        文字数のみのカウント
+        :return:
+        """
+        text = self.page.get("0.0", "end")
+        text = re.sub('^.*：', '', text)
+        text = re.sub('\n.*：', '', text)
+        text = re.sub('[ 　\t\r\n]', '', text)
+        text = re.sub('[「」,.、。]', '', text)
+        messagebox.showinfo("現在の文字数", f"{len(text)}")
+
     def erase_newline(self) -> None:
         """
         連続した空行を削除する
@@ -287,7 +299,7 @@ class WillBeAuthor:
         else:
             self.init = False
 
-    def cursor_move_vi_or_emacs(self) -> str:
+    def cursor_move_vi_or_emacs(self) -> str | None:
         """
         現在のカーソル移動モードを文字列で返す
         :return: 現在の移動モードの文字列
@@ -297,6 +309,7 @@ class WillBeAuthor:
             return "Vi mode:"
         elif self.cursor_move_mode == "emacs":
             return "Emacs mode:"
+        return None
 
     def check_autosave_flag(self) -> str:
         """
@@ -701,6 +714,10 @@ class WillBeAuthor:
         return "break"
 
     def auto_indent(self) -> None:
+        """
+        conf/auto_indent.txtの中がTrueのときオートインデントを有効化
+        :return: None
+        """
         try:
             with open("conf/auto_indent.txt", "r")as ifp:
                 indent = ifp.read()
@@ -723,7 +740,7 @@ class WillBeAuthor:
         起動時はこちらのオプションになっている
         :return:None
         """
-        self.page.configure(wrap=tk.CHAR)
+        self.page.configure(wrap='char')
         return
 
     def wrap_disable(self) -> None:
@@ -731,7 +748,7 @@ class WillBeAuthor:
         テキストエリアの折り返しを無効化する
         :return:None
         """
-        self.page.configure(wrap=tk.NONE)
+        self.page.configure(wrap='none')
         return
 
     def enable_topmost_window(self) -> None:
@@ -757,11 +774,16 @@ class WillBeAuthor:
         except FileNotFoundError:
             with open("conf/debug.txt", mode="w", encoding=self.code) as f:
                 f.write("False")
+                return False
         except Exception:
             self.command_hist(self.language.fatalError_is_raise)
-            return False
+            raise extend_exception.FatalError
 
     def autosave_thread(self) -> None:
+        """
+        Ctrl-Shift-Eでマルチスレッドのオートセーブを有効化
+        :return:
+        """
         prev_text = self.page.get("0.0", "end-1c")
         while not self.t_end:
             if self.is_not_t_autosave_enable:
