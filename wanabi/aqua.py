@@ -740,7 +740,7 @@ class WillBeAuthor:
         起動時はこちらのオプションになっている
         :return:None
         """
-        self.page.configure(wrap=tk.CHAR)
+        self.page.configure(wrap='char')
         return
 
     def wrap_disable(self) -> None:
@@ -748,7 +748,7 @@ class WillBeAuthor:
         テキストエリアの折り返しを無効化する
         :return:None
         """
-        self.page.configure(wrap=tk.NONE)
+        self.page.configure(wrap='none')
         return
 
     def enable_topmost_window(self) -> None:
