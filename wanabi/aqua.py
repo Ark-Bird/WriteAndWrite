@@ -161,6 +161,27 @@ class WillBeAuthor:
         self.mess = tk.Label(self.root, textvariable=self.do_command)
         self.mess.pack(side=tk.BOTTOM, fill='x')
 
+    def is_saved_flag_color(self) -> None:
+        """
+        保存完了時に緑
+        美穗存知に赤
+        :return:
+        """
+        self.save_flag_cvs = tk.Canvas(self.root, height=5)
+        self.save_flag_cvs.pack(side="bottom", fill="x")
+
+    def save_cvs_color(self) -> None:
+        """
+        キャンバスの幅と高さを取得し、保存時緑、未保存時赤に塗り替え
+        :return:
+        """
+        width = self.save_flag_cvs.winfo_width()
+        height = self.save_flag_cvs.winfo_height()
+        if self.is_save:
+            self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="green")
+        else:
+            self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="red")
+
     def command_hist(self, command) -> None:
         """
         コマンドのログを表示
@@ -400,6 +421,7 @@ class WillBeAuthor:
             self.command_hist(self.language.cannot_write_file)
             self.root.after(1000, self.repeat_save_file)
             raise extend_exception.CannotWriteFileException
+        self.save_cvs_color()
         return
 
     def toggle_autosave_flag(self, event=None) -> None:
@@ -871,6 +893,7 @@ def main() -> None:
     author.setroot(root)
     # ラベルの作成
     author.init_label("初期化")
+    author.is_saved_flag_color()
     font_family: str = independent_method.read_font()
     font: tk.font.Font = tk.font.Font(root, family=font_family)
     full_screen: full_mode.FullMode = full_mode.FullMode(author)
@@ -991,6 +1014,7 @@ def main() -> None:
     # 文字カウントThreadのスタート
     author.count_thread.start()
     # オートセーブその他の再帰呼び出し
+    author.save_cvs_color()
     root.after(4000, author.repeat_save_file)
     insert_mode = textarea_config.ModeChange(author)
     insert_mode.change_vi_insert_mode()
