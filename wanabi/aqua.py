@@ -177,10 +177,12 @@ class WillBeAuthor:
         """
         width = self.save_flag_cvs.winfo_width()
         height = self.save_flag_cvs.winfo_height()
+        self.save_flag_cvs.delete("red")
+        self.save_flag_cvs.delete("green")
         if self.is_save:
-            self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="green")
+            self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="green", tags="green")
         else:
-            self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="red")
+            self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="red", tags="red")
 
     def command_hist(self, command) -> None:
         """
