@@ -160,7 +160,7 @@ class WillBeAuthor:
         self.do_command = tk.StringVar()
         self.do_command.set(message)
         self.mess = tk.Label(self.root, textvariable=self.do_command)
-        self.mess.pack(side=tk.BOTTOM, fill='x')
+        self.mess.pack(side="bottom", fill='x')
 
     def is_saved_flag_color(self) -> None:
         """
@@ -178,12 +178,11 @@ class WillBeAuthor:
         """
         width : int = self.save_flag_cvs.winfo_width()
         height : int = self.save_flag_cvs.winfo_height()
-        self.save_flag_cvs.delete("red")
-        self.save_flag_cvs.delete("green")
+        self.save_flag_cvs.delete("status")
         if self.is_save:
-            self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="green", tags="green")
+            self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="green", tags="status")
         else:
-            self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="red", tags="red")
+            self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="red", tags="status")
 
     def command_hist(self, command) -> None:
         """
@@ -859,7 +858,7 @@ def init_page(page: tk.Text):
     return decorate, pkvin
 
 
-def reset_cursor():
+def reset_cursor() -> str:
     default = "False 2"
     with open("conf/insertwidth.txt", "w") as reset:
         reset.write("False 2")
