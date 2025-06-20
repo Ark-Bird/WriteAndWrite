@@ -115,6 +115,7 @@ class WillBeAuthor:
         self.t = None
         self.is_not_t_autosave_enable: bool = True
         self.t_end: bool = False
+        self.save_flag_cvs: tk.Canvas | None = None
         try:
             with open("conf/lang.txt", "r", encoding="utf-8") as f:
                 self.lang = f.read()
@@ -175,8 +176,8 @@ class WillBeAuthor:
         キャンバスの幅と高さを取得し、保存時緑、未保存時赤に塗り替え
         :return:
         """
-        width = self.save_flag_cvs.winfo_width()
-        height = self.save_flag_cvs.winfo_height()
+        width : int = self.save_flag_cvs.winfo_width()
+        height : int = self.save_flag_cvs.winfo_height()
         self.save_flag_cvs.delete("red")
         self.save_flag_cvs.delete("green")
         if self.is_save:
