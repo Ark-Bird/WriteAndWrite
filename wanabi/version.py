@@ -49,7 +49,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver2.8.2_code:/GQX/
+        ver2.8.3_code:/GQX/
         """)
 
         # テーマ書式

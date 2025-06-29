@@ -518,6 +518,7 @@ class WillBeAuthor:
             self.save_file()
         self.is_text_unchanged()
         self.is_save = True
+        self.save_cvs_color()
         self.change_titlebar()
         return
 
