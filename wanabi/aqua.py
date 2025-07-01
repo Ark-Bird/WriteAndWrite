@@ -115,6 +115,7 @@ class WillBeAuthor:
         self.t = None
         self.is_not_t_autosave_enable: bool = True
         self.t_end: bool = False
+        self.save_flag_cvs: tk.Canvas | None = None
         try:
             with open("conf/lang.txt", "r", encoding="utf-8") as f:
                 self.lang = f.read()
@@ -159,7 +160,7 @@ class WillBeAuthor:
         self.do_command = tk.StringVar()
         self.do_command.set(message)
         self.mess = tk.Label(self.root, textvariable=self.do_command)
-        self.mess.pack(side=tk.BOTTOM, fill='x')
+        self.mess.pack(side="bottom", fill='x')
 
     def is_saved_flag_color(self) -> None:
         """
@@ -175,14 +176,13 @@ class WillBeAuthor:
         キャンバスの幅と高さを取得し、保存時緑、未保存時赤に塗り替え
         :return:
         """
-        width = self.save_flag_cvs.winfo_width()
-        height = self.save_flag_cvs.winfo_height()
-        self.save_flag_cvs.delete("red")
-        self.save_flag_cvs.delete("green")
+        width : int = self.save_flag_cvs.winfo_width()
+        height : int = self.save_flag_cvs.winfo_height()
+        self.save_flag_cvs.delete("status")
         if self.is_save:
-            self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="green", tags="green")
+            self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="green", tags="status")
         else:
-            self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="red", tags="red")
+            self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="red", tags="status")
 
     def command_hist(self, command) -> None:
         """
@@ -518,6 +518,7 @@ class WillBeAuthor:
             self.save_file()
         self.is_text_unchanged()
         self.is_save = True
+        self.save_cvs_color()
         self.change_titlebar()
         return
 
@@ -858,7 +859,7 @@ def init_page(page: tk.Text):
     return decorate, pkvin
 
 
-def reset_cursor():
+def reset_cursor() -> str:
     default = "False 2"
     with open("conf/insertwidth.txt", "w") as reset:
         reset.write("False 2")
