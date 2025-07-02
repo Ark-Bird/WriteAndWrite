@@ -104,12 +104,12 @@ class WillBeAuthor:
         self.end_of_code = False
         self.mess: None | tk.Label = None
         self.do_command: None | tk.StringVar = None
-        self.letter_count = 0
+        self.letter_count: int = 0
         self.count_thread = threading.Thread(target=self.counter)
         self.com_hist = deque()
         self.app_name: app_name.AppName = app_name.AppName()
-        self.is_terminate = False
-        self.vi_mode_now = "Command_mode"
+        self.is_terminate: bool = False
+        self.vi_mode_now: str = "Command_mode"
         self.is_thread_autosave_flag: bool = False
         self.is_already_run_autosave_flag: bool = False
         self.t = None
