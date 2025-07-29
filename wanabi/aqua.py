@@ -846,6 +846,8 @@ class WillBeAuthor:
         # self.t.join()
         self.command_hist("ベータ版オートセーブを無効にしました(secret)")
 
+    def boss_come(self, event=None):
+        self.root.iconify()
 
 def init_page(page: tk.Text):
     """
