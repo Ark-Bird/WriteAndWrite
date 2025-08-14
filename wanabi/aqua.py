@@ -16,6 +16,8 @@ from tkinter import filedialog
 from tkinter import messagebox
 import re
 from collections import deque
+
+from wanabi.extend_exception import IgnorableException
 from wanabi.log_recorder_me import record_hist
 # import app_name
 # import extend_exception
@@ -413,6 +415,10 @@ class WillBeAuthor:
         except Exception:
             raise extend_exception.FatalError
         self.change_titlebar()
+        try:
+            independent_method.temp_save(self.page)
+        except IgnorableException:
+            ignore()
         if self.is_autosave_flag:
             self.save_file()
             self.is_save = True

@@ -32,3 +32,9 @@ class PathPermissionException(Exception):
     パーミッションエラーを無視
     """
     pass
+
+class IgnorableException(Exception):
+    """
+    無視しても問題の無い例外を明示
+    """
+    pass
