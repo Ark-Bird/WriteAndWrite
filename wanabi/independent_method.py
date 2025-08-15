@@ -1,4 +1,5 @@
 import os
+import tkinter
 
 from wanabi import extend_exception
 import wanabi.encoding
@@ -151,3 +152,18 @@ def fix_this_later() -> None:
     print(inspect.stack()[1].function)
     print("未修正の箇所です")
     return
+
+def temp_save(page: tkinter.Text) -> None:
+    """
+    クラッシュ時にそこまでのデータがtemp.txtに保存される
+    :param page:
+    :return:
+    """
+    global strcode
+    try:
+        with open("conf/temp.txt", "w", encoding=strcode) as f:
+              f.write(page.get("0.0", "end"))
+    except Exception:
+        print("一時ファイルが作成出来ません")
+        raise extend_exception.IgnorableException
+    return None

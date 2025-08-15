@@ -16,6 +16,8 @@ from tkinter import filedialog
 from tkinter import messagebox
 import re
 from collections import deque
+
+from wanabi.extend_exception import IgnorableException
 from wanabi.log_recorder_me import record_hist
 # import app_name
 # import extend_exception
@@ -104,12 +106,12 @@ class WillBeAuthor:
         self.end_of_code = False
         self.mess: None | tk.Label = None
         self.do_command: None | tk.StringVar = None
-        self.letter_count = 0
+        self.letter_count: int = 0
         self.count_thread = threading.Thread(target=self.counter)
         self.com_hist = deque()
         self.app_name: app_name.AppName = app_name.AppName()
-        self.is_terminate = False
-        self.vi_mode_now = "Command_mode"
+        self.is_terminate: bool = False
+        self.vi_mode_now: str = "Command_mode"
         self.is_thread_autosave_flag: bool = False
         self.is_already_run_autosave_flag: bool = False
         self.t = None
@@ -413,6 +415,10 @@ class WillBeAuthor:
         except Exception:
             raise extend_exception.FatalError
         self.change_titlebar()
+        try:
+            independent_method.temp_save(self.page)
+        except IgnorableException:
+            ignore()
         if self.is_autosave_flag:
             self.save_file()
             self.is_save = True
@@ -847,6 +853,8 @@ class WillBeAuthor:
         # self.t.join()
         self.command_hist("ベータ版オートセーブを無効にしました(secret)")
 
+    def boss_come(self, event=None):
+        self.root.iconify()
 
 def init_page(page: tk.Text):
     """
