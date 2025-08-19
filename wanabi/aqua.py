@@ -883,7 +883,7 @@ def main() -> None:
     """
     independent_method.conf_dir_make()
     file_flag: bool = False
-    open_click_file: str = ""
+    open_click_file_name: str = ""
     if len(sys.argv) >= 3:
         print("引数は無しかファイル名一つだけです")
         sys.exit()
@@ -1022,7 +1022,7 @@ def main() -> None:
     if author.debug_enable:
         author.command_hist("enable debug_log")
     if file_flag:
-        author.open_file(open_click_file)
+        author.open_file(open_click_file_name)
     # 文字カウントThreadのスタート
     author.count_thread.start()
     # オートセーブその他の再帰呼び出し
