@@ -910,28 +910,29 @@ def main() -> None:
     full_screen: full_mode.FullMode = full_mode.FullMode(author)
     full_screen.set_root_full_mode(root)
     root.geometry("820x640")
+    cursor_width: int = 2
     try:
         with open("conf/insertwidth.txt","r") as f:
-            curflag, cursorwidth = f.read().split()
-        if curflag == "True":
-            cursorwidth = int(cursorwidth)
-        elif curflag == "False":
-            cursorwidth = 2
+            cursor_flag, cursor_width = f.read().split()
+        if cursor_flag == "True":
+            cursor_width = int(cursor_width)
+        elif cursor_flag == "False":
+            cursor_width = 2
         else:
             with open("conf/insertwidth.txt","w") as reset:
                 reset.write("False 2")
-                cursorwidth = 2
+                cursor_width = 2
     except ValueError:
         messagebox.showinfo("attention!", author.language.curswidth_reset)
         reset_cursor()
-        cursorwidth = 2
+        cursor_width = 2
     except FileNotFoundError:
         messagebox.showinfo("Attention", author.language.cursor_init)
         reset_cursor()
-        cursorwidth = 2
+        cursor_width = 2
     except Exception:
         raise extend_exception.FatalError
-    page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR, insertwidth=cursorwidth)
+    page: tk.Text = tk.Text(root, undo=True, wrap="char", insertwidth=cursor_width)
     font_size: int = 13
     font_change: textarea_config.FontChange = textarea_config.FontChange(font_family, font_size, page, author)
     temp_assign: tuple[string_decorate.StringDecorator, vinegar.Vinegar] = init_page(page)
