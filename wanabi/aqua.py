@@ -936,7 +936,7 @@ def main() -> None:
     font_size: int = 13
     font_change: textarea_config.FontChange = textarea_config.FontChange(font_family, font_size, page, author)
     temp_assign: tuple[string_decorate.StringDecorator, vinegar.Vinegar] = init_page(page)
-    decorate: string_decorate
+    decorate: string_decorate.StringDecorator
     pk1vin: vinegar.Vinegar
     decorate, pk1vin = temp_assign
     indent: indent_insert.Indent = indent_insert.Indent(author, page)
