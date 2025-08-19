@@ -35,7 +35,7 @@ class Indent:
         else:
             self.half_space = True
         self.author.change_titlebar()
-        self.author.command_hist(self.author.language.toggle_half_or_full)
+        self.author.command_hist(self.author.language.auto_indent_half_or_full)
         return
 
     def insert_space(self, ev=None) -> None:
