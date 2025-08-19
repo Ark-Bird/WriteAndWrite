@@ -869,7 +869,7 @@ def init_page(page: tk.Text):
 
 def reset_cursor() -> str:
     default = "False 2"
-    with open("conf/insertwidth.txt", "w") as reset:
+    with open("conf/insert_width.txt", "w") as reset:
         reset.write("False 2")
     return default
 
@@ -883,7 +883,7 @@ def main() -> None:
     """
     independent_method.conf_dir_make()
     file_flag: bool = False
-    open_click_file: str = ""
+    open_click_file_name: str = ""
     if len(sys.argv) >= 3:
         print("引数は無しかファイル名一つだけです")
         sys.exit()
@@ -910,32 +910,33 @@ def main() -> None:
     full_screen: full_mode.FullMode = full_mode.FullMode(author)
     full_screen.set_root_full_mode(root)
     root.geometry("820x640")
+    cursor_width: int = 2
     try:
-        with open("conf/insertwidth.txt","r") as f:
-            curflag, cursorwidth = f.read().split()
-        if curflag == "True":
-            cursorwidth = int(cursorwidth)
-        elif curflag == "False":
-            cursorwidth = 2
+        with open("conf/insert_width.txt","r") as f:
+            cursor_flag, cursor_width = f.read().split()
+        if cursor_flag == "True":
+            cursor_width = int(cursor_width)
+        elif cursor_flag == "False":
+            cursor_width = 2
         else:
-            with open("conf/insertwidth.txt","w") as reset:
+            with open("conf/insert_width.txt","w") as reset:
                 reset.write("False 2")
-                cursorwidth = 2
+                cursor_width = 2
     except ValueError:
         messagebox.showinfo("attention!", author.language.curswidth_reset)
         reset_cursor()
-        cursorwidth = 2
+        cursor_width = 2
     except FileNotFoundError:
         messagebox.showinfo("Attention", author.language.cursor_init)
         reset_cursor()
-        cursorwidth = 2
+        cursor_width = 2
     except Exception:
         raise extend_exception.FatalError
-    page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR, insertwidth=cursorwidth)
+    page: tk.Text = tk.Text(root, undo=True, wrap="char", insertwidth=cursor_width)
     font_size: int = 13
     font_change: textarea_config.FontChange = textarea_config.FontChange(font_family, font_size, page, author)
     temp_assign: tuple[string_decorate.StringDecorator, vinegar.Vinegar] = init_page(page)
-    decorate: string_decorate
+    decorate: string_decorate.StringDecorator
     pk1vin: vinegar.Vinegar
     decorate, pk1vin = temp_assign
     indent: indent_insert.Indent = indent_insert.Indent(author, page)
@@ -1021,7 +1022,7 @@ def main() -> None:
     if author.debug_enable:
         author.command_hist("enable debug_log")
     if file_flag:
-        author.open_file(open_click_file)
+        author.open_file(open_click_file_name)
     # 文字カウントThreadのスタート
     author.count_thread.start()
     # オートセーブその他の再帰呼び出し
