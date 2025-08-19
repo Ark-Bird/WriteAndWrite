@@ -979,6 +979,7 @@ def main() -> None:
         raise extend_exception.FatalError
     root.minsize(32, 32)
     menubar: tk.Menu = tk.Menu(root, font=font)
+    ask_use_language = "jp"
     try:
         with open("conf/lang.txt", "r") as lang_file:
             ask_use_language = lang_file.read()
