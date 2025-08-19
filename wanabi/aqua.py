@@ -375,7 +375,7 @@ class WillBeAuthor:
         self.root.title(self.title_var_string)
         return
 
-    def repeat_save_file(self) -> None:
+    def repeat_save_file(self, _) -> None:
         """
         オートセーブ
         ファイルパスはユニコードであること
@@ -424,10 +424,10 @@ class WillBeAuthor:
             self.is_save = True
             self.before_text = self.page.get("0.0", "end")
         try:
-            self.root.after(1000, self.repeat_save_file)
+            self.root.after(1000, self.repeat_save_file, "dummy")
         except Exception:
             self.command_hist(self.language.cannot_write_file)
-            self.root.after(1000, self.repeat_save_file)
+            self.root.after(1000, self.repeat_save_file, "dummy")
             raise extend_exception.CannotWriteFileException
         self.save_cvs_color()
         return
