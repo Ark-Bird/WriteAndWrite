@@ -869,7 +869,7 @@ def init_page(page: tk.Text):
 
 def reset_cursor() -> str:
     default = "False 2"
-    with open("conf/insertwidth.txt", "w") as reset:
+    with open("conf/insert_width.txt", "w") as reset:
         reset.write("False 2")
     return default
 
@@ -912,14 +912,14 @@ def main() -> None:
     root.geometry("820x640")
     cursor_width: int = 2
     try:
-        with open("conf/insertwidth.txt","r") as f:
+        with open("conf/insert_width.txt","r") as f:
             cursor_flag, cursor_width = f.read().split()
         if cursor_flag == "True":
             cursor_width = int(cursor_width)
         elif cursor_flag == "False":
             cursor_width = 2
         else:
-            with open("conf/insertwidth.txt","w") as reset:
+            with open("conf/insert_width.txt","w") as reset:
                 reset.write("False 2")
                 cursor_width = 2
     except ValueError:
