@@ -247,6 +247,8 @@ class WillBeAuthor:
         基本的に何かのキーが押された時に呼ばれる
         :return:None
         """
+        if not event:
+            raise extend_exception.FatalError
         self.change_titlebar()
         self.is_save = False
         self.is_text_changed()
@@ -277,6 +279,8 @@ class WillBeAuthor:
         文字数のみのカウント
         :return:
         """
+        if not event:
+            raise extend_exception.FatalError
         text = self.page.get("0.0", "end")
         text = re.sub('^.*：', '', text)
         text = re.sub('\n.*：', '', text)
@@ -438,6 +442,8 @@ class WillBeAuthor:
         self.is_autosave_flag:オートセーブのフラグ
         :return:None
         """
+        if not event:
+            raise extend_exception.FatalError
         if self.is_autosave_flag:
             self.change_auto_save_disable()
         else:
@@ -482,6 +488,8 @@ class WillBeAuthor:
         存在しなければNotOpenPathException例外を投げる
         失敗時Falseをリターン
         """
+        if not event:
+            raise extend_exception.FatalError
         if self.end_of_code:
             independent_method.fix_this_later()
             sys.exit()
@@ -626,6 +634,8 @@ class WillBeAuthor:
         テキストの範囲が選択されていなかった場合例外を投げ、握りつぶす
         :return:None
         """
+        if not event:
+            raise extend_exception.FatalError
         try:
             # 選択範囲をクリップボードにコピー
             self.clipped_text = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
@@ -646,6 +656,8 @@ class WillBeAuthor:
         tk.TclError以外のエラーが出ると落ちる
         :return:None
         """
+        if not event:
+            raise extend_exception.FatalError
         if self.clipped_text == "":
             return
         try:
@@ -668,6 +680,8 @@ class WillBeAuthor:
         TclError以外の例外が投げられると落ちる
         :return:None
         """
+        if not event:
+            raise extend_exception.FatalError
         try:
             # ローカル変数とクリップボードにコピー
             self.clipped_text = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
@@ -738,6 +752,8 @@ class WillBeAuthor:
         :param event:ダミー
         :return: 文字列breakこのイベントでキーバインドを上書き
         """
+        if not event:
+            raise extend_exception.FatalError
         if self.file_name == "":
             messagebox.showinfo("Not open", "現在ファイルを開いていません")
             return "break"
@@ -837,6 +853,8 @@ class WillBeAuthor:
             prev_text = self.page.get("0.0", "end-1c")
 
     def autosave_thread_start(self, event=None) -> None:
+        if not event:
+            raise extend_exception.FatalError
         self.t = threading.Thread(target=self.autosave_thread, daemon=True)
         self.is_thread_autosave_flag = True
         self.is_already_run_autosave_flag = True
@@ -846,6 +864,8 @@ class WillBeAuthor:
         self.command_hist("ベータ版オートセーブを有効にしました(secret)")
 
     def autosave_thread_end(self, event=None) -> None:
+        if not event:
+            raise extend_exception.FatalError
         self.is_thread_autosave_flag = False
         self.is_already_run_autosave_flag = False
         self.t_end = True
@@ -854,6 +874,8 @@ class WillBeAuthor:
         self.command_hist("ベータ版オートセーブを無効にしました(secret)")
 
     def boss_come(self, event=None):
+        if not event:
+            raise extend_exception.FatalError
         self.root.iconify()
 
 def init_page(page: tk.Text):
