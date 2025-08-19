@@ -1028,7 +1028,7 @@ def main() -> None:
     author.count_thread.start()
     # オートセーブその他の再帰呼び出し
     author.save_cvs_color()
-    root.after(4000, author.repeat_save_file)
+    root.after(4000, author.repeat_save_file, "dummy")
     insert_mode = textarea_config.ModeChange(author)
     insert_mode.change_vi_insert_mode()
     author.command_hist("initialise complete")
