@@ -3,7 +3,7 @@ from wanabi import const
 # import const
 import webbrowser
 
-def contact_support():
+def contact_support() -> None:
     webbrowser.open_new("mailto:<skylake.author@gmail.com>")
 
 

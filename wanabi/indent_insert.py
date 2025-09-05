@@ -120,8 +120,8 @@ class Indent:
             self.paren_del()
         return
 
-    def auto_indent_enable(self):
+    def auto_indent_enable(self) -> bool:
         return self.auto_indent
 
-    def half_space_checker(self):
+    def half_space_checker(self) -> bool:
         return self.half_space
