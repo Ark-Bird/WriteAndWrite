@@ -87,7 +87,7 @@ class StringDecorator:
             independent_method.fix_this_later()
             raise extend_exception.FatalError
         if search_word == "":
-            return
+            return None
         search_result: int = target_full_text.find(search_word)
         self.page.mark_set("insert", "0.0")
         self.page.mark_set("insert", "insert+" + str(search_result) + "c")

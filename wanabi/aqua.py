@@ -44,6 +44,7 @@ from wanabi import vinegar
 from wanabi import lang
 import wanabi.encoding
 from wanabi.independent_method import ignore
+from wanabi.vinegar import Vinegar
 
 """
 Copyright 2020 hiro
@@ -81,7 +82,7 @@ class WillBeAuthor:
         blank_line:空行かどうかのフラグ
         self.cursor_move_mode:カーソル移動のモード、デフォルトでviスタイルライク
         """
-        self.codepoint = wanabi.encoding.Encoding()
+        self.codepoint: wanabi.encoding.Encoding = wanabi.encoding.Encoding()
         self.code = self.codepoint.code
         self.file_name: str = ""
         self.written_textum: str = ""
@@ -102,19 +103,19 @@ class WillBeAuthor:
         self.prev_save_dir: str = ""
         self.cursor_move_mode: str = "vi"
         self.is_wrap: bool = True
-        self.debug_enable = self.is_debug_enable()
-        self.end_of_code = False
+        self.debug_enable: bool = self.is_debug_enable()
+        self.end_of_code: bool = False
         self.mess: None | tk.Label = None
         self.do_command: None | tk.StringVar = None
         self.letter_count: int = 0
-        self.count_thread = threading.Thread(target=self.counter)
-        self.com_hist = deque()
+        self.count_thread: threading.Thread = threading.Thread(target=self.counter)
+        self.com_hist: deque = deque()
         self.app_name: app_name.AppName = app_name.AppName()
         self.is_terminate: bool = False
         self.vi_mode_now: str = "Command_mode"
         self.is_thread_autosave_flag: bool = False
         self.is_already_run_autosave_flag: bool = False
-        self.t = None
+        self.t: threading.Thread | None = None
         self.is_not_t_autosave_enable: bool = True
         self.t_end: bool = False
         self.save_flag_cvs: tk.Canvas | None = None
@@ -831,7 +832,7 @@ class WillBeAuthor:
         Ctrl-Shift-Eでマルチスレッドのオートセーブを有効化
         :return:
         """
-        prev_text = self.page.get("0.0", "end-1c")
+        prev_text: str = self.page.get("0.0", "end-1c")
         while not self.t_end:
             if self.is_not_t_autosave_enable:
                 break
@@ -884,13 +885,13 @@ def init_page(page: tk.Text):
     :param page:テキストエリアのインスタンス
     :return:
     """
-    decorate = string_decorate.StringDecorator(page)
-    pkvin = vinegar.Vinegar(page)
+    decorate: string_decorate.StringDecorator = string_decorate.StringDecorator(page)
+    pkvin: Vinegar = vinegar.Vinegar(page)
     return decorate, pkvin
 
 
 def reset_cursor() -> str:
-    default = "False 2"
+    default: str = "False 2"
     with open("conf/insert_width.txt", "w") as reset:
         reset.write("False 2")
     return default

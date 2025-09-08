@@ -55,7 +55,7 @@ def find_erase_flag_read() -> bool:
     global strcode
     try:
         # successはディレクトリの作成結果フラグ
-        success = conf_dir_make()
+        success: bool = conf_dir_make()
         if not success:
             return False
         with open("conf/find_erase.txt", "r", encoding=strcode) as fefp:

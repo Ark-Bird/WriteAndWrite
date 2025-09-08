@@ -1,5 +1,7 @@
 import tkinter
 
+import wanabi.aqua
+
 
 class Indent:
     def __init__(self, author, page):
@@ -7,7 +9,7 @@ class Indent:
         self.hit_return: bool = False
         self.auto_indent: bool = False
         self.half_space: bool = False
-        self.author = author
+        self.author: wanabi.aqua.WillBeAuthor = author
         self.blank_line: bool = False
         self.paren_flag: bool = False
         self.paren_kind: str = ""
@@ -103,8 +105,8 @@ class Indent:
         改行ならばインスタンス変数のhit_returnを立てる
         返り値無し
         """
-        self.blank_line = True
-        self.hit_return = True
+        self.blank_line: bool = True
+        self.hit_return: bool = True
         return
 
     def indent_system(self, event=None) -> None:
