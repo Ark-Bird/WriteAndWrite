@@ -1,6 +1,5 @@
 import tkinter.messagebox
 from wanabi import lang
-from wanabi.aqua import WillBeAuthor
 
 
 class FullMode:
