@@ -1,5 +1,7 @@
 import tkinter
 
+import wanabi.aqua
+
 
 class Indent:
     def __init__(self, author, page):
@@ -7,7 +9,7 @@ class Indent:
         self.hit_return: bool = False
         self.auto_indent: bool = False
         self.half_space: bool = False
-        self.author = author
+        self.author: wanabi.aqua.WillBeAuthor = author
         self.blank_line: bool = False
         self.paren_flag: bool = False
         self.paren_kind: str = ""
@@ -35,7 +37,7 @@ class Indent:
         else:
             self.half_space = True
         self.author.change_titlebar()
-        self.author.command_hist(self.author.language.toggle_half_or_full)
+        self.author.command_hist(self.author.language.auto_indent_half_or_full)
         return
 
     def insert_space(self, ev=None) -> None:
@@ -103,8 +105,8 @@ class Indent:
         改行ならばインスタンス変数のhit_returnを立てる
         返り値無し
         """
-        self.blank_line = True
-        self.hit_return = True
+        self.blank_line: bool = True
+        self.hit_return: bool = True
         return
 
     def indent_system(self, event=None) -> None:
@@ -120,8 +122,8 @@ class Indent:
             self.paren_del()
         return
 
-    def auto_indent_enable(self):
+    def auto_indent_enable(self) -> bool:
         return self.auto_indent
 
-    def half_space_checker(self):
+    def half_space_checker(self) -> bool:
         return self.half_space
