@@ -16,6 +16,8 @@ from tkinter import filedialog
 from tkinter import messagebox
 import re
 from collections import deque
+
+from wanabi.extend_exception import IgnorableException
 from wanabi.log_recorder_me import record_hist
 # import app_name
 # import extend_exception
@@ -42,6 +44,7 @@ from wanabi import vinegar
 from wanabi import lang
 import wanabi.encoding
 from wanabi.independent_method import ignore
+from wanabi.vinegar import Vinegar
 
 """
 Copyright 2020 hiro
@@ -79,7 +82,7 @@ class WillBeAuthor:
         blank_line:空行かどうかのフラグ
         self.cursor_move_mode:カーソル移動のモード、デフォルトでviスタイルライク
         """
-        self.codepoint = wanabi.encoding.Encoding()
+        self.codepoint: wanabi.encoding.Encoding = wanabi.encoding.Encoding()
         self.code = self.codepoint.code
         self.file_name: str = ""
         self.written_textum: str = ""
@@ -100,19 +103,19 @@ class WillBeAuthor:
         self.prev_save_dir: str = ""
         self.cursor_move_mode: str = "vi"
         self.is_wrap: bool = True
-        self.debug_enable = self.is_debug_enable()
-        self.end_of_code = False
+        self.debug_enable: bool = self.is_debug_enable()
+        self.end_of_code: bool = False
         self.mess: None | tk.Label = None
         self.do_command: None | tk.StringVar = None
-        self.letter_count = 0
-        self.count_thread = threading.Thread(target=self.counter)
-        self.com_hist = deque()
+        self.letter_count: int = 0
+        self.count_thread: threading.Thread = threading.Thread(target=self.counter)
+        self.com_hist: deque = deque()
         self.app_name: app_name.AppName = app_name.AppName()
-        self.is_terminate = False
-        self.vi_mode_now = "Command_mode"
+        self.is_terminate: bool = False
+        self.vi_mode_now: str = "Command_mode"
         self.is_thread_autosave_flag: bool = False
         self.is_already_run_autosave_flag: bool = False
-        self.t = None
+        self.t: threading.Thread | None = None
         self.is_not_t_autosave_enable: bool = True
         self.t_end: bool = False
         self.save_flag_cvs: tk.Canvas | None = None
@@ -245,6 +248,8 @@ class WillBeAuthor:
         基本的に何かのキーが押された時に呼ばれる
         :return:None
         """
+        if event:
+            ignore()
         self.change_titlebar()
         self.is_save = False
         self.is_text_changed()
@@ -275,6 +280,8 @@ class WillBeAuthor:
         文字数のみのカウント
         :return:
         """
+        if event:
+            ignore()
         text = self.page.get("0.0", "end")
         text = re.sub('^.*：', '', text)
         text = re.sub('\n.*：', '', text)
@@ -373,7 +380,7 @@ class WillBeAuthor:
         self.root.title(self.title_var_string)
         return
 
-    def repeat_save_file(self) -> None:
+    def repeat_save_file(self, _) -> None:
         """
         オートセーブ
         ファイルパスはユニコードであること
@@ -413,15 +420,19 @@ class WillBeAuthor:
         except Exception:
             raise extend_exception.FatalError
         self.change_titlebar()
+        try:
+            independent_method.temp_save(self.page)
+        except IgnorableException:
+            ignore()
         if self.is_autosave_flag:
             self.save_file()
             self.is_save = True
             self.before_text = self.page.get("0.0", "end")
         try:
-            self.root.after(1000, self.repeat_save_file)
+            self.root.after(1000, self.repeat_save_file, "dummy")
         except Exception:
             self.command_hist(self.language.cannot_write_file)
-            self.root.after(1000, self.repeat_save_file)
+            self.root.after(1000, self.repeat_save_file, "dummy")
             raise extend_exception.CannotWriteFileException
         self.save_cvs_color()
         return
@@ -432,6 +443,8 @@ class WillBeAuthor:
         self.is_autosave_flag:オートセーブのフラグ
         :return:None
         """
+        if event:
+            ignore()
         if self.is_autosave_flag:
             self.change_auto_save_disable()
         else:
@@ -476,6 +489,8 @@ class WillBeAuthor:
         存在しなければNotOpenPathException例外を投げる
         失敗時Falseをリターン
         """
+        if event:
+            ignore()
         if self.end_of_code:
             independent_method.fix_this_later()
             sys.exit()
@@ -620,6 +635,8 @@ class WillBeAuthor:
         テキストの範囲が選択されていなかった場合例外を投げ、握りつぶす
         :return:None
         """
+        if event:
+            ignore()
         try:
             # 選択範囲をクリップボードにコピー
             self.clipped_text = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
@@ -640,6 +657,8 @@ class WillBeAuthor:
         tk.TclError以外のエラーが出ると落ちる
         :return:None
         """
+        if event:
+            ignore()
         if self.clipped_text == "":
             return
         try:
@@ -662,6 +681,8 @@ class WillBeAuthor:
         TclError以外の例外が投げられると落ちる
         :return:None
         """
+        if event:
+            ignore()
         try:
             # ローカル変数とクリップボードにコピー
             self.clipped_text = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
@@ -732,6 +753,8 @@ class WillBeAuthor:
         :param event:ダミー
         :return: 文字列breakこのイベントでキーバインドを上書き
         """
+        if event:
+            ignore()
         if self.file_name == "":
             messagebox.showinfo("Not open", "現在ファイルを開いていません")
             return "break"
@@ -809,7 +832,7 @@ class WillBeAuthor:
         Ctrl-Shift-Eでマルチスレッドのオートセーブを有効化
         :return:
         """
-        prev_text = self.page.get("0.0", "end-1c")
+        prev_text: str = self.page.get("0.0", "end-1c")
         while not self.t_end:
             if self.is_not_t_autosave_enable:
                 break
@@ -831,6 +854,8 @@ class WillBeAuthor:
             prev_text = self.page.get("0.0", "end-1c")
 
     def autosave_thread_start(self, event=None) -> None:
+        if event:
+            ignore()
         self.t = threading.Thread(target=self.autosave_thread, daemon=True)
         self.is_thread_autosave_flag = True
         self.is_already_run_autosave_flag = True
@@ -840,6 +865,8 @@ class WillBeAuthor:
         self.command_hist("ベータ版オートセーブを有効にしました(secret)")
 
     def autosave_thread_end(self, event=None) -> None:
+        if event:
+            ignore()
         self.is_thread_autosave_flag = False
         self.is_already_run_autosave_flag = False
         self.t_end = True
@@ -847,6 +874,10 @@ class WillBeAuthor:
         # self.t.join()
         self.command_hist("ベータ版オートセーブを無効にしました(secret)")
 
+    def boss_come(self, event=None):
+        if event:
+            ignore()
+        self.root.iconify()
 
 def init_page(page: tk.Text):
     """
@@ -854,14 +885,14 @@ def init_page(page: tk.Text):
     :param page:テキストエリアのインスタンス
     :return:
     """
-    decorate = string_decorate.StringDecorator(page)
-    pkvin = vinegar.Vinegar(page)
+    decorate: string_decorate.StringDecorator = string_decorate.StringDecorator(page)
+    pkvin: Vinegar = vinegar.Vinegar(page)
     return decorate, pkvin
 
 
 def reset_cursor() -> str:
-    default = "False 2"
-    with open("conf/insertwidth.txt", "w") as reset:
+    default: str = "False 2"
+    with open("conf/insert_width.txt", "w") as reset:
         reset.write("False 2")
     return default
 
@@ -875,7 +906,7 @@ def main() -> None:
     """
     independent_method.conf_dir_make()
     file_flag: bool = False
-    open_click_file: str = ""
+    open_click_file_name: str = ""
     if len(sys.argv) >= 3:
         print("引数は無しかファイル名一つだけです")
         sys.exit()
@@ -902,32 +933,33 @@ def main() -> None:
     full_screen: full_mode.FullMode = full_mode.FullMode(author)
     full_screen.set_root_full_mode(root)
     root.geometry("820x640")
+    cursor_width: int = 2
     try:
-        with open("conf/insertwidth.txt","r") as f:
-            curflag, cursorwidth = f.read().split()
-        if curflag == "True":
-            cursorwidth = int(cursorwidth)
-        elif curflag == "False":
-            cursorwidth = 2
+        with open("conf/insert_width.txt","r") as f:
+            cursor_flag, cursor_width = f.read().split()
+        if cursor_flag == "True":
+            cursor_width = int(cursor_width)
+        elif cursor_flag == "False":
+            cursor_width = 2
         else:
-            with open("conf/insertwidth.txt","w") as reset:
+            with open("conf/insert_width.txt","w") as reset:
                 reset.write("False 2")
-                cursorwidth = 2
+                cursor_width = 2
     except ValueError:
         messagebox.showinfo("attention!", author.language.curswidth_reset)
         reset_cursor()
-        cursorwidth = 2
+        cursor_width = 2
     except FileNotFoundError:
         messagebox.showinfo("Attention", author.language.cursor_init)
         reset_cursor()
-        cursorwidth = 2
+        cursor_width = 2
     except Exception:
         raise extend_exception.FatalError
-    page: tk.Text = tk.Text(root, undo=True, wrap=tkinter.CHAR, insertwidth=cursorwidth)
+    page: tk.Text = tk.Text(root, undo=True, wrap="char", insertwidth=cursor_width)
     font_size: int = 13
     font_change: textarea_config.FontChange = textarea_config.FontChange(font_family, font_size, page, author)
     temp_assign: tuple[string_decorate.StringDecorator, vinegar.Vinegar] = init_page(page)
-    decorate: string_decorate
+    decorate: string_decorate.StringDecorator
     pk1vin: vinegar.Vinegar
     decorate, pk1vin = temp_assign
     indent: indent_insert.Indent = indent_insert.Indent(author, page)
@@ -970,6 +1002,7 @@ def main() -> None:
         raise extend_exception.FatalError
     root.minsize(32, 32)
     menubar: tk.Menu = tk.Menu(root, font=font)
+    ask_use_language = "jp"
     try:
         with open("conf/lang.txt", "r") as lang_file:
             ask_use_language = lang_file.read()
@@ -1013,12 +1046,12 @@ def main() -> None:
     if author.debug_enable:
         author.command_hist("enable debug_log")
     if file_flag:
-        author.open_file(open_click_file)
+        author.open_file(open_click_file_name)
     # 文字カウントThreadのスタート
     author.count_thread.start()
     # オートセーブその他の再帰呼び出し
     author.save_cvs_color()
-    root.after(4000, author.repeat_save_file)
+    root.after(4000, author.repeat_save_file, "dummy")
     insert_mode = textarea_config.ModeChange(author)
     insert_mode.change_vi_insert_mode()
     author.command_hist("initialise complete")

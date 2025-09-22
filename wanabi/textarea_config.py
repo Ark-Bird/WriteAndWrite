@@ -21,6 +21,8 @@ def no_do(event=None) -> None:
     :param event:
     :return:
     """
+    if not event:
+        raise extend_exception.FatalError
     pass
     return
 
@@ -37,6 +39,8 @@ class Memory(ram_memo.RamMemo):
         :param event:
         :return:
         """
+        if not event:
+            raise extend_exception.FatalError
         try:
             self.new_memo(self.page.get(tk.SEL_FIRST, tk.SEL_LAST))
         except tk.TclError:
@@ -52,6 +56,8 @@ class Memory(ram_memo.RamMemo):
         :param event:
         :return:
         """
+        if not event:
+            raise extend_exception.FatalError
         messagebox.showinfo("Memory", self.remember())
         return "break"
 
@@ -101,6 +107,8 @@ class FontChange:
         :param event:
         :return:
         """
+        if not event:
+            raise extend_exception.FatalError
         self.now_font_size = self.now_font_size + 5
         if self.now_font_size >= 50:
             self.now_font_size = 50
@@ -115,6 +123,8 @@ class FontChange:
         :param event:
         :return:
         """
+        if not event:
+            raise extend_exception.FatalError
         self.now_font_size = self.now_font_size - 5
         if self.now_font_size <= 6:
             self.now_font_size = 6
@@ -132,10 +142,10 @@ def page_scroll_set(root, page) -> None:
     :return: 無し
     """
     # テキストエリアを配置し、スクロールバーを付ける
-    horizontal_scrollbar = tk.Scrollbar(root, orient=tk.HORIZONTAL, command=page.xview)
-    vertical_scrollbar = tk.Scrollbar(root, orient=tk.VERTICAL, command=page.yview)
-    vertical_scrollbar.pack(side=tk.RIGHT, fill="y")
-    horizontal_scrollbar.pack(side=tk.BOTTOM, fill="x")
+    horizontal_scrollbar = tk.Scrollbar(root, orient="horizontal", command=page.xview)
+    vertical_scrollbar = tk.Scrollbar(root, orient="vertical", command=page.yview)
+    vertical_scrollbar.pack(side="right", fill="y")
+    horizontal_scrollbar.pack(side="bottom", fill="x")
     page.pack(fill="both", expand=True)
     page["yscrollcommand"] = vertical_scrollbar.set
     page["xscrollcommand"] = horizontal_scrollbar.set
@@ -229,6 +239,8 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     # キーバインド設定
     original_key_bind = ViCommandMode(author)
     original_key_bind.edit_key_bind()
+    # ボスキー
+    page.bind("<Control-K>", author.boss_come)
     return
 
 

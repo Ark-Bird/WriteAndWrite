@@ -1,6 +1,7 @@
 import tkinter.messagebox
 from wanabi import lang
 
+
 class FullMode:
     def __init__(self, author):
         """
@@ -9,7 +10,7 @@ class FullMode:
         """
         self.lang = lang.Language()
         self.c_mode_flag: bool = False
-        self.root = None
+        self.root: None | tkinter.Tk= None
         self.author = author
 
     def set_root_full_mode(self, root) -> None:

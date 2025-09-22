@@ -3,7 +3,7 @@ from wanabi import const
 # import const
 import webbrowser
 
-def contact_support():
+def contact_support() -> None:
     webbrowser.open_new("mailto:<skylake.author@gmail.com>")
 
 
@@ -49,7 +49,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver2.8.3_code:/GQX/
+        ver2.9.10_code:/Archive/
         """)
 
         # テーマ書式
