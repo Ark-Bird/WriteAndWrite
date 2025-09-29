@@ -557,6 +557,11 @@ class WillBeAuthor:
             return
         if self.is_not_t_autosave_enable:
             self.autosave_thread_end()
+        try:
+            with open("conf/temp.txt", "w", encoding=self.code) as temp_file:
+                temp_file.write(s)
+        except e:
+            raise extend_exception.IgnorableException
         self.root.destroy()
         sys.exit(0)
 
@@ -1028,7 +1033,6 @@ def main() -> None:
         with open("conf/temp_save_thread.txt", "r", encoding=author.code) as temp_thread_file:
             temp_thread = temp_thread_file.read()
             if temp_thread == "True":
-
                 independent_method.thread_temp_save(author.page)
     except FileNotFoundError:
         with open("conf/temp_save_thread.txt", "w", encoding=author.code) as default:
