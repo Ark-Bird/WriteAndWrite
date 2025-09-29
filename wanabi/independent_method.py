@@ -1,4 +1,6 @@
 import os
+import threading
+import time
 import tkinter
 
 from wanabi import extend_exception
@@ -55,7 +57,7 @@ def find_erase_flag_read() -> bool:
     global strcode
     try:
         # successはディレクトリの作成結果フラグ
-        success = conf_dir_make()
+        success: bool = conf_dir_make()
         if not success:
             return False
         with open("conf/find_erase.txt", "r", encoding=strcode) as fefp:
@@ -167,3 +169,27 @@ def temp_save(page: tkinter.Text) -> None:
         print("一時ファイルが作成出来ません")
         raise extend_exception.IgnorableException
     return None
+
+def temp_save_thread(page):
+    """
+    一時ファイルをスレッドで保存
+    :return:
+    """
+    global strcode
+    while True:
+        try:
+            with open("conf/temp.txt", "w", encoding=strcode) as f:
+                f.write(page.get("0.0", "end"))
+        except Exception:
+            print("一時ファイルへの書き込みに失敗しました")
+            raise extend_exception.IgnorableException
+        time.sleep(2)
+    return None
+
+def thread_temp_save(page):
+    """
+    スレッドループ
+    :return:
+    """
+    global strcode
+    threading.Thread(target=temp_save_thread, daemon=True, args=(page,)).start()

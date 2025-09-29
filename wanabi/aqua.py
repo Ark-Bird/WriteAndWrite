@@ -44,6 +44,7 @@ from wanabi import vinegar
 from wanabi import lang
 import wanabi.encoding
 from wanabi.independent_method import ignore
+from wanabi.vinegar import Vinegar
 
 """
 Copyright 2020 hiro
@@ -81,7 +82,7 @@ class WillBeAuthor:
         blank_line:空行かどうかのフラグ
         self.cursor_move_mode:カーソル移動のモード、デフォルトでviスタイルライク
         """
-        self.codepoint = wanabi.encoding.Encoding()
+        self.codepoint: wanabi.encoding.Encoding = wanabi.encoding.Encoding()
         self.code = self.codepoint.code
         self.file_name: str = ""
         self.written_textum: str = ""
@@ -102,22 +103,24 @@ class WillBeAuthor:
         self.prev_save_dir: str = ""
         self.cursor_move_mode: str = "vi"
         self.is_wrap: bool = True
-        self.debug_enable = self.is_debug_enable()
-        self.end_of_code = False
+        self.debug_enable: bool = self.is_debug_enable()
+        self.end_of_code: bool = False
         self.mess: None | tk.Label = None
         self.do_command: None | tk.StringVar = None
         self.letter_count: int = 0
-        self.count_thread = threading.Thread(target=self.counter)
-        self.com_hist = deque()
+        self.count_thread: threading.Thread = threading.Thread(target=self.counter)
+        self.com_hist: deque = deque()
         self.app_name: app_name.AppName = app_name.AppName()
         self.is_terminate: bool = False
         self.vi_mode_now: str = "Command_mode"
         self.is_thread_autosave_flag: bool = False
         self.is_already_run_autosave_flag: bool = False
-        self.t = None
+        self.t: threading.Thread | None = None
         self.is_not_t_autosave_enable: bool = True
         self.t_end: bool = False
         self.save_flag_cvs: tk.Canvas | None = None
+        self.temp_save_thread_flag:bool = False
+        self.save_thread_done:bool = False
         try:
             with open("conf/lang.txt", "r", encoding="utf-8") as f:
                 self.lang = f.read()
@@ -247,6 +250,8 @@ class WillBeAuthor:
         基本的に何かのキーが押された時に呼ばれる
         :return:None
         """
+        if event:
+            ignore()
         self.change_titlebar()
         self.is_save = False
         self.is_text_changed()
@@ -277,6 +282,8 @@ class WillBeAuthor:
         文字数のみのカウント
         :return:
         """
+        if event:
+            ignore()
         text = self.page.get("0.0", "end")
         text = re.sub('^.*：', '', text)
         text = re.sub('\n.*：', '', text)
@@ -375,7 +382,7 @@ class WillBeAuthor:
         self.root.title(self.title_var_string)
         return
 
-    def repeat_save_file(self) -> None:
+    def repeat_save_file(self, _) -> None:
         """
         オートセーブ
         ファイルパスはユニコードであること
@@ -415,19 +422,15 @@ class WillBeAuthor:
         except Exception:
             raise extend_exception.FatalError
         self.change_titlebar()
-        try:
-            independent_method.temp_save(self.page)
-        except IgnorableException:
-            ignore()
         if self.is_autosave_flag:
             self.save_file()
             self.is_save = True
             self.before_text = self.page.get("0.0", "end")
         try:
-            self.root.after(1000, self.repeat_save_file)
+            self.root.after(1000, self.repeat_save_file, "dummy")
         except Exception:
             self.command_hist(self.language.cannot_write_file)
-            self.root.after(1000, self.repeat_save_file)
+            self.root.after(1000, self.repeat_save_file, "dummy")
             raise extend_exception.CannotWriteFileException
         self.save_cvs_color()
         return
@@ -438,6 +441,8 @@ class WillBeAuthor:
         self.is_autosave_flag:オートセーブのフラグ
         :return:None
         """
+        if event:
+            ignore()
         if self.is_autosave_flag:
             self.change_auto_save_disable()
         else:
@@ -482,6 +487,8 @@ class WillBeAuthor:
         存在しなければNotOpenPathException例外を投げる
         失敗時Falseをリターン
         """
+        if event:
+            ignore()
         if self.end_of_code:
             independent_method.fix_this_later()
             sys.exit()
@@ -550,6 +557,11 @@ class WillBeAuthor:
             return
         if self.is_not_t_autosave_enable:
             self.autosave_thread_end()
+        try:
+            with open("conf/temp.txt", "w", encoding=self.code) as temp_file:
+                temp_file.write(s)
+        except e:
+            raise extend_exception.IgnorableException
         self.root.destroy()
         sys.exit(0)
 
@@ -626,6 +638,8 @@ class WillBeAuthor:
         テキストの範囲が選択されていなかった場合例外を投げ、握りつぶす
         :return:None
         """
+        if event:
+            ignore()
         try:
             # 選択範囲をクリップボードにコピー
             self.clipped_text = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
@@ -646,6 +660,8 @@ class WillBeAuthor:
         tk.TclError以外のエラーが出ると落ちる
         :return:None
         """
+        if event:
+            ignore()
         if self.clipped_text == "":
             return
         try:
@@ -668,6 +684,8 @@ class WillBeAuthor:
         TclError以外の例外が投げられると落ちる
         :return:None
         """
+        if event:
+            ignore()
         try:
             # ローカル変数とクリップボードにコピー
             self.clipped_text = self.page.get(tk.SEL_FIRST, tk.SEL_LAST)
@@ -738,6 +756,8 @@ class WillBeAuthor:
         :param event:ダミー
         :return: 文字列breakこのイベントでキーバインドを上書き
         """
+        if event:
+            ignore()
         if self.file_name == "":
             messagebox.showinfo("Not open", "現在ファイルを開いていません")
             return "break"
@@ -813,9 +833,9 @@ class WillBeAuthor:
     def autosave_thread(self) -> None:
         """
         Ctrl-Shift-Eでマルチスレッドのオートセーブを有効化
-        :return:
+        :return:`
         """
-        prev_text = self.page.get("0.0", "end-1c")
+        prev_text: str = self.page.get("0.0", "end-1c")
         while not self.t_end:
             if self.is_not_t_autosave_enable:
                 break
@@ -837,6 +857,8 @@ class WillBeAuthor:
             prev_text = self.page.get("0.0", "end-1c")
 
     def autosave_thread_start(self, event=None) -> None:
+        if event:
+            ignore()
         self.t = threading.Thread(target=self.autosave_thread, daemon=True)
         self.is_thread_autosave_flag = True
         self.is_already_run_autosave_flag = True
@@ -846,6 +868,8 @@ class WillBeAuthor:
         self.command_hist("ベータ版オートセーブを有効にしました(secret)")
 
     def autosave_thread_end(self, event=None) -> None:
+        if event:
+            ignore()
         self.is_thread_autosave_flag = False
         self.is_already_run_autosave_flag = False
         self.t_end = True
@@ -854,6 +878,8 @@ class WillBeAuthor:
         self.command_hist("ベータ版オートセーブを無効にしました(secret)")
 
     def boss_come(self, event=None):
+        if event:
+            ignore()
         self.root.iconify()
 
 def init_page(page: tk.Text):
@@ -862,13 +888,13 @@ def init_page(page: tk.Text):
     :param page:テキストエリアのインスタンス
     :return:
     """
-    decorate = string_decorate.StringDecorator(page)
-    pkvin = vinegar.Vinegar(page)
+    decorate: string_decorate.StringDecorator = string_decorate.StringDecorator(page)
+    pkvin: Vinegar = vinegar.Vinegar(page)
     return decorate, pkvin
 
 
 def reset_cursor() -> str:
-    default = "False 2"
+    default: str = "False 2"
     with open("conf/insert_width.txt", "w") as reset:
         reset.write("False 2")
     return default
@@ -979,6 +1005,7 @@ def main() -> None:
         raise extend_exception.FatalError
     root.minsize(32, 32)
     menubar: tk.Menu = tk.Menu(root, font=font)
+    ask_use_language = "jp"
     try:
         with open("conf/lang.txt", "r") as lang_file:
             ask_use_language = lang_file.read()
@@ -1001,6 +1028,17 @@ def main() -> None:
             with open("conf/lang.txt", "w", encoding=author.code) as lang_file:
                 lang_file.write("en")
             ask_use_language = "en"
+    # 一時ファイルをスレッドにするかどうか
+    try:
+        with open("conf/temp_save_thread.txt", "r", encoding=author.code) as temp_thread_file:
+            temp_thread = temp_thread_file.read()
+            if temp_thread == "True":
+                independent_method.thread_temp_save(author.page)
+    except FileNotFoundError:
+        with open("conf/temp_save_thread.txt", "w", encoding=author.code) as default:
+            default.write("False")
+    except Exception:
+        raise extend_exception.FatalError
     menu_init.menu_init(author, menubar, pk1vin, indent, full_screen, font_change, use_lang=ask_use_language)
     # タイトル
     root.config(menu=menubar)
@@ -1018,6 +1056,16 @@ def main() -> None:
     author.auto_indent()
     author.command_hist("start initialise")
     author.command_hist("read theme")
+    try:
+        if author.temp_save_thread_flag and not author.save_thread_done:
+            independent_method.thread_temp_save(author.page)
+            author.save_thread_done = True
+        else:
+            independent_method.temp_save(author.page)
+    except IgnorableException:
+        ignore()
+    if temp_thread == "True":
+        author.command_hist("一時ファイルの保存にスレッドを使用します")
     author.command_hist("initialising")
     if author.debug_enable:
         author.command_hist("enable debug_log")
@@ -1027,7 +1075,7 @@ def main() -> None:
     author.count_thread.start()
     # オートセーブその他の再帰呼び出し
     author.save_cvs_color()
-    root.after(4000, author.repeat_save_file)
+    root.after(4000, author.repeat_save_file, "dummy")
     insert_mode = textarea_config.ModeChange(author)
     insert_mode.change_vi_insert_mode()
     author.command_hist("initialise complete")
