@@ -49,7 +49,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver2.9.12_code:/Archive/
+        ver2.10.0_code:/Hope Is Good/
         """)
 
         # テーマ書式
