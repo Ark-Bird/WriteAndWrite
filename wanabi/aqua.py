@@ -122,6 +122,7 @@ class WillBeAuthor:
         self.temp_save_thread_flag:bool = False
         self.save_thread_done:bool = False
         self.is_end:bool = False
+        self.letters: int = 0
         try:
             with open("conf/lang.txt", "r", encoding="utf-8") as f:
                 self.lang = f.read()
@@ -259,6 +260,12 @@ class WillBeAuthor:
         self.is_init = False
         return
 
+    def letter_count_after(self):
+        s = self.page.get("0.0", "end")
+        s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
+        self.letters = len(s)
+        return self.letters
+
     def counter(self) -> None:
         """
         文字カウント
@@ -272,10 +279,10 @@ class WillBeAuthor:
         while not self.is_end:
             if self.is_terminate:
                 break
-            s: str = self.page.get("0.0", "end")
-            s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
-            text_length_without_whitespace: int = len(s)
-            self.letter_count = text_length_without_whitespace
+            #s: str = self.page.get("0.0", "end")
+            # s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
+            # text_length_without_whitespace: int = len(s)
+            # self.letter_count = text_length_without_whitespace
             time.sleep(1)
 
     def count_only_letters(self, event=None) -> None:
@@ -363,7 +370,8 @@ class WillBeAuthor:
         # half_spaceは挿入されるインデントが半角が全角かのフラグ
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
-        self.title_var_string = str(self.letter_count) + ":" + self.language.char
+        # self.title_var_string = str(self.letter_count) + ":" + self.language.char
+        self.title_var_string = str(self.letters) + ":" + self.language.char
         self.check_if_is_saved()
         self.title_var_string = self.app_name.return_app_name_for_now() + self.title_var_string
         # オートインデントの半角/全角状態の表示
@@ -434,6 +442,7 @@ class WillBeAuthor:
             self.root.after(1000, self.repeat_save_file, "dummy")
             raise extend_exception.CannotWriteFileException
         self.save_cvs_color()
+        self.letter_count_after()
         return
 
     def toggle_autosave_flag(self, event=None) -> None:
