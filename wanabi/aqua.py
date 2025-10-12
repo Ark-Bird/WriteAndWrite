@@ -121,6 +121,7 @@ class WillBeAuthor:
         self.save_flag_cvs: tk.Canvas | None = None
         self.temp_save_thread_flag:bool = False
         self.save_thread_done:bool = False
+        self.is_end:bool = False
         try:
             with open("conf/lang.txt", "r", encoding="utf-8") as f:
                 self.lang = f.read()
@@ -268,7 +269,7 @@ class WillBeAuthor:
         自動セーブの有効無効をタイトルバーに表示
         :return:None
         """
-        while True:
+        while not self.is_end:
             if self.is_terminate:
                 break
             s: str = self.page.get("0.0", "end")
@@ -562,6 +563,8 @@ class WillBeAuthor:
                 temp_file.write(s)
         except e:
             raise extend_exception.IgnorableException
+        self.is_end = True
+        self.count_thread.join()
         self.root.destroy()
         sys.exit(0)
 
@@ -907,8 +910,19 @@ def main() -> None:
     グローバル変数を閉じ込めるためだけの関数
     :return:None
     """
-    independent_method.conf_dir_make()
     file_flag: bool = False
+    temp_thread = "False"
+    init_done = False
+    try:
+        with open("conf/init_done.txt", "r") as init_done_file:
+            init_done_file.read()
+            init_done = True
+    except FileNotFoundError:
+        messagebox.showinfo("初期化します", "設定ファイルが存在しないか\n破損しているため初期化します")
+    conf_flag = os.path.exists("conf")
+    if not conf_flag:
+        messagebox.showinfo("not initialize", "設定ファイルを作成します")
+    independent_method.conf_dir_make()
     open_click_file_name: str = ""
     if len(sys.argv) >= 3:
         print("引数は無しかファイル名一つだけです")
@@ -1075,6 +1089,15 @@ def main() -> None:
     author.count_thread.start()
     # オートセーブその他の再帰呼び出し
     author.save_cvs_color()
+    try:
+        with open("conf/init_done.txt", "w") as init_done_file:
+            init_done_file.write("")
+    except extend_exception.CannotWriteFileException:
+        messagebox.showinfo("初期化ファイルを書き込めませんでした")
+    except FileNotFoundError:
+        pass
+    if not init_done:
+        messagebox.showinfo("設定を初期化しました", "設定を初期化したのでプログラムを再起動してください")
     root.after(4000, author.repeat_save_file, "dummy")
     insert_mode = textarea_config.ModeChange(author)
     insert_mode.change_vi_insert_mode()
