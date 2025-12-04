@@ -124,6 +124,7 @@ class WillBeAuthor:
         self.save_thread_done:bool = False
         self.is_end:bool = False
         self.letters: int = 0
+        self.no_ask: bool = False
         try:
             with open("conf/lang.txt", "r", encoding=self.code) as f:
                 self.lang = f.read()
@@ -141,6 +142,21 @@ class WillBeAuthor:
                 self.language = lang.Language("jp")
         except:
             self.command_hist(self.language.fatalError_is_raise)
+            raise Exception
+        try:
+            with open("conf/no_ask.txt", "r", encoding="utf-8") as f:
+                no_ask = f.read()
+                if no_ask == "True":
+                    self.no_ask = True
+                    messagebox.showinfo("新規ファイルの作成時に確認をしません", "新規ファイルを作成時に確認をせず旧ファイルを閉じます、\n"
+                                                                                "内容は保存されません、注意してください")
+                else:
+                    self.no_ask = False
+        except FileNotFoundError:
+            with open("conf/no_ask.txt", "w", encoding="utf-8") as wf:
+                wf.write("False")
+        except:
+            print("設定ファイルを作成出来ません")
             raise Exception
         if self.debug_enable:
             self.log2me = record_hist.RecordHist("conf/command.log")
@@ -575,7 +591,7 @@ class WillBeAuthor:
         self.root.destroy()
         sys.exit(0)
 
-    def new_blank_file(self, event=None) -> None:
+    def new_blank_file(self, event=None, no_ask=False) -> None:
         """
         clear text field
         テキストをクリアして新しいファイルにする
@@ -585,11 +601,12 @@ class WillBeAuthor:
         """
         self.written_textum = self.page.get("0.0", "end")
         self.prev_save_dir = ""
-        if not self.is_save:
-            if messagebox.askyesno("保存しますか?", "ファイルが変更されています、保存しますか?"):
-                self.save_as()
-            if not messagebox.askyesno("破棄しますか？", "文書を破棄しますか？"):
-                return
+        if not self.no_ask:
+            if not self.is_save:
+                if messagebox.askyesno("保存しますか?", "ファイルが変更されています、保存しますか?"):
+                    self.save_as()
+                if not messagebox.askyesno("破棄しますか？", "文書を破棄しますか？"):
+                    return
         self.page.delete("0.0", "end")
         self.is_text_unchanged()
         self.file_name = ""
