@@ -107,6 +107,7 @@ class WillBeAuthor:
         self.end_of_code: bool = False
         self.mess: None | tk.Label = None
         self.do_command: None | tk.StringVar = None
+        self.do_command: None | tk.StringVar = None
         self.letter_count: int = 0
         self.count_thread: threading.Thread = threading.Thread(target=self.counter)
         self.com_hist: deque = deque()
@@ -577,7 +578,7 @@ class WillBeAuthor:
         self.root.destroy()
         sys.exit(0)
 
-    def new_blank_file(self) -> None:
+    def new_blank_file(self, event=None) -> None:
         """
         clear text field
         テキストをクリアして新しいファイルにする
