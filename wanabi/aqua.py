@@ -125,18 +125,18 @@ class WillBeAuthor:
         self.is_end:bool = False
         self.letters: int = 0
         try:
-            with open("conf/lang.txt", "r", encoding="utf-8") as f:
+            with open("conf/lang.txt", "r", encoding=self.code) as f:
                 self.lang = f.read()
             if self.lang == "jp":
                 self.language = lang.Language("jp")
             elif self.lang == "en":
                 self.language = lang.Language("en")
             else:
-                with open(f"conf/lang.txt", "r", encoding="utf-8") as f:
+                with open(f"conf/lang.txt", "r", encoding=self.code) as f:
                     f.write("en")
                     self.language = lang.Language("en")
         except FileNotFoundError:
-            with open("conf/lang.txt", "w", encoding="utf-8") as f:
+            with open("conf/lang.txt", "w", encoding=self.code) as f:
                 f.write("jp")
                 self.language = lang.Language("jp")
         except:
