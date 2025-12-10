@@ -294,10 +294,7 @@ class WillBeAuthor:
         if event:
             ignore()
         text = self.page.get("0.0", "end")
-        text = re.sub('^.*：', '', text)
-        text = re.sub('\n.*：', '', text)
-        text = re.sub('[ 　\t\r\n]', '', text)
-        text = re.sub('[「」,.、。]', '', text)
+        text = re.sub('[ 　\t\r\n「」,.、。]', '', text)
         messagebox.showinfo("現在の文字数", f"{len(text)}")
 
     def erase_newline(self) -> None:
@@ -571,7 +568,7 @@ class WillBeAuthor:
         try:
             with open("conf/temp.txt", "w", encoding=self.code) as temp_file:
                 temp_file.write(s)
-        except e:
+        except:
             raise extend_exception.IgnorableException
         self.is_end = True
         self.count_thread.join()
