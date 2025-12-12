@@ -107,6 +107,7 @@ class WillBeAuthor:
         self.end_of_code: bool = False
         self.mess: None | tk.Label = None
         self.do_command: None | tk.StringVar = None
+        self.do_command: None | tk.StringVar = None
         self.letter_count: int = 0
         self.count_thread: threading.Thread = threading.Thread(target=self.counter)
         self.com_hist: deque = deque()
@@ -119,19 +120,23 @@ class WillBeAuthor:
         self.is_not_t_autosave_enable: bool = True
         self.t_end: bool = False
         self.save_flag_cvs: tk.Canvas | None = None
+        self.temp_save_thread_flag:bool = False
+        self.save_thread_done:bool = False
+        self.is_end:bool = False
+        self.letters: int = 0
         try:
-            with open("conf/lang.txt", "r", encoding="utf-8") as f:
+            with open("conf/lang.txt", "r", encoding=self.code) as f:
                 self.lang = f.read()
             if self.lang == "jp":
                 self.language = lang.Language("jp")
             elif self.lang == "en":
                 self.language = lang.Language("en")
             else:
-                with open(f"conf/lang.txt", "r", encoding="utf-8") as f:
+                with open(f"conf/lang.txt", "r", encoding=self.code) as f:
                     f.write("en")
                     self.language = lang.Language("en")
         except FileNotFoundError:
-            with open("conf/lang.txt", "w", encoding="utf-8") as f:
+            with open("conf/lang.txt", "w", encoding=self.code) as f:
                 f.write("jp")
                 self.language = lang.Language("jp")
         except:
@@ -256,6 +261,12 @@ class WillBeAuthor:
         self.is_init = False
         return
 
+    def letter_count_after(self):
+        s = self.page.get("0.0", "end")
+        s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
+        self.letters = len(s)
+        return self.letters
+
     def counter(self) -> None:
         """
         文字カウント
@@ -266,13 +277,13 @@ class WillBeAuthor:
         自動セーブの有効無効をタイトルバーに表示
         :return:None
         """
-        while True:
+        while not self.is_end:
             if self.is_terminate:
                 break
-            s: str = self.page.get("0.0", "end")
-            s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
-            text_length_without_whitespace: int = len(s)
-            self.letter_count = text_length_without_whitespace
+            #s: str = self.page.get("0.0", "end")
+            # s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
+            # text_length_without_whitespace: int = len(s)
+            # self.letter_count = text_length_without_whitespace
             time.sleep(1)
 
     def count_only_letters(self, event=None) -> None:
@@ -283,10 +294,7 @@ class WillBeAuthor:
         if event:
             ignore()
         text = self.page.get("0.0", "end")
-        text = re.sub('^.*：', '', text)
-        text = re.sub('\n.*：', '', text)
-        text = re.sub('[ 　\t\r\n]', '', text)
-        text = re.sub('[「」,.、。]', '', text)
+        text = re.sub('[ 　\t\r\n「」,.、。]', '', text)
         messagebox.showinfo("現在の文字数", f"{len(text)}")
 
     def erase_newline(self) -> None:
@@ -360,7 +368,8 @@ class WillBeAuthor:
         # half_spaceは挿入されるインデントが半角が全角かのフラグ
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
-        self.title_var_string = str(self.letter_count) + ":" + self.language.char
+        # self.title_var_string = str(self.letter_count) + ":" + self.language.char
+        self.title_var_string = str(self.letters) + ":" + self.language.char
         self.check_if_is_saved()
         self.title_var_string = self.app_name.return_app_name_for_now() + self.title_var_string
         # オートインデントの半角/全角状態の表示
@@ -420,10 +429,6 @@ class WillBeAuthor:
         except Exception:
             raise extend_exception.FatalError
         self.change_titlebar()
-        try:
-            independent_method.temp_save(self.page)
-        except IgnorableException:
-            ignore()
         if self.is_autosave_flag:
             self.save_file()
             self.is_save = True
@@ -435,6 +440,7 @@ class WillBeAuthor:
             self.root.after(1000, self.repeat_save_file, "dummy")
             raise extend_exception.CannotWriteFileException
         self.save_cvs_color()
+        self.letter_count_after()
         return
 
     def toggle_autosave_flag(self, event=None) -> None:
@@ -559,10 +565,17 @@ class WillBeAuthor:
             return
         if self.is_not_t_autosave_enable:
             self.autosave_thread_end()
+        try:
+            with open("conf/temp.txt", "w", encoding=self.code) as temp_file:
+                temp_file.write(s)
+        except:
+            raise extend_exception.IgnorableException
+        self.is_end = True
+        self.count_thread.join()
         self.root.destroy()
         sys.exit(0)
 
-    def new_blank_file(self) -> None:
+    def new_blank_file(self, event=None) -> None:
         """
         clear text field
         テキストをクリアして新しいファイルにする
@@ -830,7 +843,7 @@ class WillBeAuthor:
     def autosave_thread(self) -> None:
         """
         Ctrl-Shift-Eでマルチスレッドのオートセーブを有効化
-        :return:
+        :return:`
         """
         prev_text: str = self.page.get("0.0", "end-1c")
         while not self.t_end:
@@ -904,8 +917,19 @@ def main() -> None:
     グローバル変数を閉じ込めるためだけの関数
     :return:None
     """
-    independent_method.conf_dir_make()
     file_flag: bool = False
+    temp_thread = "False"
+    init_done = False
+    try:
+        with open("conf/init_done.txt", "r") as init_done_file:
+            init_done_file.read()
+            init_done = True
+    except FileNotFoundError:
+        messagebox.showinfo("初期化します", "設定ファイルが存在しないか\n破損しているため初期化します")
+    conf_flag = os.path.exists("conf")
+    if not conf_flag:
+        messagebox.showinfo("not initialize", "設定ファイルを作成します")
+    independent_method.conf_dir_make()
     open_click_file_name: str = ""
     if len(sys.argv) >= 3:
         print("引数は無しかファイル名一つだけです")
@@ -1025,6 +1049,17 @@ def main() -> None:
             with open("conf/lang.txt", "w", encoding=author.code) as lang_file:
                 lang_file.write("en")
             ask_use_language = "en"
+    # 一時ファイルをスレッドにするかどうか
+    try:
+        with open("conf/temp_save_thread.txt", "r", encoding=author.code) as temp_thread_file:
+            temp_thread = temp_thread_file.read()
+            if temp_thread == "True":
+                independent_method.thread_temp_save(author.page)
+    except FileNotFoundError:
+        with open("conf/temp_save_thread.txt", "w", encoding=author.code) as default:
+            default.write("False")
+    except Exception:
+        raise extend_exception.FatalError
     menu_init.menu_init(author, menubar, pk1vin, indent, full_screen, font_change, use_lang=ask_use_language)
     # タイトル
     root.config(menu=menubar)
@@ -1042,6 +1077,16 @@ def main() -> None:
     author.auto_indent()
     author.command_hist("start initialise")
     author.command_hist("read theme")
+    try:
+        if author.temp_save_thread_flag and not author.save_thread_done:
+            independent_method.thread_temp_save(author.page)
+            author.save_thread_done = True
+        else:
+            independent_method.temp_save(author.page)
+    except IgnorableException:
+        ignore()
+    if temp_thread == "True":
+        author.command_hist("一時ファイルの保存にスレッドを使用します")
     author.command_hist("initialising")
     if author.debug_enable:
         author.command_hist("enable debug_log")
@@ -1051,6 +1096,15 @@ def main() -> None:
     author.count_thread.start()
     # オートセーブその他の再帰呼び出し
     author.save_cvs_color()
+    try:
+        with open("conf/init_done.txt", "w") as init_done_file:
+            init_done_file.write("")
+    except extend_exception.CannotWriteFileException:
+        messagebox.showinfo("初期化ファイルを書き込めませんでした")
+    except FileNotFoundError:
+        pass
+    if not init_done:
+        messagebox.showinfo("設定を初期化しました", "設定を初期化したのでプログラムを再起動してください")
     root.after(4000, author.repeat_save_file, "dummy")
     insert_mode = textarea_config.ModeChange(author)
     insert_mode.change_vi_insert_mode()

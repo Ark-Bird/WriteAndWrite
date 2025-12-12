@@ -81,6 +81,8 @@ class Language:
             self.auto_indent_half_width = "オートインデント半角"
             self.auto_indent_full_width = "オートインデント全角"
             self.auto_indent_disable_now = "インデント無効"
+            self.initialized = ("設定ファイルを初期化しました", "再起動してください")
+            self.unknown_code = ("文字コードの設定に失敗しました", "文字コードをutf-8で指定して作成します")
         elif self.area == "en":
             self.new_file = "new file"
             self.open = "open file"
@@ -162,3 +164,5 @@ class Language:
             self.auto_indent_half_width = " auto_indent half"
             self.auto_indent_full_width = " auto_indent full"
             self.auto_indent_disable_now = " auto_indent disable"
+            self.unknown_code = ("code set error", "make file code is utf-8")
+            self.initialized = ("configur initialized", "Need reboot this app")

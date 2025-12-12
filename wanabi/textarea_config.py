@@ -191,6 +191,8 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     """
     font = font_change
     page_scroll_set(root, page)
+    # 新規ファイル
+    page.bind("<Control-O>", author.new_blank_file)
     # ファイルを保存
     page.bind("<Control-s>", author.save_file)
     # コピペ＆カット
