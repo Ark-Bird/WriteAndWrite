@@ -557,7 +557,7 @@ class WillBeAuthor:
             return
         with open(self.file_name, mode="w", encoding=self.code) as textum_file:
             try:
-                textum_file.write(self.que.get(block=False))
+                textum_file.write(self.page.get("0.0", "end-1c"))
             except queue.Empty:
                 pass
         if not self.is_autosave_flag:
