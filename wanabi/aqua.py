@@ -19,7 +19,8 @@ from tkinter import messagebox
 import re
 from collections import deque
 
-from wanabi.extend_exception import IgnorableException
+from wanabi.extend_exception import IgnorableException, CannotFileWriteException
+from wanabi.lang import Language
 from wanabi.log_recorder_me import record_hist
 # import app_name
 # import extend_exception
@@ -127,7 +128,6 @@ class WillBeAuthor:
         self.is_end:bool = False
         self.letters: int = 0
         self.no_ask: bool = False
-        self.que = Queue(maxsize=1)
         try:
             with open("conf/lang.txt", "r", encoding=self.code) as f:
                 self.lang = f.read()
@@ -210,6 +210,12 @@ class WillBeAuthor:
             self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="green", tags="status")
         else:
             self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="red", tags="status")
+
+    def cvs_alert(self):
+        width : int = self.save_flag_cvs.winfo_width()
+        height : int = self.save_flag_cvs.winfo_height()
+        self.save_flag_cvs.delete("status")
+        self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="yellow", tags="status")
 
     def command_hist(self, command) -> None:
         """
@@ -414,11 +420,6 @@ class WillBeAuthor:
         ファイルパスはユニコードであること
         :return:None
         """
-        if self.que.empty():
-            try:
-                self.que.put(self.page.get("0.0", "end-1c"), block=False)
-            except queue.Full:
-                pass
         if self.prev_save_dir == "" and self.is_autosave_flag:
             self.prev_save_dir = filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
                                                               initialdir=self.prev_save_dir)
@@ -546,20 +547,17 @@ class WillBeAuthor:
             self.written_textum = self.page.get("0.0", "end")
             # 末尾の改行を削除する
             self.written_textum = self.written_textum[0:-1]
-            if self.que.empty():
-                try:
-                    self.que.put(self.written_textum, block=False)
-                except queue.Full:
-                    pass
         if self.file_name[-4:] != ".txt":
             self.file_name += ".txt"
         if self.before_text == self.page.get("0.0", "end"):
             return
-        with open(self.file_name, mode="w", encoding=self.code) as textum_file:
-            try:
-                textum_file.write(self.page.get("0.0", "end-1c"))
-            except queue.Empty:
-                pass
+        try:
+            with open(self.file_name, mode="w", encoding=self.code) as textum_file:
+                textum_file.write(self.written_textum)
+        except:
+            messagebox.showinfo(self.language.cant_write_file(0), self.language.cant_write_file(1))
+            self.cvs_alert()
+            pass
         if not self.is_autosave_flag:
             self.command_hist(self.file_name + self.language.save_complete)
         try:
@@ -889,17 +887,7 @@ class WillBeAuthor:
                 break
             if not self.is_thread_autosave_flag:
                 break
-            # text = self.page.get("0.0", "end-1c")
-            if not self.que.empty():
-                try:
-                    text = self.que.get(block=False)
-                except queue.Empty:
-                    time.sleep(1)
-                    continue
-            # if prev_text == text:
-            #     time.sleep(1)
-            #     self.is_save = True
-            #     continue
+            text = self.page.get("0.0", "end-1c")
             try:
                 with open(self.file_name, "w", encoding=self.code) as file:
                     file.write(text)
