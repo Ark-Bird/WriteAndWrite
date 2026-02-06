@@ -520,6 +520,7 @@ class WillBeAuthor:
         存在しなければNotOpenPathException例外を投げる
         失敗時Falseをリターン
         """
+        save_complete:bool = True
         if event:
             ignore()
         if self.end_of_code:
@@ -533,6 +534,7 @@ class WillBeAuthor:
                 prev_save_directory: str = os.path.abspath(os.path.dirname(f.readline()))
         except extend_exception.NotOpenPathException:
             prev_save_directory = os.path.abspath(os.path.dirname(__file__))
+            save_complete = False
         if self.file_name == "":
             self.file_name = tk.filedialog.asksaveasfilename(
                 filetypes=[("txt files", "*.txt")], initialdir=prev_save_directory
@@ -542,6 +544,7 @@ class WillBeAuthor:
             return
         if not self.file_name:
             self.file_name = ""
+            save_complete = False
             return
         if True:
             self.written_textum = self.page.get("0.0", "end")
@@ -554,9 +557,10 @@ class WillBeAuthor:
         try:
             with open(self.file_name, mode="w", encoding=self.code) as textum_file:
                 textum_file.write(self.written_textum)
-        except:
+        except Exception:
             messagebox.showinfo(self.language.cant_write_file(0), self.language.cant_write_file(1))
             self.cvs_alert()
+            save_complete = False
             pass
         if not self.is_autosave_flag:
             self.command_hist(self.file_name + self.language.save_complete)
@@ -567,10 +571,14 @@ class WillBeAuthor:
             self.command_hist(self.language.pathfile_permission_error)
             time.sleep(0.05)
             self.save_file()
-        self.is_text_unchanged()
-        self.is_save = True
-        self.save_cvs_color()
-        self.change_titlebar()
+            self.is_text_unchanged()
+        except Exception:
+            save_complete = False
+            self.is_save = False
+        if save_complete:
+            self.save_cvs_color()
+            self.change_titlebar()
+            self.is_save = True
         return
 
     def exit_as_save(self) -> None:
