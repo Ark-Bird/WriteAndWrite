@@ -19,7 +19,7 @@ from tkinter import messagebox
 import re
 from collections import deque
 
-from wanabi.extend_exception import IgnorableException, CannotFileWriteException
+from wanabi.extend_exception import IgnorableException, CannotFileWriteException, CantWrite2file
 from wanabi.lang import Language
 from wanabi.log_recorder_me import record_hist
 # import app_name
@@ -555,13 +555,9 @@ class WillBeAuthor:
         if self.before_text == self.page.get("0.0", "end"):
             return
         try:
-            with open(self.file_name, mode="w", encoding=self.code) as textum_file:
-                textum_file.write(self.written_textum)
-        except Exception:
-            messagebox.showinfo(self.language.cant_write_file(0), self.language.cant_write_file(1))
-            self.cvs_alert()
+            self.write_text_to_file()
+        except extend_exception.CantWrite2file:
             save_complete = False
-            pass
         if not self.is_autosave_flag:
             self.command_hist(self.file_name + self.language.save_complete)
         try:
@@ -612,6 +608,15 @@ class WillBeAuthor:
         self.count_thread.join()
         self.root.destroy()
         sys.exit(0)
+
+    def write_text_to_file(self):
+        try:
+            with open(self.file_name, mode="w", encoding=self.code) as textum_file:
+                textum_file.write(self.written_textum)
+        except Exception:
+            messagebox.showinfo(self.language.cant_write_file(0), self.language.cant_write_file(1))
+            self.cvs_alert()
+            raise CantWrite2file
 
     def new_blank_file(self, event=None, no_ask=False) -> None:
         """
