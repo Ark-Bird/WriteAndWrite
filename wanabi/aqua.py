@@ -17,7 +17,8 @@ from tkinter import messagebox
 import re
 from collections import deque
 
-from wanabi.extend_exception import IgnorableException
+from wanabi.extend_exception import IgnorableException, CannotFileWriteException, CantWrite2file
+from wanabi.lang import Language
 from wanabi.log_recorder_me import record_hist
 # import app_name
 # import extend_exception
@@ -124,6 +125,7 @@ class WillBeAuthor:
         self.save_thread_done:bool = False
         self.is_end:bool = False
         self.letters: int = 0
+        self.no_ask: bool = False
         try:
             with open("conf/lang.txt", "r", encoding=self.code) as f:
                 self.lang = f.read()
@@ -141,6 +143,21 @@ class WillBeAuthor:
                 self.language = lang.Language("jp")
         except:
             self.command_hist(self.language.fatalError_is_raise)
+            raise Exception
+        try:
+            with open("conf/no_ask.txt", "r", encoding="utf-8") as f:
+                no_ask = f.read()
+                if no_ask == "True":
+                    self.no_ask = True
+                    messagebox.showinfo("新規ファイルの作成時に確認をしません", "新規ファイルを作成時に確認をせず旧ファイルを閉じます、\n"
+                                                                                "内容は保存されません、注意してください")
+                else:
+                    self.no_ask = False
+        except FileNotFoundError:
+            with open("conf/no_ask.txt", "w", encoding="utf-8") as wf:
+                wf.write("False")
+        except:
+            print("設定ファイルを作成出来ません")
             raise Exception
         if self.debug_enable:
             self.log2me = record_hist.RecordHist("conf/command.log")
@@ -191,6 +208,12 @@ class WillBeAuthor:
             self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="green", tags="status")
         else:
             self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="red", tags="status")
+
+    def cvs_alert(self):
+        width : int = self.save_flag_cvs.winfo_width()
+        height : int = self.save_flag_cvs.winfo_height()
+        self.save_flag_cvs.delete("status")
+        self.save_flag_cvs.create_rectangle(0, 0, width, height, fill="yellow", tags="status")
 
     def command_hist(self, command) -> None:
         """
@@ -495,6 +518,7 @@ class WillBeAuthor:
         存在しなければNotOpenPathException例外を投げる
         失敗時Falseをリターン
         """
+        save_complete:bool = True
         if event:
             ignore()
         if self.end_of_code:
@@ -508,6 +532,7 @@ class WillBeAuthor:
                 prev_save_directory: str = os.path.abspath(os.path.dirname(f.readline()))
         except extend_exception.NotOpenPathException:
             prev_save_directory = os.path.abspath(os.path.dirname(__file__))
+            save_complete = False
         if self.file_name == "":
             self.file_name = tk.filedialog.asksaveasfilename(
                 filetypes=[("txt files", "*.txt")], initialdir=prev_save_directory
@@ -517,6 +542,7 @@ class WillBeAuthor:
             return
         if not self.file_name:
             self.file_name = ""
+            save_complete = False
             return
         if True:
             self.written_textum = self.page.get("0.0", "end")
@@ -526,8 +552,10 @@ class WillBeAuthor:
             self.file_name += ".txt"
         if self.before_text == self.page.get("0.0", "end"):
             return
-        with open(self.file_name, mode="w", encoding=self.code) as textum_file:
-            textum_file.write(self.written_textum)
+        try:
+            self.write_text_to_file()
+        except extend_exception.CantWrite2file:
+            save_complete = False
         if not self.is_autosave_flag:
             self.command_hist(self.file_name + self.language.save_complete)
         try:
@@ -537,10 +565,14 @@ class WillBeAuthor:
             self.command_hist(self.language.pathfile_permission_error)
             time.sleep(0.05)
             self.save_file()
-        self.is_text_unchanged()
-        self.is_save = True
-        self.save_cvs_color()
-        self.change_titlebar()
+            self.is_text_unchanged()
+        except Exception:
+            save_complete = False
+            self.is_save = False
+        if save_complete:
+            self.save_cvs_color()
+            self.change_titlebar()
+            self.is_save = True
         return
 
     def exit_as_save(self) -> None:
@@ -575,7 +607,16 @@ class WillBeAuthor:
         self.root.destroy()
         sys.exit(0)
 
-    def new_blank_file(self, event=None) -> None:
+    def write_text_to_file(self):
+        try:
+            with open(self.file_name, mode="w", encoding=self.code) as textum_file:
+                textum_file.write(self.written_textum)
+        except Exception:
+            messagebox.showinfo(self.language.cant_write_file(0), self.language.cant_write_file(1))
+            self.cvs_alert()
+            raise CantWrite2file
+
+    def new_blank_file(self, event=None, no_ask=False) -> None:
         """
         clear text field
         テキストをクリアして新しいファイルにする
@@ -585,11 +626,12 @@ class WillBeAuthor:
         """
         self.written_textum = self.page.get("0.0", "end")
         self.prev_save_dir = ""
-        if not self.is_save:
-            if messagebox.askyesno("保存しますか?", "ファイルが変更されています、保存しますか?"):
-                self.save_as()
-            if not messagebox.askyesno("破棄しますか？", "文書を破棄しますか？"):
-                return
+        if not self.no_ask:
+            if not self.is_save:
+                if messagebox.askyesno("保存しますか?", "ファイルが変更されています、保存しますか?"):
+                    self.save_as()
+                if not messagebox.askyesno("破棄しますか？", "文書を破棄しますか？"):
+                    return
         self.page.delete("0.0", "end")
         self.is_text_unchanged()
         self.file_name = ""
@@ -845,7 +887,8 @@ class WillBeAuthor:
         Ctrl-Shift-Eでマルチスレッドのオートセーブを有効化
         :return:`
         """
-        prev_text: str = self.page.get("0.0", "end-1c")
+        # prev_text: str = self.page.get("0.0", "end-1c")
+        text = ""
         while not self.t_end:
             if self.is_not_t_autosave_enable:
                 break
@@ -856,15 +899,14 @@ class WillBeAuthor:
             if not self.is_thread_autosave_flag:
                 break
             text = self.page.get("0.0", "end-1c")
-            if prev_text == text:
-                time.sleep(1)
-                self.is_save = True
-                continue
-            with open(self.file_name, "w", encoding=self.code) as file:
-                file.write(text)
+            try:
+                with open(self.file_name, "w", encoding=self.code) as file:
+                    file.write(text)
+            except queue.Empty:
+                pass
             self.is_save = True
             time.sleep(2)
-            prev_text = self.page.get("0.0", "end-1c")
+            # prev_text = self.page.get("0.0", "end-1c")
 
     def autosave_thread_start(self, event=None) -> None:
         if event:
