@@ -434,6 +434,8 @@ class WillBeAuthor:
         except extend_exception.NotOpenPathException:
             print("パスが無効です")
             self.prev_save_dir = os.path.abspath(os.path.dirname(__file__))
+        except PermissionError:
+            self.path_is_cannot_write()
         except extend_exception.PathPermissionException:
             self.command_hist(self.language.pathfile_permission_error)
         except Exception:
@@ -533,6 +535,8 @@ class WillBeAuthor:
         except extend_exception.NotOpenPathException:
             prev_save_directory = os.path.abspath(os.path.dirname(__file__))
             save_complete = False
+        except PermissionError:
+            self.path_is_cannot_write()
         if self.file_name == "":
             self.file_name = tk.filedialog.asksaveasfilename(
                 filetypes=[("txt files", "*.txt")], initialdir=prev_save_directory
@@ -562,7 +566,7 @@ class WillBeAuthor:
             with open("conf/path.bin", mode="w", encoding=self.code) as conf:
                 conf.write(self.file_name)
         except PermissionError:
-            self.command_hist(self.language.pathfile_permission_error)
+            self.path_is_cannot_write()
             time.sleep(0.05)
             self.save_file()
             self.is_text_unchanged()
@@ -660,6 +664,8 @@ class WillBeAuthor:
                 directory_before_saved = f.readline()
         except extend_exception.NotOpenPathException:
             directory_before_saved = os.path.abspath(os.path.dirname(__file__))
+        except PermissionError:
+            self.path_is_cannot_write()
         self.file_name = tk.filedialog.askopenfilename(initialdir=directory_before_saved)
         if self.file_name == "":
             return
@@ -933,6 +939,10 @@ class WillBeAuthor:
         if event:
             ignore()
         self.root.iconify()
+
+    def path_is_cannot_write(self):
+        print("path.bin is can't be written")
+        self.command_hist(self.language.pathfile_permission_error)
 
 def init_page(page: tk.Text):
     """
