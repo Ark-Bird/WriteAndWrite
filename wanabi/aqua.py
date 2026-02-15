@@ -881,8 +881,10 @@ class WillBeAuthor:
                 f.write("False")
                 return False
         except Exception:
+            self.codepoint.recover()
             self.command_hist(self.language.fatalError_is_raise)
-            raise extend_exception.FatalError
+            self.codepoint.recover()
+            self.code = "utf-8"
 
     def autosave_thread(self) -> None:
         """

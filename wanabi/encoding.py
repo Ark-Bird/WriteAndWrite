@@ -29,3 +29,8 @@ class Encoding:
                 f.write("utf-8")
             messagebox.showerror(self.lang.unknown_code(0), self.lang.unknown_code(1))
         self.code = encoding
+
+    def recover(self):
+        messagebox.showinfo(self.lang.unknown_encode[0], self.lang.unknown_encode[1])
+        with open("conf/encode.txt", "w") as f:
+            f.write("utf-8")
