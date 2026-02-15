@@ -38,3 +38,14 @@ class IgnorableException(Exception):
     無視しても問題の無い例外を明示
     """
     pass
+
+class CannotFileWriteException(Exception):
+    """
+    ファイルの保存に失敗した
+    """
+    pass
+
+class CantWrite2file(Exception):
+    """
+    テキストの書き込み失敗
+    """

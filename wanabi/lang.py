@@ -83,6 +83,7 @@ class Language:
             self.auto_indent_disable_now = "インデント無効"
             self.initialized = ("設定ファイルを初期化しました", "再起動してください")
             self.unknown_code = ("文字コードの設定に失敗しました", "文字コードをutf-8で指定して作成します")
+            self.cant_write_file = ("ファイルに書き込めませんでした", "ファイルへの保存に失敗しました")
         elif self.area == "en":
             self.new_file = "new file"
             self.open = "open file"
@@ -166,3 +167,4 @@ class Language:
             self.auto_indent_disable_now = " auto_indent disable"
             self.unknown_code = ("code set error", "make file code is utf-8")
             self.initialized = ("configur initialized", "Need reboot this app")
+            self.cant_write_file = ("can't write file", "can't save file")
