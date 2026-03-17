@@ -112,7 +112,7 @@ class WillBeAuthor:
         self.do_command: None | tk.StringVar = None
         self.do_command: None | tk.StringVar = None
         self.letter_count: int = 0
-        self.count_thread: threading.Thread = threading.Thread(target=self.counter)
+        self.count_thread: threading.Thread = threading.Thread(target=self.counter, daemon=True)
         self.com_hist: deque = deque()
         self.app_name: app_name.AppName = app_name.AppName()
         self.is_terminate: bool = False
@@ -128,6 +128,7 @@ class WillBeAuthor:
         self.is_end:bool = False
         self.letters: int = 0
         self.no_ask: bool = False
+        self.prev_text: str = ""
         try:
             with open("conf/lang.txt", "r", encoding=self.code) as f:
                 self.lang = f.read()
@@ -288,6 +289,8 @@ class WillBeAuthor:
 
     def letter_count_after(self):
         s = self.page.get("0.0", "end")
+        if s == self.prev_text:
+            return self.letters
         s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
         self.letters = len(s)
         return self.letters
@@ -305,6 +308,7 @@ class WillBeAuthor:
         while not self.is_end:
             if self.is_terminate:
                 break
+            self.letter_count_after()
             #s: str = self.page.get("0.0", "end")
             # s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
             # text_length_without_whitespace: int = len(s)
@@ -467,7 +471,6 @@ class WillBeAuthor:
             self.root.after(1000, self.repeat_save_file, "dummy")
             raise extend_exception.CannotWriteFileException
         self.save_cvs_color()
-        self.letter_count_after()
         return
 
     def toggle_autosave_flag(self, event=None) -> None:
@@ -1164,6 +1167,7 @@ def main() -> None:
     root.after(4000, author.repeat_save_file, "dummy")
     insert_mode = textarea_config.ModeChange(author)
     insert_mode.change_vi_insert_mode()
+    author.prev_text = author.page.get("0.0", "end")
     author.command_hist("initialise complete")
     root.mainloop()
 
