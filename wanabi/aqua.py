@@ -111,7 +111,6 @@ class WillBeAuthor:
         self.mess: None | tk.Label = None
         self.do_command: None | tk.StringVar = None
         self.do_command: None | tk.StringVar = None
-        self.letter_count: int = 0
         self.count_thread: threading.Thread = threading.Thread(target=self.counter, daemon=True)
         self.com_hist: deque = deque()
         self.app_name: app_name.AppName = app_name.AppName()
@@ -290,10 +289,10 @@ class WillBeAuthor:
     def letter_count_after(self):
         s = self.page.get("0.0", "end")
         if s == self.prev_text:
-            return self.letters
+            return
         s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
         self.letters = len(s)
-        return self.letters
+        return
 
     def counter(self) -> None:
         """
@@ -313,7 +312,7 @@ class WillBeAuthor:
             # s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
             # text_length_without_whitespace: int = len(s)
             # self.letter_count = text_length_without_whitespace
-            time.sleep(1)
+            time.sleep(2)
 
     def count_only_letters(self, event=None) -> None:
         """
