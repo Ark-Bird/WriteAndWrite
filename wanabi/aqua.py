@@ -290,7 +290,9 @@ class WillBeAuthor:
         s = self.page.get("0.0", "end")
         if s == self.prev_text:
             return
-        s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
+        # s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
+        s = re.sub(r'《.*?》', '', s)
+        s = s.translate(str.maketrans('', '', ' 　\n\r\t|'))
         self.letters = len(s)
         return
 
