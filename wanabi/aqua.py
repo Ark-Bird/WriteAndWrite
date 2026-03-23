@@ -101,6 +101,7 @@ class WillBeAuthor:
         self.page: tk.Text | None = None
         self.root: tk.Tk | None = None
         self.init: bool = True
+        self.init_done: bool = False
         self.indent: indent_insert.Indent | None = None
         self.before_text: str = "\n"
         self.prev_save_dir: str = ""
@@ -287,6 +288,9 @@ class WillBeAuthor:
         return
 
     def letter_count_after(self):
+        if not self.init_done:
+            time.sleep(1)
+            return
         s = self.page.get("0.0", "end")
         if s == self.prev_text:
             return
@@ -1164,10 +1168,15 @@ def main() -> None:
     except FileNotFoundError:
         pass
     if not init_done:
-        messagebox.showinfo("設定を初期化しました", "設定を初期化したのでプログラムを再起動してください")
+        messagebox.showinfo("設定を初期化しました", "設定を初期化したのでプログラムを再起動します")
+        author.is_end = True
+        author.root.destroy()
+        sys.exit(0)
+    author.init_done = False
     root.after(4000, author.repeat_save_file, "dummy")
     insert_mode = textarea_config.ModeChange(author)
     insert_mode.change_vi_insert_mode()
+    author.init_done = True
     author.prev_text = author.page.get("0.0", "end")
     author.command_hist("initialise complete")
     root.mainloop()
