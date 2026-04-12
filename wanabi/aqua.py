@@ -7,21 +7,34 @@ Created on Fri Feb 17 20:47:33 2017
 import os
 import platform
 import queue
+import re
 import sys
 import threading
 import time
 import tkinter
 import tkinter as tk
 import tkinter.font
-from queue import Queue
+from collections import deque
 from tkinter import filedialog
 from tkinter import messagebox
-import re
-from collections import deque
 
-from wanabi.extend_exception import IgnorableException, CannotFileWriteException, CantWrite2file
-from wanabi.lang import Language
+import wanabi.encoding
+from wanabi import app_name, encoding
+from wanabi import extend_exception
+from wanabi import full_mode
+from wanabi import indent_insert
+from wanabi import independent_method
+from wanabi import lang
+from wanabi import menu_init
+from wanabi import string_decorate
+from wanabi import textarea_config
+from wanabi import theme_mod
+from wanabi import vinegar
+from wanabi.extend_exception import IgnorableException, CantWrite2file
+from wanabi.independent_method import ignore
 from wanabi.log_recorder_me import record_hist
+from wanabi.vinegar import Vinegar
+
 # import app_name
 # import extend_exception
 # import full_mode
@@ -33,21 +46,6 @@ from wanabi.log_recorder_me import record_hist
 # import theme_mod
 # import vinegar
 # from independent_method import ignore
-
-from wanabi import app_name, encoding
-from wanabi import extend_exception
-from wanabi import full_mode
-from wanabi import indent_insert
-from wanabi import independent_method
-from wanabi import menu_init
-from wanabi import string_decorate
-from wanabi import textarea_config
-from wanabi import theme_mod
-from wanabi import vinegar
-from wanabi import lang
-import wanabi.encoding
-from wanabi.independent_method import ignore
-from wanabi.vinegar import Vinegar
 
 """
 Copyright 2020 hiro
@@ -179,6 +177,9 @@ class WillBeAuthor:
         self.root = root
         return
 
+    def set_page(self, page):
+        self.page = page
+
     def init_label(self, message: str) -> None:
         """
         ラベルの初期化
@@ -295,10 +296,15 @@ class WillBeAuthor:
         if s == self.prev_text:
             return
         # s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
-        s = re.sub(r'《.*?》', '', s)
-        s = s.translate(str.maketrans('', '', ' 　\n\r\t|'))
+        # s = re.sub(r'《.*?》', '', s)
+        # s = s.translate(str.maketrans('', '', ' 　\n\r\t|'))
         self.letters = len(s)
         return
+
+    def count_without_blank(self, event=None) -> None:
+        s = self.page.get("0.0", "end")
+        s = re.sub('[ 　\n\r\t,、。]|[.]|[|]|《.*》', '', s)
+        messagebox.showinfo(title=self.language.text_len, message=str(len(s)))
 
     def counter(self) -> None:
         """

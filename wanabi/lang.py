@@ -85,6 +85,7 @@ class Language:
             self.unknown_code = ("文字コードの設定に失敗しました", "文字コードをutf-8で指定して作成します")
             self.cant_write_file = ("ファイルに書き込めませんでした", "ファイルへの保存に失敗しました")
             self.unknown_encode = ("無効なエンコーディングです", "エンコーディングをutf-8に変更しました\nアプリを再起動してください")
+            self.text_len = "文字数"
         elif self.area == "en":
             self.new_file = "new file"
             self.open = "open file"
@@ -170,3 +171,4 @@ class Language:
             self.initialized = ("configur initialized", "Need reboot this app")
             self.cant_write_file = ("can't write file", "can't save file")
             self.unknown_encode = ("can't solve encode", "change code is utf-8\nreboot this app")
+            self.text_len = "Text len is..."
