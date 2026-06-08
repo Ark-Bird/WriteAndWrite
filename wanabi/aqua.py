@@ -129,6 +129,7 @@ class WillBeAuthor:
         self.get_backup: bool = False
         self.prev_text: str = ""
         self.call_count: int = 0
+        self.call_order: int = 20
         try:
             with open("conf/lang.txt", "r", encoding=self.code) as f:
                 self.lang = f.read()
@@ -275,7 +276,7 @@ class WillBeAuthor:
 
     def call_logger(self, event=None):
         self.call_count += 1
-        if self.call_count > 20:
+        if self.call_count > self.call_order:
             self.logger()
             self.call_count = 0
 
@@ -1147,6 +1148,18 @@ def main() -> None:
         with open("conf/temp_save_thread.txt", "w", encoding=author.code) as default:
             default.write("False")
     except Exception:
+        raise extend_exception.FatalError
+    try:
+        with open("conf/usual.txt", "r", encoding=author.code) as usual:
+            author.call_order = int(usual.read())
+    except FileNotFoundError:
+        with open("conf/usual.txt", "w", encoding=author.code) as usual:
+            usual.write("20")
+            messagebox.showinfo("ファイルがありません", "メタデータの更新頻度を標準にしました")
+    except Exception:
+        with open("conf/usual.txt", "w", encoding=author.code) as usual:
+            usual.write("20")
+        messagebox.showerror("設定ファイルに書き込めませんでした", "ファイルが存在せず、不明な理由で書き込めませんでした")
         raise extend_exception.FatalError
     menu_init.menu_init(author, menubar, pk1vin, indent, full_screen, font_change, use_lang=ask_use_language)
     # タイトル
