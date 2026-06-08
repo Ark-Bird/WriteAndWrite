@@ -126,7 +126,9 @@ class WillBeAuthor:
         self.is_end:bool = False
         self.letters: int = 0
         self.no_ask: bool = False
+        self.get_backup: bool = False
         self.prev_text: str = ""
+        self.call_count: int = 0
         try:
             with open("conf/lang.txt", "r", encoding=self.code) as f:
                 self.lang = f.read()
@@ -270,6 +272,12 @@ class WillBeAuthor:
         """
         theme_mod.change_theme(self.page, self.command_hist, theme="original")
         return
+
+    def call_logger(self, event=None):
+        self.call_count += 1
+        if self.call_count > 20:
+            self.logger()
+            self.call_count = 0
 
     def logger(self, event=None) -> None:
         """
@@ -1120,6 +1128,16 @@ def main() -> None:
                 lang_file.write("en")
             ask_use_language = "en"
     # 一時ファイルをスレッドにするかどうか
+    try:
+        with open("conf/emerge_backup.txt", "r", encoding=author.code) as eback:
+            auto_backup = eback.read()
+            if auto_backup == "True":
+                author.get_backup = True
+    except FileNotFoundError:
+        with open("conf/emerge_backup.txt", "w", encoding=author.code) as eback:
+            eback.write("False")
+    except Exception:
+        raise extend_exception.FatalError
     try:
         with open("conf/temp_save_thread.txt", "r", encoding=author.code) as temp_thread_file:
             temp_thread = temp_thread_file.read()

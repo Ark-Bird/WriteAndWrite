@@ -225,7 +225,7 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     page.bind("<Control-m>", memo.set_text)
     page.bind("<Control-o>", memo.show_memory)
     # 文字カウント
-    page.bind("<Any-KeyPress>", author.logger)
+    page.bind("<Any-KeyPress>", author.call_logger)
     # ブランクを無視した文字カウント
     page.bind("<Control-C>", author.count_without_blank)
     # 現在のファイルパス

@@ -49,7 +49,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver2.13.0_code:/From Jupiter/
+        ver2.13.1_code:/From Jupiter/
         """)
 
         # テーマ書式
