@@ -1152,16 +1152,13 @@ def main() -> None:
     try:
         with open("conf/usual.txt", "r", encoding=author.code) as usual:
             author.call_order = int(usual.read())
-            print("ふぃあるはあった")
     except FileNotFoundError:
         with open("conf/usual.txt", "w", encoding=author.code) as usual:
             usual.write("20")
             messagebox.showinfo("ファイルがありません", "メタデータの更新頻度を標準にしました")
-            print("ふぁいるはつくった")
     except Exception:
         with open("conf/usual.txt", "w", encoding=author.code) as usual:
             usual.write("20")
-        print("えらーでた")
         messagebox.showerror("設定ファイルに書き込めませんでした", "ファイルが存在せず、不明な理由で書き込めませんでした")
         raise extend_exception.FatalError
     menu_init.menu_init(author, menubar, pk1vin, indent, full_screen, font_change, use_lang=ask_use_language)
