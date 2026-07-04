@@ -15,6 +15,7 @@ import tkinter
 import tkinter as tk
 import tkinter.font
 from collections import deque
+from threading import Thread
 from tkinter import filedialog
 from tkinter import messagebox
 
@@ -110,7 +111,6 @@ class WillBeAuthor:
         self.mess: None | tk.Label = None
         self.do_command: None | tk.StringVar = None
         self.do_command: None | tk.StringVar = None
-        self.count_thread: threading.Thread = threading.Thread(target=self.counter, daemon=True)
         self.com_hist: deque = deque()
         self.app_name: app_name.AppName = app_name.AppName()
         self.is_terminate: bool = False
@@ -130,6 +130,7 @@ class WillBeAuthor:
         self.prev_text: str = ""
         self.call_count: int = 0
         self.call_order: int = 20
+        self.info_letter = None
         try:
             with open("conf/lang.txt", "r", encoding=self.code) as f:
                 self.lang = f.read()
@@ -301,39 +302,13 @@ class WillBeAuthor:
         if not self.init_done:
             time.sleep(1)
             return
-        s = self.page.get("0.0", "end")
-        if s == self.prev_text:
-            return
-        # s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
-        # s = re.sub(r'《.*?》', '', s)
-        # s = s.translate(str.maketrans('', '', ' 　\n\r\t|'))
-        self.letters = len(s)
+
         return
 
     def count_without_blank(self, event=None) -> None:
         s = self.page.get("0.0", "end")
         s = re.sub('[ 　\n\r\t,、。]|[.]|[|]|《.*》', '', s)
         messagebox.showinfo(title=self.language.text_len, message=str(len(s)))
-
-    def counter(self) -> None:
-        """
-        文字カウント
-        テキストエリアから全文を読んで空白をトリムした長さを返す
-        loggerから呼ばれる
-        カウントした文字はタイトルバーに表示
-        オートインデント有効の場合タイトルバーに表示
-        自動セーブの有効無効をタイトルバーに表示
-        :return:None
-        """
-        while not self.is_end:
-            if self.is_terminate:
-                break
-            self.letter_count_after()
-            #s: str = self.page.get("0.0", "end")
-            # s = re.sub('[ 　\n\r\t]|[|]|《.*》', '', s)
-            # text_length_without_whitespace: int = len(s)
-            # self.letter_count = text_length_without_whitespace
-            time.sleep(2)
 
     def count_only_letters(self, event=None) -> None:
         """
@@ -490,6 +465,7 @@ class WillBeAuthor:
             self.command_hist(self.language.cannot_write_file)
             self.root.after(1000, self.repeat_save_file, "dummy")
             raise extend_exception.CannotWriteFileException
+        self.alllen = len(self.page.get("0.0", "end"))
         self.save_cvs_color()
         return
 
@@ -619,7 +595,6 @@ class WillBeAuthor:
                 self.is_exit = True
         if self.is_exit or self.is_save or s == "\n":
             self.is_terminate = True
-            self.count_thread.join()
             self.end_of_code = True
             self.is_thread_autosave_flag = False
         else:
@@ -632,7 +607,6 @@ class WillBeAuthor:
         except:
             raise extend_exception.IgnorableException
         self.is_end = True
-        self.count_thread.join()
         self.root.destroy()
         sys.exit(0)
 
@@ -1193,8 +1167,6 @@ def main() -> None:
         author.command_hist("enable debug_log")
     if file_flag:
         author.open_file(open_click_file_name)
-    # 文字カウントThreadのスタート
-    author.count_thread.start()
     # オートセーブその他の再帰呼び出し
     author.save_cvs_color()
     try:
