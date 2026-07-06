@@ -131,6 +131,7 @@ class WillBeAuthor:
         self.call_count: int = 0
         self.call_order: int = 20
         self.info_letter = None
+        self.alllen = 0
         try:
             with open("conf/lang.txt", "r", encoding=self.code) as f:
                 self.lang = f.read()
@@ -393,7 +394,7 @@ class WillBeAuthor:
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
         # self.title_var_string = str(self.letter_count) + ":" + self.language.char
-        self.title_var_string = str(self.letters) + ":" + self.language.char
+        self.title_var_string = str(self.alllen) + ":" + self.language.char
         self.check_if_is_saved()
         self.title_var_string = self.app_name.return_app_name_for_now() + self.title_var_string
         # オートインデントの半角/全角状態の表示
@@ -574,6 +575,8 @@ class WillBeAuthor:
         except Exception:
             save_complete = False
             self.is_save = False
+            messagebox.showerror(self.language.cannot_write[0], self.language.cannot_write[1])
+            raise extend_exception.FatalError
         if save_complete:
             self.save_cvs_color()
             self.change_titlebar()
