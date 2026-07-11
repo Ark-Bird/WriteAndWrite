@@ -97,7 +97,7 @@ class WillBeAuthor:
         self.is_autosave_flag: bool = False
         self.title_var_string: str = ""
         self.copied_text: str = ""
-        self.page: tk.Text | None = None
+        self.page: tk.Text
         self.root: tk.Tk | None = None
         self.init: bool = True
         self.init_done: bool = False
@@ -1036,6 +1036,7 @@ def main() -> None:
     except Exception:
         raise extend_exception.FatalError
     page: tk.Text = tk.Text(root, undo=True, wrap="char", insertwidth=cursor_width)
+    author.set_page(page)
     font_size: int = 13
     font_change: textarea_config.FontChange = textarea_config.FontChange(font_family, font_size, page, author)
     temp_assign: tuple[string_decorate.StringDecorator, vinegar.Vinegar] = init_page(page)
@@ -1044,7 +1045,7 @@ def main() -> None:
     decorate, pk1vin = temp_assign
     indent: indent_insert.Indent = indent_insert.Indent(author, page)
     author.set_indent(indent)
-    author.set_page(page)
+
     # 動いているOSの判別
     # このif節をコメントアウトしてからバイナリ化すればアイコンファイルをコピーせずに実行可能,その場合アイコンはPythonのデフォルトになります
     # アイコンファイルが見つからない場合はデフォルトアイコンで起動
