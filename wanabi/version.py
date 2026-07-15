@@ -49,7 +49,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver2.12.9_code:/The beyond/
+        ver2.14.2_code:/Over Sunset/
         """)
 
         # テーマ書式
