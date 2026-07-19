@@ -85,7 +85,7 @@ class WillBeAuthor:
         self.cursor_move_mode:カーソル移動のモード、デフォルトでviスタイルライク
         """
         self.codepoint: wanabi.encoding.Encoding = wanabi.encoding.Encoding()
-        self.code = self.codepoint.code
+        self.code: str = self.codepoint.code
         self.file_name: str = ""
         self.written_textum: str = ""
         self.is_changed: bool = False
@@ -97,8 +97,8 @@ class WillBeAuthor:
         self.is_autosave_flag: bool = False
         self.title_var_string: str = ""
         self.copied_text: str = ""
-        self.page: tk.Text
-        self.root: tk.Tk | None = None
+        self.page: tk.Text = None
+        self.root: tk.Tk = None
         self.init: bool = True
         self.init_done: bool = False
         self.indent: indent_insert.Indent | None = None
@@ -108,10 +108,8 @@ class WillBeAuthor:
         self.is_wrap: bool = True
         self.debug_enable: bool = self.is_debug_enable()
         self.end_of_code: bool = False
-        self.mess: None | tk.Label = None
-        self.do_command: None | tk.StringVar = None
-        self.do_command: None | tk.StringVar = None
-        self.com_hist: deque = deque()
+        self.mess: tk.Label
+        self.do_command: tk.StringVar
         self.app_name: app_name.AppName = app_name.AppName()
         self.is_terminate: bool = False
         self.vi_mode_now: str = "Command_mode"
@@ -120,7 +118,7 @@ class WillBeAuthor:
         self.t: threading.Thread | None = None
         self.is_not_t_autosave_enable: bool = True
         self.t_end: bool = False
-        self.save_flag_cvs: tk.Canvas | None = None
+        self.save_flag_cvs: tk.Canvas
         self.temp_save_thread_flag:bool = False
         self.save_thread_done:bool = False
         self.is_end:bool = False
@@ -131,7 +129,10 @@ class WillBeAuthor:
         self.call_count: int = 0
         self.call_order: int = 20
         self.info_letter = None
-        self.alllen = 0
+        self.all_text_len: int = 0
+        self.com_hist: deque = deque()
+        self.do_command: tk.StringVar
+        self.mess: tk.Label
         try:
             with open("conf/lang.txt", "r", encoding=self.code) as f:
                 self.lang = f.read()
@@ -182,7 +183,7 @@ class WillBeAuthor:
         self.root = root
         return
 
-    def set_page(self, page):
+    def set_page(self, page: tk.Text):
         self.page = page
 
     def init_label(self, message: str) -> None:
@@ -193,13 +194,13 @@ class WillBeAuthor:
         """
         self.do_command = tk.StringVar()
         self.do_command.set(message)
-        self.mess = tk.Label(self.root, textvariable=self.do_command)
+        self.mess = tk.Label(self.root, textvariable = self.do_command)
         self.mess.pack(side="bottom", fill='x')
 
     def is_saved_flag_color(self) -> None:
         """
         保存完了時に緑
-        美穗存知に赤
+        未保存時に赤
         :return:
         """
         self.save_flag_cvs = tk.Canvas(self.root, height=5)
@@ -299,13 +300,6 @@ class WillBeAuthor:
         self.is_init = False
         return
 
-    def letter_count_after(self):
-        if not self.init_done:
-            time.sleep(1)
-            return
-
-        return
-
     def count_without_blank(self, event=None) -> None:
         s = self.page.get("0.0", "end")
         s = re.sub('[ 　\n\r\t,、。]|[.]|[|]|《.*》', '', s)
@@ -394,7 +388,7 @@ class WillBeAuthor:
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
         # self.title_var_string = str(self.letter_count) + ":" + self.language.char
-        self.title_var_string = str(self.alllen) + ":" + self.language.char
+        self.title_var_string = str(self.all_text_len) + ":" + self.language.char
         self.check_if_is_saved()
         self.title_var_string = self.app_name.return_app_name_for_now() + self.title_var_string
         # オートインデントの半角/全角状態の表示
@@ -466,7 +460,7 @@ class WillBeAuthor:
             self.command_hist(self.language.cannot_write_file)
             self.root.after(1000, self.repeat_save_file, "dummy")
             raise extend_exception.CannotWriteFileException
-        self.alllen = len(self.page.get("0.0", "end"))
+        self.all_text_len = len(self.page.get("0.0", "end"))
         self.save_cvs_color()
         return
 
