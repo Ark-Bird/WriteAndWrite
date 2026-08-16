@@ -387,6 +387,10 @@ class WillBeAuthor:
         # half_spaceは挿入されるインデントが半角が全角かのフラグ
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
+        title_thread: threading.Thread = threading.Thread(target=self.titlebar_string_thread, args=(auto_indent, half_space))
+        title_thread.start()
+
+    def titlebar_string_thread(self, auto_indent, half_space) -> None:
         # self.title_var_string = str(self.letter_count) + ":" + self.language.char
         self.title_var_string = str(self.all_text_len) + ":" + self.language.char
         self.check_if_is_saved()
@@ -402,7 +406,7 @@ class WillBeAuthor:
         # オートセーブは有効か
         self.title_var_string += self.check_autosave_flag()
         # カーソル移動の方法
-        self.title_var_string += self.cursor_move_vi_or_emacs()
+        self.title_var_string += str(self.cursor_move_vi_or_emacs())
         self.title_var_string += ":" + self.vi_mode_now
         self.title_var_string += independent_method.path_to_filename(self.file_name)
         self.root.title(self.title_var_string)
