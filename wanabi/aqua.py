@@ -1228,7 +1228,7 @@ def main() -> None:
         sys.exit(0)
     author.init_done = False
     root.after(1000, author.repeat_save_file, "dummy")
-    root.after(1500, author.title_thread.start)
+    root.after(2000, author.title_thread.start)
     insert_mode = textarea_config.ModeChange(author)
     insert_mode.change_vi_insert_mode()
     author.init_done = True
