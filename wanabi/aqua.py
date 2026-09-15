@@ -134,6 +134,7 @@ class WillBeAuthor:
         self.do_command: tk.StringVar
         self.log_show_path: bool = False
         self.mess: tk.Label
+        self.title_thread: threading.Thread
         try:
             with open("conf/lang.txt", "r", encoding=self.code) as f:
                 self.lang = f.read()
@@ -388,8 +389,8 @@ class WillBeAuthor:
         # half_spaceは挿入されるインデントが半角が全角かのフラグ
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
-        title_thread: threading.Thread = threading.Thread(target=self.titlebar_string_thread, args=(auto_indent, half_space))
-        title_thread.start()
+        self.title_thread: threading.Thread = threading.Thread(target=self.titlebar_string_thread, args=(auto_indent, half_space))
+
 
     def titlebar_string_thread(self, auto_indent, half_space) -> None:
         # self.title_var_string = str(self.letter_count) + ":" + self.language.char
@@ -1014,7 +1015,26 @@ def main() -> None:
     font: tk.font.Font = tk.font.Font(root, family=font_family)
     full_screen: full_mode.FullMode = full_mode.FullMode(author)
     full_screen.set_root_full_mode(root)
-    root.geometry("820x640")
+
+    try:
+        default_window_size: str = "820x480"
+        with open("conf/init_size.txt", "r") as init_size:
+            initial_window_size = init_size.read()
+        root.geometry(initial_window_size)
+    except FileNotFoundError:
+        root.geometry(default_window_size)
+        with open("conf/init_size.txt", "w") as init_size:
+            init_size.write(default_window_size)
+        root.geometry(default_window_size)
+        messagebox.showinfo("設定ファイルが存在しません", "設定ファイルをデフォルト値で作成します")
+    except ValueError:
+        with open("conf/init_size.txt", "w") as init_size:
+            init_size.write(default_window_size)
+    except Exception:
+        messagebox.showinfo("attention!", "window_size ERROOR, please check conf/init_size.txt")
+        with open("conf/init_size.txt", "w") as init_size:
+            init_size.write(default_window_size)
+        raise extend_exception.FatalError()
     cursor_width: int = 2
     try:
         with open("conf/insert_width.txt","r") as f:
@@ -1207,7 +1227,8 @@ def main() -> None:
         author.root.destroy()
         sys.exit(0)
     author.init_done = False
-    root.after(4000, author.repeat_save_file, "dummy")
+    root.after(1000, author.repeat_save_file, "dummy")
+    root.after(1500, author.title_thread.start)
     insert_mode = textarea_config.ModeChange(author)
     insert_mode.change_vi_insert_mode()
     author.init_done = True
