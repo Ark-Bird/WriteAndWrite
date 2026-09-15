@@ -132,6 +132,7 @@ class WillBeAuthor:
         self.all_text_len: int = 0
         self.com_hist: deque = deque()
         self.do_command: tk.StringVar
+        self.log_show_path: bool = False
         self.mess: tk.Label
         try:
             with open("conf/lang.txt", "r", encoding=self.code) as f:
@@ -561,7 +562,10 @@ class WillBeAuthor:
         except extend_exception.CantWrite2file:
             save_complete = False
         if not self.is_autosave_flag:
-            self.command_hist(self.file_name + self.language.save_complete)
+            if not self.log_show_path:
+                self.command_hist(self.language.save_complete)
+            else:
+                self.command_hist(self.file_name + self.language.save_complete)
         try:
             with open("conf/path.bin", mode="w", encoding=self.code) as conf:
                 conf.write(self.file_name)
@@ -1137,6 +1141,25 @@ def main() -> None:
             usual.write("20")
         messagebox.showerror("設定ファイルに書き込めませんでした", "ファイルが存在せず、不明な理由で書き込めませんでした")
         raise extend_exception.FatalError
+    try:
+        with open("conf/show_filename.txt", 'r') as f:
+            filename_flag = f.read()
+            if filename_flag == "True":
+                author.log_show_path = True
+            else:
+                author.log_show_path = False
+    except FileNotFoundError:
+        messagebox.showinfo("NOT configFile", "Not show file path")
+        with open("conf/show_filename.txt", 'w') as f:
+            f.write("False")
+        author.log_show_path = False
+    except CantWrite2file:
+        messagebox.showerror("can't write to file", "Can't write to file")
+        author.log_show_path = False
+    except Exception:
+        messagebox.showerror("Error is raised", "Error is raised")
+        raise extend_exception.FatalError
+
     menu_init.menu_init(author, menubar, pk1vin, indent, full_screen, font_change, use_lang=ask_use_language)
     # タイトル
     root.config(menu=menubar)
