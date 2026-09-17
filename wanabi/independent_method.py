@@ -170,7 +170,7 @@ def temp_save(page: tkinter.Text) -> None:
         raise extend_exception.IgnorableException
     return None
 
-def temp_save_thread(page):
+def temp_save_thread(string):
     """
     一時ファイルをスレッドで保存
     :return:
@@ -179,17 +179,17 @@ def temp_save_thread(page):
     while True:
         try:
             with open("conf/temp.txt", "w", encoding=strcode) as f:
-                f.write(page.get("0.0", "end"))
+                f.write(string)
         except Exception:
             print("一時ファイルへの書き込みに失敗しました")
             raise extend_exception.IgnorableException
         time.sleep(2)
     return None
 
-def thread_temp_save(page):
+def thread_temp_save(string,):
     """
     スレッドループ
     :return:
     """
     global strcode
-    threading.Thread(target=temp_save_thread, daemon=True, args=(page,)).start()
+    threading.Thread(target=temp_save_thread, daemon=True, args=(string,)).start()

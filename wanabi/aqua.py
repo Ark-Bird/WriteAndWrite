@@ -296,6 +296,7 @@ class WillBeAuthor:
         """
         if event:
             ignore()
+        self.all_text_len = len(self.page.get('0.0', 'end'))
         self.change_titlebar()
         self.is_save = False
         self.is_text_changed()
@@ -348,7 +349,7 @@ class WillBeAuthor:
         テキストが初期状態、もしくは未保存か保存済みかを書き換えるメソッド
         :return: None
         """
-        if self.file_name == "" and self.page.get("0.0", "end") == "\n":
+        if self.file_name == "":
             self.title_var_string += ":" + self.language.title + ":"
         # 保存の有無
         elif not self.is_save:
@@ -390,6 +391,7 @@ class WillBeAuthor:
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
         self.title_thread: threading.Thread = threading.Thread(target=self.titlebar_string_thread, args=(auto_indent, half_space))
+        self.title_thread.start()
 
 
     def titlebar_string_thread(self, auto_indent, half_space) -> None:
@@ -411,10 +413,9 @@ class WillBeAuthor:
         self.title_var_string += str(self.cursor_move_vi_or_emacs())
         self.title_var_string += ":" + self.vi_mode_now
         self.title_var_string += independent_method.path_to_filename(self.file_name)
-        self.root.title(self.title_var_string)
         return
 
-    def repeat_save_file(self, _) -> None:
+    def repeat_save_file(self, _=None) -> None:
         """
         オートセーブ
         ファイルパスはユニコードであること
@@ -444,6 +445,8 @@ class WillBeAuthor:
             self.prev_save_dir = ""
             independent_method.write_filename_string("")
             raise extend_exception.CannotWriteFileException
+        finally:
+            self.change_titlebar()
         if self.prev_save_dir == "/":
             print("assert!")
             independent_method.write_filename_string(self.prev_save_dir)
@@ -461,13 +464,17 @@ class WillBeAuthor:
             self.is_save = True
             self.before_text = self.page.get("0.0", "end")
         try:
-            self.root.after(1000, self.repeat_save_file, "dummy")
+            pass
+            # self.root.after(1000, self.repeat_save_file, "dummy")
         except Exception:
             self.command_hist(self.language.cannot_write_file)
-            self.root.after(1000, self.repeat_save_file, "dummy")
+            # self.root.after(1000, self.repeat_save_file, "dummy")
             raise extend_exception.CannotWriteFileException
         self.all_text_len = len(self.page.get("0.0", "end"))
+        self.root.title(self.title_var_string)
         self.save_cvs_color()
+        self.change_titlebar()
+        self.root.after(2000, self.repeat_save_file)
         return
 
     def toggle_autosave_flag(self, event=None) -> None:
@@ -1143,7 +1150,7 @@ def main() -> None:
         with open("conf/temp_save_thread.txt", "r", encoding=author.code) as temp_thread_file:
             temp_thread = temp_thread_file.read()
             if temp_thread == "True":
-                independent_method.thread_temp_save(author.page)
+                independent_method.thread_temp_save(author.page.get(0.0, 'end'))
     except FileNotFoundError:
         with open("conf/temp_save_thread.txt", "w", encoding=author.code) as default:
             default.write("False")
@@ -1199,7 +1206,7 @@ def main() -> None:
     author.command_hist("read theme")
     try:
         if author.temp_save_thread_flag and not author.save_thread_done:
-            independent_method.thread_temp_save(author.page)
+            independent_method.thread_temp_save(author.page.get(0.0, 'end'))
             author.save_thread_done = True
         else:
             independent_method.temp_save(author.page)
@@ -1228,12 +1235,12 @@ def main() -> None:
         sys.exit(0)
     author.init_done = False
     root.after(1000, author.repeat_save_file, "dummy")
-    root.after(2000, author.title_thread.start)
     insert_mode = textarea_config.ModeChange(author)
     insert_mode.change_vi_insert_mode()
     author.init_done = True
     author.prev_text = author.page.get("0.0", "end")
     author.command_hist("initialise complete")
+    root.after(2000, author.change_titlebar)
     root.mainloop()
 
 
