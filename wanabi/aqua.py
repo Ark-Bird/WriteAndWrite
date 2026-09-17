@@ -281,6 +281,7 @@ class WillBeAuthor:
 
     def call_logger(self, event=None):
         self.call_count += 1
+        self.is_save = False
         if self.call_count > self.call_order:
             self.logger()
             self.call_count = 0
@@ -957,6 +958,9 @@ class WillBeAuthor:
     def path_is_cannot_write(self):
         print("path.bin is can't be written")
         self.command_hist(self.language.pathfile_permission_error)
+
+    def change_init(self):
+        self.is_save = False
 
 def init_page(page: tk.Text):
     """
