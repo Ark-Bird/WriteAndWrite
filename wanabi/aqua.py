@@ -297,7 +297,8 @@ class WillBeAuthor:
         """
         if event:
             ignore()
-        self.all_text_len = len(self.page.get('0.0', 'end'))
+        self.all_text = self.page.get("0.0", "end-1c")
+        self.all_text_len = len(self.all_text)
         self.change_titlebar()
         self.is_save = False
         self.is_text_changed()
@@ -909,7 +910,6 @@ class WillBeAuthor:
         :return:`
         """
         # prev_text: str = self.page.get("0.0", "end-1c")
-        text = ""
         while not self.t_end:
             if self.is_not_t_autosave_enable:
                 break
@@ -919,10 +919,10 @@ class WillBeAuthor:
                 break
             if not self.is_thread_autosave_flag:
                 break
-            text = self.page.get("0.0", "end-1c")
+
             try:
                 with open(self.file_name, "w", encoding=self.code) as file:
-                    file.write(text)
+                    file.write(self.all_text)
             except queue.Empty:
                 pass
             self.is_save = True
