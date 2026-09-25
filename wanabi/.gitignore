@@ -9,6 +9,8 @@ wanabi/build
 /wanabi/build/aqua/
 color.bin
 /wanabi/build/aqua/*
+/wanabi/dist/conf/*
+/wanabi/dist
 /venv/*
 /Scripts/
 /Scripts/*

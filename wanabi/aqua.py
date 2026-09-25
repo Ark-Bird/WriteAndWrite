@@ -85,7 +85,7 @@ class WillBeAuthor:
         self.cursor_move_mode:カーソル移動のモード、デフォルトでviスタイルライク
         """
         self.codepoint: wanabi.encoding.Encoding = wanabi.encoding.Encoding()
-        self.code = self.codepoint.code
+        self.code: str = self.codepoint.code
         self.file_name: str = ""
         self.written_textum: str = ""
         self.is_changed: bool = False
@@ -97,8 +97,8 @@ class WillBeAuthor:
         self.is_autosave_flag: bool = False
         self.title_var_string: str = ""
         self.copied_text: str = ""
-        self.page: tk.Text
-        self.root: tk.Tk | None = None
+        self.page: tk.Text = None
+        self.root: tk.Tk = None
         self.init: bool = True
         self.init_done: bool = False
         self.indent: indent_insert.Indent | None = None
@@ -108,10 +108,8 @@ class WillBeAuthor:
         self.is_wrap: bool = True
         self.debug_enable: bool = self.is_debug_enable()
         self.end_of_code: bool = False
-        self.mess: None | tk.Label = None
-        self.do_command: None | tk.StringVar = None
-        self.do_command: None | tk.StringVar = None
-        self.com_hist: deque = deque()
+        self.mess: tk.Label
+        self.do_command: tk.StringVar
         self.app_name: app_name.AppName = app_name.AppName()
         self.is_terminate: bool = False
         self.vi_mode_now: str = "Command_mode"
@@ -120,7 +118,7 @@ class WillBeAuthor:
         self.t: threading.Thread | None = None
         self.is_not_t_autosave_enable: bool = True
         self.t_end: bool = False
-        self.save_flag_cvs: tk.Canvas | None = None
+        self.save_flag_cvs: tk.Canvas
         self.temp_save_thread_flag:bool = False
         self.save_thread_done:bool = False
         self.is_end:bool = False
@@ -131,7 +129,12 @@ class WillBeAuthor:
         self.call_count: int = 0
         self.call_order: int = 20
         self.info_letter = None
-        self.alllen = 0
+        self.all_text_len: int = 0
+        self.com_hist: deque = deque()
+        self.do_command: tk.StringVar
+        self.log_show_path: bool = False
+        self.mess: tk.Label
+        self.title_thread: threading.Thread
         try:
             with open("conf/lang.txt", "r", encoding=self.code) as f:
                 self.lang = f.read()
@@ -182,7 +185,7 @@ class WillBeAuthor:
         self.root = root
         return
 
-    def set_page(self, page):
+    def set_page(self, page: tk.Text):
         self.page = page
 
     def init_label(self, message: str) -> None:
@@ -193,13 +196,13 @@ class WillBeAuthor:
         """
         self.do_command = tk.StringVar()
         self.do_command.set(message)
-        self.mess = tk.Label(self.root, textvariable=self.do_command)
+        self.mess = tk.Label(self.root, textvariable = self.do_command)
         self.mess.pack(side="bottom", fill='x')
 
     def is_saved_flag_color(self) -> None:
         """
         保存完了時に緑
-        美穗存知に赤
+        未保存時に赤
         :return:
         """
         self.save_flag_cvs = tk.Canvas(self.root, height=5)
@@ -278,6 +281,7 @@ class WillBeAuthor:
 
     def call_logger(self, event=None):
         self.call_count += 1
+        self.is_save = False
         if self.call_count > self.call_order:
             self.logger()
             self.call_count = 0
@@ -293,17 +297,12 @@ class WillBeAuthor:
         """
         if event:
             ignore()
+        self.all_text = self.page.get("0.0", "end-1c")
+        self.all_text_len = len(self.all_text)
         self.change_titlebar()
         self.is_save = False
         self.is_text_changed()
         self.is_init = False
-        return
-
-    def letter_count_after(self):
-        if not self.init_done:
-            time.sleep(1)
-            return
-
         return
 
     def count_without_blank(self, event=None) -> None:
@@ -352,7 +351,7 @@ class WillBeAuthor:
         テキストが初期状態、もしくは未保存か保存済みかを書き換えるメソッド
         :return: None
         """
-        if self.file_name == "" and self.page.get("0.0", "end") == "\n":
+        if self.file_name == "":
             self.title_var_string += ":" + self.language.title + ":"
         # 保存の有無
         elif not self.is_save:
@@ -393,8 +392,13 @@ class WillBeAuthor:
         # half_spaceは挿入されるインデントが半角が全角かのフラグ
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
+        self.title_thread: threading.Thread = threading.Thread(target=self.titlebar_string_thread, daemon=True, args=(auto_indent, half_space))
+        self.title_thread.start()
+
+
+    def titlebar_string_thread(self, auto_indent, half_space) -> None:
         # self.title_var_string = str(self.letter_count) + ":" + self.language.char
-        self.title_var_string = str(self.alllen) + ":" + self.language.char
+        self.title_var_string = str(self.all_text_len) + ":" + self.language.char
         self.check_if_is_saved()
         self.title_var_string = self.app_name.return_app_name_for_now() + self.title_var_string
         # オートインデントの半角/全角状態の表示
@@ -408,13 +412,12 @@ class WillBeAuthor:
         # オートセーブは有効か
         self.title_var_string += self.check_autosave_flag()
         # カーソル移動の方法
-        self.title_var_string += self.cursor_move_vi_or_emacs()
+        self.title_var_string += str(self.cursor_move_vi_or_emacs())
         self.title_var_string += ":" + self.vi_mode_now
         self.title_var_string += independent_method.path_to_filename(self.file_name)
-        self.root.title(self.title_var_string)
         return
 
-    def repeat_save_file(self, _) -> None:
+    def repeat_save_file(self, _=None) -> None:
         """
         オートセーブ
         ファイルパスはユニコードであること
@@ -444,6 +447,8 @@ class WillBeAuthor:
             self.prev_save_dir = ""
             independent_method.write_filename_string("")
             raise extend_exception.CannotWriteFileException
+        finally:
+            self.change_titlebar()
         if self.prev_save_dir == "/":
             print("assert!")
             independent_method.write_filename_string(self.prev_save_dir)
@@ -461,13 +466,17 @@ class WillBeAuthor:
             self.is_save = True
             self.before_text = self.page.get("0.0", "end")
         try:
-            self.root.after(1000, self.repeat_save_file, "dummy")
+            pass
+            # self.root.after(1000, self.repeat_save_file, "dummy")
         except Exception:
             self.command_hist(self.language.cannot_write_file)
-            self.root.after(1000, self.repeat_save_file, "dummy")
+            # self.root.after(1000, self.repeat_save_file, "dummy")
             raise extend_exception.CannotWriteFileException
-        self.alllen = len(self.page.get("0.0", "end"))
+        self.all_text_len = len(self.page.get("0.0", "end"))
+        self.root.title(self.title_var_string)
         self.save_cvs_color()
+        self.change_titlebar()
+        self.root.after(2000, self.repeat_save_file)
         return
 
     def toggle_autosave_flag(self, event=None) -> None:
@@ -563,7 +572,10 @@ class WillBeAuthor:
         except extend_exception.CantWrite2file:
             save_complete = False
         if not self.is_autosave_flag:
-            self.command_hist(self.file_name + self.language.save_complete)
+            if not self.log_show_path:
+                self.command_hist(self.language.save_complete)
+            else:
+                self.command_hist(self.file_name + self.language.save_complete)
         try:
             with open("conf/path.bin", mode="w", encoding=self.code) as conf:
                 conf.write(self.file_name)
@@ -898,7 +910,6 @@ class WillBeAuthor:
         :return:`
         """
         # prev_text: str = self.page.get("0.0", "end-1c")
-        text = ""
         while not self.t_end:
             if self.is_not_t_autosave_enable:
                 break
@@ -908,10 +919,10 @@ class WillBeAuthor:
                 break
             if not self.is_thread_autosave_flag:
                 break
-            text = self.page.get("0.0", "end-1c")
+
             try:
                 with open(self.file_name, "w", encoding=self.code) as file:
-                    file.write(text)
+                    file.write(self.all_text)
             except queue.Empty:
                 pass
             self.is_save = True
@@ -947,6 +958,9 @@ class WillBeAuthor:
     def path_is_cannot_write(self):
         print("path.bin is can't be written")
         self.command_hist(self.language.pathfile_permission_error)
+
+    def change_init(self):
+        self.is_save = False
 
 def init_page(page: tk.Text):
     """
@@ -1012,7 +1026,26 @@ def main() -> None:
     font: tk.font.Font = tk.font.Font(root, family=font_family)
     full_screen: full_mode.FullMode = full_mode.FullMode(author)
     full_screen.set_root_full_mode(root)
-    root.geometry("820x640")
+
+    try:
+        default_window_size: str = "820x480"
+        with open("conf/init_size.txt", "r") as init_size:
+            initial_window_size = init_size.read()
+        root.geometry(initial_window_size)
+    except FileNotFoundError:
+        root.geometry(default_window_size)
+        with open("conf/init_size.txt", "w") as init_size:
+            init_size.write(default_window_size)
+        root.geometry(default_window_size)
+        messagebox.showinfo("設定ファイルが存在しません", "設定ファイルをデフォルト値で作成します")
+    except ValueError:
+        with open("conf/init_size.txt", "w") as init_size:
+            init_size.write(default_window_size)
+    except Exception:
+        messagebox.showinfo("attention!", "window_size ERROOR, please check conf/init_size.txt")
+        with open("conf/init_size.txt", "w") as init_size:
+            init_size.write(default_window_size)
+        raise extend_exception.FatalError()
     cursor_width: int = 2
     try:
         with open("conf/insert_width.txt","r") as f:
@@ -1121,7 +1154,7 @@ def main() -> None:
         with open("conf/temp_save_thread.txt", "r", encoding=author.code) as temp_thread_file:
             temp_thread = temp_thread_file.read()
             if temp_thread == "True":
-                independent_method.thread_temp_save(author.page)
+                independent_method.thread_temp_save(author.page.get(0.0, 'end'))
     except FileNotFoundError:
         with open("conf/temp_save_thread.txt", "w", encoding=author.code) as default:
             default.write("False")
@@ -1139,6 +1172,25 @@ def main() -> None:
             usual.write("20")
         messagebox.showerror("設定ファイルに書き込めませんでした", "ファイルが存在せず、不明な理由で書き込めませんでした")
         raise extend_exception.FatalError
+    try:
+        with open("conf/show_filename.txt", 'r') as f:
+            filename_flag = f.read()
+            if filename_flag == "True":
+                author.log_show_path = True
+            else:
+                author.log_show_path = False
+    except FileNotFoundError:
+        messagebox.showinfo("NOT configFile", "Not show file path")
+        with open("conf/show_filename.txt", 'w') as f:
+            f.write("False")
+        author.log_show_path = False
+    except CantWrite2file:
+        messagebox.showerror("can't write to file", "Can't write to file")
+        author.log_show_path = False
+    except Exception:
+        messagebox.showerror("Error is raised", "Error is raised")
+        raise extend_exception.FatalError
+
     menu_init.menu_init(author, menubar, pk1vin, indent, full_screen, font_change, use_lang=ask_use_language)
     # タイトル
     root.config(menu=menubar)
@@ -1158,7 +1210,7 @@ def main() -> None:
     author.command_hist("read theme")
     try:
         if author.temp_save_thread_flag and not author.save_thread_done:
-            independent_method.thread_temp_save(author.page)
+            independent_method.thread_temp_save(author.page.get(0.0, 'end'))
             author.save_thread_done = True
         else:
             independent_method.temp_save(author.page)
@@ -1186,12 +1238,13 @@ def main() -> None:
         author.root.destroy()
         sys.exit(0)
     author.init_done = False
-    root.after(4000, author.repeat_save_file, "dummy")
+    root.after(1000, author.repeat_save_file, "dummy")
     insert_mode = textarea_config.ModeChange(author)
     insert_mode.change_vi_insert_mode()
     author.init_done = True
     author.prev_text = author.page.get("0.0", "end")
     author.command_hist("initialise complete")
+    root.after(2000, author.change_titlebar)
     root.mainloop()
 
 
