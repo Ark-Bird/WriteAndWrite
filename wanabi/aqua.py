@@ -84,6 +84,7 @@ class WillBeAuthor:
         blank_line:空行かどうかのフラグ
         self.cursor_move_mode:カーソル移動のモード、デフォルトでviスタイルライク
         """
+        self.all_text: str = ""
         self.codepoint: wanabi.encoding.Encoding = wanabi.encoding.Encoding()
         self.code: str = self.codepoint.code
         self.file_name: str = ""
@@ -392,8 +393,9 @@ class WillBeAuthor:
         # half_spaceは挿入されるインデントが半角が全角かのフラグ
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
-        self.title_thread: threading.Thread = threading.Thread(target=self.titlebar_string_thread, daemon=True, args=(auto_indent, half_space))
-        self.title_thread.start()
+        # self.title_thread: threading.Thread = threading.Thread(target=self.titlebar_string_thread, daemon=True, args=(auto_indent, half_space))
+        # self.title_thread.start()
+        self.titlebar_string_thread(auto_indent, half_space)
 
 
     def titlebar_string_thread(self, auto_indent, half_space) -> None:
@@ -916,10 +918,11 @@ class WillBeAuthor:
             if not self.is_already_run_autosave_flag:
                 break
             if self.file_name == "":
+                self.command_hist(self.language.none_save_file_name)
                 break
             if not self.is_thread_autosave_flag:
                 break
-
+            self.get_all_text()
             try:
                 with open(self.file_name, "w", encoding=self.code) as file:
                     file.write(self.all_text)
@@ -949,6 +952,9 @@ class WillBeAuthor:
         self.is_not_t_autosave_enable = True
         # self.t.join()
         self.command_hist("ベータ版オートセーブを無効にしました(secret)")
+
+    def get_all_text(self):
+        self.all_text = self.page.get("0.0", "end-1c")
 
     def boss_come(self, event=None):
         if event:
