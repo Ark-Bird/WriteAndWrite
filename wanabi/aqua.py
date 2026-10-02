@@ -390,8 +390,9 @@ class WillBeAuthor:
         # half_spaceは挿入されるインデントが半角が全角かのフラグ
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
-        self.title_thread: threading.Thread = threading.Thread(target=self.titlebar_string_thread, args=(auto_indent, half_space))
-        self.title_thread.start()
+        self.titlebar_string_thread(auto_indent, half_space)
+        # self.title_thread: threading.Thread = threading.Thread(target=self.titlebar_string_thread, args=(auto_indent, half_space))
+        # self.title_thread.start()
 
 
     def titlebar_string_thread(self, auto_indent, half_space) -> None:
