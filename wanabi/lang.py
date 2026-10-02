@@ -87,6 +87,7 @@ class Language:
             self.unknown_encode = ("無効なエンコーディングです", "エンコーディングをutf-8に変更しました\nアプリを再起動してください")
             self.text_len = "文字数"
             self.cannot_write = ("致命的なエラーです", "ファイルの書き込みが出来ませんでした")
+            self.none_save_file_name = "ファイル名を指定してください"
         elif self.area == "en":
             self.new_file = "new file"
             self.open = "open file"
@@ -174,3 +175,4 @@ class Language:
             self.unknown_encode = ("can't solve encode", "change code is utf-8\nreboot this app")
             self.text_len = "Text len is..."
             self.cannot_write = ("critical error", "can't save file")
+            self.none_save_file_name = "Please Save filename"

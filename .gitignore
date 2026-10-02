@@ -1,6 +1,7 @@
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 ../.idea/workspace.xml
+wanabi/dist/*
 aqua.spec
 conf/path.bin
 conf

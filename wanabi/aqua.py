@@ -84,6 +84,7 @@ class WillBeAuthor:
         blank_line:空行かどうかのフラグ
         self.cursor_move_mode:カーソル移動のモード、デフォルトでviスタイルライク
         """
+        self.all_text: str = ""
         self.codepoint: wanabi.encoding.Encoding = wanabi.encoding.Encoding()
         self.code: str = self.codepoint.code
         self.file_name: str = ""
@@ -390,6 +391,9 @@ class WillBeAuthor:
         # half_spaceは挿入されるインデントが半角が全角かのフラグ
         auto_indent: bool = self.indent.auto_indent_enable()
         half_space: bool = self.indent.half_space_checker()
+        # self.title_thread: threading.Thread = threading.Thread(target=self.titlebar_string_thread, daemon=True, args=(auto_indent, half_space))
+        # self.title_thread.start()
+        self.titlebar_string_thread(auto_indent, half_space)
         self.titlebar_string_thread(auto_indent, half_space)
         # self.title_thread: threading.Thread = threading.Thread(target=self.titlebar_string_thread, args=(auto_indent, half_space))
         # self.title_thread.start()
