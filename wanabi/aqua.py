@@ -423,6 +423,8 @@ class WillBeAuthor:
         ファイルパスはユニコードであること
         :return:None
         """
+        if self.prev_text != self.page.get("0.0", "end"):
+            self.is_save = False
         if self.prev_save_dir == "" and self.is_autosave_flag:
             self.prev_save_dir = filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
                                                               initialdir=self.prev_save_dir)
@@ -476,6 +478,7 @@ class WillBeAuthor:
         self.root.title(self.title_var_string)
         self.save_cvs_color()
         self.change_titlebar()
+        self.prev_text = self.page.get("0.0", "end")
         self.root.after(2000, self.repeat_save_file)
         return
 
