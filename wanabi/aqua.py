@@ -479,7 +479,7 @@ class WillBeAuthor:
         self.save_cvs_color()
         self.change_titlebar()
         self.prev_text = self.page.get("0.0", "end")
-        self.root.after(2000, self.repeat_save_file)
+        self.root.after(4000, self.repeat_save_file)
         return
 
     def toggle_autosave_flag(self, event=None) -> None:
