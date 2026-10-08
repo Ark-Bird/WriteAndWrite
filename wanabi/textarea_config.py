@@ -235,9 +235,6 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     page.bind("<Control-S>", font.font_size_small)
     # 検索テスト
     page.bind("<Control-F>", decorate.search)
-    # スレッド式オートセーブ
-    page.bind("<Control-E>", author.autosave_thread_start)
-    page.bind("<Control-D>", author.autosave_thread_end)
     # 文字のみカウント
     page.bind("<Control-=>", author.count_only_letters)
     # キーバインド設定

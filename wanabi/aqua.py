@@ -127,8 +127,6 @@ class WillBeAuthor:
         self.no_ask: bool = False
         self.get_backup: bool = False
         self.prev_text: str = ""
-        self.call_count: int = 0
-        self.call_order: int = 20
         self.info_letter = None
         self.all_text_len: int = 0
         self.com_hist: deque = deque()
@@ -280,30 +278,6 @@ class WillBeAuthor:
         theme_mod.change_theme(self.page, self.command_hist, theme="original")
         return
 
-    def call_logger(self, event=None):
-        self.call_count += 1
-        if self.call_count > self.call_order:
-            self.logger()
-            self.call_count = 0
-
-    def logger(self, event=None) -> None:
-        """
-        テキストの変更を検知して変更フラグを立てる
-        終了時にセーブするか訊ねるようにする
-        文字カウントの変更
-        Ctrlとの組み合わせに対応
-        基本的に何かのキーが押された時に呼ばれる
-        :return:None
-        """
-        if event:
-            ignore()
-        self.all_text_len = len(self.page.get('0.0', 'end'))
-        self.change_titlebar()
-        self.is_save = False
-        self.is_text_changed()
-        self.is_init = False
-        return
-
     def count_without_blank(self, event=None) -> None:
         s = self.page.get("0.0", "end")
         s = re.sub('[ 　\n\r\t,、。]|[.]|[|]|《.*》', '', s)
@@ -397,7 +371,6 @@ class WillBeAuthor:
 
 
     def titlebar_string_connect(self, auto_indent, half_space) -> None:
-        # self.title_var_string = str(self.letter_count) + ":" + self.language.char
         self.title_var_string = str(self.all_text_len) + ":" + self.language.char
         self.check_if_is_saved()
         self.title_var_string = self.app_name.return_app_name_for_now() + self.title_var_string
@@ -563,7 +536,6 @@ class WillBeAuthor:
             return
         if not self.file_name:
             self.file_name = ""
-            save_complete = False
             return
         if True:
             self.written_textum = self.page.get("0.0", "end")
@@ -591,7 +563,6 @@ class WillBeAuthor:
             self.save_file()
             self.is_text_unchanged()
         except Exception:
-            save_complete = False
             self.is_save = False
             messagebox.showerror(self.language.cannot_write[0], self.language.cannot_write[1])
             raise extend_exception.FatalError
@@ -620,8 +591,6 @@ class WillBeAuthor:
             self.is_thread_autosave_flag = False
         else:
             return
-        if self.is_not_t_autosave_enable:
-            self.autosave_thread_end()
         try:
             with open("conf/temp.txt", "w", encoding=self.code) as temp_file:
                 temp_file.write(s)
@@ -795,15 +764,6 @@ class WillBeAuthor:
         self.is_changed = False
         return
 
-    def set_page(self, page) -> None:
-        """
-        テキストエリアの参照pageをインスタンス変数に参照渡し
-        :param page:テキストエリアの参照
-        :return:None
-        """
-        self.page = page
-        return
-
     def set_indent(self, indent) -> None:
         """
         インデントの詳細指定をするクラスをフィールドに渡す
@@ -909,53 +869,7 @@ class WillBeAuthor:
             self.command_hist(self.language.fatalError_is_raise)
             self.codepoint.recover()
             self.code = "utf-8"
-
-    def autosave_thread(self) -> None:
-        """
-        Ctrl-Shift-Eでマルチスレッドのオートセーブを有効化
-        :return:`
-        """
-        # prev_text: str = self.page.get("0.0", "end-1c")
-        text = ""
-        while not self.t_end:
-            if self.is_not_t_autosave_enable:
-                break
-            if not self.is_already_run_autosave_flag:
-                break
-            if self.file_name == "":
-                break
-            if not self.is_thread_autosave_flag:
-                break
-            text = self.page.get("0.0", "end-1c")
-            try:
-                with open(self.file_name, "w", encoding=self.code) as file:
-                    file.write(text)
-            except queue.Empty:
-                pass
-            self.is_save = True
-            time.sleep(2)
-            # prev_text = self.page.get("0.0", "end-1c")
-
-    def autosave_thread_start(self, event=None) -> None:
-        if event:
-            ignore()
-        self.t = threading.Thread(target=self.autosave_thread, daemon=True)
-        self.is_thread_autosave_flag = True
-        self.is_already_run_autosave_flag = True
-        self.is_not_t_autosave_enable = False
-        self.t_end = False
-        self.t.start()
-        self.command_hist("ベータ版オートセーブを有効にしました(secret)")
-
-    def autosave_thread_end(self, event=None) -> None:
-        if event:
-            ignore()
-        self.is_thread_autosave_flag = False
-        self.is_already_run_autosave_flag = False
-        self.t_end = True
-        self.is_not_t_autosave_enable = True
-        # self.t.join()
-        self.command_hist("ベータ版オートセーブを無効にしました(secret)")
+            raise extend_exception.FatalError
 
     def boss_come(self, event=None):
         if event:
