@@ -396,15 +396,19 @@ class WillBeAuthor:
         ファイルパスはユニコードであること
         :return:None
         """
+        if self.prev_save_dir == "" and self.is_autosave_flag:
+            self.prev_save_dir = filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
+                                                              initialdir=self.prev_save_dir)
+            if self.prev_save_dir == "":
+                messagebox.showwarning(self.language.do_not_auto_save[0], self.language.do_not_auto_save[1])
+                self.is_autosave_flag = False
+                self.command_hist(self.language.auto_save_filename_is_blank)
+            independent_method.write_filename_string(self.prev_save_dir)
         if self.prev_text != self.page.get("0.0", "end"):
             self.is_save = False
         else:
             self.root.after(4000, self.repeat_save_file)
             return
-        if self.prev_save_dir == "" and self.is_autosave_flag:
-            self.prev_save_dir = filedialog.asksaveasfilename(filetypes=[("txt files", "*.txt")],
-                                                              initialdir=self.prev_save_dir)
-            independent_method.write_filename_string(self.prev_save_dir)
         try:
             with open("conf/path.bin", "r", encoding=self.code) as text_filename:
                 self.prev_save_dir = os.path.abspath(text_filename.readline())
@@ -427,9 +431,6 @@ class WillBeAuthor:
             raise extend_exception.CannotWriteFileException
         finally:
             self.change_titlebar()
-        if self.prev_save_dir == "/":
-            print("assert!")
-            independent_method.write_filename_string(self.prev_save_dir)
         try:
             independent_method.write_filename_string(self.prev_save_dir)
         except FileNotFoundError:

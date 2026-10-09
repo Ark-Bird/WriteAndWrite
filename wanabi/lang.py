@@ -88,6 +88,8 @@ class Language:
             self.text_len = "文字数"
             self.cannot_write = ("致命的なエラーです", "ファイルの書き込みが出来ませんでした")
             self.none_save_file_name = "ファイル名を指定してください"
+            self.do_not_auto_save = ("オートセーブをキャンセルしました", "オートセーブをする場合はファイル名を指定してください")
+            self.auto_save_filename_is_blank = "保存ファイルが指定されませんでした"
         elif self.area == "en":
             self.new_file = "new file"
             self.open = "open file"
@@ -176,3 +178,5 @@ class Language:
             self.text_len = "Text len is..."
             self.cannot_write = ("critical error", "can't save file")
             self.none_save_file_name = "Please Save filename"
+            self.do_not_auto_save = ("do not auto save", "if auto save enable, please input filename")
+            self.auto_save_filename_is_blank = "auto save filename is cannot blank"
