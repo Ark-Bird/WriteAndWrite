@@ -196,7 +196,7 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     # ファイルを保存
     page.bind("<Control-s>", author.save_file)
     # コピペ＆カット
-    page.bind("<Control-[>", author.text_copy)
+    page.bind("<Control-y>", author.text_copy)
     page.bind('<Control-]>', author.text_paste)
     page.bind("<Control-;>", author.text_cut)
     # 三点リーダー二つ組挿入
