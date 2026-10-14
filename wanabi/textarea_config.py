@@ -196,7 +196,7 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     # ファイルを保存
     page.bind("<Control-s>", author.save_file)
     # コピペ＆カット
-    page.bind("<Control-[>", author.text_copy)
+    page.bind("<Control-y>", author.text_copy)
     page.bind('<Control-]>', author.text_paste)
     page.bind("<Control-;>", author.text_cut)
     # 三点リーダー二つ組挿入
@@ -225,7 +225,7 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     page.bind("<Control-m>", memo.set_text)
     page.bind("<Control-o>", memo.show_memory)
     # 文字カウント
-    page.bind("<Any-KeyPress>", author.call_logger)
+    # page.bind("<Any-KeyPress>", author.call_logger)
     # ブランクを無視した文字カウント
     page.bind("<Control-C>", author.count_without_blank)
     # 現在のファイルパス
@@ -235,9 +235,6 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     page.bind("<Control-S>", font.font_size_small)
     # 検索テスト
     page.bind("<Control-F>", decorate.search)
-    # スレッド式オートセーブ
-    page.bind("<Control-E>", author.autosave_thread_start)
-    page.bind("<Control-D>", author.autosave_thread_end)
     # 文字のみカウント
     page.bind("<Control-=>", author.count_only_letters)
     # キーバインド設定
