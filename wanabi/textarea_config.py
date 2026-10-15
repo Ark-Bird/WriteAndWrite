@@ -2,7 +2,7 @@ import os.path
 import tkinter as tk
 from tkinter import messagebox
 
-from keybind import cursor
+from wanabi.keybind import cursor, keybind
 from wanabi import extend_exception
 from wanabi import independent_method
 from wanabi.inmemory_module import ram_memo
@@ -13,7 +13,6 @@ import wanabi.encoding
 # import independent_method
 # import wanabi.inmemory_module.ram_memo
 # from wanabi.keybind import keybind
-import keybind
 
 def no_do(event=None) -> None:
     """
@@ -192,7 +191,7 @@ def init_textarea(root, author, page, decorate, indent, font_change) -> None:
     """
     font = font_change
     page_scroll_set(root, page)
-    keys = keybind.cursor.Cursor(page)
+    keys = cursor.CursorMove(page)
     # 新規ファイル
     page.bind("<Control-O>", author.new_blank_file)
     # ファイルを保存
