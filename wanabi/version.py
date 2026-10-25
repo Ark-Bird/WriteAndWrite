@@ -49,7 +49,7 @@ class ShowInfo:
     """)
         # バージョン
         self._VERSION: const.Const = const.Const("""
-        ver2026.10.16.1_code:/Harmonica/
+        ver2026.10.25.0_code:/Harmonica/
         """)
 
         # テーマ書式
