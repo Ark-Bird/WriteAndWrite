@@ -1,5 +1,4 @@
 import tkinter as tk
-from cProfile import label
 from wanabi import aqua
 from wanabi import lang
 from wanabi import version
